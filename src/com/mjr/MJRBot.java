@@ -24,7 +24,7 @@ public class MJRBot {
 	if (botType.equalsIgnoreCase("twitch")){
 	    setTwitchBot(new TwitchBot());
 	    bot.ConnectToTwitch();
-	    bot.setChannel("#mjrlegends");
+	    bot.setChannel("#" + channel);
 	    bot.joinChannel(MJRBot.getTwitchBot().getChannel());
 	    ConsoleUtli.TextToConsole("Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
 			+ " channel", "Bot", null);
