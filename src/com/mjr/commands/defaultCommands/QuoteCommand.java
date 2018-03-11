@@ -23,14 +23,14 @@ import com.mjr.files.Config;
 
 public class QuoteCommand extends Command {
     public static String filename = "Quotes.txt";
-    public static String file;
+    public static File file;
 
     public QuoteCommand() {
 	if (MJRBot.getTwitchBot() != null)
-	    file = "C:" + File.separator + "MJRBot" + File.separator + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator
-		    + filename;
+	    file = new File("/home/" + File.separator + "MJRBot" + File.separator + MJRBot.getTwitchBot().getChannel().substring(1)
+		    + File.separator + filename);
 	else {
-	    file = "C:" + File.separator + "MJRBot" + File.separator + MJRBot.getChannel() + File.separator + filename;
+	    file = new File("/home/" + File.separator + "MJRBot" + File.separator + MJRBot.getChannel() + File.separator + filename);
 	}
     }
 
@@ -40,7 +40,7 @@ public class QuoteCommand extends Command {
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
-		    inFile1 = new Scanner(new File(file)).useDelimiter(";\\s*");
+		    inFile1 = new Scanner(file).useDelimiter(";\\s*");
 		} catch (FileNotFoundException e) {
 		    e.printStackTrace();
 		}
@@ -58,7 +58,7 @@ public class QuoteCommand extends Command {
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
-		    inFile1 = new Scanner(new File(file)).useDelimiter(";\\s*");
+		    inFile1 = new Scanner(file).useDelimiter(";\\s*");
 		} catch (FileNotFoundException e) {
 		    e.printStackTrace();
 		}
@@ -89,7 +89,8 @@ public class QuoteCommand extends Command {
 		    else
 			((MixerBot) bot).sendMessage(endMessage);
 		} else {
-		    Path filePath = Paths.get(file);
+		    String fileTemp = file.getPath();
+		    Path filePath = Paths.get(fileTemp);
 		    if (!Files.exists(filePath)) {
 			try {
 			    Files.createFile(filePath);
