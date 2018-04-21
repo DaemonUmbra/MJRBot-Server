@@ -9,10 +9,11 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.MJRBot;
 
 public class ConfigMain {
     public static String filename = "Settings.properties";
-    public static File file = new File("/home/" + File.separator + "MJRBot" + File.separator + filename);
+    public static File file = new File(MJRBot.filePath + filename);
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 

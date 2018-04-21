@@ -19,10 +19,10 @@ public class Config {
 
     public static void load() throws IOException {
 	if (MJRBot.getTwitchBot() != null)
-	    file = new File("/home/" + File.separator + "MJRBot" + File.separator + MJRBot.getTwitchBot().getChannel().substring(1)
+	    file = new File(MJRBot.filePath+ MJRBot.getTwitchBot().getChannel().substring(1)
 		    + File.separator + filename);
 	else {
-	    file = new File("/home/" + File.separator + "MJRBot" + File.separator + MJRBot.getChannel() + File.separator + filename);
+	    file = new File(MJRBot.filePath+ MJRBot.getChannel() + File.separator + filename);
 	}
 
 	if (!file.exists()) {
