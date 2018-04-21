@@ -2,6 +2,8 @@ package com.mjr.games;
 
 import java.util.Random;
 
+import com.mjr.ConsoleUtil;
+
 public class MathsGame {
     public static Random rand = new Random();
     public static int rannum1;
@@ -31,6 +33,7 @@ public class MathsGame {
 		Answer = rannum1 * rannum2;
 		break;
 	}
+	ConsoleUtil.TextToConsole("Maths Game Answer is: " + Answer, "Bot", null);
 	return "The question is " + new Integer(rannum1).toString() + sign + new Integer(rannum2).toString();
     }
 }
