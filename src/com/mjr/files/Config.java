@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.mjr.ConsoleUtli;
+import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 
 public class Config {
@@ -68,9 +68,9 @@ public class Config {
     public static void setSetting(String setting, String value) {
 	if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 	    if (value == "true")
-		ConsoleUtli.TextToConsole(setting + " has been has enabled!", "Bot", null);
+		ConsoleUtil.TextToConsole(setting + " has been has enabled!", "Bot", null);
 	    else
-		ConsoleUtli.TextToConsole(setting + " has been has disabled!", "Bot", null);
+		ConsoleUtil.TextToConsole(setting + " has been has disabled!", "Bot", null);
 
 	    properties.setProperty(setting, value);
 	    try {

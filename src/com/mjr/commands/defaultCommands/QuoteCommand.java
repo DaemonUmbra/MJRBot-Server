@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.mjr.ConsoleUtli;
+import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
@@ -112,7 +112,7 @@ public class QuoteCommand extends Command {
 			((TwitchBot) bot).MessageToChat(endMessage);
 		    else
 			((MixerBot) bot).sendMessage(endMessage);
-		    ConsoleUtli.TextToConsole("A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
+		    ConsoleUtil.TextToConsole("A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
 		((TwitchBot) bot)

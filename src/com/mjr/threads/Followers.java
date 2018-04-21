@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
-import com.mjr.ConsoleUtli;
+import com.mjr.ConsoleUtil;
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
 import com.mjr.files.Config;
@@ -74,7 +74,7 @@ public class Followers extends Thread {
 
 	    }
 	    followers = followerslist.split(",");
-	    ConsoleUtli.TextToConsole("Bot got " + followers.length + " followers", "Bot", null);
+	    ConsoleUtil.TextToConsole("Bot got " + followers.length + " followers", "Bot", null);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

@@ -8,7 +8,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.ConfigMain;
 
 public class MJRBot {
-    public static final String VERSION = "1.0.1 - Beta, Server Version";
+    public static final String VERSION = "1.0.2 - Beta, Server Version";
 
     private static TwitchBot bot;
     private static MixerBot botMixer;
@@ -26,7 +26,7 @@ public class MJRBot {
 	    bot.ConnectToTwitch();
 	    bot.setChannel("#" + channel);
 	    bot.joinChannel(MJRBot.getTwitchBot().getChannel());
-	    ConsoleUtli.TextToConsole("Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
+	    ConsoleUtil.TextToConsole("Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
 			+ " channel", "Bot", null);
 	    bot.setVerbose(true);
 	}

@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
 
-import com.mjr.ConsoleUtli;
+import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 
 public class PointsSystem {
@@ -60,14 +60,14 @@ public class PointsSystem {
 	int currentPoints = getPoints(User);
 	currentPoints = currentPoints + Points;
 	setPoints(User, currentPoints);
-	ConsoleUtli.TextToConsole("Added " + Points + " points to " + User, "Bot:", null);
+	ConsoleUtil.TextToConsole("Added " + Points + " points to " + User, "Bot:", null);
     }
 
     public static void RemovePoints(String User, int Points) {
 	int currentPoints = getPoints(User);
 	currentPoints = currentPoints - Points;
 	setPoints(User, currentPoints);
-	ConsoleUtli.TextToConsole("Removed " + Points + " points from " + User, "Bot:", null);
+	ConsoleUtil.TextToConsole("Removed " + Points + " points from " + User, "Bot:", null);
     }
 
     public static Boolean hasPoints(String User, int Points) {

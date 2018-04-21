@@ -68,7 +68,7 @@ public class Viewers {
 		newresult = newresult.replace(" ", "");
 		newresult = newresult.replace("\"", "");
 		MJRBot.getTwitchBot().viewers = newresult.split(",");
-		ConsoleUtli.TextToConsole("Bot has Viewers!", "Bot", null);
+		ConsoleUtil.TextToConsole("Bot has Viewers!", "Bot", null);
 
 		for (int i = 1; i < MJRBot.getTwitchBot().viewers.length; i++) {
 		    if (Config.getSetting("Points").equalsIgnoreCase("true")) {

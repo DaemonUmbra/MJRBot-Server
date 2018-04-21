@@ -2,7 +2,7 @@ package com.mjr;
 
 import com.mjr.files.Config;
 
-public class ConsoleUtli {
+public class ConsoleUtil {
 
     public static void TextToConsole(String message, String MessageType, String sender) {
 	if (MessageType == "Chat") {

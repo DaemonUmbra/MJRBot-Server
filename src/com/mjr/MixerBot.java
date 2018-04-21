@@ -18,7 +18,7 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onMessage(String sender, String message) {
-	ConsoleUtli.TextToConsole(message, "Chat", sender);
+	ConsoleUtil.TextToConsole(message, "Chat", sender);
 	try {
 	    commands.onCommand(this, MJRBot.getChannel(), sender, null, null, message);
 	} catch (IOException e) {
@@ -53,10 +53,10 @@ public class MixerBot extends MJR_MixerBot {
 	    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 		Ranks.load();
 	    }
-	    ConsoleUtli.TextToConsole("MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
+	    ConsoleUtil.TextToConsole("MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
 	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
 		MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Connected!");
 	} else
-	    ConsoleUtli.TextToConsole("Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
+	    ConsoleUtil.TextToConsole("Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
     }
 }

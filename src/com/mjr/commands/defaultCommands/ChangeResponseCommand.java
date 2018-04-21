@@ -2,7 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import java.io.IOException;
 
-import com.mjr.ConsoleUtli;
+import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
@@ -19,7 +19,7 @@ public class ChangeResponseCommand extends Command {
 		try {
 		    CustomCommands.ChangeResponseCommand(command, response);
 		} catch (IOException e) {
-		    ConsoleUtli.TextToConsole(e.getMessage(), "Bot", null);
+		    ConsoleUtil.TextToConsole(e.getMessage(), "Bot", null);
 		    e.printStackTrace();
 		}
 	    } else {
