@@ -9,6 +9,7 @@ import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
 
 public class ChangeStateCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (args.length == 3) {
 	    if (!args[1].contains("!")) {

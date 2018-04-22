@@ -7,7 +7,8 @@ import com.mjr.games.RacingGame;
 public class RaceStartThread extends Thread {
     boolean Delay = true;
 
-    @Override @SuppressWarnings("deprecation")
+    @Override
+    @SuppressWarnings("deprecation")
     public void run() {
 	while (true) {
 	    if (Delay) {

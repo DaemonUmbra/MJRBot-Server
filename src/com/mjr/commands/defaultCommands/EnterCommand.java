@@ -9,6 +9,7 @@ import com.mjr.threads.GiveAwayThread;
 public class EnterCommand extends Command {
     private static int NumberEntered = 0;
 
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (GiveAwayCommand.Started) {
 	    GiveAwayThread.EnteredUsers[NumberEntered] = sender.toLowerCase();

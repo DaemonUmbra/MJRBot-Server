@@ -24,19 +24,19 @@ public class CustomCommands {
 	if (filenew.exists()) {
 	    FileReader reader = new FileReader(filenew);
 	    properties.load(reader);
-	    if (properties.getProperty("state").equalsIgnoreCase("true")){
+	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		String permission = properties.getProperty("permissionlevel");
 		boolean allowed = false;
-		switch(permission){
+		switch (permission) {
 		    case "User":
-			switch(Permissions.getPermissionLevel(sender)){
+			switch (Permissions.getPermissionLevel(sender)) {
 			    case "User":
 			    case "Moderator":
 				allowed = true;
 				break;
 			}
 		    case "Moderator":
-			switch(Permissions.getPermissionLevel(sender)){
+			switch (Permissions.getPermissionLevel(sender)) {
 			    case "User":
 				allowed = false;
 				break;
@@ -51,11 +51,10 @@ public class CustomCommands {
 		    MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
 	    }
 
-	} else
-	   if(MJRBot.getTwitchBot() != null)
-	       MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
-	   else
-	       MJRBot.getMixerBot().sendMessage("@" + sender + " the command " + command + " doesnt exist!");
+	} else if (MJRBot.getTwitchBot() != null)
+	    MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
+	else
+	    MJRBot.getMixerBot().sendMessage("@" + sender + " the command " + command + " doesnt exist!");
     }
 
     public static void AddCommand(String command, String response, String permission) throws FileNotFoundException, IOException {

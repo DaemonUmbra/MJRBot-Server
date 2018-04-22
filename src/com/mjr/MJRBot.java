@@ -10,7 +10,7 @@ import com.mjr.files.ConfigMain;
 
 public class MJRBot {
     public static final String VERSION = "1.0.2 - Beta, Server Version";
-    
+
     public static String filePath;
 
     private static TwitchBot bot;
@@ -25,16 +25,16 @@ public class MJRBot {
 	String botType;
 	botType = console.readLine("Twitch/Mixer?");
 	channel = console.readLine("Channel?");
-	if (botType.equalsIgnoreCase("twitch")){
+	if (botType.equalsIgnoreCase("twitch")) {
 	    setTwitchBot(new TwitchBot());
 	    bot.ConnectToTwitch();
 	    bot.setChannel("#" + channel);
 	    bot.joinChannel(MJRBot.getTwitchBot().getChannel());
-	    ConsoleUtil.TextToConsole("Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
-			+ " channel", "Bot", null);
+	    ConsoleUtil.TextToConsole(
+		    "Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
+			    + " channel", "Bot", null);
 	    bot.setVerbose(true);
-	}
-	else{
+	} else {
 	    botMixer = new MixerBot();
 	    botMixer.joinChannel(getChannel());
 	}
@@ -64,7 +64,8 @@ public class MJRBot {
     public static void setChannel(String channel) {
 	MJRBot.channel = channel;
     }
+
     public static Console getConsole() {
-        return console;
+	return console;
     }
 }

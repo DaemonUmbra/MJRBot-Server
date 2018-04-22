@@ -11,6 +11,7 @@ import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
 
 public class UptimeCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (MJRBot.getTwitchBot() != null) {
 	    String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/"
@@ -38,7 +39,8 @@ public class UptimeCommand extends Command {
 		long diffHours = diff / (60 * 60 * 1000);
 		int diffInDays = (int) ((date.getTime() - parse.getTime()) / (1000 * 60 * 60 * 24));
 
-		((TwitchBot) bot).MessageToChat(MJRBot.getTwitchBot().getChannel().substring(1) + " has been live for " + diffInDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+		((TwitchBot) bot).MessageToChat(MJRBot.getTwitchBot().getChannel().substring(1) + " has been live for " + diffInDays
+			+ " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	    } else {
 		((TwitchBot) bot).MessageToChat(MJRBot.getTwitchBot().getChannel().substring(1) + " is currently not streaming!");
 	    }

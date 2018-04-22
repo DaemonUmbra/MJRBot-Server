@@ -8,6 +8,7 @@ import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
 
 public class PointsCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Points").equalsIgnoreCase("true")) {
 	    String endMessage = sender + " you currently have " + PointsSystem.getPoints(sender) + " points.";

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.mjr.MJRBot;
-import com.mjr.TwitchBot;
 import com.mjr.files.PointsSystem;
 
 public class RacingGame {

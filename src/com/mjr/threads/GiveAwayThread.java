@@ -11,7 +11,8 @@ public class GiveAwayThread extends Thread {
     private static long TimeDuration;
     public static String[] EnteredUsers;
 
-    @Override @SuppressWarnings("deprecation")
+    @Override
+    @SuppressWarnings("deprecation")
     public void run() {
 	TwitchBot bot = new TwitchBot();
 	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay")) * 60) * 1000;

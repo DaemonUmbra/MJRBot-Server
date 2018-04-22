@@ -9,6 +9,7 @@ import com.mjr.files.PointsSystem;
 import com.mjr.games.RacingGame;
 
 public class PlacebetCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (RaceCommand.Started) {

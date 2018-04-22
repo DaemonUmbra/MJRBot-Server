@@ -9,6 +9,7 @@ import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
 
 public class BuyRankCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
@@ -21,7 +22,8 @@ public class BuyRankCommand extends Command {
 				Ranks.setRank(sender, Rank);
 				((TwitchBot) bot).MessageToChat("Added " + Rank + " to " + sender);
 			    } else {
-				String endMessage = sender + " you dont have the right amount of points! Do !points to check how many you got";
+				String endMessage = sender
+					+ " you dont have the right amount of points! Do !points to check how many you got";
 				if (MJRBot.getTwitchBot() != null)
 				    ((TwitchBot) bot).MessageToChat(endMessage);
 				else

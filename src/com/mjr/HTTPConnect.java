@@ -7,7 +7,7 @@ import java.net.URL;
 
 public class HTTPConnect {
     /**
-     *  Made by Turkey2349
+     * Made by Turkey2349
      */
     public static String GetResponsefrom(String link) {
 	BufferedReader reader = null;

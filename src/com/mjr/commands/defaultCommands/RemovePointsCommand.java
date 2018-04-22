@@ -8,6 +8,7 @@ import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
 
 public class RemovePointsCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Points").equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
@@ -29,11 +30,11 @@ public class RemovePointsCommand extends Command {
 			((MixerBot) bot).sendMessage(endMessage);
 		}
 	    } else {
-		    String endMessage = "Invalid arguments! You need to enter !removepoints POINTS USER";
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		String endMessage = "Invalid arguments! You need to enter !removepoints POINTS USER";
+		if (MJRBot.getTwitchBot() != null)
+		    ((TwitchBot) bot).MessageToChat(endMessage);
+		else
+		    ((MixerBot) bot).sendMessage(endMessage);
 	    }
 	}
     }

@@ -20,7 +20,7 @@ public class Ranks {
     public static int BronzePrice = 2000;
 
     public static String filename = "UserRanks.properties";
-    public static File file =  new File(MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator + filename);
+    public static File file = new File(MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator + filename);
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 

@@ -9,6 +9,7 @@ import com.mjr.files.PointsSystem;
 import com.mjr.games.FruitMachine;
 
 public class SpinCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1)) {
@@ -37,13 +38,12 @@ public class SpinCommand extends Command {
 			((MixerBot) bot).sendMessage(endMessage);
 		    PointsSystem.RemovePoints(sender, 1);
 		}
-	    }
-	    else{
+	    } else {
 		String endMessage = sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender);
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		if (MJRBot.getTwitchBot() != null)
+		    ((TwitchBot) bot).MessageToChat(endMessage);
+		else
+		    ((MixerBot) bot).sendMessage(endMessage);
 	    }
 	}
     }

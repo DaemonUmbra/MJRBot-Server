@@ -20,7 +20,8 @@ public class BankHeistThread extends Thread {
 
     public static boolean GameActive = false;
 
-    @Override public void run() {
+    @Override
+    public void run() {
 	while (GameActive) {
 	    MJRBot.getTwitchBot().MessageToChat(
 		    enteredUsers.get(0) + " has started planning a heist!" + " To join the crew enter !BankHeist you only have 1 minute!");

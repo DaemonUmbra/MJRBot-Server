@@ -33,6 +33,7 @@ public class QuoteCommand extends Command {
 	}
     }
 
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Quotes").equalsIgnoreCase("true")) {
 	    if (args.length == 1) {

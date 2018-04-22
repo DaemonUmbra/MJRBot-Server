@@ -63,7 +63,7 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onDebugMessage() {
-	for(String message : this.getOutputMessages())
+	for (String message : this.getOutputMessages())
 	    ConsoleUtil.TextToConsole(message, "Bot", null);
 	this.clearOutputMessages();
     }

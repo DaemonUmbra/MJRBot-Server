@@ -8,7 +8,7 @@ import com.mjr.files.Ranks;
 
 public class ChatModeration {
     public static void onCommand(TwitchBot bot, String channel, String sender, String login, String hostname, String message) {
-	 // ChatModeration
+	// ChatModeration
 	if (Ranks.getRank(sender) == "gold")
 	    return;
 	else if (MJRBot.getTwitchBot() != null && !Permissions.getPermissionLevel(sender).equalsIgnoreCase("User"))

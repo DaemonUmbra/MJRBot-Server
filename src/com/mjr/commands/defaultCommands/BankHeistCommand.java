@@ -8,6 +8,7 @@ import com.mjr.files.Config;
 import com.mjr.threads.BankHeistThread;
 
 public class BankHeistCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (BankHeistThread.GameActive == false) {

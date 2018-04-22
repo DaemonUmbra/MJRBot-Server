@@ -70,7 +70,7 @@ public class LinkChecker {
 		Allowed = true;
 	    } else if (PermitedUsers.contains(sender)) {
 		Allowed = true;
-		PermitedUsers = PermitedUsers.replace(sender.toLowerCase()+ ", ", "");
+		PermitedUsers = PermitedUsers.replace(sender.toLowerCase() + ", ", "");
 	    } else {
 		Allowed = false;
 	    }

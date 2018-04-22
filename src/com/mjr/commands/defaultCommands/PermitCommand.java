@@ -7,6 +7,7 @@ import com.mjr.chatModeration.LinkChecker;
 import com.mjr.commands.Command;
 
 public class PermitCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (args.length == 2) {
 	    String User = args[1];

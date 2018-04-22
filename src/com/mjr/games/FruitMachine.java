@@ -14,9 +14,8 @@ public class FruitMachine {
 
     public static String[] emotesTwtich = { "MrDestructoid", "PJSugar", "SSSsss", "PJSalt", "KappaPride", "StinkyCheese", "FunRun",
 	    "twitchRaid" };
-    public static String[] emotesMixer = { ":hamster", ":controller", ":127", ":coke", ":popcorn", ":hug-bot", ":spaceship",
-	    ":wrench" };
-    
+    public static String[] emotesMixer = { ":hamster", ":controller", ":127", ":coke", ":popcorn", ":hug-bot", ":spaceship", ":wrench" };
+
     public static int timesLost = 0;
 
     public static String Spin() {

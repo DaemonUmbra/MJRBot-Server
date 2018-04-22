@@ -8,6 +8,7 @@ import com.mjr.files.Config;
 import com.mjr.files.Ranks;
 
 public class RemoveRankCheckCommand extends Command {
+    @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
@@ -26,7 +27,7 @@ public class RemoveRankCheckCommand extends Command {
 		    else
 			((MixerBot) bot).sendMessage(endMessage);
 		}
-	    } else{
+	    } else {
 		String endMessage = "Invalid arguments! You need to enter !removerank USER";
 		if (MJRBot.getTwitchBot() != null)
 		    ((TwitchBot) bot).MessageToChat(endMessage);
