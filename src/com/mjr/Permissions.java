@@ -23,13 +23,13 @@ public class Permissions {
 	    return "User";
 	} else {
 	    if (!MJRBot.getMixerBot().getModerators().isEmpty()) {
-		if (User2.equalsIgnoreCase(MJRBot.getMixerBot().getUsername()))
+		if (User2.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
 		    return "Bot";
 		else if (MJRBot.getMixerBot().getModerators().contains(User2) || User2.equalsIgnoreCase("mjrlegends")
 			|| User2.equalsIgnoreCase(Config.getSetting("UserName")))
 		    return "Moderator";
 	    } else {
-		if (User2.equalsIgnoreCase(MJRBot.getMixerBot().getUsername()))
+		if (User2.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
 		    return "Bot";
 		else if (User2.equalsIgnoreCase("mjrlegends") || User2.equalsIgnoreCase(Config.getSetting("UserName")))
 		    return "Moderator";

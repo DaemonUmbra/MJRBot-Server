@@ -26,8 +26,8 @@ public class ConfigMain {
 	    properties.store(new FileOutputStream(file), null);
 	    setSetting("TwitchUsername", "");
 	    setSetting("TwitchPassword", "");
-	    setSetting("MixerUsername", "");
-	    setSetting("MixerPassword", "");
+	    setSetting("MixerClientID", "");
+	    setSetting("MixerUsername/BotName", "");
 	}
 	FileReader reader = new FileReader(file);
 	properties.load(reader);
