@@ -60,4 +60,11 @@ public class MixerBot extends MJR_MixerBot {
 	} else
 	    ConsoleUtil.TextToConsole("Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
     }
+
+    @Override
+    protected void onDebugMessage() {
+	for(String message : this.getOutputMessages())
+	    ConsoleUtil.TextToConsole(message, "Bot", null);
+	this.clearOutputMessages();
+    }
 }
