@@ -13,11 +13,16 @@ import com.mjr.MJRBot;
 import com.mjr.Permissions;
 
 public class CustomCommands {
-    public static String filelocation = ("C:" + File.separator + "MJRBot" + File.separator + "commands" + File.separator);
+    public static String filelocation;
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 
     public static void getCommand(String command, String sender) throws IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.substring(command.indexOf("!") + 1);
 	filename = filename + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
