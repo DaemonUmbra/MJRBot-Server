@@ -2,7 +2,7 @@ package com.mjr.threads;
 
 import java.util.Random;
 
-import com.mjr.TwitchBot;
+import com.mjr.MJRBot;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.files.Config;
 
@@ -14,9 +14,14 @@ public class GiveAwayThread extends Thread {
     @Override
     @SuppressWarnings("deprecation")
     public void run() {
-	TwitchBot bot = new TwitchBot();
 	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay")) * 60) * 1000;
-	bot.MessageToChat("Giveaway will end in " + TimeDuration + " minutes. To enter use !Enter");
+
+	String message = "Giveaway will end in " + TimeDuration + " minutes. To enter use !Enter";
+	if (MJRBot.getTwitchBot() != null)
+	    MJRBot.getTwitchBot().MessageToChat(message);
+	else
+	    MJRBot.getMixerBot().sendMessage(message);
+
 	if (Delay) {
 	    try {
 		Thread.sleep(TimeDuration);
@@ -27,14 +32,26 @@ public class GiveAwayThread extends Thread {
 	} else {
 	    if (EnteredUsers.length > 0) {
 		GiveAwayCommand.Started = false;
-		bot.MessageToChat("Giveaway has ended! " + EnteredUsers.length + " entered in to the giveaway!");
+		message = "Giveaway has ended! " + EnteredUsers.length + " entered in to the giveaway!";
+		if (MJRBot.getTwitchBot() != null)
+		    MJRBot.getTwitchBot().MessageToChat(message);
+		else
+		    MJRBot.getMixerBot().sendMessage(message);
 		Random random = new Random();
 		int ChosenUser = random.nextInt((EnteredUsers.length - 0) + 1) + 0;
-		bot.MessageToChat(EnteredUsers[ChosenUser] + " has won the giveaway!");
+		message = EnteredUsers[ChosenUser] + " has won the giveaway!";
+		if (MJRBot.getTwitchBot() != null)
+		    MJRBot.getTwitchBot().MessageToChat(message);
+		else
+		    MJRBot.getMixerBot().sendMessage(message);
 		Delay = true;
 		this.stop();
 	    } else {
-		bot.MessageToChat("Giveaway canceled due to no users entered!");
+		message = "Giveaway canceled due to no users entered!";
+		if (MJRBot.getTwitchBot() != null)
+		    MJRBot.getTwitchBot().MessageToChat(message);
+		else
+		    MJRBot.getMixerBot().sendMessage(message);
 	    }
 	}
     }

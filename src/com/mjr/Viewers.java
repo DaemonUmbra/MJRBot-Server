@@ -9,6 +9,7 @@ import java.util.Arrays;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
+import com.mjr.threads.PointsThread;
 
 public class Viewers {
     MJRBot bot = new MJRBot();
@@ -81,8 +82,7 @@ public class Viewers {
 			    Ranks.setRank(MJRBot.getTwitchBot().viewers[i], "None");
 			}
 		    }
-		    MJRBot.getTwitchBot().viewersJoinedTimes
-			    .put(MJRBot.getTwitchBot().viewers[i].toLowerCase(), System.currentTimeMillis());
+		    PointsThread.viewersJoinedTimes.put(MJRBot.getTwitchBot().viewers[i].toLowerCase(), System.currentTimeMillis());
 		}
 	    }
 	} catch (Exception e) {

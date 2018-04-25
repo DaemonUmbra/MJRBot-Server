@@ -9,24 +9,27 @@ public class Announcements extends Thread {
 
     @Override
     public void run() {
-	while (MJRBot.getTwitchBot().ConnectedToChannel) {
-	    if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay")) * 60) * 1000;
-		if (Delay) {
-		    try {
-			Thread.sleep(TimeDuration);
-		    } catch (InterruptedException e) {
-			e.printStackTrace();
+	if (MJRBot.getTwitchBot() != null || MJRBot.getMixerBot() != null) {
+	    while (MJRBot.getTwitchBot().ConnectedToChannel || MJRBot.getMixerBot().isConnected()) {
+		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
+		    TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay")) * 60) * 1000;
+		    if (Delay) {
+			try {
+			    Thread.sleep(TimeDuration);
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
 		    }
+		    // MJRBot.getTwitchBot().MessageToChat("Test Announcement!");
+		    // TODO Add Custom Announcement messages support
 		}
-		MJRBot.getTwitchBot().MessageToChat("Test Announcement!");
-	    }
-	    try {
-		Thread.sleep(TimeDuration);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
-	    }
+		try {
+		    Thread.sleep(TimeDuration);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
 
+	    }
 	}
     }
 }

@@ -2,7 +2,6 @@ package com.mjr;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
@@ -13,12 +12,14 @@ import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
+import com.mjr.threads.Announcements;
+import com.mjr.threads.CheckFollowers;
 import com.mjr.threads.Followers;
+import com.mjr.threads.PointsThread;
 
 public class TwitchBot extends PircBot {
     public static String[] mods;
     public String[] viewers;
-    public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
 
     private String stream = "";
     public boolean ConnectedToChannel = false;
@@ -90,6 +91,20 @@ public class TwitchBot extends PircBot {
 		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 		    Ranks.load();
 		}
+
+		// Start Threads
+		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		    PointsThread pointsThread = new PointsThread();
+		    pointsThread.start();
+		}
+		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
+		    Announcements announcementsThread = new Announcements();
+		    announcementsThread.start();
+		}
+		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
+		    CheckFollowers followersThread = new CheckFollowers();
+		    followersThread.start();
+		}
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
@@ -127,8 +142,8 @@ public class TwitchBot extends PircBot {
 		viewers = new String[1];
 		viewers[0] = sender;
 	    }
-	    if (!viewersJoinedTimes.containsKey(sender.toLowerCase()))
-		viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+	    if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+		PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	}
     }
 
@@ -146,13 +161,12 @@ public class TwitchBot extends PircBot {
 		viewers = newviewers.split(",");
 	    }
 	}
-	if (viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	    viewersJoinedTimes.remove(sender.toLowerCase());
+	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
 
     }
 
     public void ConnectToTwitch() throws IOException {
-	ConfigMain.load();
 	if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("")
 		&& !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
 	    if (!MJRBot.getTwitchBot().ConnectedToChannel) {
