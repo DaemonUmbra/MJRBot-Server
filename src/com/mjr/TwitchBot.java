@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 
 import com.mjr.chatModeration.ChatModeration;
@@ -65,7 +66,14 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onUnknown(String line) {
-	System.out.println("HERE" + line);
+	if (line.contains("tmi.twitch.tv RECONNECT")) {
+	    try {
+		MJRBot.getTwitchBot().reconnect();
+		MJRBot.getTwitchBot().joinChannel(this.getChannel());
+	    } catch (IOException | IrcException e) {
+		e.printStackTrace();
+	    }
+	}
     }
 
     @Override
