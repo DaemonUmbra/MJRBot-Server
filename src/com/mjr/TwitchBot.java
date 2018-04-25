@@ -103,6 +103,16 @@ public class TwitchBot extends PircBot {
 	    followers.start();
 	} else {
 	    ConsoleUtil.TextToConsole(sender + " has joined!", "Bot", null);
+	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		if (!PointsSystem.isOnList(sender)) {
+		    PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints")));
+		}
+	    }
+	    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
+		if (!Ranks.isOnList(sender)) {
+		    Ranks.setRank(sender, "None");
+		}
+	    }
 	    if (viewers != null) {
 		if (!Arrays.asList(viewers).toString().contains(sender)) {
 		    String newviewers = Arrays.asList(viewers).toString();

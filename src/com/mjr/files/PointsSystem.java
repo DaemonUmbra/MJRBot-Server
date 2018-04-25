@@ -32,6 +32,8 @@ public class PointsSystem {
     }
 
     public static int getPoints(String User) {
+	if(!isOnList(User))
+	    return 0;
 	String value = null;
 	value = properties.getProperty(User);
 	return Integer.parseInt(value);
@@ -56,6 +58,8 @@ public class PointsSystem {
     }
 
     public static void AddPoints(String User, int Points) {
+	if(!isOnList(User))
+	    setPoints(User, Integer.parseInt(Config.getSetting("StartingPoints")));
 	int currentPoints = getPoints(User);
 	currentPoints = currentPoints + Points;
 	setPoints(User, currentPoints);
@@ -63,6 +67,8 @@ public class PointsSystem {
     }
 
     public static void RemovePoints(String User, int Points) {
+	if(!isOnList(User))
+	    setPoints(User, 0);
 	int currentPoints = getPoints(User);
 	currentPoints = currentPoints - Points;
 	setPoints(User, currentPoints);
