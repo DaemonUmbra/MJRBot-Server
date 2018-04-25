@@ -6,10 +6,14 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.commands.CommandManager;
+import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
+import com.mjr.threads.Announcements;
+import com.mjr.threads.CheckFollowers;
+import com.mjr.threads.PointsThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.0.3 - Beta, Server Version";
+    public static final String VERSION = "1.0.4 - Beta, Server Version";
 
     public static String filePath;
 
@@ -39,6 +43,18 @@ public class MJRBot {
 	    botMixer.joinChannel(getChannel());
 	}
 	CommandManager.loadCommands();
+	if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+	    PointsThread pointsThread = new PointsThread();
+	    pointsThread.start();
+	}
+	if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
+	    Announcements announcementsThread = new Announcements();
+	    announcementsThread.start();
+	}
+	if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
+	    CheckFollowers followersThread = new CheckFollowers();
+	    followersThread.start();
+	}
     }
 
     public static TwitchBot getTwitchBot() {
