@@ -63,6 +63,11 @@ public class CustomCommands {
     }
 
     public static void AddCommand(String command, String response, String permission) throws FileNotFoundException, IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (!filenew.exists()) {
@@ -86,6 +91,11 @@ public class CustomCommands {
     }
 
     public static void RemoveCommand(String command) throws IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
@@ -97,6 +107,11 @@ public class CustomCommands {
 
     @SuppressWarnings("deprecation")
     public static void ChangeStateCommand(String command, String state) throws IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
@@ -125,6 +140,11 @@ public class CustomCommands {
 
     @SuppressWarnings("deprecation")
     public static void ChangeResponseCommand(String command, String response) throws IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
@@ -142,6 +162,11 @@ public class CustomCommands {
     }
 
     public static void ChangeComanndResponse(String command, String response) throws FileNotFoundException, IOException {
+	if (MJRBot.getTwitchBot() != null)
+	    filelocation = MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator;
+	else {
+	    filelocation = MJRBot.filePath + MJRBot.getChannel() + File.separator;
+	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (!filenew.exists()) {
