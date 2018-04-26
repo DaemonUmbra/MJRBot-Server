@@ -6,8 +6,8 @@ import com.mjr.files.Config;
 public class CheckFollowers extends Thread {
     @Override
     public void run() {
-	if (MJRBot.getTwitchBot() != null) {
-	    while (MJRBot.getTwitchBot().ConnectedToChannel) {
+	while (true) {
+	    if (MJRBot.getTwitchBot() != null && MJRBot.getTwitchBot().ConnectedToChannel) {
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
 		    if (Followers.followers != null) {
 			if (MJRBot.getTwitchBot().viewers != null) {
@@ -22,6 +22,11 @@ public class CheckFollowers extends Thread {
 			}
 		    }
 		}
+	    }
+	    try {
+		Thread.sleep(60000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
 	    }
 	}
     }
