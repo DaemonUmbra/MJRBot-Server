@@ -3,9 +3,9 @@ package com.mjr.games;
 import java.util.Random;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.Utilities;
 
 public class MathsGame {
-    public static Random rand = new Random();
     public static int rannum1;
     public static int rannum2;
     public static int ransign;
@@ -15,9 +15,9 @@ public class MathsGame {
     public static int Answer;
 
     public static String CreateQuestion() {
-	rannum1 = rand.nextInt((100 - 0) + 1) + 0;
-	rannum2 = rand.nextInt((100 - 0) + 1) + 0;
-	ransign = rand.nextInt((3) + 1) + 1;
+	rannum1 = Utilities.getRandom(0, 100);
+	rannum2 = Utilities.getRandom(0, 100);
+	ransign = Utilities.getRandom(1, 3);
 
 	switch (ransign) {
 	    case 1:

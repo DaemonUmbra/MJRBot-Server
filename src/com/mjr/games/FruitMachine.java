@@ -1,8 +1,7 @@
 package com.mjr.games;
 
-import java.util.Random;
-
 import com.mjr.MJRBot;
+import com.mjr.Utilities;
 
 public class FruitMachine {
 
@@ -19,13 +18,9 @@ public class FruitMachine {
     public static int timesLost = 0;
 
     public static String Spin() {
-	Slot1 = 0;
-	Slot2 = 0;
-	Slot3 = 0;
-	Random random = new Random();
-	Slot1 = random.nextInt((7)) + 1;
-	Slot2 = random.nextInt((7)) + 1;
-	Slot3 = random.nextInt((7)) + 1;
+	Slot1 = Utilities.getRandom(0, 7);
+	Slot2 = Utilities.getRandom(0, 7);
+	Slot3 = Utilities.getRandom(0, 7);
 	if (MJRBot.getTwitchBot() != null)
 	    return emotesTwtich[Slot1] + " " + emotesTwtich[Slot2] + " " + emotesTwtich[Slot3];
 	else

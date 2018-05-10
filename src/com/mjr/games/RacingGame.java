@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import com.mjr.MJRBot;
+import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
 public class RacingGame {
@@ -12,7 +13,6 @@ public class RacingGame {
     private static String[] Top3Users;
     private static String[] WinnerUsers;
     public static int BetNumber = 0;
-    private static Random random = new Random();
 
     public static int cars[] = new int[8];
     private static String[] WinnersUsers;
@@ -32,7 +32,7 @@ public class RacingGame {
 	    Good = false;
 	    InThere = false;
 	    while (Good == false) {
-		int randomnum = random.nextInt((8) + 1);
+		int randomnum = Utilities.getRandom(1, 8);
 		for (int k = 0; k < cars.length; k++) {
 		    if (randomnum == cars[k]) {
 			InThere = true;
@@ -130,6 +130,6 @@ public class RacingGame {
     }
 
     public static float nextFloat(float min, float max) {
-	return min + random.nextFloat() * (max - min);
+	return min + new Random().nextFloat() * (max - min);
     }
 }
