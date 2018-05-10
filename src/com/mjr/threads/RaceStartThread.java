@@ -19,7 +19,7 @@ public class RaceStartThread extends Thread {
 		}
 		Delay = false;
 	    } else {
-		MJRBot.getTwitchBot().MessageToChat("Race to about to start!");
+		MJRBot.getTwitchBot().MessageToChat("Race is about to start! Make sure to get your bets in now!");
 		try {
 		    Thread.sleep(30000);
 		} catch (InterruptedException e) {
