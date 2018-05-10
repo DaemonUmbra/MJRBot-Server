@@ -69,6 +69,7 @@ public class CommandManager {
 	commands.put("!heist", new BankHeistCommand());
 	commands.put("!disconnect", new DisconnectCommand());
 	commands.put("!dice", new DiceCommand());
+	commands.put("!uptime", new UptimeCommand());
     }
 
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)
