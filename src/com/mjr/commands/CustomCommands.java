@@ -43,9 +43,9 @@ public class CustomCommands {
 	    }
 
 	} else if (MJRBot.getTwitchBot() != null)
-	    if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+	    if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
 		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
-	    else if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+	    else if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
 		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
     }
 
