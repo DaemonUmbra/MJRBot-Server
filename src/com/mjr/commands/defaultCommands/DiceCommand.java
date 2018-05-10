@@ -12,7 +12,7 @@ public class DiceCommand extends Command {
 	if (args.length == 3) {
 	    if (Utilities.isNumeric(args[1])) {
 		if (Utilities.isNumeric(args[2])) {
-		    int multi = Integer.parseInt(args[2]);
+		    double multi = Double.parseDouble(args[2]);
 		    if(multi > 1 && multi < 100)
 			DiceGame.procressTurn(sender, Integer.parseInt(args[1]), multi);
 		} else
