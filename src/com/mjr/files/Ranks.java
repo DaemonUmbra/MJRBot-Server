@@ -33,19 +33,20 @@ public class Ranks {
 	properties.load(reader);
     }
 
-    public static String getRank(String User) {
+    public static String getRank(String user) {
+	user = user.toLowerCase();
 	String value = "";
-	User = User.toLowerCase();
-	value = properties.getProperty(User, value);
+	user = user.toLowerCase();
+	value = properties.getProperty(user, value);
 	return value;
     }
 
     @SuppressWarnings("deprecation")
-    public static void setRank(String User, String Rank) {
-	User = User.toLowerCase();
-	Rank = Rank.toLowerCase();
-	if (getRank(User) != Rank) {
-	    properties.setProperty(User.toLowerCase(), Rank);
+    public static void setRank(String user, String rank) {
+	user = user.toLowerCase();
+	rank = rank.toLowerCase();
+	if (getRank(user) != rank) {
+	    properties.setProperty(user.toLowerCase(), rank);
 	    try {
 		properties.save(new FileOutputStream(file), null);
 	    } catch (FileNotFoundException e) {
@@ -54,43 +55,44 @@ public class Ranks {
 	}
     }
 
-    public static void removeRank(String User) {
-	if (getRank(User) != "None") {
-	    setRank(User, "None");
+    public static void removeRank(String user) {
+	user = user.toLowerCase();
+	if (getRank(user) != "None") {
+	    setRank(user, "None");
 	}
     }
 
-    public static int getRankPrice(String Rank) {
-	Rank = Rank.toLowerCase();
-	if (Rank.equalsIgnoreCase(ranks[0]))
+    public static int getRankPrice(String rank) {
+	rank = rank.toLowerCase();
+	if (rank.equalsIgnoreCase(ranks[0]))
 	    return GoldPrice;
-	else if (Rank.equalsIgnoreCase(ranks[1]))
+	else if (rank.equalsIgnoreCase(ranks[1]))
 	    return SliverPrice;
-	else if (Rank.equalsIgnoreCase(ranks[2]))
+	else if (rank.equalsIgnoreCase(ranks[2]))
 	    return BronzePrice;
 	return 0;
     }
 
-    public static Boolean isOnList(String User) {
-	User = User.toLowerCase();
-	if (properties.getProperty(User) != null)
+    public static Boolean isOnList(String user) {
+	user = user.toLowerCase();
+	if (properties.getProperty(user) != null)
 	    return true;
 	else
 	    return false;
     }
 
-    public static Boolean hasRank(String User, String Rank) {
-	User = User.toLowerCase();
-	Rank = Rank.toLowerCase();
-	if (getRank(User).equalsIgnoreCase(Rank))
+    public static Boolean hasRank(String user, String rank) {
+	user = user.toLowerCase();
+	rank = rank.toLowerCase();
+	if (getRank(user).equalsIgnoreCase(rank))
 	    return true;
 	else
 	    return false;
     }
 
-    public static Boolean isValidRank(String Rank) {
-	Rank = Rank.toLowerCase();
-	if (Arrays.asList(ranks).contains(Rank))
+    public static Boolean isValidRank(String rank) {
+	rank = rank.toLowerCase();
+	if (Arrays.asList(ranks).contains(rank))
 	    return true;
 	else
 	    return false;
