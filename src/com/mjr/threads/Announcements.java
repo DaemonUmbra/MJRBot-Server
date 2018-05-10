@@ -22,7 +22,7 @@ public class Announcements extends Thread {
 			    e.printStackTrace();
 			}
 		    }
-		    MJRBot.getTwitchBot().MessageToChat(Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5)));
+		    Utilities.sendMessage(Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5)));
 		}
 	    }
 	    try {

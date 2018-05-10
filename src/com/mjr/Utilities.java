@@ -18,10 +18,10 @@ public class Utilities {
 	return true;
     }
     
-    public static void sendMessage(String endMessage, Object bot){
+    public static void sendMessage(String endMessage){
 	if (MJRBot.getTwitchBot() != null)
-	    ((TwitchBot) bot).MessageToChat(endMessage);
+	    MJRBot.getTwitchBot().MessageToChat(endMessage);
 	else
-	    ((MixerBot) bot).sendMessage(endMessage);
+	    MJRBot.getMixerBot().sendMessage(endMessage);
     }
 }

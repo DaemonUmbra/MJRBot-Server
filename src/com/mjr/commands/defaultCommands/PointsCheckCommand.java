@@ -1,9 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
@@ -15,24 +13,12 @@ public class PointsCheckCommand extends Command {
 	    if (args.length == 2) {
 		String User = args[1];
 		if (PointsSystem.isOnList(User)) {
-		    String endMessage = User + " has " + PointsSystem.getPoints(User) + " points";
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage(User + " has " + PointsSystem.getPoints(User) + " points");
 		} else {
-		    String endMessage = "Cant find " + User;
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage("Cant find " + User);
 		}
 	    } else {
-		String endMessage = "Invalid arguments! You need to enter !pointscheck USER";
-		if (MJRBot.getTwitchBot() != null)
-		    ((TwitchBot) bot).MessageToChat(endMessage);
-		else
-		    ((MixerBot) bot).sendMessage(endMessage);
+		Utilities.sendMessage("Invalid arguments! You need to enter !pointscheck USER");
 	    }
 	}
     }

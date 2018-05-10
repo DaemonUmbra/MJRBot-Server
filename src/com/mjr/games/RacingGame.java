@@ -3,7 +3,6 @@ package com.mjr.games;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.mjr.MJRBot;
 import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
@@ -52,7 +51,7 @@ public class RacingGame {
 
     public static void CheckForWinners() {
 	if (BetNumber == 0) {
-	    MJRBot.getTwitchBot().MessageToChat("No one made any bets! So race got canceled!");
+	    Utilities.sendMessage("No one made any bets! So race got canceled!");
 	    return;
 	}
 	String WinnerBetWinners = "";
@@ -60,8 +59,7 @@ public class RacingGame {
 
 	boolean Results = false;
 
-	MJRBot.getTwitchBot().MessageToChat(
-		"First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
+	Utilities.sendMessage("First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
 	for (int k = 0; k < BetNumber; k++) {
 	    if (bets[2][k].equalsIgnoreCase("top3")) {
 		if (bets[1][k].equalsIgnoreCase(Integer.toString(cars[0])) || bets[1][k].equalsIgnoreCase(Integer.toString(cars[1]))
@@ -89,7 +87,7 @@ public class RacingGame {
 	    String Message = "Top 3 winners are " + Arrays.asList(Top3Users) + " and 1st place winners are " + Arrays.asList(WinnerUsers);
 	    Message.replace("[", "[ ");
 	    Message.replace("]", "] ");
-	    MJRBot.getTwitchBot().MessageToChat(Message);
+	    Utilities.sendMessage(Message);
 	    if (Top3BetWinners.length() != 0) {
 		float randomOds = nextFloat(1, 2);
 		for (int l = 0; l < Top3Users.length; l++) {
@@ -120,7 +118,7 @@ public class RacingGame {
 		    PointsSystem.AddPoints(WinnerUsers[m], points);
 		}
 	    }
-	    MJRBot.getTwitchBot().MessageToChat(pointsMessage);
+	    Utilities.sendMessage(pointsMessage);
 	}
 	for (int i = 0; i < bets.length; i++)
 	    Arrays.fill(bets[i], "");

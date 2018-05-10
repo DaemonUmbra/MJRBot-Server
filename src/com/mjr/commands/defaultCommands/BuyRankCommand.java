@@ -4,6 +4,7 @@ import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
@@ -21,42 +22,21 @@ public class BuyRankCommand extends Command {
 			    if (PointsSystem.hasPoints(sender, Ranks.getRankPrice(Rank))) {
 				PointsSystem.RemovePoints(sender, Ranks.getRankPrice(Rank));
 				Ranks.setRank(sender, Rank);
-				((TwitchBot) bot).MessageToChat("Added " + Rank + " to " + sender);
+				Utilities.sendMessage("Added " + Rank + " to " + sender);
 			    } else {
-				String endMessage = sender
-					+ " you dont have the right amount of points! Do !points to check how many you got";
-				if (MJRBot.getTwitchBot() != null)
-				    ((TwitchBot) bot).MessageToChat(endMessage);
-				else
-				    ((MixerBot) bot).sendMessage(endMessage);
+				Utilities.sendMessage(" you dont have the right amount of points! Do !points to check how many you got");
 			    }
 			} else {
-			    String endMessage = "Rank doesnt exist!";
-			    if (MJRBot.getTwitchBot() != null)
-				((TwitchBot) bot).MessageToChat(endMessage);
-			    else
-				((MixerBot) bot).sendMessage(endMessage);
+			    Utilities.sendMessage("Rank doesnt exist!");
 			}
 		    } else {
-			String endMessage = sender + " is has already got that rank!";
-			if (MJRBot.getTwitchBot() != null)
-			    ((TwitchBot) bot).MessageToChat(endMessage);
-			else
-			    ((MixerBot) bot).sendMessage(endMessage);
+			Utilities.sendMessage(sender + " is has already got that rank!");
 		    }
 		} else {
-		    String endMessage = "Cant add " + Rank + " to " + sender;
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage("Cant add " + Rank + " to " + sender);
 		}
 	    } else {
-		String endMessage = "Invalid arguments! You need to enter !buyrank RANK";
-		if (MJRBot.getTwitchBot() != null)
-		    ((TwitchBot) bot).MessageToChat(endMessage);
-		else
-		    ((MixerBot) bot).sendMessage(endMessage);
+		Utilities.sendMessage("Invalid arguments! You need to enter !buyrank RANK");
 	    }
 	}
     }

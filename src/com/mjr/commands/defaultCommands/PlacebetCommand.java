@@ -1,9 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
@@ -23,33 +21,19 @@ public class PlacebetCommand extends Command {
 			    RacingGame.PlaceBet(sender, bet, type, points);
 			    PointsSystem.RemovePoints(sender, Integer.parseInt(points));
 			} else {
-			    String endMessage = "Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st";
-			    if (MJRBot.getTwitchBot() != null)
-				((TwitchBot) bot).MessageToChat(endMessage);
-			    else
-				((MixerBot) bot).sendMessage(endMessage);
+			    Utilities
+				    .sendMessage("Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 			}
 		    } else {
-			String endMessage = sender + " you have already made a bet!";
-			if (MJRBot.getTwitchBot() != null)
-			    ((TwitchBot) bot).MessageToChat(endMessage);
-			else
-			    ((MixerBot) bot).sendMessage(endMessage);
+			Utilities.sendMessage(sender + " you have already made a bet!");
 		    }
 
 		} else {
-		    String endMessage = "Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st";
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities
+			    .sendMessage("Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 		}
 	    } else {
-		String endMessage = "Racing game hasnt been started yet!";
-		if (MJRBot.getTwitchBot() != null)
-		    ((TwitchBot) bot).MessageToChat(endMessage);
-		else
-		    ((MixerBot) bot).sendMessage(endMessage);
+		Utilities.sendMessage("Racing game hasnt been started yet!");
 	    }
 	}
     }

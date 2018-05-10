@@ -1,9 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
@@ -17,24 +15,12 @@ public class SetPointsCommand extends Command {
 		String User = args[2];
 		if (PointsSystem.isOnList(User)) {
 		    PointsSystem.setPoints(User.toLowerCase(), Integer.parseInt(Points));
-		    String endMessage = "Set " + Points + " points" + " to " + User;
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage("Set " + Points + " points" + " to " + User);
 		} else {
-		    String endMessage = "Cant Set " + Points + " points" + " to " + User;
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage("Cant Set " + Points + " points" + " to " + User);
 		}
 	    } else {
-		String endMessage = "Invalid arguments! You need to enter !setpoints POINTS USER";
-		if (MJRBot.getTwitchBot() != null)
-		    ((TwitchBot) bot).MessageToChat(endMessage);
-		else
-		    ((MixerBot) bot).sendMessage(endMessage);
+		Utilities.sendMessage("Invalid arguments! You need to enter !setpoints POINTS USER");
 	    }
 	}
     }

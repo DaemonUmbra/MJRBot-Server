@@ -1,6 +1,6 @@
 package com.mjr.threads;
 
-import com.mjr.MJRBot;
+import com.mjr.Utilities;
 import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.games.RacingGame;
 
@@ -19,7 +19,7 @@ public class RaceStartThread extends Thread {
 		}
 		Delay = false;
 	    } else {
-		MJRBot.getTwitchBot().MessageToChat("Race is about to start! Make sure to get your bets in now!");
+		Utilities.sendMessage("Race is about to start! Make sure to get your bets in now!");
 		try {
 		    Thread.sleep(30000);
 		} catch (InterruptedException e) {

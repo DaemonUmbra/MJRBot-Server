@@ -18,17 +18,17 @@ public class BankHeistCommand extends Command {
 			BankHeistThread thread = new BankHeistThread();
 			thread.start();
 			BankHeistThread.GameActive = true;
-			MJRBot.getTwitchBot().MessageToChat(sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+			Utilities.sendMessage(sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 		    } else
-			Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>", bot);
+			Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>");
 		} else {
 		    if (Utilities.isNumeric(args[1]))
 			BankHeistThread.addEnteredUser(sender, Integer.parseInt(args[1]));
 		    else
-			Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>", bot);
+			Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>");
 		}
 	    } else
-		Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>", bot);
+		Utilities.sendMessage("Invalid arguments! You need to enter !heist <points>");
 	}
     }
 

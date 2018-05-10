@@ -1,9 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.Ranks;
@@ -19,38 +17,18 @@ public class SetRankCommand extends Command {
 		    if (!Ranks.hasRank(sender, Rank)) {
 			if (Ranks.isValidRank(Rank)) {
 			    Ranks.setRank(User, Rank);
-			    String endMessage = "Added " + Rank + " to " + User;
-			    if (MJRBot.getTwitchBot() != null)
-				((TwitchBot) bot).MessageToChat(endMessage);
-			    else
-				((MixerBot) bot).sendMessage(endMessage);
+			    Utilities.sendMessage("Added " + Rank + " to " + User);
 			} else {
-			    String endMessage = "Rank doesnt exist!";
-			    if (MJRBot.getTwitchBot() != null)
-				((TwitchBot) bot).MessageToChat(endMessage);
-			    else
-				((MixerBot) bot).sendMessage(endMessage);
+			    Utilities.sendMessage("Rank doesnt exist!");
 			}
 		    } else {
-			String endMessage = User + " is has already got that rank!";
-			if (MJRBot.getTwitchBot() != null)
-			    ((TwitchBot) bot).MessageToChat(endMessage);
-			else
-			    ((MixerBot) bot).sendMessage(endMessage);
+			Utilities.sendMessage(User + " is has already got that rank!");
 		    }
 		} else {
-		    String endMessage = "Cant add " + Rank + " to " + User;
-		    if (MJRBot.getTwitchBot() != null)
-			((TwitchBot) bot).MessageToChat(endMessage);
-		    else
-			((MixerBot) bot).sendMessage(endMessage);
+		    Utilities.sendMessage("Cant add " + Rank + " to " + User);
 		}
 	    } else {
-		String endMessage = "Invalid arguments! You need to enter !setrank RANK USER";
-		if (MJRBot.getTwitchBot() != null)
-		    ((TwitchBot) bot).MessageToChat(endMessage);
-		else
-		    ((MixerBot) bot).sendMessage(endMessage);
+		Utilities.sendMessage("Invalid arguments! You need to enter !setrank RANK USER");
 	    }
 	}
     }

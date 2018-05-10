@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import com.mjr.MJRBot;
 import com.mjr.Permissions;
+import com.mjr.Utilities;
 import com.mjr.files.Config;
 
 public class CustomCommands {
@@ -34,19 +35,18 @@ public class CustomCommands {
 		String permission = properties.getProperty("permissionlevel");
 		boolean allowed = Permissions.hasPermission(sender, permission);
 		if (allowed) {
-		    MJRBot.getTwitchBot().MessageToChat(properties.getProperty("response"));
+		    Utilities.sendMessage(properties.getProperty("response"));
 		} else {
 		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
-			MJRBot.getTwitchBot().MessageToChat(
-				"@" + sender + " the command " + command + " you dont have access to this command!");
+			Utilities.sendMessage("@" + sender + " the command " + command + " you dont have access to this command!");
 		}
 	    }
 
 	} else if (MJRBot.getTwitchBot() != null)
 	    if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
-		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
+		Utilities.sendMessage("@" + sender + " the command " + command + " doesnt exist!");
 	    else if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
-		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
+		Utilities.sendMessage("@" + sender + " the command " + command + " doesnt exist!");
     }
 
     public static void AddCommand(String command, String response, String permission) throws FileNotFoundException, IOException {
@@ -70,11 +70,11 @@ public class CustomCommands {
 		properties.setProperty("permissionlevel", permission);
 
 		properties.store(new FileOutputStream(filelocation + filename), null);
-		MJRBot.getTwitchBot().MessageToChat("Command " + command + " has been added!");
+		Utilities.sendMessage("Command " + command + " has been added!");
 	    } else
-		MJRBot.getTwitchBot().MessageToChat("The permission level " + permission + " doesnt  exists!");
+		Utilities.sendMessage("The permission level " + permission + " doesnt  exists!");
 	} else
-	    MJRBot.getTwitchBot().MessageToChat("Command " + command + " already exists!");
+	    Utilities.sendMessage("Command " + command + " already exists!");
     }
 
     public static void RemoveCommand(String command) throws IOException {
@@ -87,9 +87,9 @@ public class CustomCommands {
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    filenew.delete();
-	    MJRBot.getTwitchBot().MessageToChat("Command " + command + " has been removed!");
+	    Utilities.sendMessage("Command " + command + " has been removed!");
 	} else
-	    MJRBot.getTwitchBot().MessageToChat(command + " doesnt exist!");
+	    Utilities.sendMessage(command + " doesnt exist!");
     }
 
     @SuppressWarnings("deprecation")
@@ -106,23 +106,23 @@ public class CustomCommands {
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		if (state.equalsIgnoreCase("true")) {
-		    MJRBot.getTwitchBot().MessageToChat(command + " is already enabled!");
+		    Utilities.sendMessage(command + " is already enabled!");
 		} else {
 		    properties.setProperty("state", state.toLowerCase());
 		    properties.save(new FileOutputStream(filenew), null);
-		    MJRBot.getTwitchBot().MessageToChat(command + " has been disabled!");
+		    Utilities.sendMessage(command + " has been disabled!");
 		}
 	    } else if (properties.getProperty("state").equalsIgnoreCase("false")) {
 		if (state.equalsIgnoreCase("false")) {
-		    MJRBot.getTwitchBot().MessageToChat(command + " is already enabled!");
+		    Utilities.sendMessage(command + " is already enabled!");
 		} else {
 		    properties.setProperty("state", state.toLowerCase());
 		    properties.save(new FileOutputStream(filenew), null);
-		    MJRBot.getTwitchBot().MessageToChat(command + " has been enabled!");
+		    Utilities.sendMessage(command + " has been enabled!");
 		}
 	    }
 	} else
-	    MJRBot.getTwitchBot().MessageToChat(command + " doesnt exist!");
+	    Utilities.sendMessage(command + " doesnt exist!");
     }
 
     @SuppressWarnings("deprecation")
@@ -138,14 +138,14 @@ public class CustomCommands {
 	    FileReader reader = new FileReader(filenew);
 	    properties.load(reader);
 	    if (properties.getProperty("response").equalsIgnoreCase("response")) {
-		MJRBot.getTwitchBot().MessageToChat("The response for " + command + " is already " + response);
+		Utilities.sendMessage("The response for " + command + " is already " + response);
 	    } else {
 		properties.setProperty("response", response.toLowerCase());
 		properties.save(new FileOutputStream(filenew), null);
-		MJRBot.getTwitchBot().MessageToChat(command + " has been changed!");
+		Utilities.sendMessage(command + " has been changed!");
 	    }
 	} else
-	    MJRBot.getTwitchBot().MessageToChat(command + " doesnt exist!");
+	    Utilities.sendMessage(command + " doesnt exist!");
     }
 
     public static void ChangeComanndResponse(String command, String response) throws FileNotFoundException, IOException {
@@ -166,8 +166,8 @@ public class CustomCommands {
 	    properties.setProperty("response", response);
 	    properties.setProperty("state", "true");
 	    properties.store(new FileOutputStream(filelocation + filename), null);
-	    MJRBot.getTwitchBot().MessageToChat("Command " + command + " has been added!");
+	    Utilities.sendMessage("Command " + command + " has been added!");
 	} else
-	    MJRBot.getTwitchBot().MessageToChat("Command " + command + " already exists!");
+	    Utilities.sendMessage("Command " + command + " already exists!");
     }
 }
