@@ -4,9 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.mjr.MJRBot;
 import com.mjr.Permissions;
-import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -15,6 +13,8 @@ import com.mjr.commands.defaultCommands.BuyRankCommand;
 import com.mjr.commands.defaultCommands.ChangeResponseCommand;
 import com.mjr.commands.defaultCommands.ChangeStateCommand;
 import com.mjr.commands.defaultCommands.CommandsListCommand;
+import com.mjr.commands.defaultCommands.DiceCommand;
+import com.mjr.commands.defaultCommands.DisconnectCommand;
 import com.mjr.commands.defaultCommands.EnterCommand;
 import com.mjr.commands.defaultCommands.GetRankCommand;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
@@ -67,31 +67,20 @@ public class CommandManager {
 	commands.put("!giveaway", new GiveAwayCommand());
 	commands.put("!enter", new EnterCommand());
 	commands.put("!heist", new BankHeistCommand());
+	commands.put("!disconnect", new DisconnectCommand());
+	commands.put("!dice", new DiceCommand());
     }
 
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)
 	    throws FileNotFoundException, IOException {
 	args = message.split(" ");
 
-	// Streamer Commands
-	if (message.equalsIgnoreCase("!disconnect")) {
-	    if (Permissions.hasPermission(sender, PermissionLevel.Streamer.getName())
-		    || Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
-		if (MJRBot.getTwitchBot() != null) {
-		    MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getBotName() + " Disconnected!");
-		    MJRBot.getTwitchBot().disconnectTwitch();
-		} else if (MJRBot.getMixerBot() != null) {
-		    MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Disconnected!");
-		    MJRBot.getMixerBot().disconnect();
-		}
-	    }
-	}
-
+	// Check if known default command
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
 	    if (Permissions.hasPermission(sender, command.getPermissionLevel()))
 		command.onCommand(bot, channel, sender, login, hostname, message, args);
-	} else if (args[0].startsWith("!")) {
+	} else if (args[0].startsWith("!")) { // Check if its a known custom command
 	    CustomCommands.getCommand(args[0], sender);
 	}
     }
