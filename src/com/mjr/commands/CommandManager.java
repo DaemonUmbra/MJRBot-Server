@@ -63,19 +63,21 @@ public class CommandManager {
 	args = message.split(" ");
 
 	// Streamer Commands
-	if (message.equalsIgnoreCase("!disconnect") && sender.equalsIgnoreCase("mjrlegends")) {
-	    if (MJRBot.getTwitchBot() != null && (sender.equalsIgnoreCase(MJRBot.getTwitchBot().getChannel()))) {
-		MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getBotName() + " Disconnected!");
-		MJRBot.getTwitchBot().disconnectTwitch();
-	    } else if (MJRBot.getMixerBot() != null && (sender.equalsIgnoreCase(MJRBot.getChannel()))) {
-		MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Disconnected!");
-		MJRBot.getMixerBot().disconnect();
+	if (message.equalsIgnoreCase("!disconnect")) {
+	    if (sender.equalsIgnoreCase("mjrlegends") || sender.equalsIgnoreCase(MJRBot.getChannel())) {
+		if (MJRBot.getTwitchBot() != null) {
+		    MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getBotName() + " Disconnected!");
+		    MJRBot.getTwitchBot().disconnectTwitch();
+		} else if (MJRBot.getMixerBot() != null && (sender.equalsIgnoreCase(MJRBot.getChannel()))) {
+		    MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Disconnected!");
+		    MJRBot.getMixerBot().disconnect();
+		}
 	    }
 	}
 
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
-	    if (Permissions.getPermissionLevel(sender).equalsIgnoreCase(command.getPermissionLevel()))
+	    if (Permissions.hasPermission(sender, command.getPermissionLevel()))
 		command.onCommand(bot, channel, sender, login, hostname, message, args);
 	} else if (args[0].startsWith("!")) {
 	    CustomCommands.getCommand(args[0], sender);

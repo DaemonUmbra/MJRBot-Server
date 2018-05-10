@@ -3,6 +3,7 @@ package com.mjr.chatModeration;
 import com.mjr.MJRBot;
 import com.mjr.Permissions;
 import com.mjr.TwitchBot;
+import com.mjr.Permissions.Permission;
 import com.mjr.files.Config;
 import com.mjr.files.Ranks;
 
@@ -11,7 +12,7 @@ public class ChatModeration {
 	// ChatModeration
 	if (Ranks.getRank(sender) == "gold")
 	    return;
-	else if (MJRBot.getTwitchBot() != null && !Permissions.getPermissionLevel(sender).equalsIgnoreCase("User"))
+	else if (MJRBot.getTwitchBot() != null && !Permissions.hasPermission(sender, Permissions.Permission.User.getName()))
 	    return;
 	else {
 	    if (Config.getSetting("LinkChecker").equalsIgnoreCase("true")) {

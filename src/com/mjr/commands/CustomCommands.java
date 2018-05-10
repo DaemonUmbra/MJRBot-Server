@@ -32,25 +32,7 @@ public class CustomCommands {
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		String permission = properties.getProperty("permissionlevel");
-		boolean allowed = false;
-		switch (permission) {
-		    case "User":
-			switch (Permissions.getPermissionLevel(sender)) {
-			    case "User":
-			    case "Moderator":
-				allowed = true;
-				break;
-			}
-		    case "Moderator":
-			switch (Permissions.getPermissionLevel(sender)) {
-			    case "User":
-				allowed = false;
-				break;
-			    case "Moderator":
-				allowed = true;
-				break;
-			}
-		}
+		boolean allowed = Permissions.hasPermission(sender, permission);
 		if (allowed) {
 		    MJRBot.getTwitchBot().MessageToChat(properties.getProperty("response"));
 		} else{

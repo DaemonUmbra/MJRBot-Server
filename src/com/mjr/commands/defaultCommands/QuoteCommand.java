@@ -54,7 +54,7 @@ public class QuoteCommand extends Command {
 		Random rand = new Random();
 		((TwitchBot) bot).sendMessage(MJRBot.getTwitchBot().getChannel(), tempsArray[rand.nextInt(tempsArray.length)]);
 	    } else if (args.length == 3 && args[1].equalsIgnoreCase("get")
-		    && Permissions.getPermissionLevel(sender).equalsIgnoreCase("Moderator")) {
+		    && Permissions.hasPermission(sender, "Moderator")) {
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
@@ -75,7 +75,7 @@ public class QuoteCommand extends Command {
 		else
 		    ((TwitchBot) bot).sendMessage(MJRBot.getTwitchBot().getChannel(), "Quote " + args[1] + " doesnt exist!");
 	    } else if (args.length > 1 && args[1].equalsIgnoreCase("add")
-		    && Permissions.getPermissionLevel(sender).equalsIgnoreCase("Moderator")) {
+		    && Permissions.hasPermission(sender, "Moderator")) {
 		if (!message.contains("@")) {
 		    String endMessage = sender + " your quote must be in the format as follows: !quote add <message> @<Name>";
 		    if (MJRBot.getTwitchBot() != null)

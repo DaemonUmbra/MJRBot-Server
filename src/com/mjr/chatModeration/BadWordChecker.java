@@ -1,6 +1,7 @@
 package com.mjr.chatModeration;
 
 import com.mjr.Permissions;
+import com.mjr.Permissions.Permission;
 
 public class BadWordChecker {
     public static boolean BadwordsBan = false;
@@ -13,7 +14,7 @@ public class BadWordChecker {
 	for (int i = 0; i < BadWords.length; i++) {
 	    String Check = BadWords[i];
 	    if (message.contains(Check)) {
-		if (Permissions.getPermissionLevel(sender) != "Moderator") {
+		if (!Permissions.hasPermission(sender, Permissions.Permission.Moderator.getName())) {
 		    BadwordsBan = true;
 		}
 	    }
