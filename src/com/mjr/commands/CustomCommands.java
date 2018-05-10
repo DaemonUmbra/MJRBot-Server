@@ -35,17 +35,17 @@ public class CustomCommands {
 		boolean allowed = Permissions.hasPermission(sender, permission);
 		if (allowed) {
 		    MJRBot.getTwitchBot().MessageToChat(properties.getProperty("response"));
-		} else{
+		} else {
 		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
-			MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " you dont have access to this command!");
+			MJRBot.getTwitchBot().MessageToChat(
+				"@" + sender + " the command " + command + " you dont have access to this command!");
 		}
 	    }
 
 	} else if (MJRBot.getTwitchBot() != null)
 	    if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
 		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
-	else
-	    if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+	    else if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
 		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
     }
 

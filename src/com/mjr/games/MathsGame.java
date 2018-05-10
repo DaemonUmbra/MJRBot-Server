@@ -1,7 +1,5 @@
 package com.mjr.games;
 
-import java.util.Random;
-
 import com.mjr.ConsoleUtil;
 import com.mjr.Utilities;
 

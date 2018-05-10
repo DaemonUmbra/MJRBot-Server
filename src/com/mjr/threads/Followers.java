@@ -89,8 +89,7 @@ public class Followers extends Thread {
 	    URL url;
 	    try {
 		url = new URL("https://api.twitch.tv/kraken/channels/" + MJRBot.getChannel().toLowerCase()
-			    + "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit="
-			+ (followersNum - (followersNum - 3)));
+			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=" + (followersNum - (followersNum - 3)));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

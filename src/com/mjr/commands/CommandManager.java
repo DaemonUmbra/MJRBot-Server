@@ -69,7 +69,8 @@ public class CommandManager {
 
 	// Streamer Commands
 	if (message.equalsIgnoreCase("!disconnect")) {
-	    if (Permissions.hasPermission(sender, PermissionLevel.Streamer.getName()) || Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
+	    if (Permissions.hasPermission(sender, PermissionLevel.Streamer.getName())
+		    || Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
 		if (MJRBot.getTwitchBot() != null) {
 		    MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getBotName() + " Disconnected!");
 		    MJRBot.getTwitchBot().disconnectTwitch();

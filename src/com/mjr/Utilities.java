@@ -6,6 +6,6 @@ public class Utilities {
 	if (min > max) {
 	    throw new IllegalArgumentException("Min " + min + " greater than max " + max);
 	}
-	return (int) ((long) min + Math.random() * ((long) max - min + 1));
+	return (int) (min + Math.random() * ((long) max - min + 1));
     }
 }
