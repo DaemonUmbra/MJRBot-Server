@@ -14,7 +14,9 @@ import com.mjr.commands.defaultCommands.BuyRankCommand;
 import com.mjr.commands.defaultCommands.ChangeResponseCommand;
 import com.mjr.commands.defaultCommands.ChangeStateCommand;
 import com.mjr.commands.defaultCommands.CommandsListCommand;
+import com.mjr.commands.defaultCommands.EnterCommand;
 import com.mjr.commands.defaultCommands.GetRankCommand;
+import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.commands.defaultCommands.MathsCommand;
 import com.mjr.commands.defaultCommands.PermitCommand;
 import com.mjr.commands.defaultCommands.PlacebetCommand;
@@ -61,6 +63,8 @@ public class CommandManager {
 	commands.put("!commandresponse", new ChangeResponseCommand());
 	commands.put("!race", new RaceCommand());
 	commands.put("!placebet", new PlacebetCommand());
+	commands.put("!giveaway", new GiveAwayCommand());
+	commands.put("!enter", new EnterCommand());
     }
 
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)
