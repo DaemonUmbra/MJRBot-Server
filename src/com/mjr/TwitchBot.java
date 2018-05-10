@@ -240,9 +240,6 @@ public class TwitchBot extends PircBot {
 	ConsoleUtil.TextToConsole("Left " + MJRBot.getTwitchBot().getChannel() + " channel", "Bot", null);
 	MJRBot.getTwitchBot().viewers = new String[0];
 	MJRBot.getTwitchBot().ConnectedToChannel = false;
-	// GUI_Main.viewers.setText("Viewers: 0");
-	// GUI_Main.followers.setText("Followers: 0");
-	// GUI_Main.viewerslist.setText(null);
 	MJRBot.getTwitchBot().setChannel("");
     }
 }
