@@ -16,7 +16,7 @@ public class GiveAwayThread extends Thread {
     public void run() {
 	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay")) * 60) * 1000;
 
-	String message = "Giveaway will end in " + TimeDuration + " minutes. To enter use !Enter";
+	String message = "Giveaway will end in " + Config.getSetting("GiveawayDelay") + " minutes. To enter use !enter";
 	if (MJRBot.getTwitchBot() != null)
 	    MJRBot.getTwitchBot().MessageToChat(message);
 	else
