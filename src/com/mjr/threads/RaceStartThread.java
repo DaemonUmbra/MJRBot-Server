@@ -5,12 +5,12 @@ import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.games.RacingGame;
 
 public class RaceStartThread extends Thread {
-    boolean Delay = true;
+    private boolean Delay = true;
+    private boolean threadActive = true;
 
     @Override
-    @SuppressWarnings("deprecation")
     public void run() {
-	while (true) {
+	while (threadActive) {
 	    if (Delay) {
 		try {
 		    Thread.sleep(60000);
@@ -28,7 +28,7 @@ public class RaceStartThread extends Thread {
 		RacingGame.Start();
 		Delay = true;
 		RaceCommand.Started = false;
-		this.stop();
+		threadActive = false;
 	    }
 	}
     }

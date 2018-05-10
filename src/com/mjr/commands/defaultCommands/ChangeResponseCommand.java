@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
@@ -41,6 +42,6 @@ public class ChangeResponseCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return "Moderator";
+	return PermissionLevel.Moderator.getName();
     }
 }

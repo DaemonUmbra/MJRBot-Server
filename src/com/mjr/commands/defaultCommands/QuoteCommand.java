@@ -18,6 +18,7 @@ import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.TwitchBot;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 
@@ -54,7 +55,7 @@ public class QuoteCommand extends Command {
 		Random rand = new Random();
 		((TwitchBot) bot).sendMessage(MJRBot.getTwitchBot().getChannel(), tempsArray[rand.nextInt(tempsArray.length)]);
 	    } else if (args.length == 3 && args[1].equalsIgnoreCase("get")
-		    && Permissions.hasPermission(sender, "Moderator")) {
+		    && Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
@@ -71,11 +72,11 @@ public class QuoteCommand extends Command {
 		String[] tempsArray = temps.toArray(new String[0]);
 		if (Integer.parseInt(args[2]) < tempsArray.length)
 		    ((TwitchBot) bot).sendMessage(MJRBot.getTwitchBot().getChannel(),
-			    "Quote " + args[1] + " is: " + tempsArray[Integer.parseInt(args[2])]);
+			    "Quote " + args[2] + " is: " + tempsArray[Integer.parseInt(args[2])]);
 		else
 		    ((TwitchBot) bot).sendMessage(MJRBot.getTwitchBot().getChannel(), "Quote " + args[1] + " doesnt exist!");
 	    } else if (args.length > 1 && args[1].equalsIgnoreCase("add")
-		    && Permissions.hasPermission(sender, "Moderator")) {
+		    && Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
 		if (!message.contains("@")) {
 		    String endMessage = sender + " your quote must be in the format as follows: !quote add <message> @<Name>";
 		    if (MJRBot.getTwitchBot() != null)
@@ -124,6 +125,6 @@ public class QuoteCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return "User";
+	return Permissions.PermissionLevel.User.getName();
     }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.mjr.MJRBot;
 import com.mjr.Permissions;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -64,11 +65,11 @@ public class CommandManager {
 
 	// Streamer Commands
 	if (message.equalsIgnoreCase("!disconnect")) {
-	    if (sender.equalsIgnoreCase("mjrlegends") || sender.equalsIgnoreCase(MJRBot.getChannel())) {
+	    if (Permissions.hasPermission(sender, PermissionLevel.Streamer.getName()) || Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
 		if (MJRBot.getTwitchBot() != null) {
 		    MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getBotName() + " Disconnected!");
 		    MJRBot.getTwitchBot().disconnectTwitch();
-		} else if (MJRBot.getMixerBot() != null && (sender.equalsIgnoreCase(MJRBot.getChannel()))) {
+		} else if (MJRBot.getMixerBot() != null) {
 		    MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Disconnected!");
 		    MJRBot.getMixerBot().disconnect();
 		}

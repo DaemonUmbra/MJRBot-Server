@@ -6,17 +6,30 @@ import com.mjr.files.Config;
 
 public class Permissions {
 
-    public enum Permission {
-	User("User"), Moderator("Moderator"), Streamer("Streamer"), Bot("Bot"), BotOwner("BotOwner");
+    public enum PermissionLevel {
+	User("User", 0), Moderator("Moderator", 1), Streamer("Streamer", 3), Bot("Bot", 5), BotOwner("BotOwner", 4);
 
-	private final String name;
+	private final String permission;
+	private final int tierValue;
 
-	Permission(String name) {
-	    this.name = name;
+	PermissionLevel(String permission, int tierValue) {
+	    this.permission = permission;
+	    this.tierValue = tierValue;
 	}
 
 	public String getName() {
-	    return name;
+	    return permission;
+	}
+
+	public int getTierValue() {
+	    return tierValue;
+	}
+
+	public static int getTierValueByName(String permission) {
+	    for (PermissionLevel level : PermissionLevel.values())
+		if (level.getName().equalsIgnoreCase(permission))
+		    return level.getTierValue();
+	    return 0;
 	}
     }
 
@@ -24,53 +37,57 @@ public class Permissions {
 	user = user.toLowerCase();
 	if (MJRBot.getTwitchBot() != null) {
 	    if (TwitchBot.mods != null) {
-		if (user.equalsIgnoreCase(MJRBot.getTwitchBot().getBotName()))
-		    return Permission.Bot.getName();
+		if (user.equalsIgnoreCase(MJRBot.getChannel()))
+		    return PermissionLevel.Streamer.getName();
+		else if (user.equalsIgnoreCase(MJRBot.getTwitchBot().getBotName()))
+		    return PermissionLevel.Bot.getName();
 		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return Permission.BotOwner.getName();
+		    return PermissionLevel.BotOwner.getName();
 		else if (Arrays.asList(TwitchBot.mods).contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName"))
 			|| user.equalsIgnoreCase(MJRBot.getChannel()))
-		    return Permission.Moderator.getName();
+		    return PermissionLevel.Moderator.getName();
 	    } else {
-		if (user.equalsIgnoreCase(MJRBot.getTwitchBot().getBotName()))
-		    return Permission.Bot.getName();
+		if (user.equalsIgnoreCase(MJRBot.getChannel()))
+		    return PermissionLevel.Streamer.getName();
+		else if (user.equalsIgnoreCase(MJRBot.getTwitchBot().getBotName()))
+		    return PermissionLevel.Bot.getName();
 		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return Permission.BotOwner.getName();
+		    return PermissionLevel.BotOwner.getName();
 		else if (user.equalsIgnoreCase(Config.getSetting("UserName")) || user.equalsIgnoreCase(MJRBot.getChannel()))
-		    return Permission.Moderator.getName();
+		    return PermissionLevel.Moderator.getName();
 	    }
-	    return Permission.User.getName();
+	    return PermissionLevel.User.getName();
 	} else {
 	    if (!MJRBot.getMixerBot().getModerators().isEmpty()) {
-		if (user.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
-		    return Permission.Bot.getName();
+		if (user.equalsIgnoreCase(MJRBot.getChannel()))
+		    return PermissionLevel.Streamer.getName();
+		else if (user.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
+		    return PermissionLevel.Bot.getName();
 		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return Permission.BotOwner.getName();
+		    return PermissionLevel.BotOwner.getName();
 		else if (MJRBot.getMixerBot().getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName"))
 			|| user.equalsIgnoreCase(MJRBot.getChannel()))
-		    return Permission.Moderator.getName();
+		    return PermissionLevel.Moderator.getName();
 	    } else {
-		if (user.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
-		    return Permission.Bot.getName();
+		if (user.equalsIgnoreCase(MJRBot.getChannel()))
+		    return PermissionLevel.Streamer.getName();
+		else if (user.equalsIgnoreCase(MJRBot.getMixerBot().getBotName()))
+		    return PermissionLevel.Bot.getName();
 		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return Permission.BotOwner.getName();
+		    return PermissionLevel.BotOwner.getName();
 		else if (user.equalsIgnoreCase(Config.getSetting("UserName")) || user.equalsIgnoreCase(MJRBot.getChannel()))
-		    return Permission.Moderator.getName();
+		    return PermissionLevel.Moderator.getName();
 	    }
-	    return Permission.User.getName();
+	    return PermissionLevel.User.getName();
 	}
     }
 
     public static boolean hasPermission(String user, String permission) {
-	if (permission.equalsIgnoreCase(Permission.User.getName()))
+	String userPermissionLevel = getPermissionLevel(user);
+	if (getPermissionLevel(user).equalsIgnoreCase(permission))
 	    return true;
-	else if (permission.equalsIgnoreCase(Permission.Moderator.getName())){
-	    String returnLevel = getPermissionLevel(user);
-	    if(returnLevel.equalsIgnoreCase(Permission.BotOwner.getName()))
-		return true;
-	    else
-		return returnLevel.equalsIgnoreCase(permission); 
-	}
+	else if (PermissionLevel.getTierValueByName(userPermissionLevel) >= PermissionLevel.getTierValueByName(permission))
+	    return true;
 	return false;
     }
 }

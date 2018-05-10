@@ -7,7 +7,7 @@ import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.files.Config;
 
 public class GiveAwayThread extends Thread {
-    boolean Delay = true;
+    private boolean Delay = true;
     private static long TimeDuration;
     public static String[] EnteredUsers;
 

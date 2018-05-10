@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
@@ -38,6 +39,6 @@ public class ChangeStateCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return "Moderator";
+	return PermissionLevel.Moderator.getName();
     }
 }

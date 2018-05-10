@@ -1,5 +1,6 @@
 package com.mjr;
 
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.files.Config;
 
 public class ConsoleUtil {
@@ -7,17 +8,17 @@ public class ConsoleUtil {
     public static void TextToConsole(String message, String MessageType, String sender) {
 	if (MessageType == "Chat") {
 	    if (sender != null) {
-		if (Permissions.hasPermission(sender, Permissions.Permission.Bot.getName())) {
+		if (Permissions.hasPermission(sender, PermissionLevel.Bot.getName())) {
 		    System.out.println("\n" + "[Bot] " + sender + ": " + message);
 		} else if (MJRBot.getTwitchBot() != null && sender.endsWith(MJRBot.getTwitchBot().getChannel().replace("#", ""))) {
 		    System.out.println("\n" + "[Streamer] " + sender + ": " + message);
 		} else if (MJRBot.getMixerBot() != null && sender.equalsIgnoreCase(MJRBot.getChannel())) {
 		    System.out.println("\n" + "[Streamer] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, Permissions.Permission.BotOwner.getName())) {
+		} else if (Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
 		    System.out.println("\n" + "[Bot Owner] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, Permissions.Permission.Moderator.getName())) {
+		} else if (Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
 		    System.out.println("\n" + "[Moderator] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, Permissions.Permission.User.getName())) {
+		} else if (Permissions.hasPermission(sender, PermissionLevel.User.getName())) {
 		    System.out.println("\n" + "[User] " + sender + ": " + message);
 		}
 	    }

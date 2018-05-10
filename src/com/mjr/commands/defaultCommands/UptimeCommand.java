@@ -7,6 +7,7 @@ import java.util.Date;
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
 
@@ -50,6 +51,6 @@ public class UptimeCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return "User";
+	return PermissionLevel.User.getName();
     }
 }

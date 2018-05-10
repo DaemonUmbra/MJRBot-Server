@@ -5,7 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.mjr.Permissions;
-import com.mjr.Permissions.Permission;
+import com.mjr.Permissions.PermissionLevel;
 
 public class LinkChecker {
     public static boolean Allowed = false;
@@ -67,7 +67,7 @@ public class LinkChecker {
 	    URLConnection myURLConnection = myURL.openConnection();
 	    myURLConnection.connect();
 	    Link = true;
-	    if (Permissions.hasPermission(sender, Permissions.Permission.Moderator.getName())) {
+	    if (Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
 		Allowed = true;
 	    } else if (PermitedUsers.contains(sender)) {
 		Allowed = true;

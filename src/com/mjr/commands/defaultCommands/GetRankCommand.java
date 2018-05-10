@@ -2,6 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
@@ -38,6 +39,6 @@ public class GetRankCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return "Moderator";
+	return PermissionLevel.Moderator.getName();
     }
 }
