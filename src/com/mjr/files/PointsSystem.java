@@ -6,10 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Random;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
+import com.mjr.Utilities;
 
 public class PointsSystem {
     public static String filename = "Points.properties";
@@ -89,18 +89,16 @@ public class PointsSystem {
 
     public static int AddRandomPoints(String user) {
 	user = user.toLowerCase();
-	Random random = new Random();
-	int points = random.nextInt((100)) + 1;
+	int points = Utilities.getRandom(0, 100);
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints);
 	return points;
     }
-    
+
     public static int AddRandomPoints(String user, int max, int min) {
 	user = user.toLowerCase();
-	Random random = new Random();
-	int points = random.nextInt((max)) + min;
+	int points = Utilities.getRandom(min, max);
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints);
