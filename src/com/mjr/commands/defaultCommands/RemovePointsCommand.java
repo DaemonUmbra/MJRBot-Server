@@ -38,4 +38,9 @@ public class RemovePointsCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

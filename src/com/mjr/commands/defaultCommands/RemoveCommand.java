@@ -34,4 +34,9 @@ public class RemoveCommand extends Command {
 		((MixerBot) bot).sendMessage(endMessage);
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

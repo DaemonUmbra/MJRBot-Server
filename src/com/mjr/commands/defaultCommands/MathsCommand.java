@@ -30,4 +30,9 @@ public class MathsCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

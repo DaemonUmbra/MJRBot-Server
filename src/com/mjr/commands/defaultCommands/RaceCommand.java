@@ -22,4 +22,9 @@ public class RaceCommand extends Command {
 	    Started = true;
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

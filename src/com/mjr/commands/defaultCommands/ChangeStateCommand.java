@@ -35,4 +35,9 @@ public class ChangeStateCommand extends Command {
 		((MixerBot) bot).sendMessage(endMessage);
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

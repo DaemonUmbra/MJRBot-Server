@@ -47,4 +47,9 @@ public class UptimeCommand extends Command {
 	} else
 	    ((MixerBot) bot).sendMessage("This command isnt available for Mixer, right now sorry!");
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

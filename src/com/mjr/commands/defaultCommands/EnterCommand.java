@@ -21,4 +21,9 @@ public class EnterCommand extends Command {
 		((MixerBot) bot).sendMessage(endMessage);
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

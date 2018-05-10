@@ -53,4 +53,9 @@ public class SetRankCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

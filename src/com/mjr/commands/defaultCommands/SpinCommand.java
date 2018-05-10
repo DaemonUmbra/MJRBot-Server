@@ -47,4 +47,9 @@ public class SpinCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

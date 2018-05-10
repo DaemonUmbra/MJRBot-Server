@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import com.mjr.MJRBot;
+import com.mjr.Permissions;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -15,9 +16,11 @@ import com.mjr.commands.defaultCommands.CommandsListCommand;
 import com.mjr.commands.defaultCommands.GetRankCommand;
 import com.mjr.commands.defaultCommands.MathsCommand;
 import com.mjr.commands.defaultCommands.PermitCommand;
+import com.mjr.commands.defaultCommands.PlacebetCommand;
 import com.mjr.commands.defaultCommands.PointsCheckCommand;
 import com.mjr.commands.defaultCommands.PointsCommand;
 import com.mjr.commands.defaultCommands.QuoteCommand;
+import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.commands.defaultCommands.RankCommand;
 import com.mjr.commands.defaultCommands.RemoveCommand;
 import com.mjr.commands.defaultCommands.RemovePointsCommand;
@@ -74,7 +77,8 @@ public class CommandManager {
 
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
-	    command.onCommand(bot, channel, sender, login, hostname, message, args);
+	    if (Permissions.getPermissionLevel(sender).equalsIgnoreCase(command.getPermissionLevel()))
+		command.onCommand(bot, channel, sender, login, hostname, message, args);
 	} else if (args[0].startsWith("!")) {
 	    CustomCommands.getCommand(args[0], sender);
 	}

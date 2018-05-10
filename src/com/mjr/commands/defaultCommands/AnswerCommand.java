@@ -46,4 +46,9 @@ public class AnswerCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

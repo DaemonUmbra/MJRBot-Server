@@ -61,4 +61,9 @@ public class PlacebetCommand extends Command {
 
 	return false;
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

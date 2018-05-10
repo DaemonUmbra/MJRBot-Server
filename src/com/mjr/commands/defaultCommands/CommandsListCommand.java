@@ -16,4 +16,9 @@ public class CommandsListCommand extends Command {
 		    + " offers over at http://goo.gl/iZhu2W");
 
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }

@@ -36,4 +36,9 @@ public class RemoveRankCheckCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "Moderator";
+    }
 }

@@ -121,4 +121,9 @@ public class QuoteCommand extends Command {
 	    }
 	}
     }
+
+    @Override
+    public String getPermissionLevel() {
+	return "User";
+    }
 }
