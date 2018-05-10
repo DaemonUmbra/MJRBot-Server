@@ -10,6 +10,7 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
+import com.mjr.commands.defaultCommands.BankHeistCommand;
 import com.mjr.commands.defaultCommands.BuyRankCommand;
 import com.mjr.commands.defaultCommands.ChangeResponseCommand;
 import com.mjr.commands.defaultCommands.ChangeStateCommand;
@@ -65,6 +66,7 @@ public class CommandManager {
 	commands.put("!placebet", new PlacebetCommand());
 	commands.put("!giveaway", new GiveAwayCommand());
 	commands.put("!enter", new EnterCommand());
+	commands.put("!heist", new BankHeistCommand());
     }
 
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)

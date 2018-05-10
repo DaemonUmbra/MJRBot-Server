@@ -1,17 +1,19 @@
 package com.mjr.threads;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.mjr.MJRBot;
+import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
 public class BankHeistThread extends Thread {
 
-    public static ArrayList<String> enteredUsers = new ArrayList<String>();
+    private static HashMap<String, Integer> enteredUsers = new HashMap<String, Integer>();
 
     public static String[] messages = { "Bank Heist has been started!", "The crew have started robbing the City National Bank",
 	    "The bank has been flooded with SWAT", "The crew have been shot down",
-	    "The crew have made it out with all the money without being seen", "The crew have made it out but leaving money behide",
+	    "The crew have made it out with all the money without being seen",
+	    "The crew have made it out alive, dropping and leaving money on the way out",
 	    "The SWAT are on high alert please wait 10 minutes before trying again" };
 
     public static int path = 0;
@@ -23,8 +25,6 @@ public class BankHeistThread extends Thread {
     @Override
     public void run() {
 	while (GameActive) {
-	    MJRBot.getTwitchBot().MessageToChat(
-		    enteredUsers.get(0) + " has started planning a heist!" + " To join the crew enter !BankHeist you only have 1 minute!");
 	    try {
 		Thread.sleep(60000);
 	    } catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class BankHeistThread extends Thread {
 		    e.printStackTrace();
 		}
 		if (stage == 2) {
-		    int randNum = random_int(2, 5);
+		    int randNum = Utilities.getRandom(2, 5);
 		    MJRBot.getTwitchBot().MessageToChat(messages[randNum]);
 		    if (randNum == 2) {
 			stage = 3;
@@ -56,7 +56,7 @@ public class BankHeistThread extends Thread {
 			    e.printStackTrace();
 			}
 			if (stage == 3) {
-			    randNum2 = random_int(1, 3);
+			    randNum2 = Utilities.getRandom(1, 3);
 
 			    if (randNum2 == 1)
 				MJRBot.getTwitchBot().MessageToChat(messages[3]);
@@ -68,21 +68,17 @@ public class BankHeistThread extends Thread {
 			path = 1;
 		    }
 		    if (randNum == 4 || randNum == 2 && randNum2 == 2) {
-			int max = 0;
-			int min = 0;
-			if (path == 1) {
-			    max = 200;
-			    min = 125;
-			} else {
-			    max = 100;
-			    min = 50;
-			}
 			if (enteredUsers == null)
 			    return;
-			for (int i = 0; i < enteredUsers.size(); i++) {
-			    int randNum1 = random_int(min, max + 1);
-			    PointsSystem.AddPoints(enteredUsers.get(i), randNum1);
-			    MJRBot.getTwitchBot().MessageToChat(enteredUsers.get(i) + " got " + randNum1 + " points from the heist!");
+			for (String user : enteredUsers.keySet()) {
+			    int randPoints = 0;
+			    int enteredPoints = enteredUsers.get(user);
+			    if (path == 1)
+				Utilities.getRandom(enteredPoints, enteredPoints * 4);
+			    else
+				Utilities.getRandom(enteredPoints, enteredPoints * 2);
+			    MJRBot.getTwitchBot().MessageToChat(user + " got " + randPoints + " points from the heist!");
+			    PointsSystem.AddPoints(user, randPoints);
 			}
 		    }
 		    stage = 0;
@@ -95,8 +91,15 @@ public class BankHeistThread extends Thread {
 	}
     }
 
-    public static int random_int(int Min, int Max) {
-	return (int) (Math.random() * (Max - Min)) + Min;
+    public static HashMap<String, Integer> getEnteredUsers() {
+	return enteredUsers;
     }
 
+    public static void setEnteredUsers(HashMap<String, Integer> enteredUsers) {
+	BankHeistThread.enteredUsers = enteredUsers;
+    }
+
+    public static void addEnteredUser(String name, int points) {
+	BankHeistThread.enteredUsers.put(name, points);
+    }
 }
