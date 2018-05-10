@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import com.mjr.MJRBot;
 import com.mjr.Permissions;
+import com.mjr.files.Config;
 
 public class CustomCommands {
     public static String filelocation;
@@ -52,14 +53,18 @@ public class CustomCommands {
 		}
 		if (allowed) {
 		    MJRBot.getTwitchBot().MessageToChat(properties.getProperty("response"));
-		} else
-		    MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
+		} else{
+		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
+			MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " you dont have access to this command!");
+		}
 	    }
 
 	} else if (MJRBot.getTwitchBot() != null)
-	    MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
+	    if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
 	else
-	    MJRBot.getMixerBot().sendMessage("@" + sender + " the command " + command + " doesnt exist!");
+	    if (Config.getSetting("OutputMsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+		MJRBot.getTwitchBot().MessageToChat("@" + sender + " the command " + command + " doesnt exist!");
     }
 
     public static void AddCommand(String command, String response, String permission) throws FileNotFoundException, IOException {

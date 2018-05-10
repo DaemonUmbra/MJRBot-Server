@@ -77,7 +77,7 @@ public class QuoteCommand extends Command {
 	    } else if (args.length > 1 && args[1].equalsIgnoreCase("add")
 		    && Permissions.getPermissionLevel(sender).equalsIgnoreCase("Moderator")) {
 		if (!message.contains("@")) {
-		    String endMessage = sender + " your quote must be in the format as follows: !quote <message> @<Name>";
+		    String endMessage = sender + " your quote must be in the format as follows: !quote add <message> @<Name>";
 		    if (MJRBot.getTwitchBot() != null)
 			((TwitchBot) bot).MessageToChat(endMessage);
 		    else

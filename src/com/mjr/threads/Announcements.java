@@ -1,5 +1,7 @@
 package com.mjr.threads;
 
+import java.util.Random;
+
 import com.mjr.MJRBot;
 import com.mjr.files.Config;
 
@@ -21,8 +23,8 @@ public class Announcements extends Thread {
 			    e.printStackTrace();
 			}
 		    }
-		    // MJRBot.getTwitchBot().MessageToChat("Test Announcement!");
-		    // TODO Add Custom Announcement messages support
+		    Random rand = new Random();
+		    MJRBot.getTwitchBot().MessageToChat(Config.getSetting("AnnouncementMessage" + rand.nextInt((5)) + 1));
 		}
 		try {
 		    Thread.sleep(TimeDuration);

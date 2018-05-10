@@ -52,6 +52,13 @@ public class Config {
 	    setSetting("Quotes", "false");
 	    setSetting("MaxSymbols", "5");
 	    setSetting("MaxEmotes", "5");
+	    setSetting("MsgWhenCommandDoesntExist", "true");
+	    setSetting("MsgWhenCommandCantBeUsed", "false");
+	    setSetting("AnnouncementMessage1", "");
+	    setSetting("AnnouncementMessage2", "");
+	    setSetting("AnnouncementMessage3", "");
+	    setSetting("AnnouncementMessage4", "");
+	    setSetting("AnnouncementMessage5", "");
 
 	    properties.store(new FileOutputStream(file), null);
 	}
