@@ -31,17 +31,18 @@ public class PointsSystem {
 	properties.load(reader);
     }
 
-    public static int getPoints(String User) {
-	if (!isOnList(User))
+    public static int getPoints(String user) {
+	user = user.toLowerCase();
+	if (!isOnList(user))
 	    return 0;
 	String value = null;
-	value = properties.getProperty(User);
+	value = properties.getProperty(user);
 	return Integer.parseInt(value);
     }
 
-    public static void setPoints(String User, int Points) {
-	User = User.toLowerCase();
-	properties.setProperty(User, Integer.toString(Points));
+    public static void setPoints(String user, int points) {
+	user = user.toLowerCase();
+	properties.setProperty(user, Integer.toString(points));
 	try {
 	    properties.store(new FileOutputStream(file), null);
 	} catch (IOException e) {
@@ -49,46 +50,60 @@ public class PointsSystem {
 	}
     }
 
-    public static Boolean isOnList(String User) {
-	User = User.toLowerCase();
-	if (properties.getProperty(User) != null)
+    public static Boolean isOnList(String user) {
+	user = user.toLowerCase();
+	if (properties.getProperty(user) != null)
 	    return true;
 	else
 	    return false;
     }
 
-    public static void AddPoints(String User, int Points) {
-	if (!isOnList(User))
-	    setPoints(User, Integer.parseInt(Config.getSetting("StartingPoints")));
-	int currentPoints = getPoints(User);
-	currentPoints = currentPoints + Points;
-	setPoints(User, currentPoints);
-	ConsoleUtil.TextToConsole("Added " + Points + " points to " + User, "Bot:", null);
+    public static void AddPoints(String user, int points) {
+	user = user.toLowerCase();
+	if (!isOnList(user))
+	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints")));
+	int currentPoints = getPoints(user);
+	currentPoints = currentPoints + points;
+	setPoints(user, currentPoints);
+	ConsoleUtil.TextToConsole("Added " + points + " points to " + user, "Bot:", null);
     }
 
-    public static void RemovePoints(String User, int Points) {
-	if (!isOnList(User))
-	    setPoints(User, 0);
-	int currentPoints = getPoints(User);
-	currentPoints = currentPoints - Points;
-	setPoints(User, currentPoints);
-	ConsoleUtil.TextToConsole("Removed " + Points + " points from " + User, "Bot:", null);
+    public static void RemovePoints(String user, int points) {
+	user = user.toLowerCase();
+	if (!isOnList(user))
+	    setPoints(user, 0);
+	int currentPoints = getPoints(user);
+	currentPoints = currentPoints - points;
+	setPoints(user, currentPoints);
+	ConsoleUtil.TextToConsole("Removed " + points + " points from " + user, "Bot:", null);
     }
 
-    public static Boolean hasPoints(String User, int Points) {
-	if (getPoints(User) > Points) {
+    public static Boolean hasPoints(String user, int points) {
+	user = user.toLowerCase();
+	if (getPoints(user) > points) {
 	    return true;
 	} else {
 	    return false;
 	}
     }
 
-    public static int AddRandomPoints(String User) {
+    public static int AddRandomPoints(String user) {
+	user = user.toLowerCase();
 	Random random = new Random();
-	int Points = random.nextInt((100)) + 1;
-	int currentPoints = getPoints(User);
-	currentPoints = currentPoints + Points;
-	setPoints(User, currentPoints);
-	return Points;
+	int points = random.nextInt((100)) + 1;
+	int currentPoints = getPoints(user);
+	currentPoints = currentPoints + points;
+	setPoints(user, currentPoints);
+	return points;
+    }
+    
+    public static int AddRandomPoints(String user, int max, int min) {
+	user = user.toLowerCase();
+	Random random = new Random();
+	int points = random.nextInt((max)) + min;
+	int currentPoints = getPoints(user);
+	currentPoints = currentPoints + points;
+	setPoints(user, currentPoints);
+	return points;
     }
 }
