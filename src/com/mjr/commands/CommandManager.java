@@ -16,7 +16,6 @@ import com.mjr.commands.defaultCommands.CommandsListCommand;
 import com.mjr.commands.defaultCommands.DiceCommand;
 import com.mjr.commands.defaultCommands.DisconnectCommand;
 import com.mjr.commands.defaultCommands.EnterCommand;
-import com.mjr.commands.defaultCommands.GetRankCommand;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.commands.defaultCommands.MathsCommand;
 import com.mjr.commands.defaultCommands.PermitCommand;
@@ -25,6 +24,7 @@ import com.mjr.commands.defaultCommands.PointsCheckCommand;
 import com.mjr.commands.defaultCommands.PointsCommand;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.commands.defaultCommands.RaceCommand;
+import com.mjr.commands.defaultCommands.RankCheckCommand;
 import com.mjr.commands.defaultCommands.RankCommand;
 import com.mjr.commands.defaultCommands.RemoveCommand;
 import com.mjr.commands.defaultCommands.RemovePointsCommand;
@@ -53,7 +53,7 @@ public class CommandManager {
 	commands.put("!buyrank", new BuyRankCommand());
 	commands.put("!setrank", new SetRankCommand());
 	commands.put("!removerank", new RemoveRankCommand());
-	commands.put("!getrank", new GetRankCommand());
+	commands.put("!rankcheck", new RankCheckCommand());
 
 	// Custom Commands
 	commands.put("!addcommand", new AddCommand());
@@ -91,7 +91,8 @@ public class CommandManager {
 	    Command command = commands.get(args[0].toLowerCase());
 	    if (Permissions.hasPermission(sender, command.getPermissionLevel()))
 		command.onCommand(bot, channel, sender, login, hostname, message, args);
-	} else if (args[0].startsWith("!")) { // Check if its a known custom command
+	} else if (args[0].startsWith("!")) { // Check if its a known custom
+					      // command
 	    CustomCommands.getCommand(args[0], sender);
 	}
     }

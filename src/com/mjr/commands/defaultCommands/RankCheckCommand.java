@@ -6,7 +6,7 @@ import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.Ranks;
 
-public class GetRankCommand extends Command {
+public class RankCheckCommand extends Command {
     @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
