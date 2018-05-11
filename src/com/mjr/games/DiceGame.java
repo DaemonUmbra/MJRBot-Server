@@ -15,14 +15,14 @@ public class DiceGame {
 	if (PointsSystem.hasPoints(sender, wager)) {
 	    PointsSystem.RemovePoints(sender, wager);
 
+	    try {
+		Thread.sleep(5000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
 	    if (randomNum > getWinPercent(multi)) {
 		int profit = (int) (wager * multi);
 		PointsSystem.AddPoints(sender, profit);
-		try {
-		    Thread.sleep(5000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
 		Utilities.sendMessage("@" + sender + " Well Done, you have made a profit of " + profit + " points!");
 	    } else {
 		Utilities.sendMessage("@" + sender + " lost the wager!");

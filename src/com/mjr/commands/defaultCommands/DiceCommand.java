@@ -15,11 +15,14 @@ public class DiceCommand extends Command {
 		    double multi = Double.parseDouble(args[2]);
 		    if(multi > 1 && multi < 100)
 			DiceGame.procressTurn(sender, Integer.parseInt(args[1]), multi);
+		    else 
+			Utilities.sendMessage("Multiplier must be between 1.01 & 100!");
 		} else
 		    Utilities.sendMessage("Invalid arguments! You need to enter !dice wager multiplier");
 	    } else
 		Utilities.sendMessage("Invalid arguments! You need to enter !dice wager multiplier");
-	}
+	}else
+		Utilities.sendMessage("Invalid arguments! You need to enter !dice wager multiplier");
     }
 
     @Override
