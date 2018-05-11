@@ -28,7 +28,7 @@ import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.commands.defaultCommands.RankCommand;
 import com.mjr.commands.defaultCommands.RemoveCommand;
 import com.mjr.commands.defaultCommands.RemovePointsCommand;
-import com.mjr.commands.defaultCommands.RemoveRankCheckCommand;
+import com.mjr.commands.defaultCommands.RemoveRankCommand;
 import com.mjr.commands.defaultCommands.SetPointsCommand;
 import com.mjr.commands.defaultCommands.SetRankCommand;
 import com.mjr.commands.defaultCommands.SpinCommand;
@@ -41,35 +41,45 @@ public class CommandManager {
 
     public static void loadCommands() {
 	commands.clear();
-	commands.put("!quote", new QuoteCommand());
+	// Points Commands
 	commands.put("!points", new PointsCommand());
-	commands.put("!rank", new RankCommand());
-	commands.put("!commands", new CommandsListCommand());
-	commands.put("!spin", new SpinCommand());
-	commands.put("!answer", new AnswerCommand());
-	commands.put("!buyrank", new BuyRankCommand());
-	commands.put("!uptime", new UptimeCommand());
-	commands.put("!maths", new MathsCommand());
-	commands.put("!permit", new PermitCommand());
 	commands.put("!addpoints", new AddPointsCommand());
 	commands.put("!removepoints", new RemovePointsCommand());
 	commands.put("!setpoints", new SetPointsCommand());
 	commands.put("!pointscheck", new PointsCheckCommand());
+
+	// Rank Commands
+	commands.put("!rank", new RankCommand());
+	commands.put("!buyrank", new BuyRankCommand());
 	commands.put("!setrank", new SetRankCommand());
-	commands.put("!removerank", new RemoveRankCheckCommand());
+	commands.put("!removerank", new RemoveRankCommand());
 	commands.put("!getrank", new GetRankCommand());
+
+	// Custom Commands
 	commands.put("!addcommand", new AddCommand());
 	commands.put("!removecommand", new RemoveCommand());
 	commands.put("!commandstate", new ChangeStateCommand());
 	commands.put("!commandresponse", new ChangeResponseCommand());
+
+	// Games Commands
+	commands.put("!spin", new SpinCommand());
+	commands.put("!maths", new MathsCommand());
+	commands.put("!answer", new AnswerCommand());
 	commands.put("!race", new RaceCommand());
 	commands.put("!placebet", new PlacebetCommand());
+	commands.put("!heist", new BankHeistCommand());
+	commands.put("!dice", new DiceCommand());
+
+	// Giveaway Commands
 	commands.put("!giveaway", new GiveAwayCommand());
 	commands.put("!enter", new EnterCommand());
-	commands.put("!heist", new BankHeistCommand());
+
+	// Other Commands
+	commands.put("!quote", new QuoteCommand());
+	commands.put("!commands", new CommandsListCommand());
 	commands.put("!disconnect", new DisconnectCommand());
-	commands.put("!dice", new DiceCommand());
 	commands.put("!uptime", new UptimeCommand());
+	commands.put("!permit", new PermitCommand());
     }
 
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)

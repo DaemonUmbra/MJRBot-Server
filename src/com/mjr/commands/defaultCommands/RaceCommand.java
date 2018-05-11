@@ -3,6 +3,7 @@ package com.mjr.commands.defaultCommands;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
+import com.mjr.files.Config;
 import com.mjr.threads.RaceStartThread;
 
 public class RaceCommand extends Command {
@@ -10,11 +11,13 @@ public class RaceCommand extends Command {
 
     @Override
     public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-	if (Started == false) {
-	    Utilities.sendMessage("The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");
-	    RaceStartThread userThread = new RaceStartThread();
-	    userThread.start();
-	    Started = true;
+	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
+	    if (Started == false) {
+		Utilities.sendMessage("The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");
+		RaceStartThread userThread = new RaceStartThread();
+		userThread.start();
+		Started = true;
+	    }
 	}
     }
 
