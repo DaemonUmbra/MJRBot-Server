@@ -80,7 +80,7 @@ public class PointsSystem {
 
     public static Boolean hasPoints(String user, int points) {
 	user = user.toLowerCase();
-	if (getPoints(user) > points) {
+	if (getPoints(user) >= points) {
 	    return true;
 	} else {
 	    return false;
