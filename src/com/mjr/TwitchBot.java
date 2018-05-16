@@ -68,6 +68,8 @@ public class TwitchBot extends PircBot {
     protected void onUnknown(String line) {
 	if (line.contains("tmi.twitch.tv RECONNECT")) {
 	    try {
+		MJRBot.getTwitchBot().viewers = new String[0];
+		MJRBot.getTwitchBot().ConnectedToChannel = false;
 		MJRBot.getTwitchBot().disconnect();
 		MJRBot.getTwitchBot().ConnectToTwitch();
 		MJRBot.getTwitchBot().joinChannel(this.getChannel());
