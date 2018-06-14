@@ -2,7 +2,6 @@ package com.mjr.threads;
 
 import java.util.HashMap;
 
-import com.mjr.MJRBot;
 import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 

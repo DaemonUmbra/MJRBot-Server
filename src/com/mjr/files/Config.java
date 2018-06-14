@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 
 public class Config {
     public static String filename = "Config.properties";
@@ -17,11 +18,11 @@ public class Config {
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 
-    public static void load() throws IOException {
-	if (MJRBot.getTwitchBot() != null)
-	    file = new File(MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator + filename);
+    public static void load(BotType type, String channelName) throws IOException {
+	if (type == BotType.Twitch)
+	    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator + filename);
 	else {
-	    file = new File(MJRBot.filePath + MJRBot.getChannel() + File.separator + filename);
+	    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator + filename);
 	}
 
 	if (!file.exists()) {

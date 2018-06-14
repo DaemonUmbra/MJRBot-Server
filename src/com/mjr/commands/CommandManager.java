@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
@@ -82,7 +83,7 @@ public class CommandManager {
 	commands.put("!permit", new PermitCommand());
     }
 
-    public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message)
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)
 	    throws FileNotFoundException, IOException {
 	args = message.split(" ");
 
@@ -90,10 +91,10 @@ public class CommandManager {
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
 	    if (Permissions.hasPermission(sender, command.getPermissionLevel()))
-		command.onCommand(bot, channel, sender, login, hostname, message, args);
+		command.onCommand(type, bot, channel, sender, login, hostname, message, args);
 	} else if (args[0].startsWith("!")) { // Check if its a known custom
 					      // command
-	    CustomCommands.getCommand(args[0], sender);
+	    CustomCommands.getCommand(type, channel, args[0], sender);
 	}
     }
 }

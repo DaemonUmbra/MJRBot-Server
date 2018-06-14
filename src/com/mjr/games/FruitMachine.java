@@ -1,6 +1,6 @@
 package com.mjr.games;
 
-import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 
 public class FruitMachine {
@@ -17,11 +17,11 @@ public class FruitMachine {
 
     public static int timesLost = 0;
 
-    public static String Spin() {
+    public static String Spin(BotType type) {
 	Slot1 = Utilities.getRandom(0, 7);
 	Slot2 = Utilities.getRandom(0, 7);
 	Slot3 = Utilities.getRandom(0, 7);
-	if (MJRBot.getTwitchBot() != null)
+	if (type == BotType.Twitch)
 	    return emotesTwtich[Slot1] + " " + emotesTwtich[Slot2] + " " + emotesTwtich[Slot3];
 	else
 	    return emotesMixer[Slot1] + " " + emotesMixer[Slot2] + " " + emotesMixer[Slot3];

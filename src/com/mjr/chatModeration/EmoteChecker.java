@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mjr.MJRBot;
 import com.mjr.files.Config;
 
 public class EmoteChecker {
@@ -15,10 +14,9 @@ public class EmoteChecker {
 
     public static boolean Ban = false;
 
-    public static void getEmotes() {
+    public static void getEmotes(String channel) {
 	try {
-	    URL url = new URL("https://api.twitch.tv/kraken/chat/" + MJRBot.getChannel().toLowerCase()
-		    + "/emoticons?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
+	    URL url = new URL("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

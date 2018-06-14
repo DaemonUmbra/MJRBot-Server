@@ -1,5 +1,6 @@
 package com.mjr.commands.defaultCommands;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
@@ -9,10 +10,10 @@ import com.mjr.games.FruitMachine;
 
 public class SpinCommand extends Command {
     @Override
-    public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1)) {
-		String Answer = FruitMachine.Spin();
+		String Answer = FruitMachine.Spin(type);
 		Utilities.sendMessage(sender + " the Fruit Machine is spinning...");
 		int waittime = 0;
 		while (waittime < 250) {

@@ -1,5 +1,6 @@
 package com.mjr.commands.defaultCommands;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
@@ -9,7 +10,7 @@ public class GiveAwayCommand extends Command {
     public static boolean Started = false;
 
     @Override
-    public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Started == false) {
 	    GiveAwayThread thread = new GiveAwayThread();
 	    thread.start();

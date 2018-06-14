@@ -1,5 +1,6 @@
 package com.mjr.commands.defaultCommands;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
@@ -10,7 +11,7 @@ public class RaceCommand extends Command {
     public static boolean Started = false;
 
     @Override
-    public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (Started == false) {
 		Utilities.sendMessage("The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");

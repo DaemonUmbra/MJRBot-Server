@@ -1,6 +1,6 @@
 package com.mjr.chatModeration;
 
-import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
@@ -8,11 +8,11 @@ import com.mjr.files.Config;
 import com.mjr.files.Ranks;
 
 public class ChatModeration {
-    public static void onCommand(TwitchBot bot, String channel, String sender, String login, String hostname, String message) {
+    public static void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message) {
 	// ChatModeration
 	if (Ranks.getRank(sender) == "gold")
 	    return;
-	else if (MJRBot.getTwitchBot() != null && !Permissions.hasPermission(sender, PermissionLevel.User.getName()))
+	else if (type == BotType.Twitch && !Permissions.hasPermission(sender, PermissionLevel.User.getName()))
 	    return;
 	else {
 	    if (Config.getSetting("LinkChecker").equalsIgnoreCase("true")) {
@@ -23,9 +23,9 @@ public class ChatModeration {
 			    return;
 			else if (Ranks.getRank(sender) == "bronze")
 			    return;
-			bot.sendMessage(bot.getChannel(), sender + " " + Config.getSetting("LinkWarning"));
-			bot.sendMessage(bot.getChannel(), "/timeout " + sender);
-			bot.sendMessage(bot.getChannel(), "/unban " + sender);
+			((TwitchBot) bot).sendMessage(channel, sender + " " + Config.getSetting("LinkWarning"));
+			((TwitchBot) bot).sendMessage(channel, "/timeout " + sender);
+			((TwitchBot) bot).sendMessage(channel, "/unban " + sender);
 			return;
 		    }
 		}
@@ -33,22 +33,22 @@ public class ChatModeration {
 	    if (Config.getSetting("Badwords").equalsIgnoreCase("true")) {
 		BadWordChecker.CheckBadWords(message, sender);
 		if (BadWordChecker.hasUsedBadword()) {
-		    bot.sendMessage(bot.getChannel(), sender + " " + Config.getSetting("LanguageWarning"));
-		    bot.sendMessage(bot.getChannel(), "/timeout " + sender);
-		    bot.sendMessage(bot.getChannel(), "/unban " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, sender + " " + Config.getSetting("LanguageWarning"));
+		    ((TwitchBot) bot).sendMessage(channel, "/timeout " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, "/unban " + sender);
 		    BadWordChecker.BadwordsBan = false;
 		    return;
 		}
 	    }
 	    if (Config.getSetting("Emote").equalsIgnoreCase("true")) {
-		EmoteChecker.getEmotes();
+		EmoteChecker.getEmotes(channel);
 		EmoteChecker.checkEmoteSpam(message, sender);
 		if (EmoteChecker.hasUsedToMany()) {
 		    if (Ranks.getRank(sender) == "sliver")
 			return;
-		    bot.sendMessage(bot.getChannel(), sender + " " + Config.getSetting("EmoteWarning"));
-		    bot.sendMessage(bot.getChannel(), "/timeout " + sender);
-		    bot.sendMessage(bot.getChannel(), "/unban " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, sender + " " + Config.getSetting("EmoteWarning"));
+		    ((TwitchBot) bot).sendMessage(channel, "/timeout " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, "/unban " + sender);
 		    EmoteChecker.Ban = false;
 		    return;
 		}
@@ -58,9 +58,9 @@ public class ChatModeration {
 		if (SymbolChecker.hasUsedToMany()) {
 		    if (Ranks.getRank(sender) == "sliver")
 			return;
-		    bot.sendMessage(bot.getChannel(), sender + " " + Config.getSetting("SymbolWarning"));
-		    bot.sendMessage(bot.getChannel(), "/timeout " + sender);
-		    bot.sendMessage(bot.getChannel(), "/unban " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, sender + " " + Config.getSetting("SymbolWarning"));
+		    ((TwitchBot) bot).sendMessage(channel, "/timeout " + sender);
+		    ((TwitchBot) bot).sendMessage(channel, "/unban " + sender);
 		    SymbolChecker.Ban = false;
 		    return;
 		}

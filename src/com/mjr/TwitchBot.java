@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.jibble.pircbot.PircBot;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.chatModeration.ChatModeration;
 import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
@@ -23,7 +24,26 @@ public class TwitchBot extends PircBot {
     private String stream = "";
     public boolean ConnectedToChannel = false;
 
+    public String channelName = "";
+
+    public TwitchBot(String channelName) {
+	super();
+	this.channelName = channelName;
+    }
+
     private final CommandManager commands = new CommandManager();
+
+    public void init() {
+	try {
+	    this.ConnectToTwitch();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	this.setChannel("#" + channelName);
+	this.joinChannel(channelName);
+	ConsoleUtil.TextToConsole("Joined " + channelName.substring(channelName.indexOf("#") + 1) + " channel", "Bot", null);
+	this.setVerbose(true);
+    }
 
     @Override
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
@@ -31,11 +51,13 @@ public class TwitchBot extends PircBot {
 	ConsoleUtil.TextToConsole(message, "Chat", sender);
 	if (mods != null)
 	    if (Arrays.asList(mods).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
-		ChatModeration.onCommand(MJRBot.getTwitchBot(), channel, sender, login, hostname, message);
+		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(channel), channel, sender, login, hostname,
+			message);
 
 	if (Config.getSetting("Commands").equalsIgnoreCase("true")) {
 	    try {
-		commands.onCommand(MJRBot.getTwitchBot(), channel, sender.toLowerCase(), login, hostname, message);
+		commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(channel), channel, sender.toLowerCase(), login,
+			hostname, message);
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
@@ -68,12 +90,12 @@ public class TwitchBot extends PircBot {
     protected void onUnknown(String line) {
 	if (line.contains("tmi.twitch.tv RECONNECT")) {
 	    try {
-		MJRBot.getTwitchBot().viewers = new String[0];
-		MJRBot.getTwitchBot().ConnectedToChannel = false;
-		MJRBot.getTwitchBot().disconnect();
+		this.viewers = new String[0];
+		this.ConnectedToChannel = false;
+		this.disconnect();
 		Thread.sleep(60000);
-		MJRBot.getTwitchBot().ConnectToTwitch();
-		MJRBot.getTwitchBot().joinChannel(this.getChannel());
+		this.ConnectToTwitch();
+		this.joinChannel(this.getChannel());
 	    } catch (IOException | InterruptedException e) {
 		e.printStackTrace();
 	    }
@@ -85,14 +107,14 @@ public class TwitchBot extends PircBot {
 	if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
 	    try {
 		// Load Config file
-		Config.load();
+		Config.load(BotType.Twitch, channel);
 		// Load PointsSystem
 		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsSystem.load();
+		    PointsSystem.load(BotType.Twitch, channel);
 		}
 		// Load Ranks
 		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		    Ranks.load();
+		    Ranks.load(channel);
 		}
 
 		// Start Threads
@@ -111,9 +133,9 @@ public class TwitchBot extends PircBot {
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
-	    MJRBot.getTwitchBot().sendMessage(stream, "/mods");
+	    this.sendMessage(stream, "/mods");
 	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false")) {
-		MJRBot.getTwitchBot().sendMessage(stream, MJRBot.getTwitchBot().getNick() + " Connected!");
+		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
 	    Viewers.getViewers();
@@ -172,19 +194,19 @@ public class TwitchBot extends PircBot {
     public void ConnectToTwitch() throws IOException {
 	if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("")
 		&& !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
-	    if (!MJRBot.getTwitchBot().ConnectedToChannel) {
-		if (MJRBot.getTwitchBot().isConnected()) {
-		    MJRBot.getTwitchBot().ConnectedToChannel = false;
-		    MJRBot.getTwitchBot().disconnect();
+	    if (!this.ConnectedToChannel) {
+		if (this.isConnected()) {
+		    this.ConnectedToChannel = false;
+		    this.disconnect();
 		}
-		MJRBot.getTwitchBot().setName(ConfigMain.getSetting("TwitchUsername"));
+		this.setName(ConfigMain.getSetting("TwitchUsername"));
 		try {
 		    ConsoleUtil.TextToConsole("Connecting to Twitch!", "Bot", null);
 		    String pass = ConfigMain.getSetting("TwitchPassword");
-		    MJRBot.getTwitchBot().connect("irc.chat.twitch.tv", 6667, pass);
-		    MJRBot.getTwitchBot().sendRawLine("CAP REQ :twitch.tv/commands");
+		    this.connect("irc.chat.twitch.tv", 6667, pass);
+		    this.sendRawLine("CAP REQ :twitch.tv/commands");
 		    // bot.sendRawLine("CAP REQ :twitch.tv/tags");
-		    MJRBot.getTwitchBot().sendRawLine("CAP REQ :twitch.tv/membership");
+		    this.sendRawLine("CAP REQ :twitch.tv/membership");
 		} catch (Exception e1) {
 		    e1.printStackTrace();
 		    ConsoleUtil.TextToConsole("Failed to connect to Twitch! Check your internet connection!", "Bot", null);
@@ -201,22 +223,22 @@ public class TwitchBot extends PircBot {
 		    "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", "Bot", null);
 	    return;
 	}
-	if (MJRBot.getTwitchBot().isConnected()) {
+	if (this.isConnected()) {
 	    ConsoleUtil.TextToConsole("Connected to Twitch!", "Bot", null);
 	} else
 	    ConsoleUtil.TextToConsole("Connection to Twitch failed, check your login details!", "Bot", null);
     }
 
     public void MessageToChat(String message) {
-	if (mods != null && !Arrays.asList(mods).contains(MJRBot.getTwitchBot().getBotName().toLowerCase())) {
+	if (mods != null && !Arrays.asList(mods).contains(this.getBotName().toLowerCase())) {
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
 	}
-	MJRBot.getTwitchBot().sendMessage(stream, message);
-	ConsoleUtil.TextToConsole(message, "Chat", MJRBot.getTwitchBot().getName());
+	this.sendMessage(stream, message);
+	ConsoleUtil.TextToConsole(message, "Chat", this.getName());
 	System.out.println(message);
     }
 
@@ -229,7 +251,7 @@ public class TwitchBot extends PircBot {
     }
 
     public String getBotName() {
-	return MJRBot.getTwitchBot().getName();
+	return this.getName();
     }
 
     public void setChannel(String stream) {
@@ -237,10 +259,10 @@ public class TwitchBot extends PircBot {
     }
 
     public void disconnectTwitch() {
-	MJRBot.getTwitchBot().disconnect();
-	ConsoleUtil.TextToConsole("Left " + MJRBot.getTwitchBot().getChannel() + " channel", "Bot", null);
-	MJRBot.getTwitchBot().viewers = new String[0];
-	MJRBot.getTwitchBot().ConnectedToChannel = false;
-	MJRBot.getTwitchBot().setChannel("");
+	this.disconnect();
+	ConsoleUtil.TextToConsole("Left " + this.getChannel() + " channel", "Bot", null);
+	this.viewers = new String[0];
+	this.ConnectedToChannel = false;
+	this.setChannel("");
     }
 }

@@ -15,6 +15,8 @@ import com.mjr.threads.PointsThread;
 
 public class MixerBot extends MJR_MixerBot {
 
+    public String channelName = "";
+
     public MixerBot() {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerUsername/BotName"));
     }

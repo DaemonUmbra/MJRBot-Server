@@ -20,11 +20,12 @@ public class Ranks {
     public static int BronzePrice = 2000;
 
     public static String filename = "UserRanks.properties";
-    public static File file = new File(MJRBot.filePath + MJRBot.getTwitchBot().getChannel().substring(1) + File.separator + filename);
+    public static File file;
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 
-    public static void load() throws IOException {
+    public static void load(String channelName) throws IOException {
+	file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator + filename);
 	if (!file.exists()) {
 	    file.getParentFile().mkdirs();
 	    file.createNewFile();

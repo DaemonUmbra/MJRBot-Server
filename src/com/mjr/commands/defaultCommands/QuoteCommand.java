@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
@@ -35,7 +36,7 @@ public class QuoteCommand extends Command {
     }
 
     @Override
-    public void onCommand(Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Quotes").equalsIgnoreCase("true")) {
 	    if (args.length == 1) {
 		String token1 = "";
