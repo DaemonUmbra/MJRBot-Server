@@ -20,7 +20,7 @@ public class ChangeResponseCommand extends Command {
 		try {
 		    CustomCommands.ChangeResponseCommand(type, channel, command, response);
 		} catch (IOException e) {
-		    ConsoleUtil.TextToConsole(e.getMessage(), "Bot", null);
+		    ConsoleUtil.TextToConsole(type, channel, e.getMessage(), "Bot", null);
 		    e.printStackTrace();
 		}
 	    } else {

@@ -39,16 +39,16 @@ public class TwitchBot extends PircBot {
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	this.setChannel("#" + channelName);
-	this.joinChannel(channelName);
-	ConsoleUtil.TextToConsole("Joined " + channelName.substring(channelName.indexOf("#") + 1) + " channel", "Bot", null);
+	this.setChannel("#" + this.channelName);
+	this.joinChannel(this.channelName);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", "Bot", null);
 	this.setVerbose(true);
     }
 
     @Override
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
 	// GUI
-	ConsoleUtil.TextToConsole(message, "Chat", sender);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, message, "Chat", sender);
 	if (mods != null)
 	    if (Arrays.asList(mods).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
 		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(channel), channel, sender, login, hostname,
@@ -72,13 +72,13 @@ public class TwitchBot extends PircBot {
 	    notice += ", " + stream.substring(stream.indexOf("#") + 1);
 	    mods = notice.split(", ");
 	    if (mods == null) {
-		ConsoleUtil.TextToConsole("There was a problem getting the moderators of this channel!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", "Bot", null);
 		return;
 	    }
 	    if (mods.length < 1)
-		ConsoleUtil.TextToConsole("This channel has no moderators!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "This channel has no moderators!", "Bot", null);
 	    else
-		ConsoleUtil.TextToConsole("Bot has the Moderators!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has the Moderators!", "Bot", null);
 	}
     }
 
@@ -139,10 +139,10 @@ public class TwitchBot extends PircBot {
 	    }
 	    ConnectedToChannel = true;
 	    Viewers.getViewers(channel);
-	    Followers followers = new Followers(channel);
+	    Followers followers = new Followers(BotType.Twitch, channel);
 	    followers.start();
 	} else {
-	    ConsoleUtil.TextToConsole(sender + " has joined!", "Bot", null);
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, sender + " has joined!", "Bot", null);
 	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
 		if (!PointsSystem.isOnList(sender)) {
 		    PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints")));
@@ -174,7 +174,7 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
-	ConsoleUtil.TextToConsole(sender + " has left!", "Bot", null);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, sender + " has left!", "Bot", null);
 	if (Arrays.asList(viewers).toString().contains(sender)) {
 	    String newviewers = Arrays.asList(viewers).toString();
 	    newviewers = newviewers.replace(", " + sender, "");
@@ -201,7 +201,7 @@ public class TwitchBot extends PircBot {
 		}
 		this.setName(ConfigMain.getSetting("TwitchUsername"));
 		try {
-		    ConsoleUtil.TextToConsole("Connecting to Twitch!", "Bot", null);
+		    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connecting to Twitch!", "Bot", null);
 		    String pass = ConfigMain.getSetting("TwitchPassword");
 		    this.connect("irc.chat.twitch.tv", 6667, pass);
 		    this.sendRawLine("CAP REQ :twitch.tv/commands");
@@ -209,24 +209,24 @@ public class TwitchBot extends PircBot {
 		    this.sendRawLine("CAP REQ :twitch.tv/membership");
 		} catch (Exception e1) {
 		    e1.printStackTrace();
-		    ConsoleUtil.TextToConsole("Failed to connect to Twitch! Check your internet connection!", "Bot", null);
+		    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Failed to connect to Twitch! Check your internet connection!", "Bot", null);
 		    return;
 		}
 
 	    } else {
-		ConsoleUtil.TextToConsole("Your already connected using these login details!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Your already connected using these login details!", "Bot", null);
 		return;
 	    }
 
 	} else {
-	    ConsoleUtil.TextToConsole(
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, 
 		    "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", "Bot", null);
 	    return;
 	}
 	if (this.isConnected()) {
-	    ConsoleUtil.TextToConsole("Connected to Twitch!", "Bot", null);
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connected to Twitch!", "Bot", null);
 	} else
-	    ConsoleUtil.TextToConsole("Connection to Twitch failed, check your login details!", "Bot", null);
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", "Bot", null);
     }
 
     public void MessageToChat(String message) {
@@ -238,12 +238,12 @@ public class TwitchBot extends PircBot {
 	    }
 	}
 	this.sendMessage(stream, message);
-	ConsoleUtil.TextToConsole(message, "Chat", this.getName());
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, message, "Chat", this.getName());
 	System.out.println(message);
     }
 
     public void MessageToConsole(String message) {
-	ConsoleUtil.TextToConsole(message, "Bot: ", null);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, message, "Bot: ", null);
     }
 
     public String getChannel() {
@@ -260,7 +260,7 @@ public class TwitchBot extends PircBot {
 
     public void disconnectTwitch() {
 	this.disconnect();
-	ConsoleUtil.TextToConsole("Left " + this.getChannel() + " channel", "Bot", null);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", "Bot", null);
 	this.viewers = new String[0];
 	this.ConnectedToChannel = false;
 	this.setChannel("");

@@ -12,7 +12,7 @@ public class GiveAwayCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Started == false) {
-	    GiveAwayThread thread = new GiveAwayThread();
+	    GiveAwayThread thread = new GiveAwayThread(type, channel);
 	    thread.start();
 	    Started = true;
 	} else {

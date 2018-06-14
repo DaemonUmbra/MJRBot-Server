@@ -15,7 +15,7 @@ public class RaceCommand extends Command {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (Started == false) {
 		Utilities.sendMessage(type, channel, "The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");
-		RaceStartThread userThread = new RaceStartThread();
+		RaceStartThread userThread = new RaceStartThread(type, channel);
 		userThread.start();
 		Started = true;
 	    }

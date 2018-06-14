@@ -15,7 +15,7 @@ public class BankHeistCommand extends Command {
 		if (BankHeistThread.GameActive == false) {
 		    if (Utilities.isNumeric(args[1])) {
 			BankHeistThread.addEnteredUser(sender, Integer.parseInt(args[1]));
-			BankHeistThread thread = new BankHeistThread();
+			BankHeistThread thread = new BankHeistThread(type, channel);
 			thread.start();
 			BankHeistThread.GameActive = true;
 			Utilities.sendMessage(type, channel, sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");

@@ -20,9 +20,9 @@ public class PointsSystem {
 
     public static void load(BotType type, String channelName) throws IOException {
 	if (type == BotType.Twitch)
-	    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator + filename);
+	    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
 	else {
-	    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator + filename);
+	    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName).channelName + File.separator + filename);
 	}
 	if (!file.exists()) {
 	    file.getParentFile().mkdirs();

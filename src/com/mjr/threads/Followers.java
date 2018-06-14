@@ -9,6 +9,7 @@ import java.util.Arrays;
 import com.mjr.ConsoleUtil;
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 import com.mjr.files.Config;
 
 public class Followers extends Thread {
@@ -16,10 +17,12 @@ public class Followers extends Thread {
     public static int followersNum;
     public static String result = "";
     public static String followerslist = "";
+    private BotType type;
     private String channelName;
 
-    public Followers(String channelName) {
+    public Followers(BotType type, String channelName) {
 	super();
+	this.type = type;
 	this.channelName = channelName;
     }
 
@@ -80,7 +83,7 @@ public class Followers extends Thread {
 
 	    }
 	    followers = followerslist.split(",");
-	    ConsoleUtil.TextToConsole("Bot got " + followers.length + " followers", "Bot", null);
+	    ConsoleUtil.TextToConsole(type, channelName, "Bot got " + followers.length + " followers", "Bot", null);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

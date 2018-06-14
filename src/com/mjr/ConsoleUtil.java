@@ -1,24 +1,29 @@
 package com.mjr;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.files.Config;
 
 public class ConsoleUtil {
 
     public static void TextToConsole(String message, String MessageType, String sender) {
+	TextToConsole(null, null, message, MessageType, sender);
+   }
+
+    public static void TextToConsole(BotType type, String channel, String message, String MessageType, String sender) {
 	if (MessageType == "Chat") {
 	    if (sender != null) {
-		if (Permissions.hasPermission(sender, PermissionLevel.Bot.getName())) {
+		if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
 		    System.out.println("\n" + "[Bot] " + sender + ": " + message);
-		} else if (MJRBot.getTwitchBot() != null && sender.endsWith(MJRBot.getTwitchBot().getChannel().replace("#", ""))) {
+		} else if (type == BotType.Twitch && sender.endsWith(channel)) {
 		    System.out.println("\n" + "[Streamer] " + sender + ": " + message);
-		} else if (MJRBot.getMixerBot() != null && sender.equalsIgnoreCase(MJRBot.getChannel())) {
+		} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
 		    System.out.println("\n" + "[Streamer] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, PermissionLevel.BotOwner.getName())) {
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.BotOwner.getName())) {
 		    System.out.println("\n" + "[Bot Owner] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Moderator.getName())) {
 		    System.out.println("\n" + "[Moderator] " + sender + ": " + message);
-		} else if (Permissions.hasPermission(sender, PermissionLevel.User.getName())) {
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.User.getName())) {
 		    System.out.println("\n" + "[User] " + sender + ": " + message);
 		}
 	    }
@@ -27,30 +32,34 @@ public class ConsoleUtil {
 	}
     }
 
-    public void LeaveChannel() {
+    public void LeaveChannel(BotType type, String channelName) {
 	if (Config.getSetting("SilentJoin").equalsIgnoreCase("false")) {
-	    if (MJRBot.getTwitchBot() != null)
-		if (MJRBot.getTwitchBot().isConnected())
-		    MJRBot.getTwitchBot().MessageToChat(MJRBot.getTwitchBot().getNick() + " Disconnected!");
-		else if (MJRBot.getMixerBot().isConnected() & MJRBot.getMixerBot().isAuthenticated())
-		    MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Disconnected!");
+	    if (type == BotType.Twitch)
+		if (MJRBot.getTwitchBotByChannelName(channelName).isConnected())
+		    MJRBot.getTwitchBotByChannelName(channelName)
+			    .MessageToChat(MJRBot.getTwitchBotByChannelName(channelName).getNick() + " Disconnected!");
+		else if (MJRBot.getMixerBotByChannelName(channelName).isConnected()
+			& MJRBot.getMixerBotByChannelName(channelName).isAuthenticated())
+		    MJRBot.getMixerBotByChannelName(channelName)
+			    .sendMessage(MJRBot.getMixerBotByChannelName(channelName).getBotName() + " Disconnected!");
 	}
-	if (MJRBot.getTwitchBot() != null) {
-	    MJRBot.getTwitchBot().partChannel(MJRBot.getTwitchBot().getChannel());
-	    TextToConsole("Left " + MJRBot.getTwitchBot().getChannel() + " channel", "Bot", null);
-	    MJRBot.getTwitchBot().viewers = new String[0];
-	    MJRBot.getTwitchBot().ConnectedToChannel = false;
-	    MJRBot.getTwitchBot().setChannel("");
+	if (type == BotType.Twitch) {
+	    MJRBot.getTwitchBotByChannelName(channelName).partChannel(MJRBot.getTwitchBotByChannelName(channelName).getChannel());
+	    TextToConsole(type, channelName, "Left " + MJRBot.getTwitchBotByChannelName(channelName).getChannel() + " channel", "Bot",
+		    null);
+	    MJRBot.getTwitchBotByChannelName(channelName).viewers = new String[0];
+	    MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel = false;
+	    MJRBot.getTwitchBotByChannelName(channelName).setChannel("");
 	} else {
-	    MJRBot.getMixerBot().disconnect();
-	    TextToConsole("Left " + MJRBot.getChannel() + " channel", "Bot", null);
+	    MJRBot.getMixerBotByChannelName(channelName).disconnect();
+	    TextToConsole(type, channelName, "Left " + channelName + " channel", "Bot", null);
 	}
     }
 
-    public void JoinChannel(String Stream) {
-	MJRBot.getTwitchBot().setChannel(Stream);
-	TextToConsole("Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
-		+ " channel", "Bot", null);
-	MJRBot.getTwitchBot().joinChannel(MJRBot.getTwitchBot().getChannel());
+    public void JoinChannel(BotType type, String channelName) {
+	MJRBot.getTwitchBotByChannelName(channelName).setChannel(channelName);
+	TextToConsole(type, channelName, "Joined " + MJRBot.getTwitchBotByChannelName(channelName).getChannel()
+		.substring(MJRBot.getTwitchBotByChannelName(channelName).getChannel().indexOf("#") + 1) + " channel", "Bot", null);
+	MJRBot.getTwitchBotByChannelName(channelName).joinChannel(MJRBot.getTwitchBotByChannelName(channelName).getChannel());
     }
 }

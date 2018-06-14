@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
@@ -69,7 +70,7 @@ public class Viewers {
 		newresult = newresult.replace(" ", "");
 		newresult = newresult.replace("\"", "");
 		MJRBot.getTwitchBotByChannelName(channelName).viewers = newresult.split(",");
-		ConsoleUtil.TextToConsole("Bot has Viewers!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, channelName, "Bot has Viewers!", "Bot", null);
 
 		for (int i = 1; i < MJRBot.getTwitchBotByChannelName(channelName).viewers.length; i++) {
 		    if (Config.getSetting("Points").equalsIgnoreCase("true")) {

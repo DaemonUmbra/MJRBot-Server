@@ -18,15 +18,16 @@ public class MixerBot extends MJR_MixerBot {
 
     public String channelName = "";
 
-    public MixerBot() {
+    public MixerBot(String channelName) {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerUsername/BotName"));
+	this.channelName = channelName;
     }
 
     private final CommandManager commands = new CommandManager();
 
     @Override
     protected void onMessage(String sender, String message) {
-	ConsoleUtil.TextToConsole(message, "Chat", sender);
+	ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, message, "Chat", sender);
 	try {
 	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 	} catch (IOException e) {
@@ -81,17 +82,17 @@ public class MixerBot extends MJR_MixerBot {
 		if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
 		    PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-	    ConsoleUtil.TextToConsole("MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
+	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
 	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
 		this.sendMessage(this.getBotName() + " Connected!");
 	} else
-	    ConsoleUtil.TextToConsole("Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
+	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
     }
 
     @Override
     protected void onDebugMessage() {
 	for (String message : this.getOutputMessages())
-	    ConsoleUtil.TextToConsole(message, "Bot", null);
+	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, message, "Bot", null);
 	this.clearOutputMessages();
     }
 }

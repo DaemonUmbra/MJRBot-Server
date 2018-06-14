@@ -50,16 +50,21 @@ public class MJRBot {
 	    PointsThread.viewersJoinedTimes.clear();
 	    do {
 		String botType;
-		botType = console.readLine("Connection Type: Twitch/Mixer?");
-		channel = console.readLine("Channel Name?");
+//		botType = console.readLine("Connection Type: Twitch/Mixer?");
+//		channel = console.readLine("Channel Name?");
+		
+		botType = "Twitch";
+		channel = "mjrlegends";
+		
 		channel = channel.toLowerCase(Locale.ENGLISH);
 		if (botType.equalsIgnoreCase("twitch") && channel != "") {
 		    TwitchBot bot = new TwitchBot(channel);
 		    bot.init();
 		    addTwitchBot(channel, bot);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-		    // botMixer = new MixerBot(); TODO Finish
-		    // botMixer.joinChannel(channel);
+		    MixerBot bot = new MixerBot(channel);
+		    bot.joinChannel(channel);
+		    addMixerBot(channel, bot);
 		} else if (channel != "")
 		    ConsoleUtil.TextToConsole("Unknown Type of Connection!", "Bot", null);
 		else

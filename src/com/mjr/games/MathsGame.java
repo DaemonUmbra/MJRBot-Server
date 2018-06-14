@@ -1,6 +1,7 @@
 package com.mjr.games;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 
 public class MathsGame {
@@ -12,7 +13,7 @@ public class MathsGame {
 
     public static int Answer;
 
-    public static String CreateQuestion() {
+    public static String CreateQuestion(BotType type, String channelName) {
 	rannum1 = Utilities.getRandom(0, 100);
 	rannum2 = Utilities.getRandom(0, 100);
 	ransign = Utilities.getRandom(1, 3);
@@ -31,7 +32,7 @@ public class MathsGame {
 		Answer = rannum1 * rannum2;
 		break;
 	}
-	ConsoleUtil.TextToConsole("Maths Game Answer is: " + Answer, "Bot", null);
+	ConsoleUtil.TextToConsole(type, channelName, "Maths Game Answer is: " + Answer, "Bot", null);
 	return "The question is " + new Integer(rannum1).toString() + sign + new Integer(rannum2).toString();
     }
 }

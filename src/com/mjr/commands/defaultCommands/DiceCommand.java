@@ -17,7 +17,7 @@ public class DiceCommand extends Command {
 		    if (Utilities.isNumeric(args[2])) {
 			double multi = Double.parseDouble(args[2]);
 			if (multi > 1 && multi < 100)
-			    DiceGame.procressTurn(sender, Integer.parseInt(args[1]), multi);
+			    DiceGame.procressTurn(type, channel, sender, Integer.parseInt(args[1]), multi);
 			else
 			    Utilities.sendMessage(type, channel, "Multiplier must be between 1.01 & 100!");
 		    } else
