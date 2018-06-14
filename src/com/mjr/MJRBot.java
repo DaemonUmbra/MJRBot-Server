@@ -3,6 +3,7 @@ package com.mjr;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.commands.CommandManager;
@@ -28,6 +29,7 @@ public class MJRBot {
 	    String botType;
 	    botType = console.readLine("Connection Type: Twitch/Mixer?");
 	    channel = console.readLine("Channel Name?");
+	    channel = channel.toLowerCase(Locale.ENGLISH);
 	    if (botType.equalsIgnoreCase("twitch") && channel != "") {
 		setTwitchBot(new TwitchBot());
 		bot.ConnectToTwitch();
