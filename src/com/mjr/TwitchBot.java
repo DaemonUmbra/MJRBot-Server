@@ -71,9 +71,10 @@ public class TwitchBot extends PircBot {
 		MJRBot.getTwitchBot().viewers = new String[0];
 		MJRBot.getTwitchBot().ConnectedToChannel = false;
 		MJRBot.getTwitchBot().disconnect();
+		Thread.sleep(60000);
 		MJRBot.getTwitchBot().ConnectToTwitch();
 		MJRBot.getTwitchBot().joinChannel(this.getChannel());
-	    } catch (IOException e) {
+	    } catch (IOException | InterruptedException e) {
 		e.printStackTrace();
 	    }
 	}
