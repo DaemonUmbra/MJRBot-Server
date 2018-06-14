@@ -24,22 +24,27 @@ public class MJRBot {
 	filePath = "/home/" + File.separator + "MJRBot" + File.separator;
 	ConfigMain.load();
 	PointsThread.viewersJoinedTimes.clear();
-	String botType;
-	botType = console.readLine("Twitch/Mixer?");
-	channel = console.readLine("Channel?");
-	if (botType.equalsIgnoreCase("twitch")) {
-	    setTwitchBot(new TwitchBot());
-	    bot.ConnectToTwitch();
-	    bot.setChannel("#" + channel);
-	    bot.joinChannel(MJRBot.getTwitchBot().getChannel());
-	    ConsoleUtil.TextToConsole(
-		    "Joined " + MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1)
-			    + " channel", "Bot", null);
-	    bot.setVerbose(true);
-	} else {
-	    botMixer = new MixerBot();
-	    botMixer.joinChannel(getChannel());
-	}
+	do {
+	    String botType;
+	    botType = console.readLine("Connection Type: Twitch/Mixer?");
+	    channel = console.readLine("Channel Name?");
+	    if (botType.equalsIgnoreCase("twitch") && channel != "") {
+		setTwitchBot(new TwitchBot());
+		bot.ConnectToTwitch();
+		bot.setChannel("#" + channel);
+		bot.joinChannel(MJRBot.getTwitchBot().getChannel());
+		ConsoleUtil.TextToConsole("Joined "
+			+ MJRBot.getTwitchBot().getChannel().substring(MJRBot.getTwitchBot().getChannel().indexOf("#") + 1) + " channel",
+			"Bot", null);
+		bot.setVerbose(true);
+	    } else if (botType.equalsIgnoreCase("mixer") && channel != "") {
+		botMixer = new MixerBot();
+		botMixer.joinChannel(getChannel());
+	    } else if (channel != "")
+		ConsoleUtil.TextToConsole("Unknown Type of Connection!", "Bot", null);
+	    else
+		ConsoleUtil.TextToConsole("Invalid entry for Channel Name!!", "Bot", null);
+	} while (bot == null && botMixer == null);
 	CommandManager.loadCommands();
     }
 
