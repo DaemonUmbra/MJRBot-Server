@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.mjr.Permissions;
+import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 
 public class LinkChecker {
@@ -12,7 +13,7 @@ public class LinkChecker {
     public static boolean Link = false;
     public static String PermitedUsers = "";
 
-    public static void CheckLink(String message, String sender) {
+    public static void CheckLink(BotType type, String channelName, String message, String sender) {
 	String TempMessage = "";
 	if (message.startsWith("www.") || message.startsWith("http://www.")) {
 	    if (message.startsWith("http://www.")) {
@@ -67,7 +68,7 @@ public class LinkChecker {
 	    URLConnection myURLConnection = myURL.openConnection();
 	    myURLConnection.connect();
 	    Link = true;
-	    if (Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
+	    if (Permissions.hasPermission(type, channelName, sender, PermissionLevel.Moderator.getName())) {
 		Allowed = true;
 	    } else if (PermitedUsers.contains(sender)) {
 		Allowed = true;

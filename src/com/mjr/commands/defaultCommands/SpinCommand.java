@@ -14,20 +14,20 @@ public class SpinCommand extends Command {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1)) {
 		String Answer = FruitMachine.Spin(type);
-		Utilities.sendMessage(sender + " the Fruit Machine is spinning...");
+		Utilities.sendMessage(type, channel, sender + " the Fruit Machine is spinning...");
 		int waittime = 0;
 		while (waittime < 250) {
 		    waittime++;
 		}
 		if (FruitMachine.hasWon()) {
-		    Utilities.sendMessage(sender + " " + Answer + " you have Won! " + PointsSystem.AddRandomPoints(sender) + " Points");
+		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! " + PointsSystem.AddRandomPoints(sender) + " Points");
 		} else {
-		    Utilities.sendMessage(sender + " " + Answer + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in "
+		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in "
 			    + FruitMachine.timesLost + " turns");
 		    PointsSystem.RemovePoints(sender, 1);
 		}
 	    } else {
-		Utilities.sendMessage(sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+		Utilities.sendMessage(type, channel, sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
 	    }
 	}
     }

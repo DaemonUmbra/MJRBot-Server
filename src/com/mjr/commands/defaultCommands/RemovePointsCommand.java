@@ -16,12 +16,12 @@ public class RemovePointsCommand extends Command {
 		String User = args[2];
 		if (PointsSystem.isOnList(User)) {
 		    PointsSystem.RemovePoints(User.toLowerCase(), Integer.parseInt(Points));
-		    Utilities.sendMessage("Removed " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Removed " + Points + " points" + " to " + User);
 		} else {
-		    Utilities.sendMessage("Cant remove " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Cant remove " + Points + " points" + " to " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !removepoints POINTS USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !removepoints POINTS USER");
 	    }
 	}
     }

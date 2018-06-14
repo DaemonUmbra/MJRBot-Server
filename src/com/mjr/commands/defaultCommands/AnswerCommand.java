@@ -17,17 +17,17 @@ public class AnswerCommand extends Command {
 		if (args.length == 2) {
 		    int index = Integer.parseInt(args[1]);
 		    if (MathsGame.Answer == index) {
-			Utilities.sendMessage(sender + " Well done, You have got the right answer! You have gained 10 points!");
+			Utilities.sendMessage(type, channel, sender + " Well done, You have got the right answer! You have gained 10 points!");
 			PointsSystem.AddPoints(sender, 10);
 			MathsGame.isMathsGameActive = false;
 		    } else {
-			Utilities.sendMessage(sender + " you have got the wrong answer try again!");
+			Utilities.sendMessage(type, channel, sender + " you have got the wrong answer try again!");
 		    }
 		} else {
-		    Utilities.sendMessage("Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
+		    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
 		}
 	    } else {
-		Utilities.sendMessage("The maths game is currently not active!");
+		Utilities.sendMessage(type, channel, "The maths game is currently not active!");
 	    }
 	}
     }

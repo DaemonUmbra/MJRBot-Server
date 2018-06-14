@@ -12,11 +12,11 @@ public class MathsCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (MathsGame.isMathsGameActive == false) {
-		Utilities.sendMessage(MathsGame.CreateQuestion());
-		Utilities.sendMessage("Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+		Utilities.sendMessage(type, channel, MathsGame.CreateQuestion());
+		Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 		MathsGame.isMathsGameActive = true;
 	    } else {
-		Utilities.sendMessage("Game Already started!");
+		Utilities.sendMessage(type, channel, "Game Already started!");
 	    }
 	}
     }

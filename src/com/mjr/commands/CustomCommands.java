@@ -34,20 +34,20 @@ public class CustomCommands {
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		String permission = properties.getProperty("permissionlevel");
-		boolean allowed = Permissions.hasPermission(sender, permission);
+		boolean allowed = Permissions.hasPermission(type, channelName, sender, permission);
 		if (allowed) {
-		    Utilities.sendMessage(properties.getProperty("response"));
+		    Utilities.sendMessage(type, channelName, properties.getProperty("response"));
 		} else {
 		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
-			Utilities.sendMessage("@" + sender + " the command " + command + " you dont have access to this command!");
+			Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " you dont have access to this command!");
 		}
 	    }
 
 	} else if (type == BotType.Twitch)
 	    if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
-		Utilities.sendMessage("@" + sender + " the command " + command + " doesnt exist!");
+		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
 	    else if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
-		Utilities.sendMessage("@" + sender + " the command " + command + " doesnt exist!");
+		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
     }
 
     public static void AddCommand(BotType type, String channelName, String command, String response, String permission) throws FileNotFoundException, IOException {
@@ -71,11 +71,11 @@ public class CustomCommands {
 		properties.setProperty("permissionlevel", permission);
 
 		properties.store(new FileOutputStream(filelocation + filename), null);
-		Utilities.sendMessage("Command " + command + " has been added!");
+		Utilities.sendMessage(type, channelName, "Command " + command + " has been added!");
 	    } else
-		Utilities.sendMessage("The permission level " + permission + " doesnt  exists!");
+		Utilities.sendMessage(type, channelName, "The permission level " + permission + " doesnt  exists!");
 	} else
-	    Utilities.sendMessage("Command " + command + " already exists!");
+	    Utilities.sendMessage(type, channelName, "Command " + command + " already exists!");
     }
 
     public static void RemoveCommand(BotType type, String channelName, String command) throws IOException {
@@ -88,9 +88,9 @@ public class CustomCommands {
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    filenew.delete();
-	    Utilities.sendMessage("Command " + command + " has been removed!");
+	    Utilities.sendMessage(type, channelName, "Command " + command + " has been removed!");
 	} else
-	    Utilities.sendMessage(command + " doesnt exist!");
+	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
 
     @SuppressWarnings("deprecation")
@@ -107,23 +107,23 @@ public class CustomCommands {
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		if (state.equalsIgnoreCase("true")) {
-		    Utilities.sendMessage(command + " is already enabled!");
+		    Utilities.sendMessage(type, channelName, command + " is already enabled!");
 		} else {
 		    properties.setProperty("state", state.toLowerCase());
 		    properties.save(new FileOutputStream(filenew), null);
-		    Utilities.sendMessage(command + " has been disabled!");
+		    Utilities.sendMessage(type, channelName, command + " has been disabled!");
 		}
 	    } else if (properties.getProperty("state").equalsIgnoreCase("false")) {
 		if (state.equalsIgnoreCase("false")) {
-		    Utilities.sendMessage(command + " is already enabled!");
+		    Utilities.sendMessage(type, channelName, command + " is already enabled!");
 		} else {
 		    properties.setProperty("state", state.toLowerCase());
 		    properties.save(new FileOutputStream(filenew), null);
-		    Utilities.sendMessage(command + " has been enabled!");
+		    Utilities.sendMessage(type, channelName, command + " has been enabled!");
 		}
 	    }
 	} else
-	    Utilities.sendMessage(command + " doesnt exist!");
+	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
 
     @SuppressWarnings("deprecation")
@@ -139,14 +139,14 @@ public class CustomCommands {
 	    FileReader reader = new FileReader(filenew);
 	    properties.load(reader);
 	    if (properties.getProperty("response").equalsIgnoreCase("response")) {
-		Utilities.sendMessage("The response for " + command + " is already " + response);
+		Utilities.sendMessage(type, channelName, "The response for " + command + " is already " + response);
 	    } else {
 		properties.setProperty("response", response.toLowerCase());
 		properties.save(new FileOutputStream(filenew), null);
-		Utilities.sendMessage(command + " has been changed!");
+		Utilities.sendMessage(type, channelName, command + " has been changed!");
 	    }
 	} else
-	    Utilities.sendMessage(command + " doesnt exist!");
+	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
 
     public static void ChangeComanndResponse(BotType type, String channelName, String command, String response) throws FileNotFoundException, IOException {
@@ -167,8 +167,8 @@ public class CustomCommands {
 	    properties.setProperty("response", response);
 	    properties.setProperty("state", "true");
 	    properties.store(new FileOutputStream(filelocation + filename), null);
-	    Utilities.sendMessage("Command " + command + " has been added!");
+	    Utilities.sendMessage(type, channelName, "Command " + command + " has been added!");
 	} else
-	    Utilities.sendMessage("Command " + command + " already exists!");
+	    Utilities.sendMessage(type, channelName, "Command " + command + " already exists!");
     }
 }

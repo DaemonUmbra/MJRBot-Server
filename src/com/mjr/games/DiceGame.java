@@ -23,13 +23,13 @@ public class DiceGame {
 	    if (randomNum < getWinPercent(multi)) {
 		int profit = (int) (wager * multi);
 		PointsSystem.AddPoints(sender, profit);
-		Utilities.sendMessage("@" + sender + " Well Done, you have made a profit of " + (profit - wager)
+		Utilities.sendMessage(type, channel, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
 			+ " points! Your current points is: " + PointsSystem.getPoints(sender));
 	    } else {
-		Utilities.sendMessage("@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender));
+		Utilities.sendMessage(type, channel, "@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender));
 	    }
 	}
 	else
-	    Utilities.sendMessage("@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+	    Utilities.sendMessage(type, channel, "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
     }
 }

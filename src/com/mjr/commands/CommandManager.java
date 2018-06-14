@@ -90,7 +90,7 @@ public class CommandManager {
 	// Check if known default command
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
-	    if (Permissions.hasPermission(sender, command.getPermissionLevel()))
+	    if (Permissions.hasPermission(type, channel, sender, command.getPermissionLevel()))
 		command.onCommand(type, bot, channel, sender, login, hostname, message, args);
 	} else if (args[0].startsWith("!")) { // Check if its a known custom
 					      // command

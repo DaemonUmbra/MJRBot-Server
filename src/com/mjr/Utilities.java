@@ -1,5 +1,7 @@
 package com.mjr;
 
+import com.mjr.MJRBot.BotType;
+
 public class Utilities {
 
     public static int getRandom(int min, int max) {
@@ -18,10 +20,10 @@ public class Utilities {
 	return true;
     }
     
-    public static void sendMessage(String endMessage){
-	if (MJRBot.getTwitchBot() != null)
-	    MJRBot.getTwitchBot().MessageToChat(endMessage);
+    public static void sendMessage(BotType type, String channelName, String endMessage){
+	if (type == BotType.Twitch)
+	    MJRBot.getTwitchBotByChannelName(channelName).MessageToChat(endMessage);
 	else
-	    MJRBot.getMixerBot().sendMessage(endMessage);
+	    MJRBot.getMixerBotByChannelName(channelName).sendMessage(endMessage);
     }
 }

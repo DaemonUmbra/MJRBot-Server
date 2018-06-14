@@ -3,6 +3,7 @@ package com.mjr;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
@@ -27,7 +28,7 @@ public class MixerBot extends MJR_MixerBot {
     protected void onMessage(String sender, String message) {
 	ConsoleUtil.TextToConsole(message, "Chat", sender);
 	try {
-	    commands.onCommand(this, MJRBot.getChannel(), sender, null, null, message);
+	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
@@ -35,44 +36,44 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onJoin(String sender) {
-	MJRBot.getMixerBot().addViewer(sender);
+	this.addViewer(sender);
 	if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
     }
 
     @Override
     protected void onPart(String sender) {
-	MJRBot.getMixerBot().removeViewer(sender);
+	this.removeViewer(sender);
 	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
     }
 
     public void joinChannel(String channel) throws InterruptedException, ExecutionException, IOException {
-	MJRBot.getMixerBot().setdebug(true);
-	MJRBot.getMixerBot().joinMixerChannel(channel);
-	if (MJRBot.getMixerBot().isConnected() && MJRBot.getMixerBot().isAuthenticated()) {
+	this.setdebug(true);
+	this.joinMixerChannel(channel);
+	if (this.isConnected() && this.isAuthenticated()) {
 	    // Load Config file
-	    Config.load();
+	    Config.load(BotType.Mixer, channel);
 	    // Load PointsSystem
 	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		PointsSystem.load();
+		PointsSystem.load(BotType.Mixer, channel);
 	    }
 	    // Load Ranks
 	    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		Ranks.load();
+		Ranks.load(channel);
 	    }
 
 	    // Start Threads
 	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		PointsThread pointsThread = new PointsThread();
+		PointsThread pointsThread = new PointsThread(BotType.Mixer, channel);
 		pointsThread.start();
 	    }
 	    if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		Announcements announcementsThread = new Announcements();
+		Announcements announcementsThread = new Announcements(BotType.Mixer, channel);
 		announcementsThread.start();
 	    }
 	    if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		CheckFollowers followersThread = new CheckFollowers();
+		CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel);
 		followersThread.start();
 	    }
 
@@ -82,7 +83,7 @@ public class MixerBot extends MJR_MixerBot {
 
 	    ConsoleUtil.TextToConsole("MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
 	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
-		MJRBot.getMixerBot().sendMessage(MJRBot.getMixerBot().getBotName() + " Connected!");
+		this.sendMessage(this.getBotName() + " Connected!");
 	} else
 	    ConsoleUtil.TextToConsole("Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
     }

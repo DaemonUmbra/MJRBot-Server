@@ -3,6 +3,7 @@ package com.mjr.games;
 import java.util.Arrays;
 import java.util.Random;
 
+import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
@@ -24,7 +25,7 @@ public class RacingGame {
 	BetNumber++;
     }
 
-    public static void Start() {
+    public static void Start(BotType type, String channelName) {
 	boolean Good = false;
 	boolean InThere = false;
 	for (int i = 0; i < 8; i++) {
@@ -46,12 +47,12 @@ public class RacingGame {
 		}
 	    }
 	}
-	CheckForWinners();
+	CheckForWinners(type, channelName);
     }
 
-    public static void CheckForWinners() {
+    public static void CheckForWinners(BotType type, String channelName) {
 	if (BetNumber == 0) {
-	    Utilities.sendMessage("No one made any bets! So race got canceled!");
+	    Utilities.sendMessage(type, channelName, "No one made any bets! So race got canceled!");
 	    return;
 	}
 	String WinnerBetWinners = "";
@@ -59,7 +60,7 @@ public class RacingGame {
 
 	boolean Results = false;
 
-	Utilities.sendMessage("First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
+	Utilities.sendMessage(type, channelName, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
 	for (int k = 0; k < BetNumber; k++) {
 	    if (bets[2][k].equalsIgnoreCase("top3")) {
 		if (bets[1][k].equalsIgnoreCase(Integer.toString(cars[0])) || bets[1][k].equalsIgnoreCase(Integer.toString(cars[1]))
@@ -87,7 +88,7 @@ public class RacingGame {
 	    String Message = "Top 3 winners are " + Arrays.asList(Top3Users) + " and 1st place winners are " + Arrays.asList(WinnerUsers);
 	    Message.replace("[", "[ ");
 	    Message.replace("]", "] ");
-	    Utilities.sendMessage(Message);
+	    Utilities.sendMessage(type, channelName, Message);
 	    if (Top3BetWinners.length() != 0) {
 		float randomOds = nextFloat(1, 2);
 		for (int l = 0; l < Top3Users.length; l++) {
@@ -118,7 +119,7 @@ public class RacingGame {
 		    PointsSystem.AddPoints(WinnerUsers[m], points);
 		}
 	    }
-	    Utilities.sendMessage(pointsMessage);
+	    Utilities.sendMessage(type, channelName, pointsMessage);
 	}
 	for (int i = 0; i < bets.length; i++)
 	    Arrays.fill(bets[i], "");

@@ -12,7 +12,7 @@ public class EnterCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (GiveAwayCommand.Started) {
 	    GiveAwayThread.EnteredUsers.add(sender.toLowerCase());
-	    Utilities.sendMessage(sender + " has now been entered in to the giveaway!");
+	    Utilities.sendMessage(type, channel, sender + " has now been entered in to the giveaway!");
 	}
     }
 

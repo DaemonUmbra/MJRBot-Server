@@ -24,10 +24,10 @@ public class ChangeResponseCommand extends Command {
 		    e.printStackTrace();
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! Please dont include an ! in the Command Name");
+		Utilities.sendMessage(type, channel, "Invalid arguments! Please dont include an ! in the Command Name");
 	    }
 	} else {
-	    Utilities.sendMessage("Invalid arguments! You need to enter !commandresponse COMMANDNAME RESPONSE");
+	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !commandresponse COMMANDNAME RESPONSE");
 	}
     }
 

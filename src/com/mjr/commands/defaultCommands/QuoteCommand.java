@@ -79,9 +79,9 @@ public class QuoteCommand extends Command {
 	    } else if (args.length > 1 && args[1].equalsIgnoreCase("add")
 		    && Permissions.hasPermission(sender, PermissionLevel.Moderator.getName())) {
 		if (!message.contains("@")) {
-		    Utilities.sendMessage(sender + " your quote must be in the format as follows: !quote add <message> @<Name>");
+		    Utilities.sendMessage(type, channel, sender + " your quote must be in the format as follows: !quote add <message> @<Name>");
 		} else if (message.contains("\"") || message.contains("'")) {
-		    Utilities.sendMessage(sender + " your quote must not contain \" or '");
+		    Utilities.sendMessage(type, channel, sender + " your quote must not contain \" or '");
 		} else {
 		    String fileTemp = file.getPath();
 		    Path filePath = Paths.get(fileTemp);
@@ -101,7 +101,7 @@ public class QuoteCommand extends Command {
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    }
-		    Utilities.sendMessage(sender + " your quote has been added!");
+		    Utilities.sendMessage(type, channel, sender + " your quote has been added!");
 		    ConsoleUtil.TextToConsole("A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {

@@ -16,12 +16,12 @@ public class SetPointsCommand extends Command {
 		String User = args[2];
 		if (PointsSystem.isOnList(User)) {
 		    PointsSystem.setPoints(User.toLowerCase(), Integer.parseInt(Points));
-		    Utilities.sendMessage("Set " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Set " + Points + " points" + " to " + User);
 		} else {
-		    Utilities.sendMessage("Cant Set " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Cant Set " + Points + " points" + " to " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !setpoints POINTS USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !setpoints POINTS USER");
 	    }
 	}
     }

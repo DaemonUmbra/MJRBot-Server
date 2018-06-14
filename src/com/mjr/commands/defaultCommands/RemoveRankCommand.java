@@ -15,12 +15,12 @@ public class RemoveRankCommand extends Command {
 		String User = args[1];
 		if (Ranks.isOnList(User)) {
 		    Ranks.removeRank(User);
-		    Utilities.sendMessage("Removed " + User + " rank");
+		    Utilities.sendMessage(type, channel, "Removed " + User + " rank");
 		} else {
-		    Utilities.sendMessage("Cant find " + User);
+		    Utilities.sendMessage(type, channel, "Cant find " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !removerank USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !removerank USER");
 	    }
 	}
     }

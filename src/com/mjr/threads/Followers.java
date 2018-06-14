@@ -16,6 +16,12 @@ public class Followers extends Thread {
     public static int followersNum;
     public static String result = "";
     public static String followerslist = "";
+    private String channelName;
+
+    public Followers(String channelName) {
+	super();
+	this.channelName = channelName;
+    }
 
     @Override
     public void run() {
@@ -23,7 +29,7 @@ public class Followers extends Thread {
 	try {
 	    followerslist = "";
 	    result = "";
-	    url = new URL("https://api.twitch.tv/kraken/channels/" + MJRBot.getChannel().toLowerCase()
+	    url = new URL("https://api.twitch.tv/kraken/channels/" + channelName.toLowerCase()
 		    + "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=25");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
@@ -81,14 +87,14 @@ public class Followers extends Thread {
 
     }
 
-    public static void checkFollower(String user) {
+    public static void checkFollower(String channelName, String user) {
 	String newfollower = "";
 	boolean isfollower = false;
 	String currentfollowers = Arrays.asList(followers).toString();
 	if (!currentfollowers.contains(user.toLowerCase())) {
 	    URL url;
 	    try {
-		url = new URL("https://api.twitch.tv/kraken/channels/" + MJRBot.getChannel().toLowerCase()
+		url = new URL("https://api.twitch.tv/kraken/channels/" + channelName.toLowerCase()
 			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=" + (followersNum - (followersNum - 3)));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
@@ -116,7 +122,7 @@ public class Followers extends Thread {
 		e.printStackTrace();
 	    }
 	    if (!currentfollowers.contains(user.toLowerCase()) && isfollower) {
-		MJRBot.getTwitchBot().MessageToChat(user + " " + Config.getSetting("FollowerMessage"));
+		MJRBot.getTwitchBotByChannelName(channelName).MessageToChat(user + " " + Config.getSetting("FollowerMessage"));
 		followerslist = followerslist + user.toLowerCase() + ",";
 		followers = followerslist.split(",");
 		followersNum++;

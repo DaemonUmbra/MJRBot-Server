@@ -17,12 +17,12 @@ public class AddPointsCommand extends Command {
 
 		if (PointsSystem.isOnList(User)) {
 		    PointsSystem.AddPoints(User.toLowerCase(), Integer.parseInt(Points));
-		    Utilities.sendMessage("Added " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Added " + Points + " points" + " to " + User);
 		} else {
-		    Utilities.sendMessage("Cant add " + Points + " points" + " to " + User);
+		    Utilities.sendMessage(type, channel, "Cant add " + Points + " points" + " to " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !addpoints POINTS USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !addpoints POINTS USER");
 	    }
 	}
     }

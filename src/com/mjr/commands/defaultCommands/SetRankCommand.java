@@ -18,18 +18,18 @@ public class SetRankCommand extends Command {
 		    if (!Ranks.hasRank(sender, Rank)) {
 			if (Ranks.isValidRank(Rank)) {
 			    Ranks.setRank(User, Rank);
-			    Utilities.sendMessage("Added " + Rank + " to " + User);
+			    Utilities.sendMessage(type, channel, "Added " + Rank + " to " + User);
 			} else {
-			    Utilities.sendMessage("Rank doesnt exist!");
+			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");
 			}
 		    } else {
-			Utilities.sendMessage(User + " is has already got that rank!");
+			Utilities.sendMessage(type, channel, User + " is has already got that rank!");
 		    }
 		} else {
-		    Utilities.sendMessage("Cant add " + Rank + " to " + User);
+		    Utilities.sendMessage(type, channel, "Cant add " + Rank + " to " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !setrank RANK USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !setrank RANK USER");
 	    }
 	}
     }

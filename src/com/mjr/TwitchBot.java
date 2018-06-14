@@ -119,15 +119,15 @@ public class TwitchBot extends PircBot {
 
 		// Start Threads
 		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsThread pointsThread = new PointsThread();
+		    PointsThread pointsThread = new PointsThread(BotType.Twitch, channel);
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    Announcements announcementsThread = new Announcements();
+		    Announcements announcementsThread = new Announcements(BotType.Twitch, channel);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    CheckFollowers followersThread = new CheckFollowers();
+		    CheckFollowers followersThread = new CheckFollowers(BotType.Twitch, channel);
 		    followersThread.start();
 		}
 	    } catch (IOException e) {
@@ -138,8 +138,8 @@ public class TwitchBot extends PircBot {
 		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
-	    Viewers.getViewers();
-	    Followers followers = new Followers();
+	    Viewers.getViewers(channel);
+	    Followers followers = new Followers(channel);
 	    followers.start();
 	} else {
 	    ConsoleUtil.TextToConsole(sender + " has joined!", "Bot", null);

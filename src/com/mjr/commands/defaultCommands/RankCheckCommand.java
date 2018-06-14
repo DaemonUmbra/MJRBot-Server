@@ -14,12 +14,12 @@ public class RankCheckCommand extends Command {
 	    if (args.length == 2) {
 		String User = args[1];
 		if (Ranks.isOnList(User)) {
-		    Utilities.sendMessage(User + " has " + Ranks.getRank(User) + " Rank");
+		    Utilities.sendMessage(type, channel, User + " has " + Ranks.getRank(User) + " Rank");
 		} else {
-		    Utilities.sendMessage("Cant find " + User);
+		    Utilities.sendMessage(type, channel, "Cant find " + User);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !getrank USER");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !getrank USER");
 	    }
 	}
     }

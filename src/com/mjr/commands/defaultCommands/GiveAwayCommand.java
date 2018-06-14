@@ -16,7 +16,7 @@ public class GiveAwayCommand extends Command {
 	    thread.start();
 	    Started = true;
 	} else {
-	    Utilities.sendMessage("Giveaway has already started!");
+	    Utilities.sendMessage(type, channel, "Giveaway has already started!");
 	}
     }
 

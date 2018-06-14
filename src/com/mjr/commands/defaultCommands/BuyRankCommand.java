@@ -20,21 +20,21 @@ public class BuyRankCommand extends Command {
 			    if (PointsSystem.hasPoints(sender, Ranks.getRankPrice(Rank))) {
 				PointsSystem.RemovePoints(sender, Ranks.getRankPrice(Rank));
 				Ranks.setRank(sender, Rank);
-				Utilities.sendMessage("Added " + Rank + " to " + sender);
+				Utilities.sendMessage(type, channel, "Added " + Rank + " to " + sender);
 			    } else {
-				Utilities.sendMessage(" you dont have the right amount of points! Do !points to check how many you got");
+				Utilities.sendMessage(type, channel, " you dont have the right amount of points! Do !points to check how many you got");
 			    }
 			} else {
-			    Utilities.sendMessage("Rank doesnt exist!");
+			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");
 			}
 		    } else {
-			Utilities.sendMessage(sender + " is has already got that rank!");
+			Utilities.sendMessage(type, channel, sender + " is has already got that rank!");
 		    }
 		} else {
-		    Utilities.sendMessage("Cant add " + Rank + " to " + sender);
+		    Utilities.sendMessage(type, channel, "Cant add " + Rank + " to " + sender);
 		}
 	    } else {
-		Utilities.sendMessage("Invalid arguments! You need to enter !buyrank RANK");
+		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !buyrank RANK");
 	    }
 	}
     }

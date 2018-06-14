@@ -21,10 +21,10 @@ public class Viewers {
     public static String GMods = "";
     public static String newresult = "";
 
-    public static void getViewers() {
+    public static void getViewers(String channelName) {
 	try {
-	    if (MJRBot.getTwitchBot().viewers != null)
-		Arrays.fill(MJRBot.getTwitchBot().viewers, "");
+	    if (MJRBot.getTwitchBotByChannelName(channelName).viewers != null)
+		Arrays.fill(MJRBot.getTwitchBotByChannelName(channelName).viewers, "");
 	    result = "";
 	    newresult = "";
 	    Viewers = "";
@@ -32,7 +32,7 @@ public class Viewers {
 	    Staff = "";
 	    Admins = "";
 	    GMods = "";
-	    URL url = new URL("https://tmi.twitch.tv/group/user/" + MJRBot.getChannel().toLowerCase() + "/chatters");
+	    URL url = new URL("https://tmi.twitch.tv/group/user/" + channelName + "/chatters");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -68,21 +68,23 @@ public class Viewers {
 		newresult = Mods + Staff + Admins + GMods + Viewers;
 		newresult = newresult.replace(" ", "");
 		newresult = newresult.replace("\"", "");
-		MJRBot.getTwitchBot().viewers = newresult.split(",");
+		MJRBot.getTwitchBotByChannelName(channelName).viewers = newresult.split(",");
 		ConsoleUtil.TextToConsole("Bot has Viewers!", "Bot", null);
 
-		for (int i = 1; i < MJRBot.getTwitchBot().viewers.length; i++) {
+		for (int i = 1; i < MJRBot.getTwitchBotByChannelName(channelName).viewers.length; i++) {
 		    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-			if (!PointsSystem.isOnList(MJRBot.getTwitchBot().viewers[i])) {
-			    PointsSystem.setPoints(MJRBot.getTwitchBot().viewers[i], Integer.parseInt(Config.getSetting("StartingPoints")));
+			if (!PointsSystem.isOnList(MJRBot.getTwitchBotByChannelName(channelName).viewers[i])) {
+			    PointsSystem.setPoints(MJRBot.getTwitchBotByChannelName(channelName).viewers[i],
+				    Integer.parseInt(Config.getSetting("StartingPoints")));
 			}
 		    }
 		    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-			if (!Ranks.isOnList(MJRBot.getTwitchBot().viewers[i])) {
-			    Ranks.setRank(MJRBot.getTwitchBot().viewers[i], "None");
+			if (!Ranks.isOnList(MJRBot.getTwitchBotByChannelName(channelName).viewers[i])) {
+			    Ranks.setRank(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], "None");
 			}
 		    }
-		    PointsThread.viewersJoinedTimes.put(MJRBot.getTwitchBot().viewers[i].toLowerCase(), System.currentTimeMillis());
+		    PointsThread.viewersJoinedTimes.put(MJRBot.getTwitchBotByChannelName(channelName).viewers[i].toLowerCase(),
+			    System.currentTimeMillis());
 		}
 	    }
 	} catch (Exception e) {

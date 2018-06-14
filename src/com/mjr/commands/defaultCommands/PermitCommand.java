@@ -11,10 +11,10 @@ public class PermitCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 	if (args.length == 2) {
 	    String User = args[1];
-	    Utilities.sendMessage(User + " is now permited to post a link");
+	    Utilities.sendMessage(type, channel, User + " is now permited to post a link");
 	    LinkChecker.PermitedUsers = LinkChecker.PermitedUsers + User.toLowerCase() + ", ";
 	} else {
-	    Utilities.sendMessage("Invalid arguments! You need to enter !permit USER");
+	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !permit USER");
 	}
     }
 
