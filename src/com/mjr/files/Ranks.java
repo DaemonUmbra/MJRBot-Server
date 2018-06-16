@@ -25,7 +25,7 @@ public class Ranks {
     protected static InputStream iStream;
 
     public static void load(String channelName) throws IOException {
-	file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator + filename);
+	file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
 	if (!file.exists()) {
 	    file.getParentFile().mkdirs();
 	    file.createNewFile();

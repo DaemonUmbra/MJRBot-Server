@@ -3,12 +3,15 @@ package com.mjr;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.commands.CommandManager;
 import com.mjr.files.ConfigMain;
+import com.mjr.sql.MySQLConnection;
+import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.PointsThread;
 
 public class MJRBot {
@@ -36,7 +39,8 @@ public class MJRBot {
 	}
     }
 
-    public static void main(final String[] args) throws IOException, InterruptedException, ExecutionException {
+    public static void main(final String[] args)
+	    throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
 	if (OSUtilities.isUnix())
 	    filePath = "/home/" + File.separator + "MJRBot" + File.separator;
 	else if (OSUtilities.isWindows())
@@ -48,30 +52,52 @@ public class MJRBot {
 	if (filePath != null) {
 	    ConfigMain.load();
 	    PointsThread.viewersJoinedTimes.clear();
+	    String connectionType = "";
 	    do {
-		String botType;
-//		botType = console.readLine("Connection Type: Twitch/Mixer?");
-//		channel = console.readLine("Channel Name?");
-		
-		botType = "Twitch";
-		channel = "mjrlegends";
-		
-		channel = channel.toLowerCase(Locale.ENGLISH);
-		if (botType.equalsIgnoreCase("twitch") && channel != "") {
-		    TwitchBot bot = new TwitchBot(channel);
-		    bot.init();
-		    addTwitchBot(channel, bot);
-		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-		    MixerBot bot = new MixerBot(channel);
-		    bot.joinChannel(channel);
-		    addMixerBot(channel, bot);
-		} else if (channel != "")
-		    ConsoleUtil.TextToConsole("Unknown Type of Connection!", "Bot", null);
-		else
-		    ConsoleUtil.TextToConsole("Invalid entry for Channel Name!!", "Bot", null);
-	    } while (twitchBots.isEmpty() && mixerBots.isEmpty());
-	    CommandManager.loadCommands();
+		connectionType = console.readLine("Bot Type: Database or Manual?");
+		//connectionType = "Database";
+		if (connectionType.equalsIgnoreCase("Manual")) {
+		    do {
+			String botType;
+			botType = console.readLine("Connection Type: Twitch or Mixer?");
+			channel = console.readLine("Channel Name?");
+
+			//botType = "Twitch";
+			//channel = "mjrlegends";
+			createBot(channel, botType);
+
+		    } while (twitchBots.isEmpty() && mixerBots.isEmpty());
+
+		} else if (connectionType.equalsIgnoreCase("Database")) {
+		    do {
+			MySQLConnection.initConnection("localhost", 3306, "mjrbot", "root", "");
+		    } while (MySQLConnection.connected == false);
+		    SQLUtilities.createDatabaseStructure();
+		    System.out.println("Getting list of Channels from Database server");
+		    HashMap<String, String> channelList = SQLUtilities.getChannels();
+		    for (String channelName : channelList.keySet()) {
+			createBot(channelName, channelList.get(channelName));
+		    }
+		}
+		CommandManager.loadCommands();
+	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
 	}
+    }
+
+    public static void createBot(String channel, String botType) {
+	channel = channel.toLowerCase(Locale.ENGLISH);
+	if (botType.equalsIgnoreCase("twitch") && channel != "") {
+	    TwitchBot bot = new TwitchBot(channel);
+	    bot.init();
+	    addTwitchBot(channel, bot);
+	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
+	    MixerBot bot = new MixerBot(channel);
+	    bot.joinChannel(channel);
+	    addMixerBot(channel, bot);
+	} else if (channel != "")
+	    ConsoleUtil.TextToConsole("Unknown Type of Connection!", "Bot", null);
+	else
+	    ConsoleUtil.TextToConsole("Invalid entry for Channel Name!!", "Bot", null);
     }
 
     public static Console getConsole() {
@@ -101,18 +127,18 @@ public class MJRBot {
     public static void addMixerBot(String channelName, MixerBot bot) {
 	mixerBots.put(channelName, bot);
     }
-    
+
     public static TwitchBot getTwitchBotByChannelName(String channelName) {
-	for(String bot : twitchBots.keySet()) {
-	    if(bot.equalsIgnoreCase(channelName))
+	for (String bot : twitchBots.keySet()) {
+	    if (bot.equalsIgnoreCase(channelName))
 		return twitchBots.get(bot);
 	}
 	return null;
     }
-    
+
     public static MixerBot getMixerBotByChannelName(String channelName) {
-	for(String bot : mixerBots.keySet()) {
-	    if(bot.equalsIgnoreCase(channelName))
+	for (String bot : mixerBots.keySet()) {
+	    if (bot.equalsIgnoreCase(channelName))
 		return mixerBots.get(bot);
 	}
 	return null;

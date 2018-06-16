@@ -8,18 +8,31 @@ import java.sql.Statement;
 
 public class MySQLConnection {
 
-    private final Connection connection;
+    private static Connection connection;
+    public static boolean connected = false;
 
-    public MySQLConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
-	Class.forName("com.mysql.jdbc.Driver");
-	connection = DriverManager.getConnection(url, user, password);
+    public static void initConnection(String ipAddress, int port, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
+	initConnection("jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName + "?serverTimezone=GMT", user, password);
+    }
+    
+    public static void initConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
+	try {
+	    System.out.println("MySQl connection initializing!");
+	    Class.forName("com.mysql.cj.jdbc.Driver");
+	    connection = DriverManager.getConnection(url, user, password);
+	    connected = true;
+	    System.out.println("MySQl connection has been initialized!");
+	} catch (ClassNotFoundException | SQLException e) {
+	    System.out.println("MySQL Connection Failed! Error: " + e.getMessage());
+	    connected = false;
+	}
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
 	return connection;
     }
 
-    public ResultSet executeQuery(String statement) {
+    public static ResultSet executeQuery(String statement) {
 	Statement myStmt;
 	try {
 	    myStmt = connection.createStatement();

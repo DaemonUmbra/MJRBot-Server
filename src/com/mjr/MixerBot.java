@@ -49,44 +49,49 @@ public class MixerBot extends MJR_MixerBot {
 	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
     }
 
-    public void joinChannel(String channel) throws InterruptedException, ExecutionException, IOException {
-	this.setdebug(true);
-	this.joinMixerChannel(channel);
-	if (this.isConnected() && this.isAuthenticated()) {
-	    // Load Config file
-	    Config.load(BotType.Mixer, channel);
-	    // Load PointsSystem
-	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		PointsSystem.load(BotType.Mixer, channel);
-	    }
-	    // Load Ranks
-	    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		Ranks.load(channel);
-	    }
+    public void joinChannel(String channel) {
+	try {
+	    this.setdebug(true);
+	    this.joinMixerChannel(channel);
+	    if (this.isConnected() && this.isAuthenticated()) {
+		// Load Config file
+		Config.load(BotType.Mixer, channel);
+		// Load PointsSystem
+		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		    PointsSystem.load(BotType.Mixer, channel);
+		}
+		// Load Ranks
+		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
+		    Ranks.load(channel);
+		}
 
-	    // Start Threads
-	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		PointsThread pointsThread = new PointsThread(BotType.Mixer, channel);
-		pointsThread.start();
-	    }
-	    if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		Announcements announcementsThread = new Announcements(BotType.Mixer, channel);
-		announcementsThread.start();
-	    }
-	    if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel);
-		followersThread.start();
-	    }
+		// Start Threads
+		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		    PointsThread pointsThread = new PointsThread(BotType.Mixer, channel);
+		    pointsThread.start();
+		}
+		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
+		    Announcements announcementsThread = new Announcements(BotType.Mixer, channel);
+		    announcementsThread.start();
+		}
+		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
+		    CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel);
+		    followersThread.start();
+		}
 
-	    for (String viewer : this.getViewers())
-		if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
-		    PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
+		for (String viewer : this.getViewers())
+		    if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
+			PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
-	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
-		this.sendMessage(this.getBotName() + " Connected!");
-	} else
-	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
+		ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
+		if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
+		    this.sendMessage(this.getBotName() + " Connected!");
+	    } else
+		ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName,
+			"Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
+	} catch (InterruptedException | ExecutionException | IOException e) {
+	    e.printStackTrace();
+	}
     }
 
     @Override
