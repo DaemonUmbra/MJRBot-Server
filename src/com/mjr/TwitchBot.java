@@ -26,22 +26,19 @@ public class TwitchBot extends PircBot {
 
     public String channelName = "";
 
-    public TwitchBot(String channelName) {
-	super();
-	this.channelName = channelName;
-    }
-
     private final CommandManager commands = new CommandManager();
 
-    public void init() {
+    public void init(String channelName) {
 	try {
 	    this.ConnectToTwitch();
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
-	this.setChannel("#" + this.channelName);
-	this.joinChannel(this.channelName);
-	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", "Bot", null);
+	this.channelName = channelName.toLowerCase();
+	this.setChannel("#" + channelName.toLowerCase());
+	this.joinChannel(this.getChannel());
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName,
+		"Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", "Bot", null);
 	this.setVerbose(true);
     }
 
@@ -51,13 +48,13 @@ public class TwitchBot extends PircBot {
 	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, message, "Chat", sender);
 	if (mods != null)
 	    if (Arrays.asList(mods).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
-		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(channel), channel, sender, login, hostname,
-			message);
+		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender,
+			login, hostname, message);
 
 	if (Config.getSetting("Commands").equalsIgnoreCase("true")) {
 	    try {
-		commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(channel), channel, sender.toLowerCase(), login,
-			hostname, message);
+		commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName,
+			sender.toLowerCase(), login, hostname, message);
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
@@ -72,7 +69,8 @@ public class TwitchBot extends PircBot {
 	    notice += ", " + stream.substring(stream.indexOf("#") + 1);
 	    mods = notice.split(", ");
 	    if (mods == null) {
-		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!",
+			"Bot", null);
 		return;
 	    }
 	    if (mods.length < 1)
@@ -107,27 +105,27 @@ public class TwitchBot extends PircBot {
 	if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
 	    try {
 		// Load Config file
-		Config.load(BotType.Twitch, channel);
+		Config.load(BotType.Twitch, this.channelName);
 		// Load PointsSystem
 		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsSystem.load(BotType.Twitch, channel);
+		    PointsSystem.load(BotType.Twitch, this.channelName);
 		}
 		// Load Ranks
 		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		    Ranks.load(channel);
+		    Ranks.load(this.channelName);
 		}
 
 		// Start Threads
 		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsThread pointsThread = new PointsThread(BotType.Twitch, channel);
+		    PointsThread pointsThread = new PointsThread(BotType.Twitch, this.channelName);
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    Announcements announcementsThread = new Announcements(BotType.Twitch, channel);
+		    Announcements announcementsThread = new Announcements(BotType.Twitch, this.channelName);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    CheckFollowers followersThread = new CheckFollowers(BotType.Twitch, channel);
+		    CheckFollowers followersThread = new CheckFollowers(BotType.Twitch, this.channelName);
 		    followersThread.start();
 		}
 	    } catch (IOException e) {
@@ -138,8 +136,8 @@ public class TwitchBot extends PircBot {
 		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
-	    Viewers.getViewers(channel);
-	    Followers followers = new Followers(BotType.Twitch, channel);
+	    Viewers.getViewers(this.channelName);
+	    Followers followers = new Followers(BotType.Twitch, this.channelName);
 	    followers.start();
 	} else {
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, sender + " has joined!", "Bot", null);
@@ -205,28 +203,30 @@ public class TwitchBot extends PircBot {
 		    String pass = ConfigMain.getSetting("TwitchPassword");
 		    this.connect("irc.chat.twitch.tv", 6667, pass);
 		    this.sendRawLine("CAP REQ :twitch.tv/commands");
-		    // bot.sendRawLine("CAP REQ :twitch.tv/tags");
 		    this.sendRawLine("CAP REQ :twitch.tv/membership");
 		} catch (Exception e1) {
 		    e1.printStackTrace();
-		    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Failed to connect to Twitch! Check your internet connection!", "Bot", null);
+		    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName,
+			    "Failed to connect to Twitch! Check your internet connection!", "Bot", null);
 		    return;
 		}
 
 	    } else {
-		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Your already connected using these login details!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Your already connected using these login details!", "Bot",
+			null);
 		return;
 	    }
 
 	} else {
-	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, 
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName,
 		    "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", "Bot", null);
 	    return;
 	}
 	if (this.isConnected()) {
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connected to Twitch!", "Bot", null);
 	} else
-	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", "Bot", null);
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", "Bot",
+		    null);
     }
 
     public void MessageToChat(String message) {

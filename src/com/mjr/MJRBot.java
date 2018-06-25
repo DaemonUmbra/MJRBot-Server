@@ -55,7 +55,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual?");
-		// connectionType = "Database";
+		//connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
@@ -89,8 +89,8 @@ public class MJRBot {
     public static void createBot(String channel, String botType) {
 	channel = channel.toLowerCase(Locale.ENGLISH);
 	if (botType.equalsIgnoreCase("twitch") && channel != "") {
-	    TwitchBot bot = new TwitchBot(channel);
-	    bot.init();
+	    TwitchBot bot = new TwitchBot();
+	    bot.init(channel);
 	    addTwitchBot(channel, bot);
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 	    MixerBot bot = new MixerBot(channel);
