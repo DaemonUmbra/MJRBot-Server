@@ -28,6 +28,11 @@ public class ConfigMain {
 	    setSetting("TwitchPassword", "");
 	    setSetting("MixerClientID", "");
 	    setSetting("MixerUsername/BotName", "");
+	    setSetting("DatabaseIPAddress", "");
+	    setSetting("DatabaseDatabaseName", "");
+	    setSetting("DatabasePort", "");
+	    setSetting("DatabaseUsername", "");
+	    setSetting("DatabasePassword", "");
 	}
 	FileReader reader = new FileReader(file);
 	properties.load(reader);

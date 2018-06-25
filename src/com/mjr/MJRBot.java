@@ -15,7 +15,7 @@ import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.PointsThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.1.8 - Beta, Server Version";
+    public static final String VERSION = "1.1.9 - Beta, Server Version";
 
     public static String filePath;
 
@@ -55,22 +55,24 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual?");
-		//connectionType = "Database";
+		// connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
 			botType = console.readLine("Connection Type: Twitch or Mixer?");
 			channel = console.readLine("Channel Name?");
 
-			//botType = "Twitch";
-			//channel = "mjrlegends";
+			// botType = "Twitch";
+			// channel = "mjrlegends";
 			createBot(channel, botType);
 
 		    } while (twitchBots.isEmpty() && mixerBots.isEmpty());
 
 		} else if (connectionType.equalsIgnoreCase("Database")) {
 		    do {
-			MySQLConnection.initConnection("localhost", 3306, "mjrbot", "root", "");
+			MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
+				Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
+				ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
 		    } while (MySQLConnection.connected == false);
 		    SQLUtilities.createDatabaseStructure();
 		    System.out.println("Getting list of Channels from Database server");
