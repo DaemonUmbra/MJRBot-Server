@@ -63,7 +63,7 @@ public class ChannelListUpdateThread extends Thread {
 		}
 	    }
 	    try {
-		Thread.sleep(10000);
+		Thread.sleep(30000);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
