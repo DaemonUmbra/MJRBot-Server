@@ -12,6 +12,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.ConfigMain;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
+import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.PointsThread;
 
 public class MJRBot {
@@ -80,6 +81,8 @@ public class MJRBot {
 		    for (String channelName : channelList.keySet()) {
 			createBot(channelName, channelList.get(channelName));
 		    }
+		    ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
+		    updateThread.start();
 		}
 		CommandManager.loadCommands();
 	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
@@ -115,7 +118,18 @@ public class MJRBot {
     }
 
     public static void addTwitchBot(String channelName, TwitchBot bot) {
+	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName, "Bot", null);
 	twitchBots.put(channelName, bot);
+    }
+
+    public static void removeTwitchBot(TwitchBot bot) {
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName, "Bot", null);
+	twitchBots.remove(bot.channelName, bot);
+    }
+
+    public static void removeTwitchBot(String channelName) {
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName, "Bot", null);
+	twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
     }
 
     public static HashMap<String, MixerBot> getMixerBots() {
@@ -127,7 +141,18 @@ public class MJRBot {
     }
 
     public static void addMixerBot(String channelName, MixerBot bot) {
+	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName, "Bot", null);
 	mixerBots.put(channelName, bot);
+    }
+
+    public static void removeMixerBott(MixerBot bot) {
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName, "Bot", null);
+	twitchBots.remove(bot.channelName, bot);
+    }
+
+    public static void removeMixerBot(String channelName) {
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName, "Bot", null);
+	twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
     }
 
     public static TwitchBot getTwitchBotByChannelName(String channelName) {

@@ -9,7 +9,7 @@ public class DisconnectCommand extends Command{
 
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-	if (type == BotType.Twitch) {
+	if (type == BotType.Twitch) { // TODO Fix this
 	    MJRBot.getTwitchBotByChannelName(channel).MessageToChat(MJRBot.getTwitchBotByChannelName(channel).getBotName() + " Disconnected!");
 	    MJRBot.getTwitchBotByChannelName(channel).disconnectTwitch();
 	} else if (type == BotType.Mixer) {
