@@ -34,4 +34,8 @@ public class DiceCommand extends Command {
 	return PermissionLevel.User.getName();
     }
 
+    @Override
+    public boolean hasCooldown() {
+	return true;
+    }
 }

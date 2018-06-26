@@ -2,6 +2,7 @@ package com.mjr;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.jibble.pircbot.PircBot;
 
@@ -16,6 +17,7 @@ import com.mjr.threads.Announcements;
 import com.mjr.threads.CheckFollowers;
 import com.mjr.threads.Followers;
 import com.mjr.threads.PointsThread;
+import com.mjr.threads.UserCooldownTickThread;
 
 public class TwitchBot extends PircBot {
     public static String[] mods;
@@ -27,6 +29,8 @@ public class TwitchBot extends PircBot {
     public String channelName = "";
 
     private final CommandManager commands = new CommandManager();
+    
+    public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
 
     public void init(String channelName) {
 	try {
@@ -139,6 +143,9 @@ public class TwitchBot extends PircBot {
 	    Viewers.getViewers(this.channelName);
 	    Followers followers = new Followers(BotType.Twitch, this.channelName);
 	    followers.start();
+	    
+	    UserCooldownTickThread userCooldownTickThread = new UserCooldownTickThread();
+	    userCooldownTickThread.start();
 	} else {
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, sender + " has joined!", "Bot", null);
 	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {

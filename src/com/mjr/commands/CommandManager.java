@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
+import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -34,6 +36,7 @@ import com.mjr.commands.defaultCommands.SetPointsCommand;
 import com.mjr.commands.defaultCommands.SetRankCommand;
 import com.mjr.commands.defaultCommands.SpinCommand;
 import com.mjr.commands.defaultCommands.UptimeCommand;
+import com.mjr.files.Config;
 
 public class CommandManager {
     public String[] args;
@@ -90,10 +93,37 @@ public class CommandManager {
 	// Check if known default command
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
-	    if (Permissions.hasPermission(type, channel, sender, command.getPermissionLevel()))
-		command.onCommand(type, bot, channel, sender, login, hostname, message, args);
-	} else if (args[0].startsWith("!")) { // Check if its a known custom
-					      // command
+	    if (Permissions.hasPermission(type, channel, sender, command.getPermissionLevel())) {
+		TwitchBot twitchBot = ((TwitchBot) bot);
+		// Check cooldown for user
+		boolean allowed = false;
+		if (command.hasCooldown()) {
+		    if (type == BotType.Twitch) {
+			if (twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
+			    if (PermissionLevel
+				    .getTierValueByName(Permissions.getPermissionLevel(type, channel, sender.toLowerCase())) > 0) {
+				allowed = true;
+			    } else if (twitchBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
+				allowed = true;
+				twitchBot.usersCooldowns.remove(sender.toLowerCase());
+				twitchBot.usersCooldowns.put(sender.toLowerCase(),
+					Integer.parseInt(Config.getSetting("CommandsCooldownAmount")));
+			    } else
+				allowed = false;
+			} else {
+			    allowed = true;
+			    twitchBot.usersCooldowns.put(sender.toLowerCase(),
+				    Integer.parseInt(Config.getSetting("CommandsCooldownAmount")));
+			}
+		    } // TODO Do for Mixer
+		} else {
+		    allowed = true;
+		    twitchBot.usersCooldowns.put(sender.toLowerCase(), 0);
+		}
+		if (allowed)
+		    command.onCommand(type, bot, channel, sender, login, hostname, message, args);
+	    }
+	} else if (args[0].startsWith("!")) { // Check if its a known custom command
 	    CustomCommands.getCommand(type, channel, args[0], sender);
 	}
     }

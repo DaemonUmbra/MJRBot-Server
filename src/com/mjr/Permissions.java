@@ -34,7 +34,7 @@ public class Permissions {
 	}
     }
 
-    private static String getPermissionLevel(BotType type, String channelName, String user) {
+    public static String getPermissionLevel(BotType type, String channelName, String user) {
 	user = user.toLowerCase();
 	if (type == BotType.Twitch) {
 	    if (TwitchBot.mods != null) {

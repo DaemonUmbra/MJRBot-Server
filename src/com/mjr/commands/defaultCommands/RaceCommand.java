@@ -26,4 +26,9 @@ public class RaceCommand extends Command {
     public String getPermissionLevel() {
 	return PermissionLevel.User.getName();
     }
+
+    @Override
+    public boolean hasCooldown() {
+	return true;
+    }
 }

@@ -60,6 +60,7 @@ public class Config {
 	    setSetting("AnnouncementMessage3", "");
 	    setSetting("AnnouncementMessage4", "");
 	    setSetting("AnnouncementMessage5", "");
+	    setSetting("CommandsCooldownAmount", "20");
 
 	    properties.store(new FileOutputStream(file), null);
 	}

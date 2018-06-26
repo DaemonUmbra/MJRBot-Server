@@ -23,4 +23,9 @@ public class DisconnectCommand extends Command{
 	return PermissionLevel.Streamer.getName();
     }
 
+    @Override
+    public boolean hasCooldown() {
+	return false;
+    }
+
 }

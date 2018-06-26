@@ -117,4 +117,9 @@ public class QuoteCommand extends Command {
     public String getPermissionLevel() {
 	return Permissions.PermissionLevel.User.getName();
     }
+
+    @Override
+    public boolean hasCooldown() {
+	return false;
+    }
 }

@@ -38,4 +38,9 @@ public class AddCommand extends Command {
     public String getPermissionLevel() {
 	return PermissionLevel.Moderator.getName();
     }
+
+    @Override
+    public boolean hasCooldown() {
+	return false;
+    }
 }

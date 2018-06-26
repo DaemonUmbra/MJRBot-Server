@@ -43,4 +43,9 @@ public class BuyRankCommand extends Command {
     public String getPermissionLevel() {
 	return PermissionLevel.User.getName();
     }
+
+    @Override
+    public boolean hasCooldown() {
+	return false;
+    }
 }
