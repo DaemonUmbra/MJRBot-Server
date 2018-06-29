@@ -76,7 +76,7 @@ public class PointsSystem {
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints - points;
 	setPoints(user, currentPoints);
-	ConsoleUtil.TextToConsole("[Channel] \" + channelName + \" - Removed " + points + " points from " + user, "Bot:", null);
+	ConsoleUtil.TextToConsole("[Channel] " + channelName + " - Removed " + points + " points from " + user, "Bot:", null);
     }
 
     public static Boolean hasPoints(String user, int points) {
