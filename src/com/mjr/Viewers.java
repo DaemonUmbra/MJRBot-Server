@@ -89,7 +89,7 @@ public class Viewers {
 		}
 	    }
 	} catch (Exception e) {
-	    e.printStackTrace();
+	    System.out.println(e.getMessage() + " Result was " + result);
 	}
     }
 }
