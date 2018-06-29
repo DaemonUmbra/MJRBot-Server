@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
+import com.mjr.TwitchBot;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
 
@@ -12,7 +14,7 @@ public class PointsThread extends Thread {
     public static HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     private BotType type;
     private String channelName;
-    
+
     public PointsThread(BotType type, String channelName) {
 	super();
 	this.type = type;
@@ -22,29 +24,32 @@ public class PointsThread extends Thread {
     @Override
     public void run() {
 	while (true) {
-	    if ((type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel)
-		    || (MJRBot.getMixerBotByChannelName(channelName) != null && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
-		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    if (viewersJoinedTimes.isEmpty() == false) {
-			TimeDuration = (Integer.parseInt(Config.getSetting("AutoPointsDelay")) * 60) * 1000;
-			long timenow = System.currentTimeMillis();
-			if (MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel) {
-			    for (int i = 0; i < MJRBot.getTwitchBotByChannelName(channelName).viewers.length; i++) {
-				if (viewersJoinedTimes.containsKey(MJRBot.getTwitchBotByChannelName(channelName).viewers[i])) {
-				    long oldtime = viewersJoinedTimes.get(MJRBot.getTwitchBotByChannelName(channelName).viewers[i]);
+	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		if (viewersJoinedTimes.isEmpty() == false) {
+		    TimeDuration = (Integer.parseInt(Config.getSetting("AutoPointsDelay")) * 60) * 1000;
+		    long timenow = System.currentTimeMillis();
+		    if (type == BotType.Twitch) {
+			TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
+			if (twitchBot.ConnectedToChannel && twitchBot.viewers != null && twitchBot.viewers.length != 0) {
+			    for (int i = 0; i < twitchBot.viewers.length; i++) {
+				if (viewersJoinedTimes.containsKey(twitchBot.viewers[i])) {
+				    long oldtime = viewersJoinedTimes.get(twitchBot.viewers[i]);
 				    if ((timenow - oldtime) >= TimeDuration) {
-					PointsSystem.AddPoints(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], 1, channelName);
-					viewersJoinedTimes.put(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], System.currentTimeMillis());
+					PointsSystem.AddPoints(twitchBot.viewers[i], 1, channelName);
+					viewersJoinedTimes.put(twitchBot.viewers[i], System.currentTimeMillis());
 				    }
 				}
 			    }
-			} else if (MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
-			    for (int i = 0; i < MJRBot.getMixerBotByChannelName(channelName).getViewers().size(); i++) {
-				if (viewersJoinedTimes.containsKey(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i))) {
-				    long oldtime = viewersJoinedTimes.get(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i));
+			}
+		    } else if (type == BotType.Mixer) {
+			MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+			if (mixerBot.isConnected() && mixerBot.getViewers().size() != 0) {
+			    for (int i = 0; i < mixerBot.getViewers().size(); i++) {
+				if (viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
+				    long oldtime = viewersJoinedTimes.get(mixerBot.getViewers().get(i));
 				    if ((timenow - oldtime) >= TimeDuration) {
-					PointsSystem.AddPoints(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i), 1, channelName);
-					viewersJoinedTimes.put(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i), System.currentTimeMillis());
+					PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, channelName);
+					viewersJoinedTimes.put(mixerBot.getViewers().get(i), System.currentTimeMillis());
 				    }
 				}
 			    }
@@ -57,11 +62,12 @@ public class PointsThread extends Thread {
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
-	    }
-	    try {
-		Thread.sleep(60000);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
+	    } else {
+		try {
+		    Thread.sleep(60000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
 	    }
 	}
     }
