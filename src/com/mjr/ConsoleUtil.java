@@ -34,7 +34,7 @@ public class ConsoleUtil {
 		}
 	    }
 	} else {
-	    System.out.println("[MJRBot Info] " + message);
+	    System.out.println("[MJRBot Info] " + "[Bot Type]" + type.getTypeName() + channel == null ? "" : ("[Channel] " + channel) + " - " + message);
 	}
     }
 
