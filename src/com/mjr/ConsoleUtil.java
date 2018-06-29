@@ -7,7 +7,7 @@ import com.mjr.files.Config;
 public class ConsoleUtil {
 
     public static void TextToConsole(String message, String MessageType, String sender) {
-	TextToConsole(null, null, message, MessageType, sender);
+	TextToConsole(null, "", message, MessageType, sender);
     }
 
     public static void TextToConsole(BotType type, String channel, String message, String MessageType, String sender) {
@@ -34,8 +34,8 @@ public class ConsoleUtil {
 		}
 	    }
 	} else {
-	    System.out.println("[MJRBot Info] " + "[Bot Type]" + type.getTypeName() + channel == null ? ""
-		    : ("[Channel] " + channel) + " - " + message);
+	    System.out.println("[MJRBot Info] " + (type == null ? "" : ("[Bot Type]" + type.getTypeName()))
+		    + (channel == "" ? "" : (" [Channel] " + channel)) + " - " + message);
 	}
     }
 
