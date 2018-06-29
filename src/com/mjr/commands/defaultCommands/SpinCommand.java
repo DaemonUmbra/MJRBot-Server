@@ -20,7 +20,7 @@ public class SpinCommand extends Command {
 		    waittime++;
 		}
 		if (FruitMachine.hasWon()) {
-		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! " + PointsSystem.AddRandomPoints(sender) + " Points");
+		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! You have been given " + PointsSystem.AddRandomPoints(sender, channel) + " Points");
 		} else {
 		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in "
 			    + FruitMachine.timesLost + " turns");

@@ -88,21 +88,14 @@ public class PointsSystem {
 	}
     }
 
-    public static int AddRandomPoints(String user) {
-	user = user.toLowerCase();
-	int points = Utilities.getRandom(0, 100);
-	int currentPoints = getPoints(user);
-	currentPoints = currentPoints + points;
-	setPoints(user, currentPoints);
-	return points;
+    public static int AddRandomPoints(String user, String channelName) {
+	return AddRandomPoints(user, 100, 1, channelName);
     }
 
-    public static int AddRandomPoints(String user, int max, int min) {
+    public static int AddRandomPoints(String user, int max, int min, String channelName) {
 	user = user.toLowerCase();
 	int points = Utilities.getRandom(min, max);
-	int currentPoints = getPoints(user);
-	currentPoints = currentPoints + points;
-	setPoints(user, currentPoints);
+	AddPoints(user, points, channelName);
 	return points;
     }
 }
