@@ -20,7 +20,7 @@ public class PlacebetCommand extends Command {
 			String points = args[3];
 			if (betType.equalsIgnoreCase("1st") || betType.equalsIgnoreCase("Top3")) {
 			    RacingGame.PlaceBet(sender, bet, betType, points);
-			    PointsSystem.RemovePoints(sender, Integer.parseInt(points));
+			    PointsSystem.RemovePoints(sender, Integer.parseInt(points), channel);
 			} else {
 			    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 			}

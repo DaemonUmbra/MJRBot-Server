@@ -87,7 +87,7 @@ public class BankHeistThread extends Thread {
 			    else
 				Utilities.getRandom(enteredPoints, enteredPoints * 2);
 			    Utilities.sendMessage(type, channelName, user + " got " + randPoints + " points from the heist!");
-			    PointsSystem.AddPoints(user, randPoints);
+			    PointsSystem.AddPoints(user, randPoints, channelName);
 			}
 		    }
 		    stage = 0;

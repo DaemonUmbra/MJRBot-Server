@@ -103,7 +103,7 @@ public class RacingGame {
 			}
 		    }
 		    pointsMessage = pointsMessage + Top3Users[l] + " has won " + Integer.toString(points) + ", ";
-		    PointsSystem.AddPoints(Top3Users[l], points);
+		    PointsSystem.AddPoints(Top3Users[l], points, channelName);
 		}
 	    }
 	    if (WinnerBetWinners.length() != 0) {
@@ -116,7 +116,7 @@ public class RacingGame {
 			}
 		    }
 		    pointsMessage = pointsMessage + WinnersUsers[m] + " has won " + Integer.toString(points) + ", ";
-		    PointsSystem.AddPoints(WinnerUsers[m], points);
+		    PointsSystem.AddPoints(WinnerUsers[m], points, channelName);
 		}
 	    }
 	    Utilities.sendMessage(type, channelName, pointsMessage);

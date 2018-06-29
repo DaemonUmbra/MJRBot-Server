@@ -18,7 +18,7 @@ public class AnswerCommand extends Command {
 		    int index = Integer.parseInt(args[1]);
 		    if (MathsGame.Answer == index) {
 			Utilities.sendMessage(type, channel, sender + " Well done, You have got the right answer! You have gained 10 points!");
-			PointsSystem.AddPoints(sender, 10);
+			PointsSystem.AddPoints(sender, 10, channel);
 			MathsGame.isMathsGameActive = false;
 		    } else {
 			Utilities.sendMessage(type, channel, sender + " you have got the wrong answer try again!");

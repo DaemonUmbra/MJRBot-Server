@@ -18,7 +18,7 @@ public class BuyRankCommand extends Command {
 		    if (!Ranks.hasRank(sender, Rank)) {
 			if (Ranks.isValidRank(Rank)) {
 			    if (PointsSystem.hasPoints(sender, Ranks.getRankPrice(Rank))) {
-				PointsSystem.RemovePoints(sender, Ranks.getRankPrice(Rank));
+				PointsSystem.RemovePoints(sender, Ranks.getRankPrice(Rank), channel);
 				Ranks.setRank(sender, Rank);
 				Utilities.sendMessage(type, channel, "Added " + Rank + " to " + sender);
 			    } else {

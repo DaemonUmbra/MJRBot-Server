@@ -14,7 +14,7 @@ public class DiceGame {
     public static void procressTurn(BotType type, String channelName, String sender, int wager, double multi) {
 	if (PointsSystem.hasPoints(sender, wager)) {
 	    int randomNum = Utilities.getRandom(1, 100);
-	    PointsSystem.RemovePoints(sender, wager);
+	    PointsSystem.RemovePoints(sender, wager, channelName);
 
 	    try {
 		Thread.sleep(2000);
@@ -23,7 +23,7 @@ public class DiceGame {
 	    }
 	    if (randomNum < getWinPercent(multi)) {
 		int profit = (int) (wager * multi);
-		PointsSystem.AddPoints(sender, profit);
+		PointsSystem.AddPoints(sender, profit, channelName);
 		Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
 			+ " points! Your current points is: " + PointsSystem.getPoints(sender));
 	    } else {

@@ -33,7 +33,7 @@ public class PointsThread extends Thread {
 				if (viewersJoinedTimes.containsKey(MJRBot.getTwitchBotByChannelName(channelName).viewers[i])) {
 				    long oldtime = viewersJoinedTimes.get(MJRBot.getTwitchBotByChannelName(channelName).viewers[i]);
 				    if ((timenow - oldtime) >= TimeDuration) {
-					PointsSystem.AddPoints(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], 1);
+					PointsSystem.AddPoints(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], 1, channelName);
 					viewersJoinedTimes.put(MJRBot.getTwitchBotByChannelName(channelName).viewers[i], System.currentTimeMillis());
 				    }
 				}
@@ -43,7 +43,7 @@ public class PointsThread extends Thread {
 				if (viewersJoinedTimes.containsKey(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i))) {
 				    long oldtime = viewersJoinedTimes.get(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i));
 				    if ((timenow - oldtime) >= TimeDuration) {
-					PointsSystem.AddPoints(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i), 1);
+					PointsSystem.AddPoints(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i), 1, channelName);
 					viewersJoinedTimes.put(MJRBot.getMixerBotByChannelName(channelName).getViewers().get(i), System.currentTimeMillis());
 				    }
 				}

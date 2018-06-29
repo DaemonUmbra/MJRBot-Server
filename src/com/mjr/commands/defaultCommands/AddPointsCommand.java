@@ -16,7 +16,7 @@ public class AddPointsCommand extends Command {
 		String User = args[2];
 
 		if (PointsSystem.isOnList(User)) {
-		    PointsSystem.AddPoints(User.toLowerCase(), Integer.parseInt(Points));
+		    PointsSystem.AddPoints(User.toLowerCase(), Integer.parseInt(Points), channel);
 		    Utilities.sendMessage(type, channel, "Added " + Points + " points" + " to " + User);
 		} else {
 		    Utilities.sendMessage(type, channel, "Cant add " + Points + " points" + " to " + User);

@@ -15,7 +15,7 @@ public class RemovePointsCommand extends Command {
 		String Points = args[1];
 		String User = args[2];
 		if (PointsSystem.isOnList(User)) {
-		    PointsSystem.RemovePoints(User.toLowerCase(), Integer.parseInt(Points));
+		    PointsSystem.RemovePoints(User.toLowerCase(), Integer.parseInt(Points), channel);
 		    Utilities.sendMessage(type, channel, "Removed " + Points + " points" + " to " + User);
 		} else {
 		    Utilities.sendMessage(type, channel, "Cant remove " + Points + " points" + " to " + User);

@@ -24,7 +24,7 @@ public class SpinCommand extends Command {
 		} else {
 		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in "
 			    + FruitMachine.timesLost + " turns");
-		    PointsSystem.RemovePoints(sender, 1);
+		    PointsSystem.RemovePoints(sender, 1, channel);
 		}
 	    } else {
 		Utilities.sendMessage(type, channel, sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));

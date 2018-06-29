@@ -59,24 +59,24 @@ public class PointsSystem {
 	    return false;
     }
 
-    public static void AddPoints(String user, int points) {
+    public static void AddPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
 	if (!isOnList(user))
 	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints")));
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints);
-	ConsoleUtil.TextToConsole("Added " + points + " points to " + user, "Bot:", null);
+	ConsoleUtil.TextToConsole("[Channel] " + channelName + " - Added " + points + " points to " + user, "Bot:", null);
     }
 
-    public static void RemovePoints(String user, int points) {
+    public static void RemovePoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
 	if (!isOnList(user))
 	    setPoints(user, 0);
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints - points;
 	setPoints(user, currentPoints);
-	ConsoleUtil.TextToConsole("Removed " + points + " points from " + user, "Bot:", null);
+	ConsoleUtil.TextToConsole("[Channel] \" + channelName + \" - Removed " + points + " points from " + user, "Bot:", null);
     }
 
     public static Boolean hasPoints(String user, int points) {
