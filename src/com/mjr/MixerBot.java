@@ -11,7 +11,6 @@ import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
 import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.threads.Announcements;
-import com.mjr.threads.CheckFollowers;
 import com.mjr.threads.PointsThread;
 
 public class MixerBot extends MJR_MixerBot {
@@ -75,8 +74,10 @@ public class MixerBot extends MJR_MixerBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel);
-		    followersThread.start();
+		    // CheckFollowers followersThread = new
+		    // CheckFollowers(BotType.Mixer, channel); TODO Add for
+		    // Mixer
+		    // followersThread.start();
 		}
 
 		for (String viewer : this.getViewers())

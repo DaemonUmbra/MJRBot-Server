@@ -8,31 +8,26 @@ import java.util.Arrays;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.HTTPConnect;
-import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.TwitchBot;
 import com.mjr.files.Config;
 
 public class Followers extends Thread {
-    public static String[] followers;
-    public static int followersNum;
-    public static String result = "";
-    public static String followerslist = "";
     private BotType type;
-    private String channelName;
+    private TwitchBot bot;
 
-    public Followers(BotType type, String channelName) {
+    public Followers(TwitchBot bot, BotType type) {
 	super();
 	this.type = type;
-	this.channelName = channelName;
+	this.bot = bot;
     }
 
     @Override
     public void run() {
 	URL url;
 	try {
-	    followerslist = "";
-	    result = "";
-	    url = new URL("https://api.twitch.tv/kraken/channels/" + channelName.toLowerCase()
+	    String result = "";
+	    url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
 		    + "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=25");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
@@ -46,7 +41,6 @@ public class Followers extends Thread {
 	    String copyresult = result;
 	    String total = result.substring(result.indexOf("_total") + 8);
 	    int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
-	    followersNum = times;
 	    int current = 1;
 
 	    String newfollower = "";
@@ -71,7 +65,7 @@ public class Followers extends Thread {
 			newfollower = newfollower.substring(0, newfollower.indexOf("\""));
 			result = result.substring(result.indexOf(newfollower));
 
-			followerslist = followerslist + newfollower.toLowerCase() + ",";
+			bot.followers.add(newfollower.toLowerCase());
 
 			if (current % 100 != 0) {
 			    if (result.indexOf("type\":\"") != -1)
@@ -82,23 +76,24 @@ public class Followers extends Thread {
 		}
 
 	    }
-	    followers = followerslist.split(",");
-	    ConsoleUtil.TextToConsole(type, channelName, "Bot got " + followers.length + " followers", "Bot", null);
+	    ConsoleUtil.TextToConsole(type, bot.channelName, "Bot got " + bot.followers.size() + " followers", "Bot", null);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
 
     }
 
-    public static void checkFollower(String channelName, String user) {
+    public static void checkFollower(TwitchBot bot, String user) {
 	String newfollower = "";
+	String result = "";
 	boolean isfollower = false;
-	String currentfollowers = Arrays.asList(followers).toString();
-	if (!currentfollowers.contains(user.toLowerCase())) {
+	String currentfollowers = Arrays.asList(bot.followers).toString();
+	if (!currentfollowers.contains(user)) {
 	    URL url;
 	    try {
-		url = new URL("https://api.twitch.tv/kraken/channels/" + channelName.toLowerCase()
-			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=" + (followersNum - (followersNum - 3)));
+		url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
+			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit="
+			+ (currentfollowers.length() - (currentfollowers.length() - 3)));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -108,7 +103,7 @@ public class Followers extends Thread {
 		}
 		reader.close();
 
-		for (int i = 0; i < (followersNum - (followersNum - 3)); i++) {
+		for (int i = 0; i < (currentfollowers.length() - (currentfollowers.length() - 3)); i++) {
 		    String newresult = "";
 		    if (i >= 1)
 			newresult = result.substring(result.indexOf("type\":\""));
@@ -124,12 +119,11 @@ public class Followers extends Thread {
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
-	    if (!currentfollowers.contains(user.toLowerCase()) && isfollower) {
-		MJRBot.getTwitchBotByChannelName(channelName).MessageToChat(user + " " + Config.getSetting("FollowerMessage"));
-		followerslist = followerslist + user.toLowerCase() + ",";
-		followers = followerslist.split(",");
-		followersNum++;
+	    if (!currentfollowers.contains(user) && isfollower) {
+		bot.MessageToChat(user + " " + Config.getSetting("FollowerMessage"));
 	    }
+	    if (!bot.followers.contains(user))
+		bot.followers.add(user);
 	}
     }
 }

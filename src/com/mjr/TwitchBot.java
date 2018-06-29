@@ -1,8 +1,10 @@
 package com.mjr;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jibble.pircbot.PircBot;
 
@@ -31,6 +33,7 @@ public class TwitchBot extends PircBot {
     private final CommandManager commands = new CommandManager();
     
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
+    public List<String> followers = new ArrayList<String>();
 
     public void init(String channelName) {
 	try {
@@ -129,7 +132,7 @@ public class TwitchBot extends PircBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    CheckFollowers followersThread = new CheckFollowers(BotType.Twitch, this.channelName);
+		    CheckFollowers followersThread = new CheckFollowers(this, BotType.Twitch);
 		    followersThread.start();
 		}
 	    } catch (IOException e) {
@@ -141,7 +144,7 @@ public class TwitchBot extends PircBot {
 	    }
 	    ConnectedToChannel = true;
 	    Viewers.getViewers(this.channelName);
-	    Followers followers = new Followers(BotType.Twitch, this.channelName);
+	    Followers followers = new Followers(this, BotType.Twitch);
 	    followers.start();
 	    
 	    UserCooldownTickThread userCooldownTickThread = new UserCooldownTickThread();
