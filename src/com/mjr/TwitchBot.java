@@ -31,7 +31,7 @@ public class TwitchBot extends PircBot {
     public String channelName = "";
 
     private final CommandManager commands = new CommandManager();
-    
+
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public List<String> followers = new ArrayList<String>();
 
@@ -94,16 +94,8 @@ public class TwitchBot extends PircBot {
     @Override
     protected void onUnknown(String line) {
 	if (line.contains("tmi.twitch.tv RECONNECT")) {
-	    try {
-		this.viewers = new String[0];
-		this.ConnectedToChannel = false;
-		this.disconnect();
-		Thread.sleep(60000);
-		this.ConnectToTwitch();
-		this.joinChannel(this.getChannel());
-	    } catch (IOException | InterruptedException e) {
-		e.printStackTrace();
-	    }
+	    this.disconnectTwitch();
+	    MJRBot.removeTwitchBot(this);
 	}
     }
 
@@ -146,7 +138,7 @@ public class TwitchBot extends PircBot {
 	    Viewers.getViewers(this.channelName);
 	    Followers followers = new Followers(this, BotType.Twitch);
 	    followers.start();
-	    
+
 	    UserCooldownTickThread userCooldownTickThread = new UserCooldownTickThread();
 	    userCooldownTickThread.start();
 	} else {
