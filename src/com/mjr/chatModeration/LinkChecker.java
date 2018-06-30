@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.mjr.Permissions;
 import com.mjr.MJRBot.BotType;
+import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 
 public class LinkChecker {

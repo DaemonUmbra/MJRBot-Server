@@ -10,7 +10,8 @@ import com.mjr.games.DiceGame;
 public class DiceCommand extends Command {
 
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
 		if (Utilities.isNumeric(args[1])) {

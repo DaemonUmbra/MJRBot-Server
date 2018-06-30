@@ -11,10 +11,11 @@ public class MySQLConnection {
     private static Connection connection;
     public static boolean connected = false;
 
-    public static void initConnection(String ipAddress, int port, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
+    public static void initConnection(String ipAddress, int port, String databaseName, String user, String password)
+	    throws SQLException, ClassNotFoundException {
 	initConnection("jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName + "?serverTimezone=GMT", user, password);
     }
-    
+
     public static void initConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
 	try {
 	    System.out.println("MySQl connection initializing!");

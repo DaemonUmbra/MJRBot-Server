@@ -56,7 +56,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual?");
-		//connectionType = "Database";
+		// connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;

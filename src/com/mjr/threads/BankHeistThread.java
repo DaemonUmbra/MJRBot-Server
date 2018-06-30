@@ -2,8 +2,8 @@ package com.mjr.threads;
 
 import java.util.HashMap;
 
-import com.mjr.Utilities;
 import com.mjr.MJRBot.BotType;
+import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
 public class BankHeistThread extends Thread {
@@ -21,10 +21,10 @@ public class BankHeistThread extends Thread {
     public static int randNum2 = 0;
 
     public static boolean GameActive = false;
-    
+
     private BotType type;
     private String channelName;
-    
+
     public BankHeistThread(BotType type, String channelName) {
 	super();
 	this.type = type;

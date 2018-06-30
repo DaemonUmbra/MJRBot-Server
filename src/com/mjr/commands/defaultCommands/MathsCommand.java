@@ -9,7 +9,8 @@ import com.mjr.games.MathsGame;
 
 public class MathsCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (MathsGame.isMathsGameActive == false) {
 		Utilities.sendMessage(type, channel, MathsGame.CreateQuestion(type, channel));

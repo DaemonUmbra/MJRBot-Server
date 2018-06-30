@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.mjr.Utilities;
 import com.mjr.MJRBot.BotType;
+import com.mjr.Utilities;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.files.Config;
 
@@ -15,7 +15,7 @@ public class GiveAwayThread extends Thread {
     public static List<String> EnteredUsers = new ArrayList<String>();
     private BotType type;
     private String channelName;
-    
+
     public GiveAwayThread(BotType type, String channelName) {
 	super();
 	this.type = type;
@@ -26,7 +26,8 @@ public class GiveAwayThread extends Thread {
     @SuppressWarnings("deprecation")
     public void run() {
 	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay")) * 60) * 1000;
-	Utilities.sendMessage(type, channelName, "Giveaway will end in " + Config.getSetting("GiveawayDelay") + " minutes. To enter use !enter");
+	Utilities.sendMessage(type, channelName,
+		"Giveaway will end in " + Config.getSetting("GiveawayDelay") + " minutes. To enter use !enter");
 
 	if (Delay) {
 	    try {

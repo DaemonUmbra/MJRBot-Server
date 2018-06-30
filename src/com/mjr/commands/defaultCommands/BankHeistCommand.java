@@ -9,7 +9,8 @@ import com.mjr.threads.BankHeistThread;
 
 public class BankHeistCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		if (BankHeistThread.GameActive == false) {
@@ -18,7 +19,8 @@ public class BankHeistCommand extends Command {
 			BankHeistThread thread = new BankHeistThread(type, channel);
 			thread.start();
 			BankHeistThread.GameActive = true;
-			Utilities.sendMessage(type, channel, sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+			Utilities.sendMessage(type, channel, sender + " has started planning a heist!"
+				+ " To join the crew enter !heist <points> you only have 1 minute!");
 		    } else
 			Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
 		} else {

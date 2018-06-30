@@ -10,7 +10,8 @@ import com.mjr.files.Ranks;
 
 public class BuyRankCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		String Rank = args[1];
@@ -22,7 +23,8 @@ public class BuyRankCommand extends Command {
 				Ranks.setRank(sender, Rank);
 				Utilities.sendMessage(type, channel, "Added " + Rank + " to " + sender);
 			    } else {
-				Utilities.sendMessage(type, channel, " you dont have the right amount of points! Do !points to check how many you got");
+				Utilities.sendMessage(type, channel,
+					" you dont have the right amount of points! Do !points to check how many you got");
 			    }
 			} else {
 			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");

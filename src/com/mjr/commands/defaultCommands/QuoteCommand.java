@@ -104,7 +104,8 @@ public class QuoteCommand extends Command {
 			e.printStackTrace();
 		    }
 		    Utilities.sendMessage(type, channel, sender + " your quote has been added!");
-		    ConsoleUtil.TextToConsole(type, channel, "A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
+		    ConsoleUtil.TextToConsole(type, channel,
+			    "A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
 		((TwitchBot) bot).sendMessage(MJRBot.getTwitchBotByChannelName(channel).getChannel(),

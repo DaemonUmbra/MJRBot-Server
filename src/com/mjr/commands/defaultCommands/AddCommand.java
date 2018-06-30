@@ -10,7 +10,8 @@ import com.mjr.commands.CustomCommands;
 
 public class AddCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (args.length >= 4) {
 	    if (!args[1].contains("!")) {
 		if (args[2].equalsIgnoreCase("User") || args[2].equalsIgnoreCase("Moderator")) {

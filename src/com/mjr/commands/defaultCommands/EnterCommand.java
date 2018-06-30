@@ -9,7 +9,8 @@ import com.mjr.threads.GiveAwayThread;
 public class EnterCommand extends Command {
 
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (GiveAwayCommand.Started) {
 	    GiveAwayThread.EnteredUsers.add(sender.toLowerCase());
 	    Utilities.sendMessage(type, channel, sender + " has now been entered in to the giveaway!");

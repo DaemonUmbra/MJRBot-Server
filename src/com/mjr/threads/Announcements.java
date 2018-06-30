@@ -9,10 +9,10 @@ public class Announcements extends Thread {
 
     private static long TimeDuration;
     private boolean Delay = true;
-    
+
     private BotType type;
     private String channelName;
-    
+
     public Announcements(BotType type, String channelName) {
 	super();
 	this.type = type;
@@ -23,7 +23,8 @@ public class Announcements extends Thread {
     public void run() {
 	while (true) {
 	    if ((type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel)
-		    || (MJRBot.getMixerBotByChannelName(channelName) != null && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
+		    || (MJRBot.getMixerBotByChannelName(channelName) != null
+			    && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
 		    TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay")) * 60) * 1000;
 		    if (Delay) {

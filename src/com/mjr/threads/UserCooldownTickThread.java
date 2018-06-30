@@ -14,7 +14,7 @@ public class UserCooldownTickThread extends Thread {
 	    HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
 
 	    for (String channelNameMain : channelListTwitch.keySet()) {
-		TwitchBot twitchBot = ((TwitchBot) channelListTwitch.get(channelNameMain));
+		TwitchBot twitchBot = (channelListTwitch.get(channelNameMain));
 		HashMap<String, Integer> users = twitchBot.usersCooldowns;
 		for (String user : users.keySet()) {
 		    int oldTime = users.get(user);

@@ -60,7 +60,8 @@ public class RacingGame {
 
 	boolean Results = false;
 
-	Utilities.sendMessage(type, channelName, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
+	Utilities.sendMessage(type, channelName,
+		"First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
 	for (int k = 0; k < BetNumber; k++) {
 	    if (bets[2][k].equalsIgnoreCase("top3")) {
 		if (bets[1][k].equalsIgnoreCase(Integer.toString(cars[0])) || bets[1][k].equalsIgnoreCase(Integer.toString(cars[1]))

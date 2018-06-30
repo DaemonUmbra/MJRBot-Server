@@ -1,7 +1,7 @@
 package com.mjr.threads;
 
-import com.mjr.Utilities;
 import com.mjr.MJRBot.BotType;
+import com.mjr.Utilities;
 import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.games.RacingGame;
 
@@ -10,7 +10,7 @@ public class RaceStartThread extends Thread {
     private boolean threadActive = true;
     private BotType type;
     private String channelName;
-    
+
     public RaceStartThread(BotType type, String channelName) {
 	super();
 	this.type = type;

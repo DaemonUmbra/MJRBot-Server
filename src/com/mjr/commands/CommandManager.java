@@ -123,7 +123,8 @@ public class CommandManager {
 		if (allowed)
 		    command.onCommand(type, bot, channel, sender, login, hostname, message, args);
 	    }
-	} else if (args[0].startsWith("!")) { // Check if its a known custom command
+	} else if (args[0].startsWith("!")) { // Check if its a known custom
+					      // command
 	    CustomCommands.getCommand(type, channel, args[0], sender);
 	}
     }

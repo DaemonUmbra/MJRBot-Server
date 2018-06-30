@@ -10,7 +10,8 @@ import com.mjr.games.FruitMachine;
 
 public class SpinCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1)) {
 		String Answer = FruitMachine.Spin(type);
@@ -20,14 +21,16 @@ public class SpinCommand extends Command {
 		    waittime++;
 		}
 		if (FruitMachine.hasWon()) {
-		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! You have been given " + PointsSystem.AddRandomPoints(sender, channel) + " Points");
+		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! You have been given "
+			    + PointsSystem.AddRandomPoints(sender, channel) + " Points");
 		} else {
-		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in "
-			    + FruitMachine.timesLost + " turns");
+		    Utilities.sendMessage(type, channel, sender + " " + Answer
+			    + " you have lost! 1 Point taken! The Fruit Machine hasnt been won in " + FruitMachine.timesLost + " turns");
 		    PointsSystem.RemovePoints(sender, 1, channel);
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+		Utilities.sendMessage(type, channel,
+			sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
 	    }
 	}
     }

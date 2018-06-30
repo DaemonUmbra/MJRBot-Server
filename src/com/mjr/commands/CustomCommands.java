@@ -39,7 +39,8 @@ public class CustomCommands {
 		    Utilities.sendMessage(type, channelName, properties.getProperty("response"));
 		} else {
 		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
-			Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " you dont have access to this command!");
+			Utilities.sendMessage(type, channelName,
+				"@" + sender + " the command " + command + " you dont have access to this command!");
 		}
 	    }
 
@@ -50,7 +51,8 @@ public class CustomCommands {
 		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
     }
 
-    public static void AddCommand(BotType type, String channelName, String command, String response, String permission) throws FileNotFoundException, IOException {
+    public static void AddCommand(BotType type, String channelName, String command, String response, String permission)
+	    throws FileNotFoundException, IOException {
 	if (type == BotType.Twitch)
 	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
 	else {
@@ -59,7 +61,8 @@ public class CustomCommands {
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (!filenew.exists()) {
-	    if (permission.equalsIgnoreCase("Moderator") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("User")) {
+	    if (permission.equalsIgnoreCase("Moderator") || permission.equalsIgnoreCase("Streamer")
+		    || permission.equalsIgnoreCase("User")) {
 		filenew.getParentFile().mkdirs();
 		filenew.createNewFile();
 		iStream = new FileInputStream(filelocation + filename);
@@ -149,7 +152,8 @@ public class CustomCommands {
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
 
-    public static void ChangeComanndResponse(BotType type, String channelName, String command, String response) throws FileNotFoundException, IOException {
+    public static void ChangeComanndResponse(BotType type, String channelName, String command, String response)
+	    throws FileNotFoundException, IOException {
 	if (type == BotType.Twitch)
 	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
 	else {

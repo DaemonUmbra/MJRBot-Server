@@ -11,7 +11,8 @@ import com.mjr.commands.CustomCommands;
 
 public class ChangeResponseCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (args.length >= 3) {
 	    if (!args[1].contains("!")) {
 		String command = args[1];

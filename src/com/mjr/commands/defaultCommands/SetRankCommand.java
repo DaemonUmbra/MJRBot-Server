@@ -9,7 +9,8 @@ import com.mjr.files.Ranks;
 
 public class SetRankCommand extends Command {
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
 	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
 		String Rank = args[1];

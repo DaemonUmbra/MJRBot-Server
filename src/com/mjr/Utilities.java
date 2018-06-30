@@ -19,8 +19,8 @@ public class Utilities {
 	}
 	return true;
     }
-    
-    public static void sendMessage(BotType type, String channelName, String endMessage){
+
+    public static void sendMessage(BotType type, String channelName, String endMessage) {
 	if (type == BotType.Twitch)
 	    MJRBot.getTwitchBotByChannelName(channelName).MessageToChat(endMessage);
 	else

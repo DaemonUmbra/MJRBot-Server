@@ -1,7 +1,7 @@
 package com.mjr.games;
 
-import com.mjr.Utilities;
 import com.mjr.MJRBot.BotType;
+import com.mjr.Utilities;
 import com.mjr.files.PointsSystem;
 
 public class DiceGame {
@@ -27,10 +27,11 @@ public class DiceGame {
 		Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
 			+ " points! Your current points is: " + PointsSystem.getPoints(sender));
 	    } else {
-		Utilities.sendMessage(type, channelName, "@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender));
+		Utilities.sendMessage(type, channelName,
+			"@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender));
 	    }
-	}
-	else
-	    Utilities.sendMessage(type, channelName, "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+	} else
+	    Utilities.sendMessage(type, channelName,
+		    "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
     }
 }
