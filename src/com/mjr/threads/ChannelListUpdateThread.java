@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.files.ConfigMain;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.sql.SQLUtilities;
@@ -63,7 +64,7 @@ public class ChannelListUpdateThread extends Thread {
 		}
 	    }
 	    try {
-		Thread.sleep(30000);
+		Thread.sleep(Integer.parseInt(ConfigMain.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }

@@ -33,6 +33,7 @@ public class ConfigMain {
 	    setSetting("DatabasePort", "");
 	    setSetting("DatabaseUsername", "");
 	    setSetting("DatabasePassword", "");
+	    setSetting("UpdateChannelFromDatabaseTime(Seconds)", "30");
 	}
 	FileReader reader = new FileReader(file);
 	properties.load(reader);
