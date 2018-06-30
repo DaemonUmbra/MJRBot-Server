@@ -11,14 +11,14 @@ public class DisconnectCommand extends Command{
 
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-	if (type == BotType.Twitch) { // TODO Fix this
+	if (type == BotType.Twitch) {
 	    TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channel);
-	    twitchBot.MessageToChat(twitchBot.getBotName() + " Disconnected!");
 	    twitchBot.disconnectTwitch();
+	    MJRBot.removeTwitchBot(twitchBot);
 	} else if (type == BotType.Mixer) {
 	    MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channel);
-	    mixerBot.sendMessage(mixerBot.getBotName() + " Disconnected!");
 	    mixerBot.disconnect();
+	    MJRBot.removeMixerBot(mixerBot);
 	}
     }
 

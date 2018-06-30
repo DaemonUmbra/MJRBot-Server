@@ -261,6 +261,7 @@ public class TwitchBot extends PircBot {
     }
 
     public void disconnectTwitch() {
+	this.MessageToChat(this.getBotName() + " Disconnected!");
 	this.disconnect();
 	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", "Bot", null);
 	this.viewers = new String[0];

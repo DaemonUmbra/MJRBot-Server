@@ -145,7 +145,7 @@ public class MJRBot {
 	mixerBots.put(channelName, bot);
     }
 
-    public static void removeMixerBott(MixerBot bot) {
+    public static void removeMixerBot(MixerBot bot) {
 	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName, "Bot", null);
 	twitchBots.remove(bot.channelName, bot);
     }
