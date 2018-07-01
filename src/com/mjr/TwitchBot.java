@@ -46,7 +46,8 @@ public class TwitchBot extends PircBot {
 	this.joinChannel(this.getChannel());
 	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName,
 		"Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", "Bot", null);
-	this.setVerbose(true);
+	if (ConfigMain.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
+	    this.setVerbose(true);
     }
 
     @Override
