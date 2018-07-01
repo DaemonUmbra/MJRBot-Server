@@ -19,7 +19,8 @@ public class UserCooldownTickThread extends Thread {
 		for (String user : users.keySet()) {
 		    int oldTime = users.get(user);
 		    if (oldTime != 0) {
-			users.remove(user);
+			if(users.containsKey(user))
+			    users.remove(user);
 			users.put(user, oldTime--);
 		    }
 		}
