@@ -72,20 +72,24 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
-	if (notice.contains("The moderators of this room are:")) {
-	    notice = notice.substring(notice.indexOf(":") + 2);
-	    notice += ", " + stream.substring(stream.indexOf("#") + 1);
-	    mods = notice.split(", ");
+	if (notice.contains("The moderators of this channel are:")) {
+	    try {
+		notice = notice.substring(notice.indexOf(":") + 2);
+		notice += ", " + stream.substring(stream.indexOf("#") + 1);
+		mods = notice.split(", ");
+	    } catch (Exception e) {
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!",
+			"Bot", null);
+	    }
 	    if (mods == null) {
 		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!",
 			"Bot", null);
 		return;
 	    }
-	    if (mods.length < 1)
-		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "This channel has no moderators!", "Bot", null);
-	    else
+	    if (mods.length > 1)
 		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has the Moderators!", "Bot", null);
-	}
+	} else if (notice.contains("There are no moderators of this channel"))
+	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "This channel has no moderators!", "Bot", null);
     }
 
     @Override
