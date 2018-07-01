@@ -19,9 +19,9 @@ public class UserCooldownTickThread extends Thread {
 		for (String user : users.keySet()) {
 		    int oldTime = users.get(user);
 		    if (oldTime != 0) {
-			if(users.containsKey(user))
-			    users.remove(user);
-			users.put(user, oldTime--);
+			oldTime = oldTime - 1;
+			users.remove(user);
+			users.put(user, oldTime);
 		    }
 		}
 		twitchBot.usersCooldowns = users;
