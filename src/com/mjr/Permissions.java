@@ -1,14 +1,19 @@
 package com.mjr;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.mjr.MJRBot.BotType;
 import com.mjr.files.Config;
 
 public class Permissions {
 
+    public static List<String> knownBots = new ArrayList<String>(
+	    Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
+
     public enum PermissionLevel {
-	User("User", 0), Moderator("Moderator", 1), Streamer("Streamer", 3), Bot("Bot", 5), BotOwner("BotOwner", 4);
+	User("User", 0), Moderator("Moderator", 1), Streamer("Streamer", 3), Bot("Bot", 5), KnownBot("Bot", 5), BotOwner("BotOwner", 4);
 
 	private final String permission;
 	private final int tierValue;
@@ -38,51 +43,43 @@ public class Permissions {
 	user = user.toLowerCase();
 	if (type == BotType.Twitch) {
 	    if (TwitchBot.mods != null) {
-		if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Streamer.getName();
-		else if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).getBotName()))
-		    return PermissionLevel.Bot.getName();
-		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return PermissionLevel.BotOwner.getName();
-		else if (Arrays.asList(TwitchBot.mods).contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName"))
-			|| user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Moderator.getName();
-	    } else {
-		if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Streamer.getName();
-		else if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).getBotName()))
-		    return PermissionLevel.Bot.getName();
-		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return PermissionLevel.BotOwner.getName();
-		else if (user.equalsIgnoreCase(Config.getSetting("UserName"))
+		if (Arrays.asList(TwitchBot.mods).contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName"))
 			|| user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
 		    return PermissionLevel.Moderator.getName();
 	    }
-	    return PermissionLevel.User.getName();
+	    if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
+		return PermissionLevel.Streamer.getName();
+	    else if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).getBotName()))
+		return PermissionLevel.Bot.getName();
+	    else if (knownBots.contains(user.toLowerCase()))
+		return PermissionLevel.KnownBot.getName();
+	    else if (user.equalsIgnoreCase("mjrlegends"))
+		return PermissionLevel.BotOwner.getName();
+	    else if (user.equalsIgnoreCase(Config.getSetting("UserName"))
+		    || user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
+		return PermissionLevel.Moderator.getName();
+	    else
+		return PermissionLevel.User.getName();
 	} else {
 	    if (!MJRBot.getMixerBotByChannelName(channelName).getModerators().isEmpty()) {
-		if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Streamer.getName();
-		else if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).getBotName()))
-		    return PermissionLevel.Bot.getName();
-		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return PermissionLevel.BotOwner.getName();
-		else if (MJRBot.getMixerBotByChannelName(channelName).getModerators().contains(user)
+		if (MJRBot.getMixerBotByChannelName(channelName).getModerators().contains(user)
 			|| user.equalsIgnoreCase(Config.getSetting("UserName"))
 			|| user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
 		    return PermissionLevel.Moderator.getName();
-	    } else {
-		if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Streamer.getName();
-		else if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).getBotName()))
-		    return PermissionLevel.Bot.getName();
-		else if (user.equalsIgnoreCase("mjrlegends"))
-		    return PermissionLevel.BotOwner.getName();
-		else if (user.equalsIgnoreCase(Config.getSetting("UserName"))
-			|| user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
-		    return PermissionLevel.Moderator.getName();
 	    }
-	    return PermissionLevel.User.getName();
+	    if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
+		return PermissionLevel.Streamer.getName();
+	    else if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).getBotName()))
+		return PermissionLevel.Bot.getName();
+	    else if (knownBots.contains(user.toLowerCase()))
+		return PermissionLevel.KnownBot.getName();
+	    else if (user.equalsIgnoreCase("mjrlegends"))
+		return PermissionLevel.BotOwner.getName();
+	    else if (user.equalsIgnoreCase(Config.getSetting("UserName"))
+		    || user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
+		return PermissionLevel.Moderator.getName();
+	    else
+		return PermissionLevel.User.getName();
 	}
     }
 
