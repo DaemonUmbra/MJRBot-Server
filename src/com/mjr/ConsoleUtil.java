@@ -12,10 +12,13 @@ public class ConsoleUtil {
     public static void TextToConsole(BotType type, String channel, String message, String MessageType, String sender) {
 	if (MessageType == "Chat") {
 	    if (sender != null) {
-		if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
+		if (Permissions.hasPermission(type, channel, sender, PermissionLevel.BotOwner.getName())) {
+		    System.out.println(
+			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
-		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.KnownBot.getName())) {
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 		} else if (type == BotType.Twitch && sender.endsWith(channel)) {
@@ -24,9 +27,6 @@ public class ConsoleUtil {
 		} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
-		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.BotOwner.getName())) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Moderator.getName())) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
