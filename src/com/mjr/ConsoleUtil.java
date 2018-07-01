@@ -18,7 +18,7 @@ public class ConsoleUtil {
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
-		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
+		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.KnownBot.getName())) {
 		    System.out.println(
 			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 		} else if (type == BotType.Twitch && sender.endsWith(channel)) {
