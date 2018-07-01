@@ -13,7 +13,7 @@ public class Permissions {
 	    Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
 
     public enum PermissionLevel {
-	User("User", 0), Moderator("Moderator", 1), Streamer("Streamer", 3), Bot("Bot", 5), KnownBot("Bot", 5), BotOwner("BotOwner", 4);
+	User("User", 0), Moderator("Moderator", 1), Streamer("Streamer", 3), Bot("Bot", 5), KnownBot("KnownBot", 5), BotOwner("BotOwner", 4);
 
 	private final String permission;
 	private final int tierValue;
