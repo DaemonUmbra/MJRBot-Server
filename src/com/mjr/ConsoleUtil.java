@@ -8,6 +8,10 @@ public class ConsoleUtil {
     public static void TextToConsole(String message, String MessageType, String sender) {
 	TextToConsole(null, "", message, MessageType, sender);
     }
+    
+    public static void TextToConsole(String message, String channel, String MessageType, String sender) {
+	TextToConsole(null, channel, message, MessageType, sender);
+    }
 
     public static void TextToConsole(BotType type, String channel, String message, String MessageType, String sender) {
 	if (MessageType == "Chat") {
