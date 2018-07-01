@@ -13,26 +13,24 @@ public class ConsoleUtil {
 	if (MessageType == "Chat") {
 	    if (sender != null) {
 		if (Permissions.hasPermission(type, channel, sender, PermissionLevel.BotOwner.getName())) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
+		    System.out
+			    .println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Bot.getName())) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
+		    System.out.println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.KnownBot.getName())) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
+		    System.out
+			    .println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 		} else if (type == BotType.Twitch && sender.endsWith(channel)) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
+		    System.out
+			    .println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 		} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
+		    System.out
+			    .println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.Moderator.getName())) {
 		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
+			    "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(type, channel, sender, PermissionLevel.User.getName())) {
-		    System.out.println(
-			    "\n" + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
+		    System.out.println("[Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
 		}
 	    }
 	} else {
