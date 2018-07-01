@@ -241,7 +241,7 @@ public class TwitchBot extends PircBot {
 	    }
 	}
 	this.sendMessage(stream, message);
-	System.out.println(message);
+	ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, message, "Chat", this.getName());
     }
 
     public void MessageToConsole(String message) {
