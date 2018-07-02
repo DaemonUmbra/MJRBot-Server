@@ -16,7 +16,7 @@ import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.PointsThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.4.2 - Beta, Server Version";
+    public static final String VERSION = "1.4.3 - Beta, Server Version";
 
     public static String filePath;
 
@@ -47,7 +47,7 @@ public class MJRBot {
 	else if (OSUtilities.isWindows())
 	    filePath = "C:" + File.separator + "MJRBot" + File.separator;
 	else {
-	    ConsoleUtil.TextToConsole("Your Operating System is currently not supported!", "Bot", null);
+	    ConsoleUtil.TextToConsole("Your Operating System is currently not supported!");
 	    return;
 	}
 	if (filePath != null) {
@@ -55,8 +55,8 @@ public class MJRBot {
 	    PointsThread.viewersJoinedTimes.clear();
 	    String connectionType = "";
 	    do {
-		//connectionType = console.readLine("Bot Type: Database or Manual?");
-		connectionType = "Database";
+		connectionType = console.readLine("Bot Type: Database or Manual?");
+		//connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
@@ -100,9 +100,9 @@ public class MJRBot {
 	    bot.joinChannel(channel);
 	    addMixerBot(channel, bot);
 	} else if (channel != "")
-	    ConsoleUtil.TextToConsole("Unknown Type of Connection!", "Bot", null);
+	    ConsoleUtil.TextToConsole("Unknown Type of Connection!");
 	else
-	    ConsoleUtil.TextToConsole("Invalid entry for Channel Name!!", "Bot", null);
+	    ConsoleUtil.TextToConsole("Invalid entry for Channel Name!!");
     }
 
     public static Console getConsole() {
@@ -118,17 +118,17 @@ public class MJRBot {
     }
 
     public static void addTwitchBot(String channelName, TwitchBot bot) {
-	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName);
 	twitchBots.put(channelName, bot);
     }
 
     public static void removeTwitchBot(TwitchBot bot) {
-	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName);
 	twitchBots.remove(bot.channelName, bot);
     }
 
     public static void removeTwitchBot(String channelName) {
-	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName);
 	twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
     }
 
@@ -141,17 +141,17 @@ public class MJRBot {
     }
 
     public static void addMixerBot(String channelName, MixerBot bot) {
-	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been added to the channel " + channelName);
 	mixerBots.put(channelName, bot);
     }
 
     public static void removeMixerBot(MixerBot bot) {
-	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + bot.channelName);
 	twitchBots.remove(bot.channelName, bot);
     }
 
     public static void removeMixerBot(String channelName) {
-	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName, "Bot", null);
+	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName);
 	twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
     }
 
