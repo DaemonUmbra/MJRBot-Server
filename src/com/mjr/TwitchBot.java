@@ -62,6 +62,11 @@ public class TwitchBot extends PircBot {
 
     @Override
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
+	if (!Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
+		this.viewers.add(sender.toLowerCase());
+	    }
+	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	// GUI
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Chat, sender);
 	if (moderators != null)
