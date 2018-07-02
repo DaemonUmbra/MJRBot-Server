@@ -79,9 +79,15 @@ public class GetViewersThread extends Thread {
 		    newresult = Mods + Staff + Admins + GMods + Viewers;
 		    newresult = newresult.replace(" ", "");
 		    newresult = newresult.replace("\"", "");
+		    if(bot.viewers == null)
+			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has the list of current viewers!", "Bot", null);
+		    else {
+			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!", "Bot", null);
+			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!", "Bot", null);
+		    }
+
 		    bot.viewers = newresult.split(",");
 		    bot.mods = Mods.split(",");
-		    ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has list of current viewers!", "Bot", null);
 
 		    for (int i = 1; i < bot.viewers.length; i++) {
 			if (Config.getSetting("Points").equalsIgnoreCase("true")) {
@@ -98,6 +104,11 @@ public class GetViewersThread extends Thread {
 		    }
 		}
 	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	    try {
+		Thread.sleep(30000);
+	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
 	}

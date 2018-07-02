@@ -95,7 +95,7 @@ public class TwitchBot extends PircBot {
 		return;
 	    }
 	    if (mods.length > 1)
-		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has list of current moderators!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has the list of current moderators!", "Bot", null);
 	} else if (notice.contains("There are no moderators of this channel"))
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "This channel has no moderators!", "Bot", null);
     }
