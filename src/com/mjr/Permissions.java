@@ -43,7 +43,7 @@ public class Permissions {
     public static String getPermissionLevel(Object bot, BotType type, String channelName, String user) {
 	user = user.toLowerCase();
 	if (type == BotType.Twitch) {
-	    if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
+	    if (user.equalsIgnoreCase(channelName))
 		return PermissionLevel.Streamer.getName();
 	    else if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).getBotName()))
 		return PermissionLevel.Bot.getName();
@@ -52,13 +52,12 @@ public class Permissions {
 	    else if (user.equalsIgnoreCase("mjrlegends"))
 		return PermissionLevel.BotOwner.getName();
 	    if (((TwitchBot) bot).moderators != null && Arrays.asList(((TwitchBot) bot).moderators).contains(user)
-		    || user.equalsIgnoreCase(Config.getSetting("UserName"))
-		    || user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
+		    || user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 		return PermissionLevel.Moderator.getName();
 	    else
 		return PermissionLevel.User.getName();
 	} else {
-	    if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
+	    if (user.equalsIgnoreCase(channelName))
 		return PermissionLevel.Streamer.getName();
 	    else if (user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).getBotName()))
 		return PermissionLevel.Bot.getName();
@@ -68,8 +67,7 @@ public class Permissions {
 		return PermissionLevel.BotOwner.getName();
 	    else if (!MJRBot.getMixerBotByChannelName(channelName).getModerators().isEmpty()
 		    && MJRBot.getMixerBotByChannelName(channelName).getModerators().contains(user)
-		    || user.equalsIgnoreCase(Config.getSetting("UserName"))
-		    || user.equalsIgnoreCase(MJRBot.getMixerBotByChannelName(channelName).channelName))
+		    || user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 		return PermissionLevel.Moderator.getName();
 	    else
 		return PermissionLevel.User.getName();

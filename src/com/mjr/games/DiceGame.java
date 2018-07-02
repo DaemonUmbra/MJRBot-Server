@@ -12,7 +12,7 @@ public class DiceGame {
     }
 
     public static void procressTurn(BotType type, String channelName, String sender, int wager, double multi) {
-	if (PointsSystem.hasPoints(sender, wager)) {
+	if (PointsSystem.hasPoints(sender, wager, channelName)) {
 	    int randomNum = Utilities.getRandom(1, 100);
 	    PointsSystem.RemovePoints(sender, wager, channelName);
 
@@ -25,13 +25,13 @@ public class DiceGame {
 		int profit = (int) (wager * multi);
 		PointsSystem.AddPoints(sender, profit, channelName);
 		Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
-			+ " points! Your current points is: " + PointsSystem.getPoints(sender));
+			+ " points! Your current points is: " + PointsSystem.getPoints(sender, channelName));
 	    } else {
 		Utilities.sendMessage(type, channelName,
-			"@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender));
+			"@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender, channelName));
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName,
-		    "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+		    "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, channelName));
     }
 }

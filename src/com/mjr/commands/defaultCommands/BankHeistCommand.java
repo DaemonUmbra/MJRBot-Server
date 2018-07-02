@@ -11,7 +11,7 @@ public class BankHeistCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		if (BankHeistThread.GameActive == false) {
 		    if (Utilities.isNumeric(args[1])) {

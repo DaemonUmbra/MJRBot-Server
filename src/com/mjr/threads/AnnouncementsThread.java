@@ -25,8 +25,8 @@ public class AnnouncementsThread extends Thread {
 	    if ((type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel)
 		    || (MJRBot.getMixerBotByChannelName(channelName) != null
 			    && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
-		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay")) * 60) * 1000;
+		if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
+		    TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName)) * 60) * 1000;
 		    if (Delay) {
 			try {
 			    Thread.sleep(TimeDuration);
@@ -34,7 +34,8 @@ public class AnnouncementsThread extends Thread {
 			    e.printStackTrace();
 			}
 		    }
-		    Utilities.sendMessage(type, channelName, Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5)));
+		    Utilities.sendMessage(type, channelName,
+			    Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), channelName));
 		}
 	    }
 	    try {

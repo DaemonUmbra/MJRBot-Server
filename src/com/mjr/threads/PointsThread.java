@@ -20,8 +20,8 @@ public class PointsThread extends Thread {
     @Override
     public void run() {
 	while (true) {
-	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		TimeDuration = (Integer.parseInt(Config.getSetting("AutoPointsDelay")) * 60) * 1000;
+	    if (Config.getSetting("Points", channelName).equalsIgnoreCase("true")) {
+		TimeDuration = (Integer.parseInt(Config.getSetting("AutoPointsDelay", channelName)) * 60) * 1000;
 		long timenow = System.currentTimeMillis();
 		if (type == BotType.Twitch) {
 		    TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);

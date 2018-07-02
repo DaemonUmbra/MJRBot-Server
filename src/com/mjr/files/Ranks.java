@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -20,46 +19,62 @@ public class Ranks {
     public static int BronzePrice = 2000;
 
     public static String filename = "UserRanks.properties";
-    public static File file;
-    public static Properties properties = new Properties();
-    protected static InputStream iStream;
 
-    public static void load(String channelName) throws IOException {
-	file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
-	if (!file.exists()) {
-	    file.getParentFile().mkdirs();
-	    file.createNewFile();
+    public static Properties load(String channelName) {
+	try {
+	    FileReader reader;
+	    reader = new FileReader(loadFile(channelName));
+
+	    Properties properties = new Properties();
+	    properties.load(reader);
+	    return properties;
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
-	FileReader reader = new FileReader(file);
-	properties.load(reader);
+	return null;
     }
 
-    public static String getRank(String user) {
+    public static File loadFile(String channelName) {
+	try {
+	    File file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
+	    if (!file.exists()) {
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+	    }
+	    return file;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return null;
+    }
+
+    public static String getRank(String user, String channelName) {
 	user = user.toLowerCase();
 	String value = "";
 	user = user.toLowerCase();
-	value = properties.getProperty(user, value);
+	value = load(channelName).getProperty(user, value);
 	return value;
     }
 
     @SuppressWarnings("deprecation")
-    public static void setRank(String user, String rank) {
+    public static void setRank(String user, String rank, String channelName) {
 	user = user.toLowerCase();
 	rank = rank.toLowerCase();
-	if (getRank(user) != rank) {
+	if (getRank(user, channelName) != rank) {
+	    Properties properties = load(channelName);
 	    properties.setProperty(user.toLowerCase(), rank);
 	    try {
-		properties.save(new FileOutputStream(file), null);
+		properties.save(new FileOutputStream(loadFile(channelName)), null);
 	    } catch (FileNotFoundException e) {
 		e.printStackTrace();
 	    }
 	}
     }
 
-    public static void removeRank(String user) {
+    public static void removeRank(String user, String channelName) {
 	user = user.toLowerCase();
-	if (getRank(user) != "None") {
-	    setRank(user, "None");
+	if (getRank(user, channelName) != "None") {
+	    setRank(user, "None", channelName);
 	}
     }
 
@@ -74,18 +89,18 @@ public class Ranks {
 	return 0;
     }
 
-    public static Boolean isOnList(String user) {
+    public static Boolean isOnList(String user, String channelName) {
 	user = user.toLowerCase();
-	if (properties.getProperty(user) != null)
+	if (load(channelName).getProperty(user) != null)
 	    return true;
 	else
 	    return false;
     }
 
-    public static Boolean hasRank(String user, String rank) {
+    public static Boolean hasRank(String user, String rank, String channelName) {
 	user = user.toLowerCase();
 	rank = rank.toLowerCase();
-	if (getRank(user).equalsIgnoreCase(rank))
+	if (getRank(user, channelName).equalsIgnoreCase(rank))
 	    return true;
 	else
 	    return false;

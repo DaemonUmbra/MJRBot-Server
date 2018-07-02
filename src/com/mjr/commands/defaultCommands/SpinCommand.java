@@ -12,8 +12,8 @@ public class SpinCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
-	    if (PointsSystem.hasPoints(sender, 1)) {
+	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
+	    if (PointsSystem.hasPoints(sender, 1, channel)) {
 		String Answer = FruitMachine.Spin(type);
 		Utilities.sendMessage(type, channel, sender + " the Fruit Machine is spinning...");
 		int waittime = 0;
@@ -30,7 +30,7 @@ public class SpinCommand extends Command {
 		}
 	    } else {
 		Utilities.sendMessage(type, channel,
-			sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender));
+			sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, channel));
 	    }
 	}
     }

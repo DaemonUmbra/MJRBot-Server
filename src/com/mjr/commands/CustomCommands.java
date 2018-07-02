@@ -38,16 +38,16 @@ public class CustomCommands {
 		if (allowed) {
 		    Utilities.sendMessage(type, channelName, properties.getProperty("response"));
 		} else {
-		    if (Config.getSetting("MsgWhenCommandCantBeUsed").equalsIgnoreCase("true"))
+		    if (Config.getSetting("MsgWhenCommandCantBeUsed", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(type, channelName,
 				"@" + sender + " the command " + command + " you dont have access to this command!");
 		}
 	    }
 
 	} else if (type == BotType.Twitch)
-	    if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+	    if (Config.getSetting("MsgWhenCommandDoesntExist", channelName).equalsIgnoreCase("true"))
 		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
-	    else if (Config.getSetting("MsgWhenCommandDoesntExist").equalsIgnoreCase("true"))
+	    else if (Config.getSetting("MsgWhenCommandDoesntExist", channelName).equalsIgnoreCase("true"))
 		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
     }
 

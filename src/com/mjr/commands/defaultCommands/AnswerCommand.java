@@ -12,7 +12,7 @@ public class AnswerCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
 	    if (MathsGame.isMathsGameActive == true) {
 		if (args.length == 2) {
 		    int index = Integer.parseInt(args[1]);

@@ -74,7 +74,7 @@ public class TwitchBot extends PircBot {
 		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender,
 			login, hostname, message);
 
-	if (Config.getSetting("Commands").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Commands", this.channelName).equalsIgnoreCase("true")) {
 	    try {
 		commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName,
 			sender.toLowerCase(), login, hostname, message);
@@ -127,36 +127,21 @@ public class TwitchBot extends PircBot {
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
 	if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
-	    try {
-		// Load Config file
-		Config.load(BotType.Twitch, this.channelName);
-		// Load PointsSystem
-		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsSystem.load(BotType.Twitch, this.channelName);
-		}
-		// Load Ranks
-		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		    Ranks.load(this.channelName);
-		}
-
-		// Start Threads
-		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    pointsThread = new PointsThread(BotType.Twitch, this.channelName);
-		    pointsThread.start();
-		}
-		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
-		    announcementsThread.start();
-		}
-		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
-		    followersThread.start();
-		}
-	    } catch (IOException e) {
-		e.printStackTrace();
+	    // Start Threads
+	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
+		pointsThread = new PointsThread(BotType.Twitch, this.channelName);
+		pointsThread.start();
+	    }
+	    if (Config.getSetting("Announcements", this.channelName).equalsIgnoreCase("true")) {
+		announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
+		announcementsThread.start();
+	    }
+	    if (Config.getSetting("FollowerCheck", this.channelName).equalsIgnoreCase("true")) {
+		followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
+		followersThread.start();
 	    }
 	    this.sendMessage(stream, "/mods");
-	    if (Config.getSetting("SilentJoin").equalsIgnoreCase("false")) {
+	    if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
@@ -167,16 +152,20 @@ public class TwitchBot extends PircBot {
 
 	    userCooldownTickThread = new UserCooldownTickThread();
 	    userCooldownTickThread.start();
+	    if (!this.viewers.contains(this.getNick().toLowerCase())) {
+		this.viewers.add(this.getNick().toLowerCase());
+	    }
 	} else {
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
-	    if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		if (!PointsSystem.isOnList(sender)) {
-		    PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints")));
+	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
+		if (!PointsSystem.isOnList(sender, this.channelName)) {
+		    PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)),
+			    this.channelName);
 		}
 	    }
-	    if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		if (!Ranks.isOnList(sender)) {
-		    Ranks.setRank(sender, "None");
+	    if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
+		if (!Ranks.isOnList(sender, this.channelName)) {
+		    Ranks.setRank(sender, "None", this.channelName);
 		}
 	    }
 	    if (!this.viewers.contains(sender.toLowerCase())) {
@@ -190,9 +179,9 @@ public class TwitchBot extends PircBot {
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.Bot, null);
-	    if (this.viewers.contains(sender.toLowerCase())) {
-		this.viewers.remove(sender.toLowerCase());
-	    }
+	if (this.viewers.contains(sender.toLowerCase())) {
+	    this.viewers.remove(sender.toLowerCase());
+	}
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());
     }

@@ -1,79 +1,88 @@
 package com.mjr.files;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 
 public class Config {
     public static String filename = "Config.properties";
-    public static File file;
-    public static Properties properties = new Properties();
-    protected static InputStream iStream;
 
-    public static void load(BotType type, String channelName) throws IOException {
-	if (type == BotType.Twitch)
-	    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
-	else {
-	    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName).channelName + File.separator + filename);
+    public static Properties load(String channelName) {
+	try {
+	    FileReader reader;
+	    reader = new FileReader(loadFile(channelName));
+
+	    Properties properties = new Properties();
+	    properties.load(reader);
+	    return properties;
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
-
-	if (!file.exists()) {
-	    file.getParentFile().mkdirs();
-	    file.createNewFile();
-	    iStream = new FileInputStream(file);
-	    properties.load(iStream);
-	    setSetting("LinkWarning", "you are not allowed to post links with out permission!");
-	    setSetting("LanguageWarning", "you are not allowed to use that language in the chat!");
-	    setSetting("FollowerMessage", "has followed!");
-	    setSetting("SymbolWarning", "you are using to many symbols");
-	    setSetting("AnnouncementsDelay", "0");
-	    setSetting("GiveawayDelay", "0");
-	    setSetting("StartingPoints", "0");
-	    setSetting("AutoPointsDelay", "0");
-	    setSetting("EmoteWarning", "dont spam emotes!");
-	    setSetting("Commands", "false");
-	    setSetting("Games", "false");
-	    setSetting("Ranks", "false");
-	    setSetting("Points", "false");
-	    setSetting("Announcements", "false");
-	    setSetting("Badwords", "false");
-	    setSetting("LinkChecker", "false");
-	    setSetting("Emote", "false");
-	    setSetting("Symbol", "false");
-	    setSetting("SilentJoin", "true");
-	    setSetting("FollowerCheck", "false");
-	    setSetting("Quotes", "false");
-	    setSetting("MaxSymbols", "5");
-	    setSetting("MaxEmotes", "5");
-	    setSetting("MsgWhenCommandDoesntExist", "true");
-	    setSetting("MsgWhenCommandCantBeUsed", "false");
-	    setSetting("AnnouncementMessage1", "");
-	    setSetting("AnnouncementMessage2", "");
-	    setSetting("AnnouncementMessage3", "");
-	    setSetting("AnnouncementMessage4", "");
-	    setSetting("AnnouncementMessage5", "");
-	    setSetting("CommandsCooldownAmount", "20");
-
-	    properties.store(new FileOutputStream(file), null);
-	}
-	FileReader reader = new FileReader(file);
-	properties.load(reader);
+	return null;
     }
 
-    public static String getSetting(String setting) {
-	return properties.getProperty(setting);
+    public static File loadFile(String channelName) {
+	try {
+	    File file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
+	    if (!file.exists()) {
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+		loadDefaults(channelName);
+	    }
+	    return file;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return null;
+    }
+
+    public static void loadDefaults(String channelName) throws IOException {
+	setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
+	setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
+	setSetting("FollowerMessage", "has followed!", channelName);
+	setSetting("SymbolWarning", "you are using to many symbols", channelName);
+	setSetting("AnnouncementsDelay", "0", channelName);
+	setSetting("GiveawayDelay", "0", channelName);
+	setSetting("StartingPoints", "0", channelName);
+	setSetting("AutoPointsDelay", "0", channelName);
+	setSetting("EmoteWarning", "dont spam emotes!", channelName);
+	setSetting("Commands", "false", channelName);
+	setSetting("Games", "false", channelName);
+	setSetting("Ranks", "false", channelName);
+	setSetting("Points", "false", channelName);
+	setSetting("Announcements", "false", channelName);
+	setSetting("Badwords", "false", channelName);
+	setSetting("LinkChecker", "false", channelName);
+	setSetting("Emote", "false", channelName);
+	setSetting("Symbol", "false", channelName);
+	setSetting("SilentJoin", "true", channelName);
+	setSetting("FollowerCheck", "false", channelName);
+	setSetting("Quotes", "false", channelName);
+	setSetting("MaxSymbols", "5", channelName);
+	setSetting("MaxEmotes", "5", channelName);
+	setSetting("MsgWhenCommandDoesntExist", "true", channelName);
+	setSetting("MsgWhenCommandCantBeUsed", "false", channelName);
+	setSetting("AnnouncementMessage1", "", channelName);
+	setSetting("AnnouncementMessage2", "", channelName);
+	setSetting("AnnouncementMessage3", "", channelName);
+	setSetting("AnnouncementMessage4", "", channelName);
+	setSetting("AnnouncementMessage5", "", channelName);
+	setSetting("CommandsCooldownAmount", "20", channelName);
+    }
+
+    public static String getSetting(String setting, String channelName) {
+	return load(channelName).getProperty(setting);
     }
 
     @SuppressWarnings("deprecation")
-    public static void setSetting(String setting, String value) {
+    public static void setSetting(String setting, String value, String channelName) {
+	Properties properties = load(channelName);
+	File file = loadFile(channelName);
 	if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 	    if (value == "true")
 		ConsoleUtil.TextToConsole(setting + " has been has enabled!");

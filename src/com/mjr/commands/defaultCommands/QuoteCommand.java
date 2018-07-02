@@ -31,7 +31,7 @@ public class QuoteCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Quotes").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Quotes", channel).equalsIgnoreCase("true")) {
 	    if (type == BotType.Twitch)
 		file = new File(
 			MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channel).getChannel().substring(1) + File.separator + filename);

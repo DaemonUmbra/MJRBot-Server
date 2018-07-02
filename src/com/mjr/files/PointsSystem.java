@@ -4,57 +4,67 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 
 public class PointsSystem {
     public static String filename = "Points.properties";
-    public static File file;
-    public static Properties properties = new Properties();
-    protected static InputStream iStream;
 
-    public static void load(BotType type, String channelName) throws IOException {
-	if (type == BotType.Twitch)
-	    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
-	else {
-	    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName).channelName + File.separator + filename);
+    public static Properties load(String channelName) {
+	try {
+	    FileReader reader;
+	    reader = new FileReader(loadFile(channelName));
+
+	    Properties properties = new Properties();
+	    properties.load(reader);
+	    return properties;
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
-	if (!file.exists()) {
-	    file.getParentFile().mkdirs();
-	    file.createNewFile();
-	}
-	FileReader reader = new FileReader(file);
-	properties.load(reader);
+	return null;
     }
 
-    public static int getPoints(String user) {
+    public static File loadFile(String channelName) {
+	try {
+	    File file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
+	    if (!file.exists()) {
+		file.getParentFile().mkdirs();
+		file.createNewFile();
+	    }
+	    return file;
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	return null;
+    }
+
+    public static int getPoints(String user, String channelName) {
 	user = user.toLowerCase();
-	if (!isOnList(user))
+	if (!isOnList(user, channelName))
 	    return 0;
 	String value = null;
-	value = properties.getProperty(user);
+	value = load(channelName).getProperty(user);
 	return Integer.parseInt(value);
     }
 
-    public static void setPoints(String user, int points) {
+    public static void setPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
+	Properties properties = load(channelName);
 	properties.setProperty(user, Integer.toString(points));
 	try {
-	    properties.store(new FileOutputStream(file), null);
+	    properties.store(new FileOutputStream(loadFile(channelName)), null);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
     }
 
-    public static Boolean isOnList(String user) {
+    public static Boolean isOnList(String user, String channelName) {
 	user = user.toLowerCase();
-	if (properties.getProperty(user) != null)
+	if (load(channelName).getProperty(user) != null)
 	    return true;
 	else
 	    return false;
@@ -62,27 +72,27 @@ public class PointsSystem {
 
     public static void AddPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
-	if (!isOnList(user))
-	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints")));
-	int currentPoints = getPoints(user);
+	if (!isOnList(user, channelName))
+	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", channelName)), channelName);
+	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints + points;
-	setPoints(user, currentPoints);
+	setPoints(user, currentPoints, channelName);
 	ConsoleUtil.TextToConsole(null, null, "Added " + points + " points to " + user, channelName, MessageType.Bot, null);
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
-	if (!isOnList(user))
-	    setPoints(user, 0);
-	int currentPoints = getPoints(user);
+	if (!isOnList(user, channelName))
+	    setPoints(user, 0, channelName);
+	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints - points;
-	setPoints(user, currentPoints);
+	setPoints(user, currentPoints, channelName);
 	ConsoleUtil.TextToConsole(null, null, "Removed " + points + " points from " + user, channelName, MessageType.Bot, null);
     }
 
-    public static Boolean hasPoints(String user, int points) {
+    public static Boolean hasPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
-	if (getPoints(user) >= points) {
+	if (getPoints(user, channelName) >= points) {
 	    return true;
 	} else {
 	    return false;

@@ -11,12 +11,12 @@ public class AddPointsCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
 		String Points = args[1];
 		String User = args[2];
 
-		if (PointsSystem.isOnList(User)) {
+		if (PointsSystem.isOnList(User, channel)) {
 		    PointsSystem.AddPoints(User.toLowerCase(), Integer.parseInt(Points), channel);
 		    Utilities.sendMessage(type, channel, "Added " + Points + " points" + " to " + User);
 		} else {

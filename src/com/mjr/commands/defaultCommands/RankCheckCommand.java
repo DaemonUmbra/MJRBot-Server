@@ -11,11 +11,11 @@ public class RankCheckCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		String User = args[1];
-		if (Ranks.isOnList(User)) {
-		    Utilities.sendMessage(type, channel, User + " has " + Ranks.getRank(User) + " Rank");
+		if (Ranks.isOnList(User, channel)) {
+		    Utilities.sendMessage(type, channel, User + " has " + Ranks.getRank(User, channel) + " Rank");
 		} else {
 		    Utilities.sendMessage(type, channel, "Cant find " + User);
 		}

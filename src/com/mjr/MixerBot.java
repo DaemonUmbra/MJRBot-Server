@@ -8,8 +8,6 @@ import com.mjr.MJRBot.BotType;
 import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
-import com.mjr.files.PointsSystem;
-import com.mjr.files.Ranks;
 import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.PointsThread;
@@ -57,27 +55,16 @@ public class MixerBot extends MJR_MixerBot {
 	    this.setdebug(true);
 	    this.joinMixerChannel(channel);
 	    if (this.isConnected() && this.isAuthenticated()) {
-		// Load Config file
-		Config.load(BotType.Mixer, channel);
-		// Load PointsSystem
-		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsSystem.load(BotType.Mixer, channel);
-		}
-		// Load Ranks
-		if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-		    Ranks.load(channel);
-		}
-
 		// Start Threads
-		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
+		if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
 		    PointsThread pointsThread = new PointsThread(BotType.Mixer, channel);
 		    pointsThread.start();
 		}
-		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
+		if (Config.getSetting("Announcements", channel).equalsIgnoreCase("true")) {
 		    AnnouncementsThread announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
 		    announcementsThread.start();
 		}
-		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
+		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
 		    // CheckFollowers followersThread = new
 		    // CheckFollowers(BotType.Mixer, channel); TODO Add for
 		    // Mixer
@@ -92,7 +79,7 @@ public class MixerBot extends MJR_MixerBot {
 
 		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
 			MessageType.Chat, null);
-		if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
+		if (Config.getSetting("SilentJoin", channel).equalsIgnoreCase("false"))
 		    this.sendMessage(this.getBotName() + " Connected!");
 	    } else
 		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName,

@@ -110,7 +110,7 @@ public class CommandManager {
 				allowed = true;
 				twitchBot.usersCooldowns.remove(sender.toLowerCase());
 				twitchBot.usersCooldowns.put(sender.toLowerCase(),
-					Integer.parseInt(Config.getSetting("CommandsCooldownAmount")));
+					Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
 				if (twitchBot.userCooldownTickThread.isAlive() == false)
 				    twitchBot.userCooldownTickThread.stop();
 

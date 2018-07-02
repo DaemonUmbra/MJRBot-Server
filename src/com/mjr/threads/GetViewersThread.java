@@ -106,14 +106,15 @@ public class GetViewersThread extends Thread {
 		    }
 
 		    for (int i = 1; i < bot.viewers.size(); i++) {
-			if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-			    if (!PointsSystem.isOnList(bot.viewers.get(i))) {
-				PointsSystem.setPoints(bot.viewers.get(i), Integer.parseInt(Config.getSetting("StartingPoints")));
+			if (Config.getSetting("Points", bot.channelName).equalsIgnoreCase("true")) {
+			    if (!PointsSystem.isOnList(bot.viewers.get(i), bot.channelName)) {
+				PointsSystem.setPoints(bot.viewers.get(i),
+					Integer.parseInt(Config.getSetting("StartingPoints", bot.channelName)), bot.channelName);
 			    }
 			}
-			if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-			    if (!Ranks.isOnList(bot.viewers.get(i))) {
-				Ranks.setRank(bot.viewers.get(i), "None");
+			if (Config.getSetting("Ranks", bot.channelName).equalsIgnoreCase("true")) {
+			    if (!Ranks.isOnList(bot.viewers.get(i), bot.channelName)) {
+				Ranks.setRank(bot.viewers.get(i), "None", bot.channelName);
 			    }
 			}
 			if (!bot.viewersJoinedTimes.containsKey(bot.viewers.get(i).toLowerCase().toLowerCase()))

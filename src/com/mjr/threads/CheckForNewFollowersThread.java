@@ -25,7 +25,7 @@ public class CheckForNewFollowersThread extends Thread {
     public void run() {
 	while (true) {
 	    if (type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(bot.channelName).ConnectedToChannel) {
-		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
+		if (Config.getSetting("FollowerCheck", bot.channelName).equalsIgnoreCase("true")) {
 		    if (MJRBot.getTwitchBotByChannelName(bot.channelName).viewers != null) {
 			for (int i = 0; i < MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.size(); i++) {
 			    checkFollower(bot, MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.get(i).toLowerCase());
@@ -83,7 +83,7 @@ public class CheckForNewFollowersThread extends Thread {
 		e.printStackTrace();
 	    }
 	    if (!currentfollowers.contains(user) && isfollower) {
-		bot.MessageToChat(user + " " + Config.getSetting("FollowerMessage"));
+		bot.MessageToChat(user + " " + Config.getSetting("FollowerMessage", bot.channelName));
 	    }
 	    if (!bot.followers.contains(user))
 		bot.followers.add(user);

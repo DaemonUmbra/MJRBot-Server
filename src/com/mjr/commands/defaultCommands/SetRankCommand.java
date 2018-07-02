@@ -11,14 +11,14 @@ public class SetRankCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
 		String Rank = args[1];
 		String User = args[2];
-		if (Ranks.isOnList(User)) {
-		    if (!Ranks.hasRank(sender, Rank)) {
+		if (Ranks.isOnList(User, channel)) {
+		    if (!Ranks.hasRank(sender, Rank, channel)) {
 			if (Ranks.isValidRank(Rank)) {
-			    Ranks.setRank(User, Rank);
+			    Ranks.setRank(User, Rank, channel);
 			    Utilities.sendMessage(type, channel, "Added " + Rank + " to " + User);
 			} else {
 			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");

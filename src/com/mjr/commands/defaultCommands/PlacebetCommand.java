@@ -12,7 +12,7 @@ public class PlacebetCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Config.getSetting("Games").equalsIgnoreCase("true")) {
+	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
 	    if (RaceCommand.Started) {
 		if (args.length == 4) {
 		    if (checkForValue(sender) == false) {

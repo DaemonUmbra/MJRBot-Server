@@ -25,9 +25,9 @@ public class GiveAwayThread extends Thread {
     @Override
     @SuppressWarnings("deprecation")
     public void run() {
-	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay")) * 60) * 1000;
+	TimeDuration = (Integer.parseInt(Config.getSetting("GiveawayDelay", channelName)) * 60) * 1000;
 	Utilities.sendMessage(type, channelName,
-		"Giveaway will end in " + Config.getSetting("GiveawayDelay") + " minutes. To enter use !enter");
+		"Giveaway will end in " + Config.getSetting("GiveawayDelay", channelName) + " minutes. To enter use !enter");
 
 	if (Delay) {
 	    try {

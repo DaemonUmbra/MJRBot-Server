@@ -53,7 +53,7 @@ public class EmoteChecker {
 	;
     }
 
-    public static void checkEmoteSpam(String message, String user) {
+    public static void checkEmoteSpam(String message, String user, String channelName) {
 	int number = 0;
 	String[] temp;
 	temp = message.split(" ");
@@ -62,7 +62,7 @@ public class EmoteChecker {
 		number++;
 	    }
 	}
-	if (number > Integer.parseInt(Config.getSetting("MaxEmotes")))
+	if (number > Integer.parseInt(Config.getSetting("MaxEmotes", channelName)))
 	    Ban = true;
 	else
 	    Ban = false;
