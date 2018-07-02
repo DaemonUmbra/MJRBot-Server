@@ -36,7 +36,7 @@ public class Ranks {
 
     public static File loadFile(String channelName) {
 	try {
-	    File file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName).channelName + File.separator + filename);
+	    File file = new File(MJRBot.filePath + channelName + File.separator + filename);
 	    if (!file.exists()) {
 		file.getParentFile().mkdirs();
 		file.createNewFile();

@@ -90,7 +90,7 @@ public class TwitchBot extends PircBot {
 	if (notice.contains("The moderators of this channel are:")) {
 	    try {
 		notice = notice.substring(notice.indexOf(":") + 2);
-		notice += ", " + stream.substring(stream.indexOf("#") + 1);
+		notice += ", " + this.stream.substring(this.stream.indexOf("#") + 1);
 		for (String moderator : notice.split(", ")) {
 		    if (!moderators.contains(moderator.toLowerCase())) {
 			moderators.add(moderator.toLowerCase());
@@ -140,9 +140,9 @@ public class TwitchBot extends PircBot {
 		followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
 		followersThread.start();
 	    }
-	    this.sendMessage(stream, "/mods");
+	    this.sendMessage(this.stream, "/mods");
 	    if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
-		this.sendMessage(stream, this.getNick() + " Connected!");
+		this.sendMessage(this.stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
 	    getViewersThread = new GetViewersThread(this);
@@ -152,9 +152,6 @@ public class TwitchBot extends PircBot {
 
 	    userCooldownTickThread = new UserCooldownTickThread();
 	    userCooldownTickThread.start();
-	    if (!this.viewers.contains(this.getNick().toLowerCase())) {
-		this.viewers.add(this.getNick().toLowerCase());
-	    }
 	} else {
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
 	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
@@ -228,19 +225,19 @@ public class TwitchBot extends PircBot {
     }
 
     public void MessageToChat(String message) {
-	if (moderators != null && !Arrays.asList(moderators).contains(this.getBotName().toLowerCase())) {
+	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) {
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
 	}
-	this.sendMessage(stream, message);
+	this.sendMessage(this.stream, message);
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Chat, this.getName());
     }
 
     public String getChannel() {
-	return stream;
+	return this.stream;
     }
 
     public String getBotName() {
