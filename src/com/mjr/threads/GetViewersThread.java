@@ -88,6 +88,8 @@ public class GetViewersThread extends Thread {
 		    }
 
 		    bot.viewers = newresult.split(",");
+		    Mods = Mods.replace(" ", "");
+		    Mods = Mods.replace("\"", "");
 		    bot.mods = Mods.split(",");
 
 		    for (int i = 1; i < bot.viewers.length; i++) {
