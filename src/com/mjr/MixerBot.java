@@ -10,7 +10,7 @@ import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
 import com.mjr.mjrmixer.MJR_MixerBot;
-import com.mjr.threads.Announcements;
+import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.PointsThread;
 
 public class MixerBot extends MJR_MixerBot {
@@ -70,7 +70,7 @@ public class MixerBot extends MJR_MixerBot {
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    Announcements announcementsThread = new Announcements(BotType.Mixer, channel);
+		    AnnouncementsThread announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {

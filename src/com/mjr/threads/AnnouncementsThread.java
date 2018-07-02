@@ -5,7 +5,7 @@ import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 import com.mjr.files.Config;
 
-public class Announcements extends Thread {
+public class AnnouncementsThread extends Thread {
 
     private static long TimeDuration;
     private boolean Delay = true;
@@ -13,7 +13,7 @@ public class Announcements extends Thread {
     private BotType type;
     private String channelName;
 
-    public Announcements(BotType type, String channelName) {
+    public AnnouncementsThread(BotType type, String channelName) {
 	super();
 	this.type = type;
 	this.channelName = channelName;

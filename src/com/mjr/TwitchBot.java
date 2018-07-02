@@ -15,7 +15,7 @@ import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
-import com.mjr.threads.Announcements;
+import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.CheckFollowers;
 import com.mjr.threads.Followers;
 import com.mjr.threads.PointsThread;
@@ -88,7 +88,7 @@ public class TwitchBot extends PircBot {
 		return;
 	    }
 	    if (mods.length > 1)
-		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has the Moderators!", "Bot", null);
+		ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "Bot has list of current moderators!", "Bot", null);
 	} else if (notice.contains("There are no moderators of this channel"))
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, "This channel has no moderators!", "Bot", null);
     }
@@ -126,7 +126,7 @@ public class TwitchBot extends PircBot {
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    Announcements announcementsThread = new Announcements(BotType.Twitch, this.channelName);
+		    AnnouncementsThread announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
