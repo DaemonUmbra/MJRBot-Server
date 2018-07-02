@@ -16,8 +16,8 @@ import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
 import com.mjr.threads.AnnouncementsThread;
-import com.mjr.threads.CheckFollowers;
-import com.mjr.threads.Followers;
+import com.mjr.threads.CheckForNewFollowersThread;
+import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.PointsThread;
 import com.mjr.threads.UserCooldownTickThread;
 import com.mjr.threads.GetViewersThread;
@@ -32,7 +32,14 @@ public class TwitchBot extends PircBot {
     public String channelName = "";
 
     private final CommandManager commands = new CommandManager();
-
+    
+    private GetViewersThread getViewersThread;
+    private PointsThread pointsThread;
+    private AnnouncementsThread announcementsThread;
+    private CheckForNewFollowersThread followersThread;
+    private GetFollowersThread getFollowersThread;
+    private UserCooldownTickThread userCooldownTickThread;
+    
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public List<String> followers = new ArrayList<String>();
 
@@ -122,15 +129,15 @@ public class TwitchBot extends PircBot {
 
 		// Start Threads
 		if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-		    PointsThread pointsThread = new PointsThread(BotType.Twitch, this.channelName);
+		    pointsThread = new PointsThread(BotType.Twitch, this.channelName);
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements").equalsIgnoreCase("true")) {
-		    AnnouncementsThread announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
+		    announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
-		    CheckFollowers followersThread = new CheckFollowers(this, BotType.Twitch);
+		    followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
 		    followersThread.start();
 		}
 	    } catch (IOException e) {
@@ -141,12 +148,12 @@ public class TwitchBot extends PircBot {
 		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
-	    GetViewersThread getViewersThread = new GetViewersThread(this);
+	    getViewersThread = new GetViewersThread(this);
 	    getViewersThread.start();
-	    Followers followers = new Followers(this, BotType.Twitch);
-	    followers.start();
+	    getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
+	    getFollowersThread.start();
 
-	    UserCooldownTickThread userCooldownTickThread = new UserCooldownTickThread();
+	    userCooldownTickThread = new UserCooldownTickThread();
 	    userCooldownTickThread.start();
 	} else {
 	    ConsoleUtil.TextToConsole(BotType.Twitch, this.channelName, sender + " has joined!", "Bot", null);
@@ -266,6 +273,7 @@ public class TwitchBot extends PircBot {
 	this.stream = stream;
     }
 
+    @SuppressWarnings("deprecation") 
     public void disconnectTwitch() {
 	this.MessageToChat(this.getBotName() + " Disconnected!");
 	this.disconnect();
@@ -273,5 +281,11 @@ public class TwitchBot extends PircBot {
 	this.viewers = new String[0];
 	this.ConnectedToChannel = false;
 	this.setChannel("");
+	this.getViewersThread.destroy();
+	this.pointsThread.destroy();
+	this.announcementsThread.destroy();
+	this.followersThread.destroy();
+	this.getFollowersThread.destroy();
+	this.userCooldownTickThread.destroy();
     }
 }
