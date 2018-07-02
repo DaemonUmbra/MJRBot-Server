@@ -13,7 +13,7 @@ public class LinkChecker {
     public static boolean Link = false;
     public static String PermitedUsers = "";
 
-    public static void CheckLink(BotType type, String channelName, String message, String sender) {
+    public static void CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
 	String TempMessage = "";
 	if (message.startsWith("www.") || message.startsWith("http://www.")) {
 	    if (message.startsWith("http://www.")) {
@@ -68,7 +68,7 @@ public class LinkChecker {
 	    URLConnection myURLConnection = myURL.openConnection();
 	    myURLConnection.connect();
 	    Link = true;
-	    if (Permissions.hasPermission(type, channelName, sender, PermissionLevel.Moderator.getName())) {
+	    if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
 		Allowed = true;
 	    } else if (PermitedUsers.contains(sender)) {
 		Allowed = true;

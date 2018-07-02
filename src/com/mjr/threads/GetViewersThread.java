@@ -79,6 +79,7 @@ public class GetViewersThread extends Thread {
 		newresult = newresult.replace(" ", "");
 		newresult = newresult.replace("\"", "");
 		bot.viewers = newresult.split(",");
+		bot.mods = Mods.split(",");
 		ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has list of current viewers!", "Bot", null);
 
 		for (int i = 1; i < bot.viewers.length; i++) {

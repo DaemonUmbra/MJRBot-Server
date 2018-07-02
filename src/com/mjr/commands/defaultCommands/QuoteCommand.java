@@ -24,8 +24,8 @@ import com.mjr.commands.Command;
 import com.mjr.files.Config;
 
 public class QuoteCommand extends Command {
-    public static String filename = "Quotes.txt";
-    public static File file;
+    public String filename = "Quotes.txt";
+    public File file;
 
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
@@ -56,7 +56,7 @@ public class QuoteCommand extends Command {
 		((TwitchBot) bot).sendMessage(MJRBot.getTwitchBotByChannelName(channel).getChannel(),
 			tempsArray[rand.nextInt(tempsArray.length)]);
 	    } else if (args.length == 3 && args[1].equalsIgnoreCase("get")
-		    && Permissions.hasPermission(type, channel, sender, PermissionLevel.Moderator.getName())) {
+		    && Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.Moderator.getName())) {
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
@@ -78,7 +78,7 @@ public class QuoteCommand extends Command {
 		    ((TwitchBot) bot).sendMessage(MJRBot.getTwitchBotByChannelName(channel).getChannel(),
 			    "Quote " + args[1] + " doesnt exist!");
 	    } else if (args.length > 1 && args[1].equalsIgnoreCase("add")
-		    && Permissions.hasPermission(type, channel, sender, PermissionLevel.Moderator.getName())) {
+		    && Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.Moderator.getName())) {
 		if (!message.contains("@")) {
 		    Utilities.sendMessage(type, channel,
 			    sender + " your quote must be in the format as follows: !quote add <message> @<Name>");

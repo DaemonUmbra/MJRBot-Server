@@ -20,7 +20,7 @@ public class CustomCommands {
     public static Properties properties = new Properties();
     protected static InputStream iStream;
 
-    public static void getCommand(BotType type, String channelName, String command, String sender) throws IOException {
+    public static void getCommand(Object bot, BotType type, String channelName, String command, String sender) throws IOException {
 	if (type == BotType.Twitch)
 	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
 	else {
@@ -34,7 +34,7 @@ public class CustomCommands {
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		String permission = properties.getProperty("permissionlevel");
-		boolean allowed = Permissions.hasPermission(type, channelName, sender, permission);
+		boolean allowed = Permissions.hasPermission(bot, type, channelName, sender, permission);
 		if (allowed) {
 		    Utilities.sendMessage(type, channelName, properties.getProperty("response"));
 		} else {

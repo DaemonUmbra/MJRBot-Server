@@ -11,11 +11,11 @@ public class BadWordChecker {
 	    "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "fuck", "shit", "cunt", "wanker", "tosser", "slag", "slut",
 	    "penis", "cock", "vagina", "pussy", "boobs", "tits", "ass", "bastard", "twat", "nigger", "bitch" };
 
-    public static void CheckBadWords(BotType type, String channelName, String message, String sender) {
+    public static void CheckBadWords(Object bot, BotType type, String channelName, String message, String sender) {
 	for (int i = 0; i < BadWords.length; i++) {
 	    String Check = BadWords[i];
 	    if (message.contains(Check)) {
-		if (!Permissions.hasPermission(type, channelName, sender, PermissionLevel.Moderator.getName())) {
+		if (!Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
 		    BadwordsBan = true;
 		}
 	    }

@@ -12,11 +12,11 @@ public class ChatModeration {
 	// ChatModeration
 	if (Ranks.getRank(sender) == "gold")
 	    return;
-	else if (type == BotType.Twitch && !Permissions.hasPermission(type, channel, sender, PermissionLevel.User.getName()))
+	else if (type == BotType.Twitch && !Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.User.getName()))
 	    return;
 	else {
 	    if (Config.getSetting("LinkChecker").equalsIgnoreCase("true")) {
-		LinkChecker.CheckLink(type, channel, message, sender);
+		LinkChecker.CheckLink(bot, type, channel, message, sender);
 		if (LinkChecker.Link) {
 		    if (!LinkChecker.isAllowed()) {
 			if (Ranks.getRank(sender) == "sliver")
@@ -31,7 +31,7 @@ public class ChatModeration {
 		}
 	    }
 	    if (Config.getSetting("Badwords").equalsIgnoreCase("true")) {
-		BadWordChecker.CheckBadWords(type, channel, message, sender);
+		BadWordChecker.CheckBadWords(bot, type, channel, message, sender);
 		if (BadWordChecker.hasUsedBadword()) {
 		    ((TwitchBot) bot).sendMessage(channel, sender + " " + Config.getSetting("LanguageWarning"));
 		    ((TwitchBot) bot).sendMessage(channel, "/timeout " + sender);

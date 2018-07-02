@@ -23,7 +23,7 @@ import com.mjr.threads.UserCooldownTickThread;
 import com.mjr.threads.GetViewersThread;
 
 public class TwitchBot extends PircBot {
-    public static String[] mods;
+    public String[] mods;
     public String[] viewers;
 
     private String stream = "";

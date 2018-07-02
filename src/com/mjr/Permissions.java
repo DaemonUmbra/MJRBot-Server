@@ -40,7 +40,7 @@ public class Permissions {
 	}
     }
 
-    public static String getPermissionLevel(BotType type, String channelName, String user) {
+    public static String getPermissionLevel(Object bot, BotType type, String channelName, String user) {
 	user = user.toLowerCase();
 	if (type == BotType.Twitch) {
 	    if (user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
@@ -51,7 +51,7 @@ public class Permissions {
 		return PermissionLevel.KnownBot.getName();
 	    else if (user.equalsIgnoreCase("mjrlegends"))
 		return PermissionLevel.BotOwner.getName();
-	    if (TwitchBot.mods != null && Arrays.asList(TwitchBot.mods).contains(user)
+	    if (((TwitchBot)bot).mods != null && Arrays.asList(((TwitchBot)bot).mods).contains(user)
 		    || user.equalsIgnoreCase(Config.getSetting("UserName"))
 		    || user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
 		return PermissionLevel.Moderator.getName();
@@ -76,9 +76,9 @@ public class Permissions {
 	}
     }
 
-    public static boolean hasPermission(BotType type, String channelName, String user, String permission) {
-	String userPermissionLevel = getPermissionLevel(type, channelName, user);
-	if (getPermissionLevel(type, channelName, user).equalsIgnoreCase(permission))
+    public static boolean hasPermission(Object bot, BotType type, String channelName, String user, String permission) {
+	String userPermissionLevel = getPermissionLevel(bot, type, channelName, user);
+	if (getPermissionLevel(bot, type, channelName, user).equalsIgnoreCase(permission))
 	    return true;
 	else if (PermissionLevel.getTierValueByName(userPermissionLevel) >= PermissionLevel.getTierValueByName(permission))
 	    return true;

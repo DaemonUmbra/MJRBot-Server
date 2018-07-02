@@ -93,7 +93,7 @@ public class CommandManager {
 	// Check if known default command
 	if (commands.containsKey(args[0].toLowerCase())) {
 	    Command command = commands.get(args[0].toLowerCase());
-	    if (Permissions.hasPermission(type, channel, sender, command.getPermissionLevel())) {
+	    if (Permissions.hasPermission(bot, type, channel, sender, command.getPermissionLevel())) {
 		TwitchBot twitchBot = ((TwitchBot) bot);
 
 		if (!twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
@@ -104,7 +104,7 @@ public class CommandManager {
 		    if (type == BotType.Twitch) {
 			if (twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
 			    if (PermissionLevel
-				    .getTierValueByName(Permissions.getPermissionLevel(type, channel, sender.toLowerCase())) > 0) {
+				    .getTierValueByName(Permissions.getPermissionLevel(bot, type, channel, sender.toLowerCase())) > 0) {
 				allowed = true;
 			    } else if (twitchBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
 				allowed = true;
@@ -122,7 +122,7 @@ public class CommandManager {
 	    }
 	} else if (args[0].startsWith("!")) { // Check if its a known custom
 					      // command
-	    CustomCommands.getCommand(type, channel, args[0], sender);
+	    CustomCommands.getCommand(bot, type, channel, args[0], sender);
 	}
     }
 }
