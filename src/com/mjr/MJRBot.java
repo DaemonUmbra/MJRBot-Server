@@ -13,10 +13,9 @@ import com.mjr.files.ConfigMain;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
-import com.mjr.threads.PointsThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.4.6 - Beta, Server Version";
+    public static final String VERSION = "1.4.7 - Beta, Server Version";
 
     public static String filePath;
 
@@ -54,8 +53,8 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		//connectionType = console.readLine("Bot Type: Database or Manual?");
-		connectionType = "Database";
+		connectionType = console.readLine("Bot Type: Database or Manual?");
+		// connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
