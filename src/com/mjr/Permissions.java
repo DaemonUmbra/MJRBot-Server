@@ -51,7 +51,7 @@ public class Permissions {
 		return PermissionLevel.KnownBot.getName();
 	    else if (user.equalsIgnoreCase("mjrlegends"))
 		return PermissionLevel.BotOwner.getName();
-	    if (((TwitchBot)bot).moderators != null && Arrays.asList(((TwitchBot)bot).moderators).contains(user)
+	    if (((TwitchBot) bot).moderators != null && Arrays.asList(((TwitchBot) bot).moderators).contains(user)
 		    || user.equalsIgnoreCase(Config.getSetting("UserName"))
 		    || user.equalsIgnoreCase(MJRBot.getTwitchBotByChannelName(channelName).channelName))
 		return PermissionLevel.Moderator.getName();

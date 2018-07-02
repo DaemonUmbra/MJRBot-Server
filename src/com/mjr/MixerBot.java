@@ -85,7 +85,8 @@ public class MixerBot extends MJR_MixerBot {
 		    if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
 			PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", MessageType.Chat, null);
+		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
+			MessageType.Chat, null);
 		if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
 		    this.sendMessage(this.getBotName() + " Connected!");
 	    } else

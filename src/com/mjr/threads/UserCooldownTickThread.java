@@ -20,8 +20,8 @@ public class UserCooldownTickThread extends Thread {
 		    int oldTime = users.get(user);
 		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
-			if(twitchBot.usersCooldowns.containsKey(user))
-			twitchBot.usersCooldowns.remove(user);
+			if (twitchBot.usersCooldowns.containsKey(user))
+			    twitchBot.usersCooldowns.remove(user);
 			twitchBot.usersCooldowns.put(user, oldTime);
 		    }
 		}

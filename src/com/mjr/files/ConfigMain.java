@@ -35,7 +35,7 @@ public class ConfigMain {
 	    setSetting("DatabasePassword", "");
 	    setSetting("UpdateChannelFromDatabaseTime(Seconds)", "30");
 	    setSetting("TwitchVerboseMessages", "false");
-	    
+
 	}
 	FileReader reader = new FileReader(file);
 	properties.load(reader);
