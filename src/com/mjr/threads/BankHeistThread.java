@@ -83,9 +83,9 @@ public class BankHeistThread extends Thread {
 			    int randPoints = 0;
 			    int enteredPoints = enteredUsers.get(user);
 			    if (path == 1)
-				Utilities.getRandom(enteredPoints, enteredPoints * 4);
+				randPoints = Utilities.getRandom(enteredPoints, enteredPoints * 4);
 			    else
-				Utilities.getRandom(enteredPoints, enteredPoints * 2);
+				randPoints = Utilities.getRandom(enteredPoints, enteredPoints * 2);
 			    Utilities.sendMessage(type, channelName, user + " got " + randPoints + " points from the heist!");
 			    PointsSystem.AddPoints(user, randPoints, channelName);
 			}
