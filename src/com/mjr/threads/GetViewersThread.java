@@ -83,8 +83,8 @@ public class GetViewersThread extends Thread {
 				MessageType.Bot, null);
 		    } else {
 			for (String viewer : newresult.split(",")) {
-			    if (!bot.viewers.contains(viewer)) {
-				bot.viewers.add(viewer);
+			    if (!bot.viewers.contains(viewer.toLowerCase())) {
+				bot.viewers.add(viewer.toLowerCase());
 			    }
 			}
 			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!",
@@ -93,8 +93,8 @@ public class GetViewersThread extends Thread {
 			Mods = Mods.replace(" ", "");
 			Mods = Mods.replace("\"", "");
 			for (String mod : Mods.split(",")) {
-			    if (!bot.moderators.contains(mod)) {
-				bot.moderators.add(mod);
+			    if (!bot.moderators.contains(mod.toLowerCase())) {
+				bot.moderators.add(mod.toLowerCase());
 			    }
 			}
 			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!",
@@ -112,7 +112,8 @@ public class GetViewersThread extends Thread {
 				Ranks.setRank(bot.viewers.get(i), "None");
 			    }
 			}
-			PointsThread.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase(), System.currentTimeMillis());
+			if (!bot.viewersJoinedTimes.containsKey(bot.viewers.get(i).toLowerCase().toLowerCase()))
+			    bot.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
 		    }
 		}
 	    } catch (Exception e) {

@@ -38,15 +38,15 @@ public class MixerBot extends MJR_MixerBot {
     @Override
     protected void onJoin(String sender) {
 	this.addViewer(sender);
-	if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	    PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+//	if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+//	    PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
     }
 
     @Override
     protected void onPart(String sender) {
 	this.removeViewer(sender);
-	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
+//	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+//	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
     }
 
     public void joinChannel(String channel) {
@@ -81,9 +81,9 @@ public class MixerBot extends MJR_MixerBot {
 		    // followersThread.start();
 		}
 
-		for (String viewer : this.getViewers())
-		    if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
-			PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
+//		for (String viewer : this.getViewers())
+//		    if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
+//			PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
 		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
 			MessageType.Chat, null);

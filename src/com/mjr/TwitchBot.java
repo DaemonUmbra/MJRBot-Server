@@ -43,6 +43,7 @@ public class TwitchBot extends PircBot {
     public List<String> viewers = new ArrayList<String>();
     public List<String> followers = new ArrayList<String>();
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
+    public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
 
     public void init(String channelName) {
 	try {
@@ -172,8 +173,8 @@ public class TwitchBot extends PircBot {
 	    if (!Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
 		this.viewers.add(sender.toLowerCase());
 	    }
-	    if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-		PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	}
     }
 
@@ -190,8 +191,8 @@ public class TwitchBot extends PircBot {
 		this.viewers.remove(sender.toLowerCase());
 	    }
 	}
-	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	    PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
+	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    this.viewersJoinedTimes.remove(sender.toLowerCase());
 
     }
 
@@ -266,6 +267,7 @@ public class TwitchBot extends PircBot {
 	this.disconnect();
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.Bot, null);
 	this.viewers.clear();
+	this.viewersJoinedTimes.clear();
 	this.ConnectedToChannel = false;
 	this.setChannel("");
 	this.getViewersThread.destroy();

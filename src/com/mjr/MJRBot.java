@@ -52,11 +52,10 @@ public class MJRBot {
 	}
 	if (filePath != null) {
 	    ConfigMain.load();
-	    PointsThread.viewersJoinedTimes.clear();
 	    String connectionType = "";
 	    do {
-		connectionType = console.readLine("Bot Type: Database or Manual?");
-		// connectionType = "Database";
+		//connectionType = console.readLine("Bot Type: Database or Manual?");
+		connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
