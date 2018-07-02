@@ -25,20 +25,20 @@ import com.mjr.commands.Command;
 import com.mjr.files.Config;
 
 public class QuoteCommand extends Command {
-    public String filename = "Quotes.txt";
+    public static String filename = "Quotes.txt";
     public File file;
 
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	if (Config.getSetting("Quotes").equalsIgnoreCase("true")) {
+	    if (type == BotType.Twitch)
+		file = new File(
+			MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channel).getChannel().substring(1) + File.separator + filename);
+	    else {
+		file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channel) + File.separator + filename);
+	    }
 	    if (args.length == 1) {
-		if (type == BotType.Twitch)
-		    file = new File(MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channel).getChannel().substring(1) + File.separator
-			    + filename);
-		else {
-		    file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channel) + File.separator + filename);
-		}
 		String token1 = "";
 		Scanner inFile1 = null;
 		try {
@@ -99,7 +99,7 @@ public class QuoteCommand extends Command {
 		    message = "'" + message;
 		    message = message.replace(" @", "' ");
 		    try {
-			Files.write(filePath, ("\n" + message + " " + Calendar.getInstance().get(Calendar.YEAR) + ";").getBytes(),
+			Files.write(filePath, ("\n" + message.trim() + " " + Calendar.getInstance().get(Calendar.YEAR) + ";").getBytes(),
 				StandardOpenOption.APPEND);
 		    } catch (IOException e) {
 			e.printStackTrace();
