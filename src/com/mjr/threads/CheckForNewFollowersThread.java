@@ -27,8 +27,8 @@ public class CheckForNewFollowersThread extends Thread {
 	    if (type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(bot.channelName).ConnectedToChannel) {
 		if (Config.getSetting("FollowerCheck").equalsIgnoreCase("true")) {
 		    if (MJRBot.getTwitchBotByChannelName(bot.channelName).viewers != null) {
-			for (int i = 0; i < MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.length; i++) {
-			    checkFollower(bot, MJRBot.getTwitchBotByChannelName(bot.channelName).viewers[i].toLowerCase());
+			for (int i = 0; i < MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.size(); i++) {
+			    checkFollower(bot, MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.get(i).toLowerCase());
 			}
 			try {
 			    Thread.sleep(10000);

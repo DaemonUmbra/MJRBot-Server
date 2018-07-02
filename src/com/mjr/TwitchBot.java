@@ -24,8 +24,6 @@ import com.mjr.threads.PointsThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class TwitchBot extends PircBot {
-    public String[] mods;
-    public String[] viewers;
 
     private String stream = "";
     public boolean ConnectedToChannel = false;
@@ -33,16 +31,18 @@ public class TwitchBot extends PircBot {
     public String channelName = "";
 
     private final CommandManager commands = new CommandManager();
-    
+
     private GetViewersThread getViewersThread;
     private PointsThread pointsThread;
     private AnnouncementsThread announcementsThread;
     private CheckForNewFollowersThread followersThread;
     private GetFollowersThread getFollowersThread;
     private UserCooldownTickThread userCooldownTickThread;
-    
-    public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
+
+    public List<String> moderators = new ArrayList<String>();
+    public List<String> viewers = new ArrayList<String>();
     public List<String> followers = new ArrayList<String>();
+    public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
 
     public void init(String channelName) {
 	try {
@@ -63,8 +63,8 @@ public class TwitchBot extends PircBot {
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
 	// GUI
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Chat, sender);
-	if (mods != null)
-	    if (Arrays.asList(mods).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
+	if (moderators != null)
+	    if (Arrays.asList(moderators).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
 		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender,
 			login, hostname, message);
 
@@ -85,18 +85,19 @@ public class TwitchBot extends PircBot {
 	    try {
 		notice = notice.substring(notice.indexOf(":") + 2);
 		notice += ", " + stream.substring(stream.indexOf("#") + 1);
-		mods = notice.split(", ");
+		moderators = Arrays.asList(notice.split(", "));
 	    } catch (Exception e) {
-		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!",
-			MessageType.Bot, null);
+		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName,
+			"There was a problem getting the moderators of this channel!", MessageType.Bot, null);
 	    }
-	    if (mods == null) {
-		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!",
-			MessageType.Bot, null);
+	    if (moderators == null) {
+		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName,
+			"There was a problem getting the moderators of this channel!", MessageType.Bot, null);
 		return;
 	    }
-	    if (mods.length > 1)
-		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Bot has the list of current moderators!", MessageType.Bot, null);
+	    if (moderators.size() > 1)
+		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Bot has the list of current moderators!",
+			MessageType.Bot, null);
 	} else if (notice.contains("There are no moderators of this channel"))
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "This channel has no moderators!", MessageType.Bot, null);
     }
@@ -168,19 +169,8 @@ public class TwitchBot extends PircBot {
 		    Ranks.setRank(sender, "None");
 		}
 	    }
-	    if (viewers != null) {
-		if (!Arrays.asList(viewers).toString().contains(sender)) {
-		    String newviewers = Arrays.asList(viewers).toString();
-		    newviewers = newviewers + "," + sender;
-		    newviewers = newviewers.replace(" ", "");
-		    newviewers = newviewers.replace("[", "");
-		    newviewers = newviewers.replace("]", "");
-		    Arrays.fill(this.viewers, "");
-		    viewers = newviewers.split(",");
-		}
-	    } else {
-		viewers = new String[1];
-		viewers[0] = sender;
+	    if (!Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
+		this.viewers.add(sender.toLowerCase());
 	    }
 	    if (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 		PointsThread.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
@@ -196,9 +186,8 @@ public class TwitchBot extends PircBot {
 	    newviewers = newviewers.replace(" ", "");
 	    newviewers = newviewers.replace("[", "");
 	    newviewers = newviewers.replace("]", "");
-	    viewers = new String[0];
-	    if (newviewers != "") {
-		viewers = newviewers.split(",");
+	    if (Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
+		this.viewers.remove(sender.toLowerCase());
 	    }
 	}
 	if (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
@@ -229,25 +218,26 @@ public class TwitchBot extends PircBot {
 		}
 
 	    } else {
-		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Your already connected using these login details!", MessageType.Bot,
-			null);
+		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Your already connected using these login details!",
+			MessageType.Bot, null);
 		return;
 	    }
 
 	} else {
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName,
-		    "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", MessageType.Bot, null);
+		    "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!",
+		    MessageType.Bot, null);
 	    return;
 	}
 	if (this.isConnected()) {
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Connected to Twitch!", MessageType.Bot, null);
 	} else
-	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", MessageType.Bot,
-		    null);
+	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!",
+		    MessageType.Bot, null);
     }
 
     public void MessageToChat(String message) {
-	if (mods != null && !Arrays.asList(mods).contains(this.getBotName().toLowerCase())) {
+	if (moderators != null && !Arrays.asList(moderators).contains(this.getBotName().toLowerCase())) {
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
@@ -270,12 +260,12 @@ public class TwitchBot extends PircBot {
 	this.stream = stream;
     }
 
-    @SuppressWarnings("deprecation") 
+    @SuppressWarnings("deprecation")
     public void disconnectTwitch() {
 	this.MessageToChat(this.getBotName() + " Disconnected!");
 	this.disconnect();
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.Bot, null);
-	this.viewers = new String[0];
+	this.viewers.clear();
 	this.ConnectedToChannel = false;
 	this.setChannel("");
 	this.getViewersThread.destroy();

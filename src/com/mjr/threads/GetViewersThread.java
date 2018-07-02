@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
-import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.files.Config;
@@ -35,8 +34,6 @@ public class GetViewersThread extends Thread {
     public void run() {
 	while (true) {
 	    try {
-		if (MJRBot.getTwitchBotByChannelName(bot.channelName).viewers != null)
-		    Arrays.fill(MJRBot.getTwitchBotByChannelName(bot.channelName).viewers, "");
 		result = "";
 		newresult = "";
 		Viewers = "";
@@ -80,30 +77,42 @@ public class GetViewersThread extends Thread {
 		    newresult = Mods + Staff + Admins + GMods + Viewers;
 		    newresult = newresult.replace(" ", "");
 		    newresult = newresult.replace("\"", "");
-		    if(bot.viewers == null)
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current viewers!", MessageType.Bot, null);
-		    else {
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!", MessageType.Bot, null);
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!", MessageType.Bot, null);
+		    if (bot.viewers.isEmpty()) {
+			bot.viewers = Arrays.asList(newresult.split(","));
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current viewers!",
+				MessageType.Bot, null);
+		    } else {
+			for (String viewer : newresult.split(",")) {
+			    if (!bot.viewers.contains(viewer)) {
+				bot.viewers.add(viewer);
+			    }
+			}
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!",
+				MessageType.Bot, null);
+
+			Mods = Mods.replace(" ", "");
+			Mods = Mods.replace("\"", "");
+			for (String mod : Mods.split(",")) {
+			    if (!bot.moderators.contains(mod)) {
+				bot.moderators.add(mod);
+			    }
+			}
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!",
+				MessageType.Bot, null);
 		    }
 
-		    bot.viewers = newresult.split(",");
-		    Mods = Mods.replace(" ", "");
-		    Mods = Mods.replace("\"", "");
-		    bot.mods = Mods.split(",");
-
-		    for (int i = 1; i < bot.viewers.length; i++) {
+		    for (int i = 1; i < bot.viewers.size(); i++) {
 			if (Config.getSetting("Points").equalsIgnoreCase("true")) {
-			    if (!PointsSystem.isOnList(bot.viewers[i])) {
-				PointsSystem.setPoints(bot.viewers[i], Integer.parseInt(Config.getSetting("StartingPoints")));
+			    if (!PointsSystem.isOnList(bot.viewers.get(i))) {
+				PointsSystem.setPoints(bot.viewers.get(i), Integer.parseInt(Config.getSetting("StartingPoints")));
 			    }
 			}
 			if (Config.getSetting("Ranks").equalsIgnoreCase("true")) {
-			    if (!Ranks.isOnList(bot.viewers[i])) {
-				Ranks.setRank(bot.viewers[i], "None");
+			    if (!Ranks.isOnList(bot.viewers.get(i))) {
+				Ranks.setRank(bot.viewers.get(i), "None");
 			    }
 			}
-			PointsThread.viewersJoinedTimes.put(bot.viewers[i].toLowerCase(), System.currentTimeMillis());
+			PointsThread.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase(), System.currentTimeMillis());
 		    }
 		}
 	    } catch (Exception e) {

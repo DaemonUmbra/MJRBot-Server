@@ -30,13 +30,13 @@ public class PointsThread extends Thread {
 		    long timenow = System.currentTimeMillis();
 		    if (type == BotType.Twitch) {
 			TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
-			if (twitchBot.ConnectedToChannel && twitchBot.viewers != null && twitchBot.viewers.length != 0) {
-			    for (int i = 0; i < twitchBot.viewers.length; i++) {
-				if (viewersJoinedTimes.containsKey(twitchBot.viewers[i])) {
-				    long oldtime = viewersJoinedTimes.get(twitchBot.viewers[i]);
+			if (twitchBot.ConnectedToChannel && twitchBot.viewers != null && twitchBot.viewers.size() != 0) {
+			    for (int i = 0; i < twitchBot.viewers.size(); i++) {
+				if (viewersJoinedTimes.containsKey(twitchBot.viewers.get(i))) {
+				    long oldtime = viewersJoinedTimes.get(twitchBot.viewers.get(i));
 				    if ((timenow - oldtime) >= TimeDuration) {
-					PointsSystem.AddPoints(twitchBot.viewers[i], 1, channelName);
-					viewersJoinedTimes.put(twitchBot.viewers[i], System.currentTimeMillis());
+					PointsSystem.AddPoints(twitchBot.viewers.get(i), 1, channelName);
+					viewersJoinedTimes.put(twitchBot.viewers.get(i), System.currentTimeMillis());
 				    }
 				}
 			    }
