@@ -107,7 +107,7 @@ public class GetViewersThread extends Thread {
 		e.printStackTrace();
 	    }
 	    try {
-		Thread.sleep(30000);
+		Thread.sleep(60000 * 2);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
