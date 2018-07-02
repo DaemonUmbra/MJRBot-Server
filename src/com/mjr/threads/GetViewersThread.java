@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
@@ -78,9 +77,14 @@ public class GetViewersThread extends Thread {
 		    newresult = newresult.replace(" ", "");
 		    newresult = newresult.replace("\"", "");
 		    if (bot.viewers.isEmpty()) {
-			bot.viewers = Arrays.asList(newresult.split(","));
+			for (String viewer : newresult.split(",")) {
+			    if (!bot.viewers.contains(viewer.toLowerCase())) {
+				bot.viewers.add(viewer.toLowerCase());
+			    }
+			}
 			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current viewers!",
 				MessageType.Bot, null);
+
 		    } else {
 			for (String viewer : newresult.split(",")) {
 			    if (!bot.viewers.contains(viewer.toLowerCase())) {

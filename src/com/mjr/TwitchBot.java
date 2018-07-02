@@ -62,11 +62,11 @@ public class TwitchBot extends PircBot {
 
     @Override
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
-	if (!Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
-		this.viewers.add(sender.toLowerCase());
-	    }
-	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+	if (!this.viewers.contains(sender.toLowerCase())) {
+	    this.viewers.add(sender.toLowerCase());
+	}
+	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	// GUI
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Chat, sender);
 	if (moderators != null)
@@ -91,7 +91,11 @@ public class TwitchBot extends PircBot {
 	    try {
 		notice = notice.substring(notice.indexOf(":") + 2);
 		notice += ", " + stream.substring(stream.indexOf("#") + 1);
-		moderators = Arrays.asList(notice.split(", "));
+		for (String moderator : notice.split(", ")) {
+		    if (!moderators.contains(moderator.toLowerCase())) {
+			moderators.add(moderator.toLowerCase());
+		    }
+		}
 	    } catch (Exception e) {
 		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName,
 			"There was a problem getting the moderators of this channel!", MessageType.Bot, null);
@@ -175,7 +179,7 @@ public class TwitchBot extends PircBot {
 		    Ranks.setRank(sender, "None");
 		}
 	    }
-	    if (!Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
+	    if (!this.viewers.contains(sender.toLowerCase())) {
 		this.viewers.add(sender.toLowerCase());
 	    }
 	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
@@ -186,19 +190,11 @@ public class TwitchBot extends PircBot {
     @Override
     protected void onPart(String channel, String sender, String login, String hostname) {
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.Bot, null);
-	if (Arrays.asList(viewers).toString().contains(sender)) {
-	    String newviewers = Arrays.asList(viewers).toString();
-	    newviewers = newviewers.replace(", " + sender, "");
-	    newviewers = newviewers.replace(" ", "");
-	    newviewers = newviewers.replace("[", "");
-	    newviewers = newviewers.replace("]", "");
-	    if (Arrays.asList(this.viewers).toString().contains(sender.toLowerCase())) {
+	    if (this.viewers.contains(sender.toLowerCase())) {
 		this.viewers.remove(sender.toLowerCase());
 	    }
-	}
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());
-
     }
 
     public void ConnectToTwitch() throws IOException {
