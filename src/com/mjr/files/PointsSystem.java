@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
@@ -66,7 +67,7 @@ public class PointsSystem {
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints);
-	ConsoleUtil.TextToConsole("Added " + points + " points to " + user, channelName, "Bot:", null);
+	ConsoleUtil.TextToConsole(null, null, "Added " + points + " points to " + user, channelName, MessageType.Bot, null);
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
@@ -76,7 +77,7 @@ public class PointsSystem {
 	int currentPoints = getPoints(user);
 	currentPoints = currentPoints - points;
 	setPoints(user, currentPoints);
-	ConsoleUtil.TextToConsole("Removed " + points + " points from " + user, channelName, "Bot:", null);
+	ConsoleUtil.TextToConsole(null, null, "Removed " + points + " points from " + user, channelName, MessageType.Bot, null);
     }
 
     public static Boolean hasPoints(String user, int points) {

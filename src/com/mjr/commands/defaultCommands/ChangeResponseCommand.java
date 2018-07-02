@@ -3,6 +3,7 @@ package com.mjr.commands.defaultCommands;
 import java.io.IOException;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -21,7 +22,7 @@ public class ChangeResponseCommand extends Command {
 		try {
 		    CustomCommands.ChangeResponseCommand(type, channel, command, response);
 		} catch (IOException e) {
-		    ConsoleUtil.TextToConsole(type, channel, e.getMessage(), "Bot", null);
+		    ConsoleUtil.TextToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
 		    e.printStackTrace();
 		}
 	    } else {

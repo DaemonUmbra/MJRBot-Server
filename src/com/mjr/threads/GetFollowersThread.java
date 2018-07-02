@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
@@ -74,7 +75,7 @@ public class GetFollowersThread extends Thread {
 		}
 
 	    }
-	    ConsoleUtil.TextToConsole(type, bot.channelName, "Bot got " + bot.followers.size() + " followers", "Bot", null);
+	    ConsoleUtil.TextToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.Bot, null);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

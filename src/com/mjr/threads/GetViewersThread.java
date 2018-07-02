@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
@@ -80,10 +81,10 @@ public class GetViewersThread extends Thread {
 		    newresult = newresult.replace(" ", "");
 		    newresult = newresult.replace("\"", "");
 		    if(bot.viewers == null)
-			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has the list of current viewers!", "Bot", null);
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current viewers!", MessageType.Bot, null);
 		    else {
-			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!", "Bot", null);
-			ConsoleUtil.TextToConsole(BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!", "Bot", null);
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!", MessageType.Bot, null);
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!", MessageType.Bot, null);
 		    }
 
 		    bot.viewers = newresult.split(",");

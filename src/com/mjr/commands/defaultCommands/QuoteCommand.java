@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.mjr.ConsoleUtil;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
@@ -104,8 +105,8 @@ public class QuoteCommand extends Command {
 			e.printStackTrace();
 		    }
 		    Utilities.sendMessage(type, channel, sender + " your quote has been added!");
-		    ConsoleUtil.TextToConsole(type, channel,
-			    "A new Quote has been added by " + sender + ". The quote message is " + message, "Bot", null);
+		    ConsoleUtil.TextToConsole(bot, type, channel,
+			    "A new Quote has been added by " + sender + ". The quote message is " + message, MessageType.Bot, null);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
 		((TwitchBot) bot).sendMessage(MJRBot.getTwitchBotByChannelName(channel).getChannel(),

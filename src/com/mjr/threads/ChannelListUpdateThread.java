@@ -5,9 +5,9 @@ import java.util.HashMap;
 import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.files.ConfigMain;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
+import com.mjr.files.ConfigMain;
 import com.mjr.sql.SQLUtilities;
 
 public class ChannelListUpdateThread extends Thread {
@@ -20,7 +20,7 @@ public class ChannelListUpdateThread extends Thread {
 	    HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
 
 	    // Check for new channels
-	    ConsoleUtil.TextToConsole("Update Channels List", "Bot", null);
+	    ConsoleUtil.TextToConsole("Update Channels List");
 	    boolean found = false;
 	    for (String channelName : channelList.keySet()) {
 		found = false;

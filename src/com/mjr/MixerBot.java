@@ -3,6 +3,7 @@ package com.mjr;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
 import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
@@ -26,7 +27,7 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onMessage(String sender, String message) {
-	ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, message, "Chat", sender);
+	ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
 	try {
 	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 	} catch (IOException e) {
@@ -84,12 +85,12 @@ public class MixerBot extends MJR_MixerBot {
 		    if (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
 			PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-		ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", "Chat", null);
+		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", MessageType.Chat, null);
 		if (Config.getSetting("SilentJoin").equalsIgnoreCase("false"))
 		    this.sendMessage(this.getBotName() + " Connected!");
 	    } else
-		ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName,
-			"Theres been problem, connecting to Mixer, Please check settings are corrrect!", "Chat", null);
+		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName,
+			"Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 	} catch (InterruptedException | ExecutionException | IOException e) {
 	    e.printStackTrace();
 	}
@@ -98,7 +99,7 @@ public class MixerBot extends MJR_MixerBot {
     @Override
     protected void onDebugMessage() {
 	for (String message : this.getOutputMessages())
-	    ConsoleUtil.TextToConsole(BotType.Mixer, this.channelName, message, "Bot", null);
+	    ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
 	this.clearOutputMessages();
     }
 }

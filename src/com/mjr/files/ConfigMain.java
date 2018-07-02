@@ -49,9 +49,9 @@ public class ConfigMain {
     public static void setSetting(String setting, String value) {
 	if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 	    if (value == "true")
-		ConsoleUtil.TextToConsole(setting + " has been has enabled!", "Bot", null);
+		ConsoleUtil.TextToConsole(setting + " has been has enabled!");
 	    else
-		ConsoleUtil.TextToConsole(setting + " has been has disabled!", "Bot", null);
+		ConsoleUtil.TextToConsole(setting + " has been has disabled!");
 
 	    properties.setProperty(setting, value);
 	    try {
