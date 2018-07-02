@@ -15,39 +15,47 @@ public class ChannelListUpdateThread extends Thread {
     @Override
     public void run() {
 	while (true) {
-	    HashMap<String, String> channelList = SQLUtilities.getChannels();
-	    HashMap<String, TwitchBot> channelListTwitch = MJRBot.getTwitchBots();
-	    HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
+	    HashMap<String, String> channelListTwitch = SQLUtilities.getChannelsTwitch();
+	    HashMap<String, String> channelListMixer = SQLUtilities.getChannelsMixer();
+	    HashMap<String, TwitchBot> currentChannelListTwitch = MJRBot.getTwitchBots();
+	    HashMap<String, MixerBot> currentChannelListMixer = MJRBot.getMixerBots();
 
 	    // Check for new channels
 	    ConsoleUtil.TextToConsole("Update Channels List");
 	    boolean found = false;
-	    for (String channelName : channelList.keySet()) {
+	    for (String channelName : channelListTwitch.keySet()) {
 		found = false;
-		for (String channelNameMain : channelListTwitch.keySet()) {
-		    if (channelNameMain.equalsIgnoreCase(channelName)) {
-			found = true;
-		    }
-		}
-		for (String channelNameMain : channelListMixer.keySet()) {
+		for (String channelNameMain : currentChannelListTwitch.keySet()) {
 		    if (channelNameMain.equalsIgnoreCase(channelName)) {
 			found = true;
 		    }
 		}
 		if (found == false) {
-		    MJRBot.createBot(channelName, channelList.get(channelName));
+		    MJRBot.createBot(channelName, channelListTwitch.get(channelName));
+		}
+	    }
+	    
+	    for (String channelName : channelListMixer.keySet()) {
+		found = false;
+		for (String channelNameMain : currentChannelListMixer.keySet()) {
+		    if (channelNameMain.equalsIgnoreCase(channelName)) {
+			found = true;
+		    }
+		}
+		if (found == false) {
+		    MJRBot.createBot(channelName, channelListMixer.get(channelName));
 		}
 	    }
 
 	    // Check for removed channels
 	    HashMap<String, String> channelsToDisconnect = new HashMap<String, String>();
-	    for (String channelNameMain : channelListTwitch.keySet()) {
-		if (!channelList.containsKey(channelNameMain)) {
+	    for (String channelNameMain : currentChannelListTwitch.keySet()) {
+		if (!channelListTwitch.containsKey(channelNameMain)) {
 		    channelsToDisconnect.put(channelNameMain, BotType.Twitch.getTypeName());
 		}
 	    }
-	    for (String channelNameMain : channelListMixer.keySet()) {
-		if (!channelList.containsKey(channelNameMain)) {
+	    for (String channelNameMain : currentChannelListMixer.keySet()) {
+		if (!channelListMixer.containsKey(channelNameMain)) {
 		    channelsToDisconnect.put(channelNameMain, BotType.Mixer.getTypeName());
 		}
 	    }

@@ -32,9 +32,27 @@ public class SQLUtilities {
 	return false;
     }
 
-    public static HashMap<String, String> getChannels() {
+    public static HashMap<String, String> getChannelsTwitch() {
 	HashMap<String, String> channels = new HashMap<String, String>();
-	ResultSet result = MySQLConnection.executeQuery("SELECT name, bot_type FROM channels");
+	ResultSet result = MySQLConnection.executeQuery("SELECT name, bot_type FROM channels WHERE bot_type = 'Twitch'");
+	try {
+	    while (result.next()) {
+		channels.put(result.getString("name"), result.getString("bot_type"));
+	    }
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
+	try {
+	    result.close();
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
+	return channels;
+    }
+    
+    public static HashMap<String, String> getChannelsMixer() {
+	HashMap<String, String> channels = new HashMap<String, String>();
+	ResultSet result = MySQLConnection.executeQuery("SELECT name, bot_type FROM channels WHERE bot_type = 'Mixer'");
 	try {
 	    while (result.next()) {
 		channels.put(result.getString("name"), result.getString("bot_type"));

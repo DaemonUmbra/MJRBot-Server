@@ -54,7 +54,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual?");
-		// connectionType = "Database";
+		//connectionType = "Database";
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
@@ -75,10 +75,16 @@ public class MJRBot {
 		    } while (MySQLConnection.connected == false);
 		    SQLUtilities.createDatabaseStructure();
 		    System.out.println("Getting list of Channels from Database server");
-		    HashMap<String, String> channelList = SQLUtilities.getChannels();
+		    HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 		    for (String channelName : channelList.keySet()) {
 			createBot(channelName, channelList.get(channelName));
 		    }
+		    
+		    channelList = SQLUtilities.getChannelsMixer();
+		    for (String channelName : channelList.keySet()) {
+			createBot(channelName, channelList.get(channelName));
+		    }
+		    
 		    ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
 		    updateThread.start();
 		}
@@ -95,8 +101,8 @@ public class MJRBot {
 	    addTwitchBot(channel, bot);
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 	    MixerBot bot = new MixerBot(channel);
-	    bot.joinChannel(channel);
 	    addMixerBot(channel, bot);
+	    bot.joinChannel(channel);
 	} else if (channel != "")
 	    ConsoleUtil.TextToConsole("Unknown Type of Connection!");
 	else
