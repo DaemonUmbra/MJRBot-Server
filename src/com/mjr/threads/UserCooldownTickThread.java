@@ -18,13 +18,13 @@ public class UserCooldownTickThread extends Thread {
 		HashMap<String, Integer> users = twitchBot.usersCooldowns;
 		for (String user : users.keySet()) {
 		    int oldTime = users.get(user);
-		    if (oldTime != 0) {
+		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
-			users.remove(user);
-			users.put(user, oldTime);
+			if(twitchBot.usersCooldowns.containsKey(user))
+			twitchBot.usersCooldowns.remove(user);
+			twitchBot.usersCooldowns.put(user, oldTime);
 		    }
 		}
-		twitchBot.usersCooldowns = users;
 	    } // TODO Do for Mixer
 	    try {
 		Thread.sleep(1000);

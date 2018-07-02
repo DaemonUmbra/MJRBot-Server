@@ -32,12 +32,12 @@ public class TwitchBot extends PircBot {
 
     private final CommandManager commands = new CommandManager();
 
-    private GetViewersThread getViewersThread;
-    private PointsThread pointsThread;
-    private AnnouncementsThread announcementsThread;
-    private CheckForNewFollowersThread followersThread;
-    private GetFollowersThread getFollowersThread;
-    private UserCooldownTickThread userCooldownTickThread;
+    public GetViewersThread getViewersThread;
+    public PointsThread pointsThread;
+    public AnnouncementsThread announcementsThread;
+    public CheckForNewFollowersThread followersThread;
+    public GetFollowersThread getFollowersThread;
+    public UserCooldownTickThread userCooldownTickThread;
 
     public List<String> moderators = new ArrayList<String>();
     public List<String> viewers = new ArrayList<String>();
