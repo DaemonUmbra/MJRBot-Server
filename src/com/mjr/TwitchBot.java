@@ -20,6 +20,7 @@ import com.mjr.threads.CheckFollowers;
 import com.mjr.threads.Followers;
 import com.mjr.threads.PointsThread;
 import com.mjr.threads.UserCooldownTickThread;
+import com.mjr.threads.GetViewersThread;
 
 public class TwitchBot extends PircBot {
     public static String[] mods;
@@ -140,7 +141,8 @@ public class TwitchBot extends PircBot {
 		this.sendMessage(stream, this.getNick() + " Connected!");
 	    }
 	    ConnectedToChannel = true;
-	    Viewers.getViewers(this.channelName);
+	    GetViewersThread getViewersThread = new GetViewersThread(this);
+	    getViewersThread.start();
 	    Followers followers = new Followers(this, BotType.Twitch);
 	    followers.start();
 
