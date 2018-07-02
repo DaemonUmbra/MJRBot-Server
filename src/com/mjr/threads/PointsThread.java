@@ -2,6 +2,7 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
@@ -37,27 +38,20 @@ public class PointsThread extends Thread {
 			}
 		    }
 		}
-		// else if (type == BotType.Mixer) { TODO: Fix for mixer
-		// MixerBot mixerBot =
-		// MJRBot.getMixerBotByChannelName(channelName);
-		// if (mixerBot.isConnected() && mixerBot.getViewers().size() !=
-		// 0) {
-		// for (int i = 0; i < mixerBot.getViewers().size(); i++) {
-		// if
-		// (viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i)))
-		// {
-		// long oldtime =
-		// viewersJoinedTimes.get(mixerBot.getViewers().get(i));
-		// if ((timenow - oldtime) >= TimeDuration) {
-		// PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1,
-		// channelName);
-		// viewersJoinedTimes.put(mixerBot.getViewers().get(i),
-		// System.currentTimeMillis());
-		// }
-		// }
-		// }
-		// }
-		// }
+		else if (type == BotType.Mixer) {
+		    MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+		    if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
+			for (int i = 0; i < mixerBot.getViewers().size(); i++) {
+			    if (mixerBot.viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
+				long oldtime = mixerBot.viewersJoinedTimes.get(mixerBot.getViewers().get(i));
+				if ((timenow - oldtime) >= TimeDuration) {
+				    PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, channelName);
+				    mixerBot.viewersJoinedTimes.put(mixerBot.getViewers().get(i), System.currentTimeMillis());
+				}
+			    }
+			}
+		    }
+		}
 
 		try {
 		    Thread.sleep(TimeDuration);

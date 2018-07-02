@@ -25,7 +25,21 @@ public class UserCooldownTickThread extends Thread {
 			twitchBot.usersCooldowns.put(user, oldTime);
 		    }
 		}
-	    } // TODO Do for Mixer
+	    }
+
+	    for (String channelNameMain : channelListMixer.keySet()) {
+		MixerBot mixerBot = (channelListMixer.get(channelNameMain));
+		HashMap<String, Integer> users = mixerBot.usersCooldowns;
+		for (String user : users.keySet()) {
+		    int oldTime = users.get(user);
+		    if (oldTime > 0) {
+			oldTime = oldTime - 1;
+			if (mixerBot.usersCooldowns.containsKey(user))
+			    mixerBot.usersCooldowns.remove(user);
+			mixerBot.usersCooldowns.put(user, oldTime);
+		    }
+		}
+	    }
 	    try {
 		Thread.sleep(1000);
 	    } catch (InterruptedException e) {

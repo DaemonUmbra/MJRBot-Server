@@ -1,6 +1,7 @@
 package com.mjr;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.ConsoleUtil.MessageType;
@@ -10,11 +11,25 @@ import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.threads.AnnouncementsThread;
+import com.mjr.threads.CheckForNewFollowersThread;
+import com.mjr.threads.GetFollowersThread;
+import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.PointsThread;
+import com.mjr.threads.UserCooldownTickThread;
 
 public class MixerBot extends MJR_MixerBot {
 
     public String channelName = "";
+
+    public GetViewersThread getViewersThread;
+    public PointsThread pointsThread;
+    public AnnouncementsThread announcementsThread;
+    public CheckForNewFollowersThread followersThread;
+    public GetFollowersThread getFollowersThread;
+    public UserCooldownTickThread userCooldownTickThread;
+
+    public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
+    public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
 
     public MixerBot(String channelName) {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerUsername/BotName"));
@@ -36,18 +51,15 @@ public class MixerBot extends MJR_MixerBot {
     @Override
     protected void onJoin(String sender) {
 	this.addViewer(sender);
-	// if
-	// (!PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	// PointsThread.viewersJoinedTimes.put(sender.toLowerCase(),
-	// System.currentTimeMillis());
+	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
     }
 
     @Override
     protected void onPart(String sender) {
 	this.removeViewer(sender);
-	// if
-	// (PointsThread.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-	// PointsThread.viewersJoinedTimes.remove(sender.toLowerCase());
+	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    this.viewersJoinedTimes.remove(sender.toLowerCase());
     }
 
     public void joinChannel(String channel) {
@@ -57,25 +69,21 @@ public class MixerBot extends MJR_MixerBot {
 	    if (this.isConnected() && this.isAuthenticated()) {
 		// Start Threads
 		if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
-		    PointsThread pointsThread = new PointsThread(BotType.Mixer, channel);
+		    pointsThread = new PointsThread(BotType.Mixer, channel);
 		    pointsThread.start();
 		}
 		if (Config.getSetting("Announcements", channel).equalsIgnoreCase("true")) {
-		    AnnouncementsThread announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
+		    announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckFollowers followersThread = new
-		    // CheckFollowers(BotType.Mixer, channel); TODO Add for
-		    // Mixer
+		    // CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel); TODO Add for Mixer
 		    // followersThread.start();
 		}
 
-		// for (String viewer : this.getViewers())
-		// if
-		// (!PointsThread.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
-		// PointsThread.viewersJoinedTimes.put(viewer.toLowerCase(),
-		// System.currentTimeMillis());
+		for (String viewer : this.getViewers())
+		    if (!this.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
+			this.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
 		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
 			MessageType.Chat, null);
