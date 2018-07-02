@@ -124,7 +124,7 @@ public class CommandManager {
 				twitchBot.usersCooldowns.put(sender.toLowerCase(),
 					Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
 				if (twitchBot.userCooldownTickThread.isAlive() == false)
-				    twitchBot.userCooldownTickThread.stop();
+				    twitchBot.userCooldownTickThread.start();
 
 			    } else
 				allowed = false;
@@ -141,7 +141,7 @@ public class CommandManager {
 				mixerBot.usersCooldowns.put(sender.toLowerCase(),
 					Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
 				if (mixerBot.userCooldownTickThread.isAlive() == false)
-				    mixerBot.userCooldownTickThread.stop();
+				    mixerBot.userCooldownTickThread.start();
 
 			    } else
 				allowed = false;
