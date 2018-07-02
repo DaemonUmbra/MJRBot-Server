@@ -22,9 +22,9 @@ public class CustomCommands {
 
     public static void getCommand(Object bot, BotType type, String channelName, String command, String sender) throws IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.substring(command.indexOf("!") + 1);
 	filename = filename + "Command" + ".properties";
@@ -54,9 +54,9 @@ public class CustomCommands {
     public static void AddCommand(BotType type, String channelName, String command, String response, String permission)
 	    throws FileNotFoundException, IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -83,9 +83,9 @@ public class CustomCommands {
 
     public static void RemoveCommand(BotType type, String channelName, String command) throws IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -99,9 +99,9 @@ public class CustomCommands {
     @SuppressWarnings("deprecation")
     public static void ChangeStateCommand(BotType type, String channelName, String command, String state) throws IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -132,9 +132,9 @@ public class CustomCommands {
     @SuppressWarnings("deprecation")
     public static void ChangeResponseCommand(BotType type, String channelName, String command, String response) throws IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -155,9 +155,9 @@ public class CustomCommands {
     public static void ChangeComanndResponse(BotType type, String channelName, String command, String response)
 	    throws FileNotFoundException, IOException {
 	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	else {
-	    filelocation = MJRBot.filePath + MJRBot.getMixerBotByChannelName(channelName) + File.separator;
+	    filelocation = MJRBot.filePath + channelName + File.separator;
 	}
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
