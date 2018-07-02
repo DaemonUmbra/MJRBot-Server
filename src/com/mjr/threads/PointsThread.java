@@ -37,8 +37,7 @@ public class PointsThread extends Thread {
 			    }
 			}
 		    }
-		}
-		else if (type == BotType.Mixer) {
+		} else if (type == BotType.Mixer) {
 		    MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
 		    if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
 			for (int i = 0; i < mixerBot.getViewers().size(); i++) {

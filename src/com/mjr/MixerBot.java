@@ -77,7 +77,9 @@ public class MixerBot extends MJR_MixerBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel); TODO Add for Mixer
+		    // CheckFollowers followersThread = new
+		    // CheckFollowers(BotType.Mixer, channel); TODO Add for
+		    // Mixer
 		    // followersThread.start();
 		}
 
