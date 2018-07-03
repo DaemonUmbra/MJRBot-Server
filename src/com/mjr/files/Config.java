@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 
-public class Config  extends FileBase{
+public class Config extends FileBase {
     public static String fileName = "Config.properties";
 
     public static void loadDefaults(String channelName) throws IOException {

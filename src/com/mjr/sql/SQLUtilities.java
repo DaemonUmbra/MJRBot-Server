@@ -49,7 +49,7 @@ public class SQLUtilities {
 	}
 	return channels;
     }
-    
+
     public static HashMap<String, String> getChannelsMixer() {
 	HashMap<String, String> channels = new HashMap<String, String>();
 	ResultSet result = MySQLConnection.executeQuery("SELECT name, bot_type FROM channels WHERE bot_type = 'Mixer'");

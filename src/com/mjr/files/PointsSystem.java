@@ -8,7 +8,7 @@ import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.Utilities;
 
-public class PointsSystem  extends FileBase{
+public class PointsSystem extends FileBase {
     public static String fileName = "Points.properties";
 
     public static int getPoints(String user, String channelName) {

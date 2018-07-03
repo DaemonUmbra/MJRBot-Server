@@ -79,12 +79,12 @@ public class MJRBot {
 		    for (String channelName : channelList.keySet()) {
 			createBot(channelName, channelList.get(channelName));
 		    }
-		    
+
 		    channelList = SQLUtilities.getChannelsMixer();
 		    for (String channelName : channelList.keySet()) {
 			createBot(channelName, channelList.get(channelName));
 		    }
-		    
+
 		    ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
 		    updateThread.start();
 		}

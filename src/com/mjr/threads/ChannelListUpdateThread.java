@@ -34,7 +34,7 @@ public class ChannelListUpdateThread extends Thread {
 		    MJRBot.createBot(channelName, channelListTwitch.get(channelName));
 		}
 	    }
-	    
+
 	    for (String channelName : channelListMixer.keySet()) {
 		found = false;
 		for (String channelNameMain : currentChannelListMixer.keySet()) {

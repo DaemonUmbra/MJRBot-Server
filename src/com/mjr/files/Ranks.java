@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class Ranks extends FileBase{
+public class Ranks extends FileBase {
 
     public static String[] ranks = { "gold", "sliver", "bronze", "none" };
 
