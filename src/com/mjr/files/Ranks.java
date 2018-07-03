@@ -1,16 +1,11 @@
 package com.mjr.files;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.mjr.MJRBot;
-
-public class Ranks {
+public class Ranks extends FileBase{
 
     public static String[] ranks = { "gold", "sliver", "bronze", "none" };
 
@@ -18,41 +13,13 @@ public class Ranks {
     public static int SliverPrice = 3500;
     public static int BronzePrice = 2000;
 
-    public static String filename = "UserRanks.properties";
-
-    public static Properties load(String channelName) {
-	try {
-	    FileReader reader;
-	    reader = new FileReader(loadFile(channelName));
-
-	    Properties properties = new Properties();
-	    properties.load(reader);
-	    return properties;
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
-
-    public static File loadFile(String channelName) {
-	try {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + filename);
-	    if (!file.exists()) {
-		file.getParentFile().mkdirs();
-		file.createNewFile();
-	    }
-	    return file;
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
+    public static String fileName = "UserRanks.properties";
 
     public static String getRank(String user, String channelName) {
 	user = user.toLowerCase();
 	String value = "";
 	user = user.toLowerCase();
-	value = load(channelName).getProperty(user, value);
+	value = load(channelName, fileName).getProperty(user, value);
 	return value;
     }
 
@@ -61,10 +28,10 @@ public class Ranks {
 	user = user.toLowerCase();
 	rank = rank.toLowerCase();
 	if (getRank(user, channelName) != rank) {
-	    Properties properties = load(channelName);
+	    Properties properties = load(channelName, fileName);
 	    properties.setProperty(user.toLowerCase(), rank);
 	    try {
-		properties.save(new FileOutputStream(loadFile(channelName)), null);
+		properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
 	    } catch (FileNotFoundException e) {
 		e.printStackTrace();
 	    }
@@ -91,7 +58,7 @@ public class Ranks {
 
     public static Boolean isOnList(String user, String channelName) {
 	user = user.toLowerCase();
-	if (load(channelName).getProperty(user) != null)
+	if (load(channelName, fileName).getProperty(user) != null)
 	    return true;
 	else
 	    return false;

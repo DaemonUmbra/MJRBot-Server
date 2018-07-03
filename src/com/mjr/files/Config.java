@@ -2,44 +2,13 @@ package com.mjr.files;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
-import com.mjr.MJRBot;
 
-public class Config {
-    public static String filename = "Config.properties";
-
-    public static Properties load(String channelName) {
-	try {
-	    FileReader reader;
-	    reader = new FileReader(loadFile(channelName));
-
-	    Properties properties = new Properties();
-	    properties.load(reader);
-	    return properties;
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
-
-    public static File loadFile(String channelName) {
-	try {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + filename);
-	    if (!file.exists()) {
-		file.getParentFile().mkdirs();
-		file.createNewFile();
-		loadDefaults(channelName);
-	    }
-	    return file;
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	return null;
-    }
+public class Config  extends FileBase{
+    public static String fileName = "Config.properties";
 
     public static void loadDefaults(String channelName) throws IOException {
 	setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
@@ -76,13 +45,13 @@ public class Config {
     }
 
     public static String getSetting(String setting, String channelName) {
-	return load(channelName).getProperty(setting);
+	return load(channelName, fileName).getProperty(setting);
     }
 
     @SuppressWarnings("deprecation")
     public static void setSetting(String setting, String value, String channelName) {
-	Properties properties = load(channelName);
-	File file = loadFile(channelName);
+	Properties properties = load(channelName, fileName);
+	File file = loadFile(channelName, fileName);
 	if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 	    if (value == "true")
 		ConsoleUtil.TextToConsole(setting + " has been has enabled!");
