@@ -7,7 +7,7 @@ import com.mjr.games.BankHeistGame;
 
 public class BankHeistThread extends Thread {
 
-    private static HashMap<String, Integer> enteredUsers = new HashMap<String, Integer>();
+    private static HashMap<String, Integer> enteredUsers = new HashMap<String, Integer>(); // TODO: Made this not static
 
     public static boolean GameActive = false;
 
