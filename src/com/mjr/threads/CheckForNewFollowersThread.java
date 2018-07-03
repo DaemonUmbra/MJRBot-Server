@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
 
-import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.files.Config;
@@ -24,11 +23,11 @@ public class CheckForNewFollowersThread extends Thread {
     @Override
     public void run() {
 	while (true) {
-	    if (type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(bot.channelName).ConnectedToChannel) {
+	    if (type == BotType.Twitch && bot.ConnectedToChannel) {
 		if (Config.getSetting("FollowerCheck", bot.channelName).equalsIgnoreCase("true")) {
-		    if (MJRBot.getTwitchBotByChannelName(bot.channelName).viewers != null) {
-			for (int i = 0; i < MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.size(); i++) {
-			    checkFollower(bot, MJRBot.getTwitchBotByChannelName(bot.channelName).viewers.get(i).toLowerCase());
+		    if (bot.viewers != null) {
+			for (int i = 0; i < bot.viewers.size(); i++) {
+			    checkFollower(bot, bot.viewers.get(i).toLowerCase());
 			}
 			try {
 			    Thread.sleep(10000);

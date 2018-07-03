@@ -32,12 +32,7 @@ public class QuoteCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	if (Config.getSetting("Quotes", channel).equalsIgnoreCase("true")) {
-	    if (type == BotType.Twitch)
-		file = new File(
-			MJRBot.filePath + MJRBot.getTwitchBotByChannelName(channel).getChannel().substring(1) + File.separator + filename);
-	    else {
-		file = new File(MJRBot.filePath + MJRBot.getMixerBotByChannelName(channel) + File.separator + filename);
-	    }
+	    file = new File(MJRBot.filePath + channel + File.separator + filename);
 	    if (args.length == 1) {
 		String token1 = "";
 		Scanner inFile1 = null;
