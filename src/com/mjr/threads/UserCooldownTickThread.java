@@ -14,10 +14,9 @@ public class UserCooldownTickThread extends Thread {
 	    HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
 
 	    for (String channelNameMain : channelListTwitch.keySet()) {
-		TwitchBot twitchBot = (channelListTwitch.get(channelNameMain));
-		HashMap<String, Integer> users = twitchBot.usersCooldowns;
-		for (String user : users.keySet()) {
-		    int oldTime = users.get(user);
+		TwitchBot twitchBot = channelListTwitch.get(channelNameMain);
+		for (String user : twitchBot.usersCooldowns.keySet()) {
+		    int oldTime = twitchBot.usersCooldowns.get(user);
 		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
 			if (twitchBot.usersCooldowns.containsKey(user))
@@ -28,10 +27,9 @@ public class UserCooldownTickThread extends Thread {
 	    }
 
 	    for (String channelNameMain : channelListMixer.keySet()) {
-		MixerBot mixerBot = (channelListMixer.get(channelNameMain));
-		HashMap<String, Integer> users = mixerBot.usersCooldowns;
-		for (String user : users.keySet()) {
-		    int oldTime = users.get(user);
+		MixerBot mixerBot = channelListMixer.get(channelNameMain);
+		for (String user : mixerBot.usersCooldowns.keySet()) {
+		    int oldTime = mixerBot.usersCooldowns.get(user);
 		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
 			if (mixerBot.usersCooldowns.containsKey(user))
