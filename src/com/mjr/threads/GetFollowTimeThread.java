@@ -54,8 +54,14 @@ public class GetFollowTimeThread extends Thread {
 		long diffSeconds = diff / 1000;
 		diff = diff - (diffSeconds * 1000);
 
-		Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffDay + " day(s) "
-			+ diffHours + " hour(s) " + diffMinutes + " minute(s)");
+		int diffMonths = (int) (diffDay / 31);
+		diffDay = diffDay - (diffMonths * 31);
+		
+		int diffYears = (int) (diffMonths / 12);
+		diffMonths = diffMonths - (diffYears * 12);
+
+		Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffYears + " year(s) " + diffMonths + " month(s) "
+			+ diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	    }
 	}
     }

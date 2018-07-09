@@ -56,8 +56,15 @@ public class AccountLifeCommand extends Command {
 		diff = diff - (diffMinutes * 60 * 1000);
 		long diffSeconds = diff / 1000;
 		diff = diff - (diffSeconds * 1000);
+		
+		int diffMonths = (int) (diffDay / 31);
+		diffDay = diffDay - (diffMonths * 31);
+		
+		int diffYears = (int) (diffMonths / 12);
+		diffMonths = diffMonths - (diffYears * 12);
 
-		Utilities.sendMessage(type, channel, sender + " your twitch account is " + diffDay + " day(s) " + diffHours + " hour(s) "
+		Utilities.sendMessage(type, channel, sender + " your twitch account is " + diffYears + " year(s) " + diffMonths + " month(s) "
+			+ diffDay + " day(s) " + diffHours + " hour(s) "
 			+ diffMinutes + " minute(s) old");
 	    }
 	} catch (Exception e) {
