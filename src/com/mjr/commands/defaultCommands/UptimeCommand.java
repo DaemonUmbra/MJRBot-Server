@@ -35,14 +35,18 @@ public class UptimeCommand extends Command {
 
 		Date date = new Date(currentTime);
 
-		long diff = date.getTime() - parse.getTime();
-
-		long diffMinutes = diff / (60 * 1000) % 60;
+		long diff = (long) (date.getTime() - parse.getTime());
+		long diffDay = diff / (24 * 60 * 60 * 1000);
+		diff = diff - (diffDay * 24 * 60 * 60 * 1000);
 		long diffHours = diff / (60 * 60 * 1000);
-		int diffInDays = (int) ((date.getTime() - parse.getTime()) / (1000 * 60 * 60 * 24));
+		diff = diff - (diffHours * 60 * 60 * 1000);
+		long diffMinutes = diff / (60 * 1000);
+		diff = diff - (diffMinutes * 60 * 1000);
+		long diffSeconds = diff / 1000;
+		diff = diff - (diffSeconds * 1000);
 
 		((TwitchBot) bot).MessageToChat(
-			channel + " has been live for " + diffInDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+			channel + " has been live for " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	    } else {
 		((TwitchBot) bot).MessageToChat(channel + " is currently not streaming!");
 	    }
