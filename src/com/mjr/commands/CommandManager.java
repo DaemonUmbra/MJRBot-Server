@@ -21,6 +21,7 @@ import com.mjr.commands.defaultCommands.CommandsListCommand;
 import com.mjr.commands.defaultCommands.DiceCommand;
 import com.mjr.commands.defaultCommands.DisconnectCommand;
 import com.mjr.commands.defaultCommands.EnterCommand;
+import com.mjr.commands.defaultCommands.FollowTimeCommand;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.commands.defaultCommands.MathsCommand;
 import com.mjr.commands.defaultCommands.PermitCommand;
@@ -87,6 +88,7 @@ public class CommandManager {
 	commands.put("!uptime", new UptimeCommand());
 	commands.put("!permit", new PermitCommand());
 	commands.put("!accountlife", new AccountLifeCommand());
+	commands.put("!followtime", new FollowTimeCommand());
     }
 
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)
