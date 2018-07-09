@@ -9,6 +9,7 @@ import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
+import com.mjr.commands.defaultCommands.AccountLifeCommand;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -85,6 +86,7 @@ public class CommandManager {
 	commands.put("!disconnect", new DisconnectCommand());
 	commands.put("!uptime", new UptimeCommand());
 	commands.put("!permit", new PermitCommand());
+	commands.put("!accountlife", new AccountLifeCommand());
     }
 
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)
