@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 
@@ -66,7 +67,7 @@ public class AccountLifeCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return null;
+	return PermissionLevel.User.getName();
     }
 
     @Override
