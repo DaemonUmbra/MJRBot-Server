@@ -54,7 +54,7 @@ public class CheckForNewFollowersThread extends Thread {
 	    URL url;
 	    try {
 		url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
-			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit="
+			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08&limit="
 			+ (currentfollowers.length() - (currentfollowers.length() - 3)));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");

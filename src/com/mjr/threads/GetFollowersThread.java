@@ -7,7 +7,6 @@ import java.net.URL;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
-import com.mjr.HTTPConnect;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 
@@ -36,6 +35,7 @@ public class GetFollowersThread extends Thread {
 		result += line;
 	    }
 	    reader.close();
+	    connection.disconnect();
 
 	    String copyresult = result;
 	    String total = result.substring(result.indexOf("_total") + 8);
@@ -47,17 +47,26 @@ public class GetFollowersThread extends Thread {
 
 	    if (times > 1700)
 		times = 1700;
-
-	    for (int i = 0; i < (((times + 24) / 25) * 25) / 25; i++) {
+	    int amount = (int) Math.ceil(((float)times / 25));
+	    for (int i = 0; i < amount; i++) {
 		if (i != 0) {
-		    String newurl = copyresult.substring(copyresult.indexOf("next\":\"") + 7);
-		    newurl = newurl.substring(0, newurl.indexOf("\""));
-		    newurl = newurl + "\u0026client_id=it37a0q1pxypsijpd94h6rdhiq3j08";
-		    result = HTTPConnect.GetResponsefrom(newurl);
+		    result = "";
+		    String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
+		    newurl = newurl.substring(0, newurl.indexOf("},") - 1);
+		    newurl = newurl + "&client_id=it37a0q1pxypsijpd94h6rdhiq3j08&offset=" + (current + 1);
+		    url = new URL(newurl);
+		    connection = (HttpURLConnection) url.openConnection();
+		    connection.setRequestMethod("GET");
+		    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		    line = "";
+		    while ((line = reader.readLine()) != null) {
+			result += line;
+		    }
+		    reader.close();
+		    connection.disconnect();
 		    copyresult = result;
 		    newresult = result;
 		}
-
 		for (int j = 0; j < 25; j++) {
 		    if (current <= times) {
 			newfollower = newresult.substring(newresult.indexOf("display_name") + 15);
@@ -65,7 +74,6 @@ public class GetFollowersThread extends Thread {
 			result = result.substring(result.indexOf(newfollower));
 
 			bot.followers.add(newfollower.toLowerCase());
-
 			if (current % 100 != 0) {
 			    if (result.indexOf("type\":\"") != -1)
 				newresult = result.substring(result.indexOf("type\":\""));
@@ -73,7 +81,6 @@ public class GetFollowersThread extends Thread {
 			current++;
 		    }
 		}
-
 	    }
 	    ConsoleUtil.TextToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.Bot, null);
 	} catch (Exception e) {
