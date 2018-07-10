@@ -1,7 +1,7 @@
 # MJRBot-Server
 A Twitch/Mixer IRC/Java Socket Chat bot made in java, deisnged for server based systems.
 
-**Operating Systems Supported: Window &  Linux**
+**Operating Systems Supported: Windows &  Linux**
 
 **Data Storage Types Supported: File Based & MySQL**
 
