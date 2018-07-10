@@ -155,7 +155,7 @@ public class Config extends FileBase {
 		MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + ","
 			+ "\"" + setting + "\"" + "," + "\"" + value + "\"" + ")");
 	    else
-		MySQLConnection.executeUpdate("UPDATE config SET channel=" + "\"" + channelName + "\"" + ",setting=" + "\"" + setting + "\""
+		MySQLConnection.executeUpdate("UPDATE config SET setting=" + "\"" + setting + "\""
 			+ ",value=" + "\"" + value + "\"" + " WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\""
 			+ setting + "\"");
 	}

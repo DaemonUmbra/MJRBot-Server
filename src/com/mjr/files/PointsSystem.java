@@ -2,12 +2,15 @@ package com.mjr.files;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.Utilities;
+import com.mjr.sql.MySQLConnection;
 
 public class PointsSystem extends FileBase {
     public static String fileName = "Points.properties";
@@ -20,7 +23,18 @@ public class PointsSystem extends FileBase {
 	if (MJRBot.useFileSystem)
 	    value = load(channelName, fileName).getProperty(user);
 	else {
-	    // TODO: Add Database Link
+	    ResultSet result = MySQLConnection.executeQueryNoOutput(
+		    "SELECT amount FROM points WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
+	    if (result == null)
+		return 0;
+	    else
+		try {
+		    result.beforeFirst();
+		    result.next();
+		    return Integer.parseInt(result.getString(1));
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		}
 	}
 	return Integer.parseInt(value);
     }
@@ -36,7 +50,12 @@ public class PointsSystem extends FileBase {
 		e.printStackTrace();
 	    }
 	} else {
-	    // TODO: Add Database Link
+	    if (isOnList(user, channelName) == false)
+		MySQLConnection.executeUpdate("INSERT INTO points(name, channel, amount) VALUES (" + "\"" + user + "\"" + "," + "\""
+			+ channelName + "\"" + "," + "\"" + points + "\"" + ")");
+	    else
+		MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + channelName
+			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
     }
 
@@ -48,9 +67,20 @@ public class PointsSystem extends FileBase {
 	    else
 		return false;
 	} else {
-	    // TODO: Add Database Link
+	    ResultSet result = MySQLConnection.executeQueryNoOutput(
+		    "SELECT * FROM points WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
+	    try {
+		if (result == null)
+		    return false;
+		else if (result.getFetchSize() > 1)
+		    return false;
+		else
+		    return true;
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	}
-	return null;
+	return false;
     }
 
     public static void AddPoints(String user, int points, String channelName) {
