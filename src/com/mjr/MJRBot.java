@@ -55,52 +55,65 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		// connectionType = console.readLine("Bot Type: Database or Manual?");
+		// connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
 		connectionType = "Database";
-		String fileSystemType = "";
-		do {
-		    // fileSystemType = console.readLine("Storage Type: File or Database?");
-		    fileSystemType = "Database";
-		} while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
-		if (fileSystemType.equalsIgnoreCase("File"))
+
+		if (connectionType == "Migrate") {
+		    String channelName = "";
+		    channelName = console.readLine("Channel Name?");
+		    //channelName = "mjrlegends";
 		    useFileSystem = true;
-		else
+		    MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
+			    Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
+			    ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
+		    Config.migrateFile(channelName);
 		    useFileSystem = false;
-		if (connectionType.equalsIgnoreCase("Manual")) {
-		    do {
-			String botType;
-			botType = console.readLine("Connection Type: Twitch or Mixer?");
-			channel = console.readLine("Channel Name?");
-
-			// botType = "Twitch";
-			// channel = "mjrlegends";
-			createBot(channel, botType);
-
-		    } while (twitchBots.isEmpty() && mixerBots.isEmpty());
-
-		} else if (connectionType.equalsIgnoreCase("Database")) {
-		    do {
-			MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
-				Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
-				ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
-		    } while (MySQLConnection.connected == false);
-		    SQLUtilities.createDatabaseStructure();
-		    System.out.println("Getting list of Channels from Database server");
-		    HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
-		    for (String channelName : channelList.keySet()) {
-			createBot(channelName, channelList.get(channelName));
-		    }
-
-		    channelList = SQLUtilities.getChannelsMixer();
-		    for (String channelName : channelList.keySet()) {
-			createBot(channelName, channelList.get(channelName));
-		    }
-
-		    ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
-		    updateThread.start();
 		}
-		CommandManager.loadCommands();
 	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
+
+	    String fileSystemType = "";
+	    do {
+		// fileSystemType = console.readLine("Storage Type: File or Database?");
+		fileSystemType = "Database";
+	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
+	    if (fileSystemType.equalsIgnoreCase("File"))
+		useFileSystem = true;
+	    else
+		useFileSystem = false;
+	    if (connectionType.equalsIgnoreCase("Manual")) {
+		do {
+		    String botType;
+		    botType = console.readLine("Connection Type: Twitch or Mixer?");
+		    channel = console.readLine("Channel Name?");
+
+		    // botType = "Twitch";
+		    // channel = "mjrlegends";
+		    createBot(channel, botType);
+
+		} while (twitchBots.isEmpty() && mixerBots.isEmpty());
+
+	    } else if (connectionType.equalsIgnoreCase("Database")) {
+		do {
+		    MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
+			    Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
+			    ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
+		} while (MySQLConnection.connected == false);
+		SQLUtilities.createDatabaseStructure();
+		System.out.println("Getting list of Channels from Database server");
+		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
+		for (String channelName : channelList.keySet()) {
+		    createBot(channelName, channelList.get(channelName));
+		}
+
+		channelList = SQLUtilities.getChannelsMixer();
+		for (String channelName : channelList.keySet()) {
+		    createBot(channelName, channelList.get(channelName));
+		}
+
+		ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
+		updateThread.start();
+	    }
+	    CommandManager.loadCommands();
 	}
     }
 
