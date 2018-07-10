@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -22,7 +23,7 @@ public class AccountLifeCommand extends Command {
 	    URL url;
 	    try {
 		String result = "";
-		url = new URL("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
+		url = new URL("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=" + MJRBot.CLIENT_ID);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

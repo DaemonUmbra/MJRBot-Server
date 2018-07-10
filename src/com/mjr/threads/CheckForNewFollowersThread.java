@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Arrays;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
 import com.mjr.files.Config;
 
@@ -54,7 +55,7 @@ public class CheckForNewFollowersThread extends Thread {
 	    URL url;
 	    try {
 		url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
-			+ "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08&limit="
+			+ "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit="
 			+ (currentfollowers.length() - (currentfollowers.length() - 3)));
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");

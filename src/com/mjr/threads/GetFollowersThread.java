@@ -7,6 +7,7 @@ import java.net.URL;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 
@@ -25,8 +26,8 @@ public class GetFollowersThread extends Thread {
 	URL url;
 	try {
 	    String result = "";
-	    url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
-		    + "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08\u0026limit=25");
+	    url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id="
+		    + MJRBot.CLIENT_ID + "&limit=25");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -47,13 +48,13 @@ public class GetFollowersThread extends Thread {
 
 	    if (times > 1700)
 		times = 1700;
-	    int amount = (int) Math.ceil(((float)times / 25));
+	    int amount = (int) Math.ceil(((float) times / 25));
 	    for (int i = 0; i < amount; i++) {
 		if (i != 0) {
 		    result = "";
 		    String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
 		    newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-		    newurl = newurl + "&client_id=it37a0q1pxypsijpd94h6rdhiq3j08&offset=" + (current + 1);
+		    newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
 		    url = new URL(newurl);
 		    connection = (HttpURLConnection) url.openConnection();
 		    connection.setRequestMethod("GET");

@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.Utilities;
@@ -56,12 +57,12 @@ public class GetFollowTimeThread extends Thread {
 
 		int diffMonths = (int) (diffDay / 31);
 		diffDay = diffDay - (diffMonths * 31);
-		
+
 		int diffYears = (int) (diffMonths / 12);
 		diffMonths = diffMonths - (diffYears * 12);
 
-		Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffYears + " year(s) " + diffMonths + " month(s) "
-			+ diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+		Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffYears + " year(s) "
+			+ diffMonths + " month(s) " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	    }
 	}
     }
@@ -70,8 +71,8 @@ public class GetFollowTimeThread extends Thread {
 	URL url;
 	try {
 	    String result = "";
-	    url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
-		    + "/follows?client_id=it37a0q1pxypsijpd94h6rdhiq3j08&limit=25");
+	    url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id="
+		    + MJRBot.CLIENT_ID + "&limit=25");
 	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	    connection.setRequestMethod("GET");
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -98,7 +99,7 @@ public class GetFollowTimeThread extends Thread {
 		    result = "";
 		    String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
 		    newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-		    newurl = newurl + "&client_id=it37a0q1pxypsijpd94h6rdhiq3j08&offset=" + (current + 1);
+		    newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
 		    url = new URL(newurl);
 		    connection = (HttpURLConnection) url.openConnection();
 		    connection.setRequestMethod("GET");

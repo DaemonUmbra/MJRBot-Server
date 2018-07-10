@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mjr.HTTPConnect;
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -16,7 +17,7 @@ public class UptimeCommand extends Command {
 	    String[] args) {
 	if (type == BotType.Twitch) {
 	    String result = HTTPConnect
-		    .GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
+		    .GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
 	    if (result.contains("updated_at")) {
 		String uptime = result.substring(result.indexOf("updated_at") + 13);
 		uptime = uptime.substring(0, 20);
