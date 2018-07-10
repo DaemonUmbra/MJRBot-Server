@@ -28,6 +28,7 @@ public class ConfigMain {
 	    setSetting("TwitchPassword", "");
 	    setSetting("MixerClientID", "");
 	    setSetting("MixerUsername/BotName", "");
+	    setSetting("MMixerAuthCode", "");
 	    setSetting("DatabaseIPAddress", "");
 	    setSetting("DatabaseDatabaseName", "");
 	    setSetting("DatabasePort", "");

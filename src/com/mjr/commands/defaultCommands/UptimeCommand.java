@@ -6,9 +6,8 @@ import java.util.Date;
 
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot.BotType;
-import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 
 public class UptimeCommand extends Command {
@@ -45,13 +44,13 @@ public class UptimeCommand extends Command {
 		long diffSeconds = diff / 1000;
 		diff = diff - (diffSeconds * 1000);
 
-		((TwitchBot) bot).MessageToChat(
+		Utilities.sendMessage(type, channel,
 			channel + " has been live for " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	    } else {
-		((TwitchBot) bot).MessageToChat(channel + " is currently not streaming!");
+		Utilities.sendMessage(type, channel, channel + " is currently not streaming!");
 	    }
 	} else
-	    ((MixerBot) bot).sendMessage("This command isnt available for Mixer, right now sorry!");
+	    Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
     }
 
     @Override

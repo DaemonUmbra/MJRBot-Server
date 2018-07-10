@@ -3,15 +3,20 @@ package com.mjr.commands.defaultCommands;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.threads.GetFollowTimeThread;
 
 public class FollowTimeCommand extends Command {
 
     @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-	GetFollowTimeThread thread = new GetFollowTimeThread((TwitchBot) bot, type, sender);
-	thread.start();
+    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
+	    String[] args) {
+	if (type == BotType.Twitch) {
+	    GetFollowTimeThread thread = new GetFollowTimeThread((TwitchBot) bot, type, sender);
+	    thread.start();
+	} else
+	    Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
     }
 
     @Override

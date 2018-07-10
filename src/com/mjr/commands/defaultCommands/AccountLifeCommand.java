@@ -18,58 +18,60 @@ public class AccountLifeCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	URL url;
-	try {
-	    String result = "";
-	    url = new URL("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
-	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	    connection.setRequestMethod("GET");
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	    String line = "";
-	    while ((line = reader.readLine()) != null) {
-		result += line;
-	    }
-	    reader.close();
-	    if (result.contains("created_at")) {
-		String time = result.substring(result.indexOf("created_at") + 13);
-		time = time.substring(0, 20);
-
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		Date parse = null;
-
-		try {
-		    parse = format.parse(time);
-		} catch (ParseException e) {
-		    e.printStackTrace();
+	if (type == BotType.Twitch) {
+	    URL url;
+	    try {
+		String result = "";
+		url = new URL("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=it37a0q1pxypsijpd94h6rdhiq3j08");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+		    result += line;
 		}
+		reader.close();
+		if (result.contains("created_at")) {
+		    String time = result.substring(result.indexOf("created_at") + 13);
+		    time = time.substring(0, 20);
 
-		long currentTime = System.currentTimeMillis();
+		    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		    Date parse = null;
 
-		Date date = new Date(currentTime);
+		    try {
+			parse = format.parse(time);
+		    } catch (ParseException e) {
+			e.printStackTrace();
+		    }
 
-		long diff = (long) (date.getTime() - parse.getTime());
-		long diffDay = diff / (24 * 60 * 60 * 1000);
-		diff = diff - (diffDay * 24 * 60 * 60 * 1000);
-		long diffHours = diff / (60 * 60 * 1000);
-		diff = diff - (diffHours * 60 * 60 * 1000);
-		long diffMinutes = diff / (60 * 1000);
-		diff = diff - (diffMinutes * 60 * 1000);
-		long diffSeconds = diff / 1000;
-		diff = diff - (diffSeconds * 1000);
-		
-		int diffMonths = (int) (diffDay / 31);
-		diffDay = diffDay - (diffMonths * 31);
-		
-		int diffYears = (int) (diffMonths / 12);
-		diffMonths = diffMonths - (diffYears * 12);
+		    long currentTime = System.currentTimeMillis();
 
-		Utilities.sendMessage(type, channel, sender + " your twitch account is " + diffYears + " year(s) " + diffMonths + " month(s) "
-			+ diffDay + " day(s) " + diffHours + " hour(s) "
-			+ diffMinutes + " minute(s) old");
+		    Date date = new Date(currentTime);
+
+		    long diff = (long) (date.getTime() - parse.getTime());
+		    long diffDay = diff / (24 * 60 * 60 * 1000);
+		    diff = diff - (diffDay * 24 * 60 * 60 * 1000);
+		    long diffHours = diff / (60 * 60 * 1000);
+		    diff = diff - (diffHours * 60 * 60 * 1000);
+		    long diffMinutes = diff / (60 * 1000);
+		    diff = diff - (diffMinutes * 60 * 1000);
+		    long diffSeconds = diff / 1000;
+		    diff = diff - (diffSeconds * 1000);
+
+		    int diffMonths = (int) (diffDay / 31);
+		    diffDay = diffDay - (diffMonths * 31);
+
+		    int diffYears = (int) (diffMonths / 12);
+		    diffMonths = diffMonths - (diffYears * 12);
+
+		    Utilities.sendMessage(type, channel, sender + " your twitch account is " + diffYears + " year(s) " + diffMonths
+			    + " month(s) " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
+		}
+	    } catch (Exception e) {
+		e.printStackTrace();
 	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+	} else
+	    Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
     }
 
     @Override
