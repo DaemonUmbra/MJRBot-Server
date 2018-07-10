@@ -125,9 +125,9 @@ public class PointsSystem extends FileBase {
 
     public static void migrateFile(String channelName) {
 	Properties file = load(channelName, fileName);
-	for(Object user : file.keySet()) {
-	    MySQLConnection.executeUpdate("INSERT INTO points(name, channel, amount) VALUES (" + "\"" + ((String)user) + "\"" + "," + "\""
-			+ channelName + "\"" + "," + "\"" + file.getProperty((String) user) + "\"" + ")");
+	for (Object user : file.keySet()) {
+	    MySQLConnection.executeUpdate("INSERT INTO points(name, channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\""
+		    + channelName + "\"" + "," + "\"" + file.getProperty((String) user) + "\"" + ")");
 	}
     }
 }

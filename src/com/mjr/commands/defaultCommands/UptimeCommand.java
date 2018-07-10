@@ -35,7 +35,7 @@ public class UptimeCommand extends Command {
 
 		Date date = new Date(currentTime);
 
-		long diff = (long) (date.getTime() - parse.getTime());
+		long diff = date.getTime() - parse.getTime();
 		long diffDay = diff / (24 * 60 * 60 * 1000);
 		diff = diff - (diffDay * 24 * 60 * 60 * 1000);
 		long diffHours = diff / (60 * 60 * 1000);

@@ -44,7 +44,7 @@ public class MySQLConnection {
 	}
 	return null;
     }
-    
+
     public static ResultSet executeQueryNoOutput(String statement) {
 	Statement myStmt;
 	try {
@@ -55,7 +55,7 @@ public class MySQLConnection {
 	    return null;
 	}
     }
-    
+
     public static void executeUpdate(String statement) {
 	Statement myStmt;
 	try {

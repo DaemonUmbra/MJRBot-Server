@@ -57,8 +57,8 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		//connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		connectionType = "Database";
+		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+		// connectionType = "Database";
 
 		if (connectionType == "Migrate") {
 		    String channelName = "";
@@ -77,8 +77,8 @@ public class MJRBot {
 
 	    String fileSystemType = "";
 	    do {
-		// fileSystemType = console.readLine("Storage Type: File or Database?");
-		fileSystemType = "File";
+		fileSystemType = console.readLine("Storage Type: File or Database?");
+		//fileSystemType = "File";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 	    if (fileSystemType.equalsIgnoreCase("File"))
 		useFileSystem = true;
@@ -129,8 +129,8 @@ public class MJRBot {
 	    addTwitchBot(channel, bot);
 	    try {
 		if (useFileSystem) {
-		    //Config.loadDefaults(channel);
-		}else
+		    // Config.loadDefaults(channel); TODO Fix this
+		} else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
 		e.printStackTrace();
@@ -140,9 +140,9 @@ public class MJRBot {
 	    addMixerBot(channel, bot);
 	    bot.joinChannel(channel);
 	    try {
-		if (useFileSystem){
-		    //Config.loadDefaults(channel);
-		}else
+		if (useFileSystem) {
+		    // Config.loadDefaults(channel);
+		} else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
 		e.printStackTrace();

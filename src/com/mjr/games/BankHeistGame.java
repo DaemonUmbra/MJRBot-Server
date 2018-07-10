@@ -21,30 +21,31 @@ public class BankHeistGame {
     public static void stage1(BotType type, String channelName) {
 	Utilities.sendMessage(type, channelName, messages[1]); // Message saying Bank Heist has started
     }
-    
+
     public static void stage2(BotType type, String channelName, HashMap<String, Integer> enteredUsers) {
-	    int randNum = Utilities.getRandom(2, 5);
-	    int randNum2 = 0;
-	    Utilities.sendMessage(type, channelName, BankHeistGame.messages[randNum]);
-	    
-	    if (randNum == 2) { // Flooded with SWAT
-		try {
-		    Thread.sleep(60000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
-		    randNum2 = Utilities.getRandom(1, 3);
-		    if (randNum2 == 1)
-			Utilities.sendMessage(type, channelName, BankHeistGame.messages[3]); // Crew were all killed
-		    else {
-			Utilities.sendMessage(type, channelName, BankHeistGame.messages[5]); // Crew alive, dropping and leaving money on the way out
-			giveOutWinnings(type, channelName, enteredUsers, false);
-		    }
-	    } else if (randNum == 4) { // made it out with all the money 
-		giveOutWinnings(type, channelName, enteredUsers, true);
+	int randNum = Utilities.getRandom(2, 5);
+	int randNum2 = 0;
+	Utilities.sendMessage(type, channelName, BankHeistGame.messages[randNum]);
+
+	if (randNum == 2) { // Flooded with SWAT
+	    try {
+		Thread.sleep(60000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
 	    }
+	    randNum2 = Utilities.getRandom(1, 3);
+	    if (randNum2 == 1)
+		Utilities.sendMessage(type, channelName, BankHeistGame.messages[3]); // Crew were all killed
+	    else {
+		Utilities.sendMessage(type, channelName, BankHeistGame.messages[5]); // Crew alive, dropping and leaving money on the way
+										     // out
+		giveOutWinnings(type, channelName, enteredUsers, false);
+	    }
+	} else if (randNum == 4) { // made it out with all the money
+	    giveOutWinnings(type, channelName, enteredUsers, true);
+	}
     }
-    
+
     public static void giveOutWinnings(BotType type, String channelName, HashMap<String, Integer> enteredUsers, boolean highReward) {
 	if (enteredUsers == null)
 	    return;

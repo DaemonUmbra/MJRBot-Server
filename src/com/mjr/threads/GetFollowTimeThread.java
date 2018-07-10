@@ -45,7 +45,7 @@ public class GetFollowTimeThread extends Thread {
 
 		Date date = new Date(currentTime);
 
-		long diff = (long) (date.getTime() - parse.getTime());
+		long diff = date.getTime() - parse.getTime();
 		long diffDay = diff / (24 * 60 * 60 * 1000);
 		diff = diff - (diffDay * 24 * 60 * 60 * 1000);
 		long diffHours = diff / (60 * 60 * 1000);
@@ -58,7 +58,7 @@ public class GetFollowTimeThread extends Thread {
 		int diffMonths = (int) (diffDay / 31);
 		diffDay = diffDay - (diffMonths * 31);
 
-		int diffYears = (int) (diffMonths / 12);
+		int diffYears = diffMonths / 12;
 		diffMonths = diffMonths - (diffYears * 12);
 
 		Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffYears + " year(s) "

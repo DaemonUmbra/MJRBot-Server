@@ -32,7 +32,8 @@ public class MixerBot extends MJR_MixerBot {
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
 
     public MixerBot(String channelName) {
-	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"), ConfigMain.getSetting("MixerUsername/BotName"));
+	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"),
+		ConfigMain.getSetting("MixerUsername/BotName"));
 	this.channelName = channelName;
     }
 

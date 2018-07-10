@@ -45,7 +45,8 @@ public class QuoteCommand extends Command {
 			    "A new Quote has been added by " + sender + ". The quote message is " + message, MessageType.Bot, null);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
-		Utilities.sendMessage(type, channel, "Quote Help: You can use the following commands: !quote or !quote add <message> @<username> or !quote get <number>");
+		Utilities.sendMessage(type, channel,
+			"Quote Help: You can use the following commands: !quote or !quote add <message> @<username> or !quote get <number>");
 	    }
 	}
     }
