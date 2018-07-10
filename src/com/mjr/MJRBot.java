@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
+import com.mjr.files.PointsSystem;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
@@ -55,26 +56,28 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		// connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+		//connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
 		connectionType = "Database";
 
 		if (connectionType == "Migrate") {
 		    String channelName = "";
 		    channelName = console.readLine("Channel Name?");
-		    //channelName = "mjrlegends";
+		    // channelName = "mjrlegends";
 		    useFileSystem = true;
 		    MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
 			    Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
 			    ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
 		    Config.migrateFile(channelName);
+		    PointsSystem.migrateFile(channelName);
 		    useFileSystem = false;
+		    // Thread.sleep(100000);
 		}
 	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
 
 	    String fileSystemType = "";
 	    do {
 		// fileSystemType = console.readLine("Storage Type: File or Database?");
-		fileSystemType = "Database";
+		fileSystemType = "File";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 	    if (fileSystemType.equalsIgnoreCase("File"))
 		useFileSystem = true;
@@ -124,9 +127,9 @@ public class MJRBot {
 	    bot.init(channel);
 	    addTwitchBot(channel, bot);
 	    try {
-		if (useFileSystem)
-		    Config.loadDefaults(channel);
-		else
+		if (useFileSystem) {
+		    //Config.loadDefaults(channel);
+		}else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
 		e.printStackTrace();
@@ -136,9 +139,9 @@ public class MJRBot {
 	    addMixerBot(channel, bot);
 	    bot.joinChannel(channel);
 	    try {
-		if (useFileSystem)
-		    Config.loadDefaults(channel);
-		else
+		if (useFileSystem){
+		    //Config.loadDefaults(channel);
+		}else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
 		e.printStackTrace();
