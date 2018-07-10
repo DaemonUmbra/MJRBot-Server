@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 @SuppressWarnings("resource") 
-public class QuoteFile {
+public class QuoteFile { // TODO: Add Database Link?
 
     public static String getQuote(String channelName, File file, int number) {
 	String token1 = "";

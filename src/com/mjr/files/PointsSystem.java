@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
+import com.mjr.MJRBot;
 import com.mjr.Utilities;
 
 public class PointsSystem extends FileBase {
@@ -16,27 +17,40 @@ public class PointsSystem extends FileBase {
 	if (!isOnList(user, channelName))
 	    return 0;
 	String value = null;
-	value = load(channelName, fileName).getProperty(user);
+	if (MJRBot.useFileSystem)
+	    value = load(channelName, fileName).getProperty(user);
+	else {
+	    // TODO: Add Database Link
+	}
 	return Integer.parseInt(value);
     }
 
     public static void setPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
-	Properties properties = load(channelName, fileName);
-	properties.setProperty(user, Integer.toString(points));
-	try {
-	    properties.store(new FileOutputStream(loadFile(channelName, fileName)), null);
-	} catch (IOException e) {
-	    e.printStackTrace();
+	if (MJRBot.useFileSystem) {
+	    Properties properties = load(channelName, fileName);
+	    properties.setProperty(user, Integer.toString(points));
+	    try {
+		properties.store(new FileOutputStream(loadFile(channelName, fileName)), null);
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	} else {
+	    // TODO: Add Database Link
 	}
     }
 
     public static Boolean isOnList(String user, String channelName) {
 	user = user.toLowerCase();
-	if (load(channelName, fileName).getProperty(user) != null)
-	    return true;
-	else
-	    return false;
+	if (MJRBot.useFileSystem) {
+	    if (load(channelName, fileName).getProperty(user) != null)
+		return true;
+	    else
+		return false;
+	} else {
+	    // TODO: Add Database Link
+	}
+	return null;
     }
 
     public static void AddPoints(String user, int points, String channelName) {

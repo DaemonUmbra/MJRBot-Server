@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.commands.CommandManager;
+import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
@@ -24,6 +25,7 @@ public class MJRBot {
 
     private static Console console = System.console();
     private static String channel = "";
+    public static boolean useFileSystem = false;
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -53,8 +55,17 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		connectionType = console.readLine("Bot Type: Database or Manual?");
-		//connectionType = "Database";
+		// connectionType = console.readLine("Bot Type: Database or Manual?");
+		connectionType = "Database";
+		String fileSystemType = "";
+		do {
+		    // fileSystemType = console.readLine("Storage Type: File or Database?");
+		    fileSystemType = "Database";
+		} while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
+		if (fileSystemType.equalsIgnoreCase("File"))
+		    useFileSystem = true;
+		else
+		    useFileSystem = false;
 		if (connectionType.equalsIgnoreCase("Manual")) {
 		    do {
 			String botType;
@@ -99,10 +110,26 @@ public class MJRBot {
 	    TwitchBot bot = new TwitchBot();
 	    bot.init(channel);
 	    addTwitchBot(channel, bot);
+	    try {
+		if (useFileSystem)
+		    Config.loadDefaults(channel);
+		else
+		    Config.loadDefaultsDatabase(channel);
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);
 	    bot.joinChannel(channel);
+	    try {
+		if (useFileSystem)
+		    Config.loadDefaults(channel);
+		else
+		    Config.loadDefaultsDatabase(channel);
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
 	} else if (channel != "")
 	    ConsoleUtil.TextToConsole("Unknown Type of Connection!");
 	else

@@ -44,4 +44,25 @@ public class MySQLConnection {
 	}
 	return null;
     }
+    
+    public static ResultSet executeQueryNoOutput(String statement) {
+	Statement myStmt;
+	try {
+	    myStmt = connection.createStatement();
+	    ResultSet myRs = myStmt.executeQuery(statement);
+	    return myRs;
+	} catch (SQLException e) {
+	    return null;
+	}
+    }
+    
+    public static void executeUpdate(String statement) {
+	Statement myStmt;
+	try {
+	    myStmt = connection.createStatement();
+	    myStmt.executeUpdate(statement);
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
+    }
 }

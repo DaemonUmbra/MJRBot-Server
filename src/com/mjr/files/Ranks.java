@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
+import com.mjr.MJRBot;
+
 public class Ranks extends FileBase {
 
     public static String[] ranks = { "gold", "sliver", "bronze", "none" };
@@ -19,7 +21,11 @@ public class Ranks extends FileBase {
 	user = user.toLowerCase();
 	String value = "";
 	user = user.toLowerCase();
-	value = load(channelName, fileName).getProperty(user, value);
+	if (MJRBot.useFileSystem)
+	    value = load(channelName, fileName).getProperty(user, value);
+	else {
+	    // TODO: Add Database Link
+	}
 	return value;
     }
 
@@ -28,12 +34,16 @@ public class Ranks extends FileBase {
 	user = user.toLowerCase();
 	rank = rank.toLowerCase();
 	if (getRank(user, channelName) != rank) {
-	    Properties properties = load(channelName, fileName);
-	    properties.setProperty(user.toLowerCase(), rank);
-	    try {
-		properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
-	    } catch (FileNotFoundException e) {
-		e.printStackTrace();
+	    if (MJRBot.useFileSystem) {
+		Properties properties = load(channelName, fileName);
+		properties.setProperty(user.toLowerCase(), rank);
+		try {
+		    properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
+		} catch (FileNotFoundException e) {
+		    e.printStackTrace();
+		}
+	    } else {
+		// TODO: Add Database Link
 	    }
 	}
     }
@@ -58,10 +68,15 @@ public class Ranks extends FileBase {
 
     public static Boolean isOnList(String user, String channelName) {
 	user = user.toLowerCase();
-	if (load(channelName, fileName).getProperty(user) != null)
-	    return true;
-	else
-	    return false;
+	if (MJRBot.useFileSystem) {
+	    if (load(channelName, fileName).getProperty(user) != null)
+		return true;
+	    else
+		return false;
+	} else {
+	    // TODO: Add Database Link
+	}
+	return null;
     }
 
     public static Boolean hasRank(String user, String rank, String channelName) {
