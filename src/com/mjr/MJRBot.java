@@ -61,7 +61,7 @@ public class MJRBot {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
 		//connectionType = "Database";
 
-		if (connectionType == "Migrate") {
+		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
 		}
 	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
