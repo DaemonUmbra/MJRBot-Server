@@ -17,7 +17,7 @@ import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.5.4 - Beta, Server Version";
+    public static final String VERSION = "1.5.5 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
@@ -149,14 +149,15 @@ public class MJRBot {
 	    TwitchBot bot = new TwitchBot();
 	    bot.init(channel);
 	    addTwitchBot(channel, bot);
-	    try {
-		if (useFileSystem) {
-		    // Config.loadDefaults(channel); TODO Fix this
-		} else
-		    Config.loadDefaultsDatabase(channel);
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
+//	    try {
+//		if (useFileSystem) {
+//		    // Config.loadDefaults(channel); TODO Fix this
+//		} else {
+//		    //Config.loadDefaultsDatabase(channel); TODO Fix this
+//		}
+//	    } catch (IOException e) {
+//		e.printStackTrace();
+//	    }
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);
