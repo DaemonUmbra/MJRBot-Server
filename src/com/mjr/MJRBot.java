@@ -69,7 +69,7 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		//fileSystemType = "File";
+		//fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 	    
 	    if (fileSystemType.equalsIgnoreCase("File"))
@@ -149,15 +149,15 @@ public class MJRBot {
 	    TwitchBot bot = new TwitchBot();
 	    bot.init(channel);
 	    addTwitchBot(channel, bot);
-//	    try {
-//		if (useFileSystem) {
-//		    // Config.loadDefaults(channel); TODO Fix this
-//		} else {
-//		    //Config.loadDefaultsDatabase(channel); TODO Fix this
-//		}
-//	    } catch (IOException e) {
-//		e.printStackTrace();
-//	    }
+	    try {
+		if (useFileSystem) {
+		    // Config.loadDefaults(channel); TODO Fix this
+		} else {
+		    Config.loadDefaultsDatabase(channel);
+		}
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);

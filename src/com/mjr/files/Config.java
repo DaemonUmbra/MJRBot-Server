@@ -16,8 +16,8 @@ public class Config extends FileBase {
 
     public static void loadDefaultsDatabase(String channelName) throws IOException {
 	try {
-	    if (MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE channel = " + "\"" + channelName + "\""
-		    + " AND setting = " + "\"" + "LinkWarning" + "\"").getFetchSize() < 1) {
+	    if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE channel = " + "\"" + channelName + "\""
+		    + " AND setting = " + "\"" + "LinkWarning" + "\"").next() ) {
 		setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
 		setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
 		setSetting("FollowerMessage", "has followed!", channelName);
@@ -109,7 +109,7 @@ public class Config extends FileBase {
 	    try {
 		if (result == null)
 		    return null;
-		else if (result.getFetchSize() > 1)
+		else if (!result.next())
 		    return null;
 		else {
 		    result.beforeFirst();

@@ -72,7 +72,7 @@ public class PointsSystem extends FileBase {
 	    try {
 		if (result == null)
 		    return false;
-		else if (result.getFetchSize() > 1)
+		else if (!result.next())
 		    return false;
 		else
 		    return true;
