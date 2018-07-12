@@ -10,7 +10,7 @@ import com.mjr.files.Ranks;
 public class ChatModeration {
     public static void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message) {
 	// ChatModeration
-	if (Ranks.getRank(sender, channel) == "gold")
+	if(Config.getSetting("Ranks", channel).equalsIgnoreCase("true") && Ranks.getRank(sender, channel) == "gold")
 	    return;
 	else if (type == BotType.Twitch && !Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.User.getName()))
 	    return;
