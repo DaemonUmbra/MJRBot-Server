@@ -67,7 +67,7 @@ public class ChannelListUpdateThread extends Thread {
 		    MJRBot.removeTwitchBot(removeChannel);
 		} else if (channelsToDisconnect.get(removeChannel).equalsIgnoreCase(BotType.Mixer.getTypeName())) {
 		    MixerBot bot = MJRBot.getMixerBotByChannelName(removeChannel);
-		    bot.disconnect();
+		    bot.disconnectMixer();
 		    MJRBot.removeMixerBot(removeChannel);
 		}
 	    }

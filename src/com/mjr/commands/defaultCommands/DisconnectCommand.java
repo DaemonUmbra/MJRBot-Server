@@ -18,7 +18,7 @@ public class DisconnectCommand extends Command {
 	    MJRBot.removeTwitchBot(twitchBot);
 	} else if (type == BotType.Mixer) {
 	    MixerBot mixerBot = (MixerBot) bot;
-	    mixerBot.disconnect();
+	    mixerBot.disconnectMixer();
 	    MJRBot.removeMixerBot(mixerBot);
 	}
     }

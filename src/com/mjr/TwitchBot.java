@@ -250,7 +250,9 @@ public class TwitchBot extends PircBot {
 
     @SuppressWarnings("deprecation")
     public void disconnectTwitch() {
-	this.MessageToChat(this.getBotName() + " Disconnected!");
+	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
+	    this.MessageToChat(this.getBotName() + " Disconnected!");
+	}
 	this.disconnect();
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.Bot, null);
 	this.viewers.clear();

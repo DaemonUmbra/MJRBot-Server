@@ -78,9 +78,7 @@ public class MixerBot extends MJR_MixerBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckFollowers followersThread = new
-		    // CheckFollowers(BotType.Mixer, channel); TODO Add for
-		    // Mixer
+		    // CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel); TODO Add for Mixer
 		    // followersThread.start();
 		}
 
@@ -105,5 +103,27 @@ public class MixerBot extends MJR_MixerBot {
 	for (String message : this.getOutputMessages())
 	    ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
 	this.clearOutputMessages();
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void disconnectMixer() {
+	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
+	    this.sendMessage(this.getBotName() + " Disconnected!");
+	}
+	this.disconnect();
+	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
+	this.viewersJoinedTimes.clear();
+	if (this.getViewersThread != null)
+	    this.getViewersThread.destroy();
+	if (this.pointsThread != null)
+	    this.pointsThread.destroy();
+	if (this.announcementsThread != null)
+	    this.announcementsThread.destroy();
+	if (this.followersThread != null)
+	    this.followersThread.destroy();
+	if (this.getFollowersThread != null)
+	    this.getFollowersThread.destroy();
+	if (this.userCooldownTickThread != null)
+	    this.userCooldownTickThread.destroy();
     }
 }
