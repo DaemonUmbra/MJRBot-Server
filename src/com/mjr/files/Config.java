@@ -105,7 +105,7 @@ public class Config extends FileBase {
 	    return load(channelName, fileName).getProperty(setting);
 	} else {
 	    ResultSet result = MySQLConnection.executeQueryNoOutput(
-		    "SELECT * FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
+		    "SELECT value FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
 	    try {
 		if (result == null)
 		    return null;
