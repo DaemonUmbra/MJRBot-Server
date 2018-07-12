@@ -257,11 +257,17 @@ public class TwitchBot extends PircBot {
 	this.viewersJoinedTimes.clear();
 	this.ConnectedToChannel = false;
 	this.setChannel("");
-	this.getViewersThread.destroy();
-	this.pointsThread.destroy();
-	this.announcementsThread.destroy();
-	this.followersThread.destroy();
-	this.getFollowersThread.destroy();
-	this.userCooldownTickThread.destroy();
+	if (this.getViewersThread != null)
+	    this.getViewersThread.destroy();
+	if (this.pointsThread != null)
+	    this.pointsThread.destroy();
+	if (this.announcementsThread != null)
+	    this.announcementsThread.destroy();
+	if (this.followersThread != null)
+	    this.followersThread.destroy();
+	if (this.getFollowersThread != null)
+	    this.getFollowersThread.destroy();
+	if (this.userCooldownTickThread != null)
+	    this.userCooldownTickThread.destroy();
     }
 }
