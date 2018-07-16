@@ -17,7 +17,7 @@ import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.5.6 - Beta, Server Version";
+    public static final String VERSION = "1.5.7 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
