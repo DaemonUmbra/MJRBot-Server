@@ -15,6 +15,7 @@ import com.mjr.files.PointsSystem;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
+import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
     public static final String VERSION = "1.5.7 - Beta, Server Version";
@@ -28,6 +29,7 @@ public class MJRBot {
     private static Console console = System.console();
     private static String channel = "";
     public static boolean useFileSystem = false;
+    public static UserCooldownTickThread userCooldownTickThread;
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -53,13 +55,13 @@ public class MJRBot {
 	    ConsoleUtil.TextToConsole("Your Operating System is currently not supported!");
 	    return;
 	}
-	
+
 	if (filePath != null) {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		//connectionType = "Database";
+		// connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -69,14 +71,14 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		//fileSystemType = "Database";
+		// fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
-	    
+
 	    if (fileSystemType.equalsIgnoreCase("File"))
 		useFileSystem = true;
 	    else
 		useFileSystem = false;
-	    
+
 	    if (connectionType.equalsIgnoreCase("Manual")) {
 		runManualMode();
 	    } else if (connectionType.equalsIgnoreCase("Database")) {
@@ -129,6 +131,8 @@ public class MJRBot {
 	} while (MySQLConnection.connected == false);
 	SQLUtilities.createDatabaseStructure();
 	System.out.println("Getting list of Channels from Database server");
+	userCooldownTickThread = new UserCooldownTickThread();
+	userCooldownTickThread.start();
 	HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 	for (String channelName : channelList.keySet()) {
 	    createBot(channelName, channelList.get(channelName));

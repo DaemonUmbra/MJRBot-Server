@@ -31,7 +31,7 @@ public class GetViewersThread extends Thread {
 
     @Override
     public void run() {
-	while (true) {
+	while (bot.ConnectedToChannel) {
 	    try {
 		result = "";
 		newresult = "";

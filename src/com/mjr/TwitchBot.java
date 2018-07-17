@@ -21,7 +21,6 @@ import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.PointsThread;
-import com.mjr.threads.UserCooldownTickThread;
 
 public class TwitchBot extends PircBot {
 
@@ -37,7 +36,6 @@ public class TwitchBot extends PircBot {
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
-    public UserCooldownTickThread userCooldownTickThread;
 
     public List<String> moderators = new ArrayList<String>();
     public List<String> viewers = new ArrayList<String>();
@@ -127,6 +125,8 @@ public class TwitchBot extends PircBot {
     @Override
     protected void onJoin(String channel, String sender, String login, String hostname) {
 	if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
+	    ConnectedToChannel = true;
+
 	    // Start Threads
 	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
 		pointsThread = new PointsThread(BotType.Twitch, this.channelName);
@@ -144,14 +144,10 @@ public class TwitchBot extends PircBot {
 	    if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 		this.sendMessage(this.stream, this.getNick() + " Connected!");
 	    }
-	    ConnectedToChannel = true;
 	    getViewersThread = new GetViewersThread(this);
 	    getViewersThread.start();
 	    getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 	    getFollowersThread.start();
-
-	    userCooldownTickThread = new UserCooldownTickThread();
-	    userCooldownTickThread.start();
 	} else {
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
 	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
@@ -248,7 +244,6 @@ public class TwitchBot extends PircBot {
 	this.stream = stream;
     }
 
-    @SuppressWarnings("deprecation")
     public void disconnectTwitch() {
 	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 	    this.MessageToChat(this.getBotName() + " Disconnected!");
@@ -259,17 +254,5 @@ public class TwitchBot extends PircBot {
 	this.viewersJoinedTimes.clear();
 	this.ConnectedToChannel = false;
 	this.setChannel("");
-	if (this.getViewersThread != null)
-	    this.getViewersThread.destroy();
-	if (this.pointsThread != null)
-	    this.pointsThread.destroy();
-	if (this.announcementsThread != null)
-	    this.announcementsThread.destroy();
-	if (this.followersThread != null)
-	    this.followersThread.destroy();
-	if (this.getFollowersThread != null)
-	    this.getFollowersThread.destroy();
-	if (this.userCooldownTickThread != null)
-	    this.userCooldownTickThread.destroy();
     }
 }

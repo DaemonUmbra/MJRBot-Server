@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
@@ -127,8 +128,8 @@ public class CommandManager {
 				twitchBot.usersCooldowns.remove(sender.toLowerCase());
 				twitchBot.usersCooldowns.put(sender.toLowerCase(),
 					Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
-				if (twitchBot.userCooldownTickThread.isAlive() == false)
-				    twitchBot.userCooldownTickThread.start();
+				if (MJRBot.userCooldownTickThread.isAlive() == false)
+				    MJRBot.userCooldownTickThread.start();
 
 			    } else
 				allowed = false;

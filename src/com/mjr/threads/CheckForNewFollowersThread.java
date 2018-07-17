@@ -23,7 +23,7 @@ public class CheckForNewFollowersThread extends Thread {
 
     @Override
     public void run() {
-	while (true) {
+	while (bot.ConnectedToChannel) {
 	    if (type == BotType.Twitch && bot.ConnectedToChannel) {
 		if (Config.getSetting("FollowerCheck", bot.channelName).equalsIgnoreCase("true")) {
 		    if (bot.viewers != null) {

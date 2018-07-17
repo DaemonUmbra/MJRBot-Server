@@ -21,7 +21,7 @@ public class AnnouncementsThread extends Thread {
 
     @Override
     public void run() {
-	while (true) {
+	while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
 	    if ((type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel)
 		    || (MJRBot.getMixerBotByChannelName(channelName) != null
 			    && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
