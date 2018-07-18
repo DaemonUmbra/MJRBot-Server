@@ -49,14 +49,12 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onJoin(String sender) {
-	this.addViewer(sender);
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
     }
 
     @Override
     protected void onPart(String sender) {
-	this.removeViewer(sender);
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());
     }
