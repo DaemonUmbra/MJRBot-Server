@@ -15,7 +15,7 @@ import com.mjr.Permissions;
 import com.mjr.Utilities;
 import com.mjr.files.Config;
 
-public class CustomCommands {
+public class CustomCommands { // TODO: Add Database Storage Function
 
     public static void getCommand(Object bot, BotType type, String channelName, String command, String sender) throws IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;

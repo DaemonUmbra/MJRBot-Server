@@ -116,9 +116,9 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onUnknown(String line) {
-	if (line.contains("tmi.twitch.tv RECONNECT")) {
+	if (line.contains("tmi.twitch.tv RECONNECT")) { // When Twitch tells the bot instance to reconnect
 	    this.disconnectTwitch();
-	    MJRBot.removeTwitchBot(this);
+	    MJRBot.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
 	}
     }
 
@@ -221,7 +221,7 @@ public class TwitchBot extends PircBot {
     }
 
     public void sendMessage(String message) {
-	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) {
+	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) { // Used to slow down messages if not a moderator due to Twitch's message delay for normal users
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {

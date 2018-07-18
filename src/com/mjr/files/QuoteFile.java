@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-@SuppressWarnings("resource") public class QuoteFile { // TODO: Add Database Link?
+@SuppressWarnings("resource") 
+public class QuoteFile { // TODO: Add Database Storage Function
 
     public static String getQuote(String channelName, File file, int number) {
 	String token1 = "";
