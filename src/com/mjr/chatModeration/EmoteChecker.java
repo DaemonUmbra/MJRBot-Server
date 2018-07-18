@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.BotType;
 import com.mjr.files.Config;
 
 public class EmoteChecker {
@@ -15,43 +16,44 @@ public class EmoteChecker {
 
     public static boolean Ban = false;
 
-    public static void getEmotes(String channel) {
-	try {
-	    URL url = new URL("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=" + MJRBot.CLIENT_ID);
-	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	    connection.setRequestMethod("GET");
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	    String line = "";
-	    String result = "";
-	    while ((line = reader.readLine()) != null) {
-		result += line + "\n";
-	    }
-	    reader.close();
+    public static void getEmotes(BotType type, String channel) {
+	if (type == BotType.Twitch) {
+	    try {
+		URL url = new URL("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=" + MJRBot.CLIENT_ID);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String line = "";
+		String result = "";
+		while ((line = reader.readLine()) != null) {
+		    result += line + "\n";
+		}
+		reader.close();
 
-	    int index = result.indexOf("regex");
-	    while (index > -1) {
-		result = result.substring(index + 8);
-		emotes.add(result.substring(0, result.indexOf("\"")));
-		index = result.indexOf("regex");
+		int index = result.indexOf("regex");
+		while (index > -1) {
+		    result = result.substring(index + 8);
+		    emotes.add(result.substring(0, result.indexOf("\"")));
+		    index = result.indexOf("regex");
+		}
+	    } catch (Exception e) {
 	    }
-
-	    emotes.add(":)");
-	    emotes.add(":(");
-	    emotes.add(":/");
-	    emotes.add(":O");
-	    emotes.add(":D");
-	    emotes.add(":P");
-	    emotes.add(">(");
-	    emotes.add(":Z");
-	    emotes.add("O_o");
-	    emotes.add("B)");
-	    emotes.add("<3");
-	    emotes.add(";)");
-	    emotes.add(";P");
-	    emotes.add("R)");
-	} catch (Exception e) {
 	}
-	;
+	emotes.add(":)");
+	emotes.add(":(");
+	emotes.add(":/");
+	emotes.add(":O");
+	emotes.add(":D");
+	emotes.add(":P");
+	emotes.add(">(");
+	emotes.add(":Z");
+	emotes.add("O_o");
+	emotes.add("B)");
+	emotes.add("<3");
+	emotes.add(";)");
+	emotes.add(";P");
+	emotes.add("R)");
+
     }
 
     public static void checkEmoteSpam(String message, String user, String channelName) {

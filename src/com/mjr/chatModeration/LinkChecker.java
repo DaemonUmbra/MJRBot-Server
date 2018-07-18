@@ -11,7 +11,7 @@ import com.mjr.Permissions.PermissionLevel;
 public class LinkChecker {
     public static boolean Allowed = false;
     public static boolean Link = false;
-    public static String PermitedUsers = "";
+    public static String PermitedUsers = ""; // TODO Made non static version in each bot instance
 
     public static void CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
 	String TempMessage = "";
