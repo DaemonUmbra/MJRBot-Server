@@ -15,7 +15,6 @@ import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.PointsThread;
-import com.mjr.threads.UserCooldownTickThread;
 
 public class MixerBot extends MJR_MixerBot {
 
@@ -26,7 +25,6 @@ public class MixerBot extends MJR_MixerBot {
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
-    public UserCooldownTickThread userCooldownTickThread;
 
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
@@ -78,7 +76,7 @@ public class MixerBot extends MJR_MixerBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckFollowers followersThread = new CheckFollowers(BotType.Mixer, channel); TODO Add for Mixer
+		    // CheckForNewFollowersThread followersThread = new CheckForNewFollowersThread(BotType.Mixer, channel); TODO Add for Mixer
 		    // followersThread.start();
 		}
 
@@ -105,7 +103,6 @@ public class MixerBot extends MJR_MixerBot {
 	this.clearOutputMessages();
     }
     
-    @SuppressWarnings("deprecation")
     public void disconnectMixer() {
 	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 	    this.sendMessage(this.getBotName() + " Disconnected!");
@@ -113,17 +110,5 @@ public class MixerBot extends MJR_MixerBot {
 	this.disconnect();
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
 	this.viewersJoinedTimes.clear();
-	if (this.getViewersThread != null)
-	    this.getViewersThread.destroy();
-	if (this.pointsThread != null)
-	    this.pointsThread.destroy();
-	if (this.announcementsThread != null)
-	    this.announcementsThread.destroy();
-	if (this.followersThread != null)
-	    this.followersThread.destroy();
-	if (this.getFollowersThread != null)
-	    this.getFollowersThread.destroy();
-	if (this.userCooldownTickThread != null)
-	    this.userCooldownTickThread.destroy();
     }
 }

@@ -145,8 +145,8 @@ public class CommandManager {
 				mixerBot.usersCooldowns.remove(sender.toLowerCase());
 				mixerBot.usersCooldowns.put(sender.toLowerCase(),
 					Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
-				if (mixerBot.userCooldownTickThread.isAlive() == false)
-				    mixerBot.userCooldownTickThread.start();
+				if (MJRBot.userCooldownTickThread.isAlive() == false)
+				    MJRBot.userCooldownTickThread.start();
 
 			    } else
 				allowed = false;
