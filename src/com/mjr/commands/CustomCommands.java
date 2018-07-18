@@ -16,21 +16,15 @@ import com.mjr.Utilities;
 import com.mjr.files.Config;
 
 public class CustomCommands {
-    public static String filelocation;
-    public static Properties properties = new Properties();
-    protected static InputStream iStream;
 
     public static void getCommand(Object bot, BotType type, String channelName, String command, String sender) throws IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.substring(command.indexOf("!") + 1);
 	filename = filename + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    FileReader reader = new FileReader(filenew);
+	    Properties properties = new Properties();
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		String permission = properties.getProperty("permissionlevel");
@@ -53,11 +47,7 @@ public class CustomCommands {
 
     public static void AddCommand(BotType type, String channelName, String command, String response, String permission)
 	    throws FileNotFoundException, IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (!filenew.exists()) {
@@ -65,7 +55,8 @@ public class CustomCommands {
 		    || permission.equalsIgnoreCase("User")) {
 		filenew.getParentFile().mkdirs();
 		filenew.createNewFile();
-		iStream = new FileInputStream(filelocation + filename);
+		InputStream iStream = new FileInputStream(filelocation + filename);
+		Properties properties = new Properties();
 		properties.load(iStream);
 		properties.store(new FileOutputStream(filelocation + filename), null);
 
@@ -82,11 +73,7 @@ public class CustomCommands {
     }
 
     public static void RemoveCommand(BotType type, String channelName, String command) throws IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
@@ -98,15 +85,12 @@ public class CustomCommands {
 
     @SuppressWarnings("deprecation")
     public static void ChangeStateCommand(BotType type, String channelName, String command, String state) throws IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    FileReader reader = new FileReader(filenew);
+	    Properties properties = new Properties();
 	    properties.load(reader);
 	    if (properties.getProperty("state").equalsIgnoreCase("true")) {
 		if (state.equalsIgnoreCase("true")) {
@@ -131,15 +115,12 @@ public class CustomCommands {
 
     @SuppressWarnings("deprecation")
     public static void ChangeResponseCommand(BotType type, String channelName, String command, String response) throws IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    FileReader reader = new FileReader(filenew);
+	    Properties properties = new Properties();
 	    properties.load(reader);
 	    if (properties.getProperty("response").equalsIgnoreCase("response")) {
 		Utilities.sendMessage(type, channelName, "The response for " + command + " is already " + response);
@@ -154,17 +135,14 @@ public class CustomCommands {
 
     public static void ChangeComanndResponse(BotType type, String channelName, String command, String response)
 	    throws FileNotFoundException, IOException {
-	if (type == BotType.Twitch)
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	else {
-	    filelocation = MJRBot.filePath + channelName + File.separator;
-	}
+	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
 	if (!filenew.exists()) {
 	    filenew.getParentFile().mkdirs();
 	    filenew.createNewFile();
-	    iStream = new FileInputStream(filelocation + filename);
+	    InputStream iStream = new FileInputStream(filelocation + filename);
+	    Properties properties = new Properties();
 	    properties.load(iStream);
 	    properties.store(new FileOutputStream(filelocation + filename), null);
 
