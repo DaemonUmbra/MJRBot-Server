@@ -220,7 +220,7 @@ public class TwitchBot extends PircBot {
 		    MessageType.Bot, null);
     }
 
-    public void MessageToChat(String message) {
+    public void sendMessage(String message) {
 	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) {
 	    try {
 		Thread.sleep(3000);
@@ -246,7 +246,7 @@ public class TwitchBot extends PircBot {
 
     public void disconnectTwitch() {
 	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
-	    this.MessageToChat(this.getBotName() + " Disconnected!");
+	    this.sendMessage(this.getBotName() + " Disconnected!");
 	}
 	this.disconnect();
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.Bot, null);

@@ -82,7 +82,7 @@ public class CheckForNewFollowersThread extends Thread {
 		e.printStackTrace();
 	    }
 	    if (!currentfollowers.contains(user) && isfollower) {
-		bot.MessageToChat(user + " " + Config.getSetting("FollowerMessage", bot.channelName));
+		bot.sendMessage(user + " " + Config.getSetting("FollowerMessage", bot.channelName));
 	    }
 	    if (!bot.followers.contains(user))
 		bot.followers.add(user);

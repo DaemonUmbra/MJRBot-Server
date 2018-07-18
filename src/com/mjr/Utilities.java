@@ -22,7 +22,7 @@ public class Utilities {
 
     public static void sendMessage(BotType type, String channelName, String endMessage) {
 	if (type == BotType.Twitch)
-	    MJRBot.getTwitchBotByChannelName(channelName).MessageToChat(endMessage);
+	    MJRBot.getTwitchBotByChannelName(channelName).sendMessage(endMessage);
 	else
 	    MJRBot.getMixerBotByChannelName(channelName).sendMessage(endMessage);
     }
