@@ -8,7 +8,7 @@ public class DiceGame {
     public static final int DEFAULT_MULTIIPLER = 1;
 
     public static int getWinPercent(double multi) {
-	return (int) ((100 - DEFAULT_MULTIIPLER) / multi);
+	return ((int) ((100 - DEFAULT_MULTIIPLER) / multi)) / 2;
     }
 
     public static void procressTurn(BotType type, String channelName, String sender, int wager, double multi) {

@@ -17,7 +17,7 @@ public class SpinCommand extends Command {
 		String Answer = SlotMachine.Spin(type);
 		Utilities.sendMessage(type, channel, sender + " the Slot Machine is spinning...");
 		int waittime = 0;
-		while (waittime < 250) {
+		while (waittime < 250) { // TODO: Change to a Thread
 		    waittime++;
 		}
 		if (SlotMachine.hasWon()) {
