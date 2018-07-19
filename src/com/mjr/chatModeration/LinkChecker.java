@@ -5,13 +5,14 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 
 public class LinkChecker {
     public static boolean Allowed = false;
     public static boolean Link = false;
-    public static String PermitedUsers = ""; // TODO Made non static version in each bot instance
 
     public static void CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
 	String TempMessage = "";
@@ -70,9 +71,12 @@ public class LinkChecker {
 	    Link = true;
 	    if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
 		Allowed = true;
-	    } else if (PermitedUsers.contains(sender)) {
+	    } else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender)) {
 		Allowed = true;
-		PermitedUsers = PermitedUsers.replace(sender.toLowerCase() + ", ", "");
+		((TwitchBot) bot).linkPermitedUsers.remove(sender);
+	    } else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender)) {
+		Allowed = true;
+		((MixerBot) bot).linkPermitedUsers.remove(sender);
 	    } else {
 		Allowed = false;
 	    }

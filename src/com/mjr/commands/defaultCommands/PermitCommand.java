@@ -1,9 +1,10 @@
 package com.mjr.commands.defaultCommands;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 import com.mjr.Utilities;
-import com.mjr.chatModeration.LinkChecker;
 import com.mjr.commands.Command;
 
 public class PermitCommand extends Command {
@@ -13,7 +14,10 @@ public class PermitCommand extends Command {
 	if (args.length == 2) {
 	    String User = args[1];
 	    Utilities.sendMessage(type, channel, User + " is now permited to post a link");
-	    LinkChecker.PermitedUsers = LinkChecker.PermitedUsers + User.toLowerCase() + ", ";
+	    if (type == BotType.Twitch)
+		((TwitchBot) bot).linkPermitedUsers.add(User.toLowerCase());
+	    else
+		((MixerBot) bot).linkPermitedUsers.add(User.toLowerCase());
 	} else {
 	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !permit USER");
 	}

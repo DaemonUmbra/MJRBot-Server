@@ -1,7 +1,9 @@
 package com.mjr;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.ConsoleUtil.MessageType;
@@ -35,6 +37,7 @@ public class MixerBot extends MJR_MixerBot {
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
+    public List<String> linkPermitedUsers = new ArrayList<String>();
 
     public MathsGame mathsGame = new MathsGame();
     public RacingGame racingGame = new RacingGame();

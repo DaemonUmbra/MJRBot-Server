@@ -49,6 +49,7 @@ public class TwitchBot extends PircBot {
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
+    public List<String> linkPermitedUsers = new ArrayList<String>();
 
     public MathsGame mathsGame = new MathsGame();
     public RacingGame racingGame = new RacingGame();
