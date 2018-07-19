@@ -15,7 +15,7 @@ public class PingCommand extends Command {
 
     @Override
     public String getPermissionLevel() {
-	return PermissionLevel.Streamer.getName();
+	return PermissionLevel.Moderator.getName();
     }
 
     @Override
