@@ -72,8 +72,8 @@ public class PlacebetCommand extends Command {
     }
 
     private static boolean checkForValue(RacingGame game, String val) {
-	for (int i = 0; i < game.BetNumber; i++) {
-	    if (game.bets[0][i].contains(val))
+	for (int i = 0; i < game.numberOfBets; i++) {
+	    if (game.userBets[0][i].contains(val))
 		return true;
 	}
 
