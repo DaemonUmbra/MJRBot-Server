@@ -26,6 +26,7 @@ import com.mjr.commands.defaultCommands.FollowTimeCommand;
 import com.mjr.commands.defaultCommands.GiveAwayCommand;
 import com.mjr.commands.defaultCommands.MathsCommand;
 import com.mjr.commands.defaultCommands.PermitCommand;
+import com.mjr.commands.defaultCommands.PingCommand;
 import com.mjr.commands.defaultCommands.PlacebetCommand;
 import com.mjr.commands.defaultCommands.PointsCheckCommand;
 import com.mjr.commands.defaultCommands.PointsCommand;
@@ -90,6 +91,7 @@ public class CommandManager {
 	commands.put("!permit", new PermitCommand());
 	commands.put("!accountlife", new AccountLifeCommand());
 	commands.put("!followtime", new FollowTimeCommand());
+	commands.put("!ping", new PingCommand());
     }
 
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)
