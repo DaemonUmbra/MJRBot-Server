@@ -36,8 +36,8 @@ public class MixerBot extends MJR_MixerBot {
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
 
-    public MathsGame mathsGame;
-    public RacingGame racingGame;
+    public MathsGame mathsGame = new MathsGame();
+    public RacingGame racingGame = new RacingGame();
     
     public MixerBot(String channelName) {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"),
