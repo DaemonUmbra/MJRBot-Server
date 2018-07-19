@@ -25,16 +25,19 @@ public class PointsSystem extends FileBase {
 	else {
 	    ResultSet result = MySQLConnection.executeQueryNoOutput(
 		    "SELECT amount FROM points WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
-	    if (result == null)
-		return 0;
-	    else
-		try {
+	    try {
+		if (result == null)
+		    return 0;
+		else if (!result.next())
+		    return 0;
+		else {
 		    result.beforeFirst();
 		    result.next();
 		    return Integer.parseInt(result.getString(1));
-		} catch (SQLException e) {
-		    e.printStackTrace();
 		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	}
 	return Integer.parseInt(value);
     }
