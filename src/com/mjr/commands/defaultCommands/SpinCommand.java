@@ -28,6 +28,7 @@ public class SpinCommand extends Command {
 		    Utilities.sendMessage(type, channel, sender + " " + result.getResult()
 			    + " you have lost! 1 Point taken! The Slot Machine hasnt been won in " + SlotMachine.timesLost + " turns");
 		    PointsSystem.RemovePoints(sender, 1, channel);
+		    SlotMachine.timesLost = SlotMachine.timesLost++;
 		}
 	    } else {
 		Utilities.sendMessage(type, channel,
