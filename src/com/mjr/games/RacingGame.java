@@ -28,7 +28,6 @@ public class RacingGame {
     }
 
     public void start(BotType type, String channelName) {
-	isGameActive = true;
 	boolean exists = false;
 
 	// Only work out 3 Cars since we don't give winnings for anything lower than the

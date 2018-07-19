@@ -22,6 +22,7 @@ public class RaceCommand extends Command {
 			    "The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");
 		    twitchBot.racingThread = new RaceStartThread(type, channel);
 		    twitchBot.racingThread.start();
+		    twitchBot.racingGame.isGameActive = true;
 		}
 	    } else {
 		MixerBot mixerBot = ((MixerBot) bot);
@@ -30,6 +31,7 @@ public class RaceCommand extends Command {
 			    "The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");
 		    mixerBot.racingThread = new RaceStartThread(type, channel);
 		    mixerBot.racingThread.start();
+		    mixerBot.racingGame.isGameActive = true;
 		}
 	    }
 	}
