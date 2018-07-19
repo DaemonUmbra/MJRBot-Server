@@ -43,10 +43,8 @@ public class BankHeistThread extends Thread {
 
 	if (type == BotType.Twitch) {
 	    BankHeistGame.stage2(type, channelName, MJRBot.getTwitchBotByChannelName(channelName).bankHeistEnteredUsers);
-	    MJRBot.getTwitchBotByChannelName(channelName).bankHeistEnteredUsers.clear();
 	} else {
 	    BankHeistGame.stage2(type, channelName, MJRBot.getMixerBotByChannelName(channelName).bankHeistEnteredUsers);
-	    MJRBot.getMixerBotByChannelName(channelName).bankHeistEnteredUsers.clear();
 	}
 	gameActive = false;
     }

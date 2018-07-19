@@ -19,6 +19,7 @@ public class BankHeistCommand extends Command {
 		    TwitchBot twitchBot = ((TwitchBot) bot);
 		    if (twitchBot.bankHeistThread == null || twitchBot.bankHeistThread.gameActive == false || twitchBot.bankHeistThread.isAlive() == false) {
 			if (Utilities.isNumeric(args[1])) {
+			    twitchBot.bankHeistEnteredUsers.clear();
 			    twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			    twitchBot.bankHeistThread = new BankHeistThread(type, channel);
 			    twitchBot.bankHeistThread.start();
@@ -37,6 +38,7 @@ public class BankHeistCommand extends Command {
 		    MixerBot mixerBot = ((MixerBot) bot);
 		    if (mixerBot.bankHeistThread == null || mixerBot.bankHeistThread.gameActive == false || mixerBot.bankHeistThread.isAlive() == false) {
 			if (Utilities.isNumeric(args[1])) {
+			    mixerBot.bankHeistEnteredUsers.clear();
 			    mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			    mixerBot.bankHeistThread = new BankHeistThread(type, channel);
 			    mixerBot.bankHeistThread.start();
