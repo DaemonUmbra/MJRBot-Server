@@ -7,74 +7,105 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-@SuppressWarnings("resource") 
-public class QuoteFile { // TODO: Add Database Storage Function
+import com.mjr.MJRBot;
+import com.mjr.commands.defaultCommands.QuoteCommand;
+import com.mjr.sql.MySQLConnection;
+
+@SuppressWarnings("resource") public class QuoteFile {
 
     public static String getQuote(String channelName, File file, int number) {
-	String token1 = "";
-	Scanner inFile1 = null;
-	try {
-	    inFile1 = new Scanner(file).useDelimiter(";\\s*");
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	}
-	List<String> temps = new ArrayList<String>();
-	while (inFile1.hasNext()) {
-	    token1 = inFile1.next();
-	    temps.add(token1);
-	}
-	inFile1.close();
-	String[] tempsArray = temps.toArray(new String[0]);
-
-	if (number < tempsArray.length)
-	    return tempsArray[number];
+	List<String> quotes = getAllQuotes(channelName, file);
+	if (number < quotes.size())
+	    return quotes.get(number);
 	else
 	    return null;
     }
 
     public static String getRandomQuote(String channelName, File file) {
-	String token1 = "";
-	Scanner inFile1 = null;
-	try {
-	    inFile1 = new Scanner(file).useDelimiter(";\\s*");
-	} catch (FileNotFoundException e) {
-	    e.printStackTrace();
-	}
-	List<String> temps = new ArrayList<String>();
-	while (inFile1.hasNext()) {
-	    token1 = inFile1.next();
-	    temps.add(token1);
-	}
-	inFile1.close();
-	String[] tempsArray = temps.toArray(new String[0]);
 	Random rand = new Random();
-	return tempsArray[rand.nextInt(tempsArray.length)];
+	List<String> quotes = getAllQuotes(channelName, file);
+	return quotes.get(rand.nextInt(quotes.size()));
+    }
+
+    public static List<String> getAllQuotes(String channelName, File file) {
+	if (MJRBot.useFileSystem) {
+	    String token1 = "";
+	    Scanner inFile1 = null;
+	    try {
+		inFile1 = new Scanner(file).useDelimiter(";\\s*");
+	    } catch (FileNotFoundException e) {
+		e.printStackTrace();
+	    }
+	    List<String> temps = new ArrayList<String>();
+	    while (inFile1.hasNext()) {
+		token1 = inFile1.next();
+		temps.add(token1);
+	    }
+	    inFile1.close();
+	    return Arrays.asList(temps.toArray(new String[0]));
+	} else {
+	    List<String> quotes = new ArrayList<String>();
+	    ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT * FROM quotes WHERE channel = " + "\"" + channelName + "\"");
+	    try {
+		if (result == null)
+		    return new ArrayList<String>();
+		else if (!result.next())
+		    return new ArrayList<String>();
+		else {
+		    while (result.next()) {
+			String quote = result.getString("quote");
+			quotes.add(quote);
+		    }
+		    return quotes;
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+		return new ArrayList<String>();
+	    }
+	}
     }
 
     public static void addQuote(String channelName, File file, String quote) {
-	String fileTemp = file.getPath();
-	Path filePath = Paths.get(fileTemp);
-	if (!Files.exists(filePath)) {
-	    try {
-		Files.createFile(filePath);
-	    } catch (IOException e) {
-		e.printStackTrace();
-	    }
-	}
 	quote = quote.substring(11);
 	quote = "'" + quote;
 	quote = quote.replace(" @", "' ");
-	try {
-	    Files.write(filePath, ("\n" + quote.trim() + " " + Calendar.getInstance().get(Calendar.YEAR) + ";").getBytes(),
-		    StandardOpenOption.APPEND);
-	} catch (IOException e) {
-	    e.printStackTrace();
+	quote = quote.trim() + " " + Calendar.getInstance().get(Calendar.YEAR) + ";";
+	if (MJRBot.useFileSystem) {
+	    String fileTemp = file.getPath();
+	    Path filePath = Paths.get(fileTemp);
+	    if (!Files.exists(filePath)) {
+		try {
+		    Files.createFile(filePath);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	    }
+
+	    try {
+		Files.write(filePath, ("\n" + quote).getBytes(), StandardOpenOption.APPEND);
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	} else {
+	    MySQLConnection.executeUpdate(
+		    "INSERT INTO quotes(channel, quote) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + quote + "\"" + ")");
+	}
+    }
+
+    public static void migrateFile(String channelName) {
+	List<String> quotes = getAllQuotes(channelName, new File(MJRBot.filePath + channelName + File.separator + QuoteCommand.filename));
+	for (String quote : quotes) {
+	    MySQLConnection.executeUpdate(
+		    "INSERT INTO quotes(channel, quote) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + quote + "\"" + ")");
 	}
     }
 }

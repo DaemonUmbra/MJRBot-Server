@@ -12,6 +12,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
+import com.mjr.files.QuoteFile;
 import com.mjr.files.Ranks;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
@@ -91,7 +92,9 @@ public class MJRBot {
 
     public static void runMirgration() {
 	String channelName = "";
+	String type = "";
 	channelName = console.readLine("Channel Name?");
+
 	// channelName = "mjrlegends";
 	useFileSystem = true;
 	try {
@@ -101,9 +104,25 @@ public class MJRBot {
 	} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 	    e.printStackTrace();
 	}
-	Config.migrateFile(channelName);
-	PointsSystem.migrateFile(channelName);
-	Ranks.migrateFile(channelName);
+	type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
+
+	if (type.equalsIgnoreCase("1")) {
+	    Config.migrateFile(channelName);
+	    PointsSystem.migrateFile(channelName);
+	    Ranks.migrateFile(channelName);
+	    QuoteFile.migrateFile(channelName);
+	} else if (type.equalsIgnoreCase("2")) {
+	    Config.migrateFile(channelName);
+	}
+	if (type.equalsIgnoreCase("3")) {
+	    PointsSystem.migrateFile(channelName);
+	}
+	if (type.equalsIgnoreCase("4")) {
+	    Ranks.migrateFile(channelName);
+	}
+	if (type.equalsIgnoreCase("5")) {
+	    QuoteFile.migrateFile(channelName);
+	}
 	useFileSystem = false;
 	// Thread.sleep(100000);
     }
