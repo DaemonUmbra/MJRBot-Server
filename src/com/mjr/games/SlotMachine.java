@@ -3,7 +3,7 @@ package com.mjr.games;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 
-public class FruitMachine {
+public class SlotMachine {
 
     public static int Slot1;
 
