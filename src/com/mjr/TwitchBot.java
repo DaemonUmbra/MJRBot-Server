@@ -17,6 +17,7 @@ import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
 import com.mjr.threads.AnnouncementsThread;
+import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
@@ -36,12 +37,14 @@ public class TwitchBot extends PircBot {
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
+    public BankHeistThread bankHeistThread;
 
     public List<String> moderators = new ArrayList<String>();
     public List<String> viewers = new ArrayList<String>();
     public List<String> followers = new ArrayList<String>();
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
+    public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
 
     public void init(String channelName) {
 	try {

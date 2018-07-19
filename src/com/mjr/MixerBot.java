@@ -11,6 +11,7 @@ import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.threads.AnnouncementsThread;
+import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
@@ -25,9 +26,11 @@ public class MixerBot extends MJR_MixerBot {
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
+    public BankHeistThread bankHeistThread;
 
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
+    public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
 
     public MixerBot(String channelName) {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"),

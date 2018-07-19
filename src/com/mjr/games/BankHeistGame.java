@@ -37,8 +37,7 @@ public class BankHeistGame {
 	    if (randNum2 == 1)
 		Utilities.sendMessage(type, channelName, BankHeistGame.messages[3]); // Crew were all killed
 	    else {
-		Utilities.sendMessage(type, channelName, BankHeistGame.messages[5]); // Crew alive, dropping and leaving money on the way
-										     // out
+		Utilities.sendMessage(type, channelName, BankHeistGame.messages[5]); // Crew alive, dropping and leaving money on the way out
 		giveOutWinnings(type, channelName, enteredUsers, false);
 	    }
 	} else if (randNum == 4) { // made it out with all the money
