@@ -6,6 +6,7 @@ import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
+import com.mjr.games.ResultPair;
 import com.mjr.games.SlotMachine;
 
 public class SpinCommand extends Command {
@@ -14,17 +15,17 @@ public class SpinCommand extends Command {
 	    String[] args) {
 	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1, channel)) {
-		String Answer = SlotMachine.Spin(type);
+		ResultPair result = SlotMachine.Spin(type);
 		Utilities.sendMessage(type, channel, sender + " the Slot Machine is spinning...");
 		int waittime = 0;
 		while (waittime < 250) { // TODO: Change to a Thread
 		    waittime++;
 		}
-		if (SlotMachine.hasWon()) {
-		    Utilities.sendMessage(type, channel, sender + " " + Answer + " you have Won! You have been given "
+		if (result.hasWon()) {
+		    Utilities.sendMessage(type, channel, sender + " " + result.getResult() + " you have Won! You have been given "
 			    + PointsSystem.AddRandomPoints(sender, channel) + " Points");
 		} else {
-		    Utilities.sendMessage(type, channel, sender + " " + Answer
+		    Utilities.sendMessage(type, channel, sender + " " + result.getResult()
 			    + " you have lost! 1 Point taken! The Slot Machine hasnt been won in " + SlotMachine.timesLost + " turns");
 		    PointsSystem.RemovePoints(sender, 1, channel);
 		}
