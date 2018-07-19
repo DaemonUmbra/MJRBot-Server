@@ -12,6 +12,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
+import com.mjr.files.Ranks;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
@@ -102,6 +103,7 @@ public class MJRBot {
 	}
 	Config.migrateFile(channelName);
 	PointsSystem.migrateFile(channelName);
+	Ranks.migrateFile(channelName);
 	useFileSystem = false;
 	// Thread.sleep(100000);
     }

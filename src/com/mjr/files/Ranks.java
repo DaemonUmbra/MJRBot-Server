@@ -29,16 +29,19 @@ public class Ranks extends FileBase {
 	else {
 	    ResultSet result = MySQLConnection.executeQueryNoOutput(
 		    "SELECT rank FROM ranks WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
-	    if (result == null)
-		return null;
-	    else
-		try {
+	    try {
+		if (result == null)
+		    return null;
+		else if (!result.next())
+		    return null;
+		else {
 		    result.beforeFirst();
 		    result.next();
 		    return result.getString(1);
-		} catch (SQLException e) {
-		    e.printStackTrace();
 		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	}
 	return value;
     }
@@ -58,11 +61,11 @@ public class Ranks extends FileBase {
 		}
 	    } else {
 		if (isOnList(user, channelName) == false)
-			MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\""
-				+ channelName + "\"" + "," + "\"" + rank + "\"" + ")");
-		    else
-			MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + channelName
-				+ "\"" + " AND name = " + "\"" + user + "\"");
+		    MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\""
+			    + channelName + "\"" + "," + "\"" + rank + "\"" + ")");
+		else
+		    MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + channelName
+			    + "\"" + " AND name = " + "\"" + user + "\"");
 	    }
 	}
     }
@@ -124,5 +127,13 @@ public class Ranks extends FileBase {
 	    return true;
 	else
 	    return false;
+    }
+
+    public static void migrateFile(String channelName) {
+	Properties file = load(channelName, fileName);
+	for (Object user : file.keySet()) {
+	    MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\""
+		    + channelName + "\"" + "," + "\"" + file.getProperty((String) user) + "\"" + ")");
+	}
     }
 }
