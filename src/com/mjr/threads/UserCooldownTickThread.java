@@ -23,7 +23,6 @@ public class UserCooldownTickThread extends Thread {
 		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
 			if (twitchBot.usersCooldowns.containsKey(user)) {
-			    iter.remove();
 			    twitchBot.usersCooldowns.put(user, oldTime);
 			}
 		    }
@@ -40,7 +39,6 @@ public class UserCooldownTickThread extends Thread {
 		    if (oldTime > 0) {
 			oldTime = oldTime - 1;
 			if (mixerBot.usersCooldowns.containsKey(user)) {
-			    iter.remove();
 			    mixerBot.usersCooldowns.put(user, oldTime);
 			}
 		    }
