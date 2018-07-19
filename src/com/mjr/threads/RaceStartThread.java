@@ -1,13 +1,10 @@
 package com.mjr.threads;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
-import com.mjr.commands.defaultCommands.RaceCommand;
-import com.mjr.games.RacingGame;
 
 public class RaceStartThread extends Thread {
-    private boolean Delay = true;
-    private boolean threadActive = true;
     private BotType type;
     private String channelName;
 
@@ -19,26 +16,20 @@ public class RaceStartThread extends Thread {
 
     @Override
     public void run() {
-	while (threadActive) {
-	    if (Delay) {
-		try {
-		    Thread.sleep(60000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
-		Delay = false;
-	    } else {
-		Utilities.sendMessage(type, channelName, "Race is about to start! Make sure to get your bets in now!");
-		try {
-		    Thread.sleep(30000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
-		RacingGame.Start(type, channelName);
-		Delay = true;
-		RaceCommand.Started = false;
-		threadActive = false;
-	    }
+	try {
+	    Thread.sleep(60000);
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
 	}
+	Utilities.sendMessage(type, channelName, "Race is about to start! Make sure to get your bets in now!");
+	try {
+	    Thread.sleep(30000);
+	} catch (InterruptedException e) {
+	    e.printStackTrace();
+	}
+	if (type == BotType.Twitch)
+	    MJRBot.getTwitchBotByChannelName(channelName).racingGame.start(type, channelName);
+	else
+	    MJRBot.getMixerBotByChannelName(channelName).racingGame.start(type, channelName);
     }
 }

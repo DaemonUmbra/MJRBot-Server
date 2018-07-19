@@ -1,23 +1,36 @@
 package com.mjr.commands.defaultCommands;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
-import com.mjr.games.MathsGame;
 
 public class MathsCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
-	    if (MathsGame.isMathsGameActive == false) {
-		Utilities.sendMessage(type, channel, MathsGame.CreateQuestion(type, channel));
-		Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
-		MathsGame.isMathsGameActive = true;
+	    if (type == BotType.Twitch) {
+		TwitchBot twitchBot = ((TwitchBot) bot);
+		if (twitchBot.mathsGame.isGameActive == false) {
+		    Utilities.sendMessage(type, channel, twitchBot.mathsGame.CreateQuestion(type, channel));
+		    Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+		    twitchBot.mathsGame.isGameActive = true;
+		} else {
+		    Utilities.sendMessage(type, channel, "Game Already started!");
+		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Game Already started!");
+		MixerBot mixerBot = ((MixerBot) bot);
+		if (mixerBot.mathsGame.isGameActive == false) {
+		    Utilities.sendMessage(type, channel, mixerBot.mathsGame.CreateQuestion(type, channel));
+		    Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+		    mixerBot.mathsGame.isGameActive = true;
+		} else {
+		    Utilities.sendMessage(type, channel, "Game Already started!");
+		}
 	    }
 	}
     }

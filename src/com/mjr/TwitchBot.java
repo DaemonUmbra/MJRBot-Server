@@ -16,12 +16,15 @@ import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
 import com.mjr.files.Ranks;
+import com.mjr.games.MathsGame;
+import com.mjr.games.RacingGame;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.PointsThread;
+import com.mjr.threads.RaceStartThread;
 
 public class TwitchBot extends PircBot {
 
@@ -38,6 +41,7 @@ public class TwitchBot extends PircBot {
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
     public BankHeistThread bankHeistThread;
+    public RaceStartThread racingThread;
 
     public List<String> moderators = new ArrayList<String>();
     public List<String> viewers = new ArrayList<String>();
@@ -46,6 +50,9 @@ public class TwitchBot extends PircBot {
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
 
+    public MathsGame mathsGame;
+    public RacingGame racingGame;
+    
     public void init(String channelName) {
 	try {
 	    this.ConnectToTwitch();

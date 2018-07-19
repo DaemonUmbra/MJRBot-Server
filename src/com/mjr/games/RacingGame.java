@@ -9,15 +9,16 @@ import com.mjr.files.PointsSystem;
 
 public class RacingGame {
 
-    public static String bets[][] = new String[4][1000];
-    private static String[] Top3Users;
-    private static String[] WinnerUsers;
-    public static int BetNumber = 0;
+    public String bets[][] = new String[4][1000];
+    private String[] Top3Users;
+    private String[] WinnerUsers;
+    public int BetNumber = 0;
 
-    public static int cars[] = new int[8];
-    private static String[] WinnersUsers;
+    public int cars[] = new int[8];
+    private String[] WinnersUsers;
+    public boolean isGameActive = false;
 
-    public static void PlaceBet(String User, String Bet, String type, String points) {
+    public void placeBet(String User, String Bet, String type, String points) {
 	bets[0][BetNumber] = User.toLowerCase();
 	bets[1][BetNumber] = Bet.toLowerCase();
 	bets[2][BetNumber] = type.toLowerCase();
@@ -25,7 +26,8 @@ public class RacingGame {
 	BetNumber++;
     }
 
-    public static void Start(BotType type, String channelName) {
+    public void start(BotType type, String channelName) {
+	isGameActive = true;
 	boolean Good = false;
 	boolean InThere = false;
 	for (int i = 0; i < 8; i++) {
@@ -47,10 +49,11 @@ public class RacingGame {
 		}
 	    }
 	}
-	CheckForWinners(type, channelName);
+	checkForWinners(type, channelName);
+	isGameActive = false;
     }
 
-    public static void CheckForWinners(BotType type, String channelName) {
+    public void checkForWinners(BotType type, String channelName) {
 	if (BetNumber == 0) {
 	    Utilities.sendMessage(type, channelName, "No one made any bets! So race got canceled!");
 	    return;

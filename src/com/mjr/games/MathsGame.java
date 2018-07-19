@@ -6,15 +6,15 @@ import com.mjr.MJRBot.BotType;
 import com.mjr.Utilities;
 
 public class MathsGame {
-    public static int rannum1;
-    public static int rannum2;
-    public static int ransign;
-    public static String sign = "+";
-    public static boolean isMathsGameActive = false;
+    public int rannum1;
+    public int rannum2;
+    public int ransign;
+    public String sign = "+";
+    public boolean isGameActive = false;
 
-    public static int Answer;
+    public int Answer;
 
-    public static String CreateQuestion(BotType type, String channelName) {
+    public String CreateQuestion(BotType type, String channelName) {
 	rannum1 = Utilities.getRandom(0, 100);
 	rannum2 = Utilities.getRandom(0, 100);
 	ransign = Utilities.getRandom(1, 3);
