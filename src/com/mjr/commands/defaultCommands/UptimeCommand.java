@@ -2,6 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 
 import com.mjr.HTTPConnect;
@@ -45,11 +46,15 @@ public class UptimeCommand extends Command {
     }
 
     public void runCommand(BotType type, String channel, String sender, Date date2) {
+	String currentTime = Instant.now().toString();
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	Date date = null;
 
-	long currentTime = System.currentTimeMillis();
-
-	Date date = new Date(currentTime);
-
+	try {
+	    date = format.parse(currentTime);
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
 	long diff = date.getTime() - date2.getTime();
 	long diffDay = diff / (24 * 60 * 60 * 1000);
 	diff = diff - (diffDay * 24 * 60 * 60 * 1000);
