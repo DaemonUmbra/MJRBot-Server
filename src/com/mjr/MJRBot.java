@@ -20,7 +20,7 @@ import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.6.3 - Beta, Server Version";
+    public static final String VERSION = "1.6.4 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
@@ -63,7 +63,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		// connectionType = "Database";
+		//connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -73,7 +73,7 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		// fileSystemType = "Database";
+		//fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))
