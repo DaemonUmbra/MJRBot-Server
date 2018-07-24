@@ -30,11 +30,10 @@ public class RacingGame {
     public void start(BotType type, String channelName) {
 	boolean exists = false;
 
-	// Only work out 3 Cars since we don't give winnings for anything lower than the
-	// third car
+	// Only work out 3 Cars since we don't give winnings for anything lower than the third car
 	for (int i = 0; i < 3; i++) {
 	    exists = false;
-	    while (exists == false) {
+	    while (exists == true) {
 		int randomnum = Utilities.getRandom(1, 8);
 
 		// Check if its already exists
