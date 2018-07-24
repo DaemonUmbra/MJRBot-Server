@@ -33,7 +33,7 @@ public class RacingGame {
 	// Only work out 3 Cars since we don't give winnings for anything lower than the third car
 	for (int i = 0; i < 3; i++) {
 	    exists = false;
-	    while (exists == true) {
+	    do{
 		int randomnum = Utilities.getRandom(1, 8);
 
 		// Check if its already exists
@@ -48,7 +48,7 @@ public class RacingGame {
 		if (exists == false) {
 		    cars[i] = randomnum;
 		}
-	    }
+	    } while (exists == true);
 	}
 
 	// Check for Winning Users
