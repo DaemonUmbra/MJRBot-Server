@@ -8,8 +8,6 @@ public class SlotMachine {
 	    "twitchRaid" };
     public static String[] emotesMixer = { ":hamster", ":controller", ":127", ":coke", ":popcorn", ":hug-bot", ":spaceship", ":wrench" };
 
-    public static int timesLost = 0;
-
     public static ResultPair Spin(BotType type) {
 	int slot1 = Utilities.getRandom(0, 7);
 	int slot2 = Utilities.getRandom(0, 7);
