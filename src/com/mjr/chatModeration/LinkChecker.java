@@ -45,15 +45,14 @@ public class LinkChecker {
 	    }
 	}
 	if (isLink) {
-	    if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
+	    if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName()))
 		return true;
-	    } else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender)) {
+	    else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
 		return true;
-	    } else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender)) {
+	    else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender))
 		return true;
-	    } else {
+	    else
 		return false;
-	    }
 	}
 	return true;
     }

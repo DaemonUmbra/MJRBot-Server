@@ -14,8 +14,6 @@ import com.mjr.files.Config;
 public class EmoteChecker {
     private static List<String> emotes = new ArrayList<String>();
 
-    public static boolean Ban = false;
-
     public static void getEmotes(BotType type, String channel) {
 	if (type == BotType.Twitch) {
 	    try {
@@ -56,7 +54,7 @@ public class EmoteChecker {
 
     }
 
-    public static void checkEmoteSpam(String message, String user, String channelName) {
+    public static boolean isSpammingEmotes(String message, String user, String channelName) {
 	int number = 0;
 	String[] temp;
 	temp = message.split(" ");
@@ -65,15 +63,9 @@ public class EmoteChecker {
 		number++;
 	    }
 	}
-	if (number > Integer.parseInt(Config.getSetting("MaxEmotes", channelName)))
-	    Ban = true;
-	else
-	    Ban = false;
-    }
-
-    public static boolean hasUsedToMany() {
-	if (Ban)
+	if (number >= Integer.parseInt(Config.getSetting("MaxEmotes", channelName)))
 	    return true;
-	return false;
+	else
+	    return false;
     }
 }
