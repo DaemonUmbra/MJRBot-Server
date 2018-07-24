@@ -23,24 +23,24 @@ public class BankHeistGame {
     }
 
     public static void stage2(BotType type, String channelName, HashMap<String, Integer> enteredUsers) {
-	int randNum = Utilities.getRandom(2, 5);
-	int randNum2 = 0;
-	Utilities.sendMessage(type, channelName, BankHeistGame.messages[randNum]);
+	int randNum = Utilities.getRandom(1, 2);
 
-	if (randNum == 2) { // Flooded with SWAT
+	if (randNum == 1) { // Flooded with SWAT
+	    Utilities.sendMessage(type, channelName, BankHeistGame.messages[2]);
 	    try {
 		Thread.sleep(60000);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
-	    randNum2 = Utilities.getRandom(1, 3);
+	    int randNum2 = Utilities.getRandom(1, 2);
 	    if (randNum2 == 1)
 		Utilities.sendMessage(type, channelName, BankHeistGame.messages[3]); // Crew were all killed
-	    else {
+	    else if (randNum2 == 2) {
 		Utilities.sendMessage(type, channelName, BankHeistGame.messages[5]); // Crew alive, dropping and leaving money on the way out
 		giveOutWinnings(type, channelName, enteredUsers, false);
 	    }
-	} else if (randNum == 4) { // made it out with all the money
+	} else if (randNum == 2) { // made it out with all the money
+	    Utilities.sendMessage(type, channelName, BankHeistGame.messages[4]);
 	    giveOutWinnings(type, channelName, enteredUsers, true);
 	}
     }
