@@ -1,8 +1,10 @@
 package com.mjr.chatModeration;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 import com.mjr.Utilities;
 import com.mjr.files.Config;
 import com.mjr.files.Ranks;
@@ -16,19 +18,21 @@ public class ChatModeration {
 	    return;
 	else {
 	    if (Config.getSetting("LinkChecker", channel).equalsIgnoreCase("true")) {
-		LinkChecker.CheckLink(bot, type, channel, message, sender);
-		if (LinkChecker.Link) {
-		    if (!LinkChecker.isAllowed()) {
-			if (Ranks.getRank(sender, channel) == "sliver")
-			    return;
-			else if (Ranks.getRank(sender, channel) == "bronze")
-			    return;
-			Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("LinkWarning", channel));
-			Utilities.sendMessage(type, channel, "/timeout " + sender);
-			Utilities.sendMessage(type, channel, "/unban " + sender);
+		boolean allowed = LinkChecker.CheckLink(bot, type, channel, message, sender);
+		if (!allowed) {
+		    if (Ranks.getRank(sender, channel) == "sliver")
 			return;
-		    }
+		    else if (Ranks.getRank(sender, channel) == "bronze")
+			return;
+		    Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("LinkWarning", channel));
+		    Utilities.sendMessage(type, channel, "/timeout " + sender);
+		    Utilities.sendMessage(type, channel, "/unban " + sender);
+		    return;
 		}
+		if (type == BotType.Twitch)
+		    ((TwitchBot) bot).linkPermitedUsers.remove(sender);
+		else
+		    ((MixerBot) bot).linkPermitedUsers.remove(sender);
 	    }
 	    if (Config.getSetting("Badwords", channel).equalsIgnoreCase("true")) {
 		BadWordChecker.CheckBadWords(bot, type, channel, message, sender);
