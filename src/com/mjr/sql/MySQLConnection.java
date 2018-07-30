@@ -13,19 +13,28 @@ public class MySQLConnection {
 
     public static void initConnection(String ipAddress, int port, String databaseName, String user, String password)
 	    throws SQLException, ClassNotFoundException {
-	initConnection("jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName + "?serverTimezone=GMT", user, password);
-    }
-
-    public static void initConnection(String url, String user, String password) throws SQLException, ClassNotFoundException {
 	try {
 	    System.out.println("MySQl connection initializing!");
 	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    connection = DriverManager.getConnection(url, user, password);
+	    connection = DriverManager.getConnection("jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName + "?serverTimezone=GMT",
+		    user, password);
 	    connected = true;
 	    System.out.println("MySQl connection has been initialized!");
 	} catch (ClassNotFoundException | SQLException e) {
-	    System.out.println("MySQL Connection Failed! Error: " + e.getMessage());
-	    connected = false;
+	    if (e.getMessage().contains("Unknown database")) {
+		try {
+		    System.out.println("MySQL New Database detected!");
+		    System.out.println("MySQL Settings up Database!");
+		    Class.forName("com.mysql.cj.jdbc.Driver");
+		    connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql?serverTimezone=GMT", user, password);
+		    connected = true;
+		    SQLUtilities.createDatabaseStructure();
+		    connected = false;
+		} catch (SQLException ex) {
+		    System.out.println("MySQL Connection Failed! Error: " + ex.getMessage());
+		}
+	    } else
+		System.out.println("MySQL Connection Failed! Error: " + e.getMessage());
 	}
     }
 
