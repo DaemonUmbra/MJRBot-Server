@@ -35,6 +35,7 @@ import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.commands.defaultCommands.RankCheckCommand;
 import com.mjr.commands.defaultCommands.RankCommand;
+import com.mjr.commands.defaultCommands.ReconnectCommand;
 import com.mjr.commands.defaultCommands.RemoveCommand;
 import com.mjr.commands.defaultCommands.RemovePointsCommand;
 import com.mjr.commands.defaultCommands.RemoveRankCommand;
@@ -89,6 +90,7 @@ public class CommandManager {
 	commands.put("!quote", new QuoteCommand());
 	commands.put("!commands", new CommandsListCommand());
 	commands.put("!disconnect", new DisconnectCommand());
+	commands.put("!reconnect", new ReconnectCommand());
 	commands.put("!uptime", new UptimeCommand());
 	commands.put("!permit", new PermitCommand());
 	commands.put("!accountlife", new AccountLifeCommand());
