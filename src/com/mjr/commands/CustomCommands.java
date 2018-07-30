@@ -132,4 +132,24 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
+    
+    @SuppressWarnings("deprecation")
+    public static void changeCommandPermission(BotType type, String channelName, String command, String response) throws IOException {
+	String filelocation = MJRBot.filePath + channelName + File.separator;
+	String filename = command.toLowerCase() + "Command" + ".properties";
+	File filenew = new File(filelocation + filename);
+	if (filenew.exists()) {
+	    FileReader reader = new FileReader(filenew);
+	    Properties properties = new Properties();
+	    properties.load(reader);
+	    if (properties.getProperty("permissionlevel").equalsIgnoreCase("permissionlevel")) {
+		Utilities.sendMessage(type, channelName, "The permissionlevel for " + command + " is already " + response);
+	    } else {
+		properties.setProperty("permissionlevel", response.toLowerCase());
+		properties.save(new FileOutputStream(filenew), null);
+		Utilities.sendMessage(type, channelName, command + " has been adjusted!");
+	    }
+	} else
+	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
+    }
 }
