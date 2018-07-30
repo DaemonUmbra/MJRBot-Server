@@ -24,7 +24,7 @@ public class ChatModeration {
 			return;
 		    else if (Ranks.getRank(sender, channel) == "bronze")
 			return;
-		    Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("LinkWarning", channel));
+		    Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("LinkWarning", channel));
 		    Utilities.sendMessage(type, channel, "/timeout " + sender);
 		    Utilities.sendMessage(type, channel, "/unban " + sender);
 		    return;
@@ -40,7 +40,7 @@ public class ChatModeration {
 		    if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.Moderator.getName()))
 			return;
 		    else {
-			Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("LanguageWarning", channel));
+			Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("LanguageWarning", channel));
 			Utilities.sendMessage(type, channel, "/timeout " + sender);
 			Utilities.sendMessage(type, channel, "/unban " + sender);
 			return;
@@ -56,7 +56,7 @@ public class ChatModeration {
 		    else {
 			if (Ranks.getRank(sender, channel) == "sliver")
 			    return;
-			Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("EmoteWarning", channel));
+			Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("EmoteWarning", channel));
 			Utilities.sendMessage(type, channel, "/timeout " + sender);
 			Utilities.sendMessage(type, channel, "/unban " + sender);
 			return;
@@ -75,7 +75,7 @@ public class ChatModeration {
 		    else {
 			if (Ranks.getRank(sender, channel) == "sliver")
 			    return;
-			Utilities.sendMessage(type, channel, sender + " " + Config.getSetting("SymbolWarning", channel));
+			Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("SymbolWarning", channel));
 			Utilities.sendMessage(type, channel, "/timeout " + sender);
 			Utilities.sendMessage(type, channel, "/unban " + sender);
 			return;

@@ -38,7 +38,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		    response = response.replaceAll("%sender%", sender);
 		    response = response.replaceAll("%channel%", channelName);
 		    response = response.replaceAll("%botname%", channelName);
-		    if(response.contains("%time%")) {
+		    if (response.contains("%time%")) {
 			String currentTime = Instant.now().toString();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 			Date date = null;
@@ -58,11 +58,8 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		}
 	    }
 
-	} else if (type == BotType.Twitch)
-	    if (Config.getSetting("MsgWhenCommandDoesntExist", channelName).equalsIgnoreCase("true"))
-		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
-	    else if (Config.getSetting("MsgWhenCommandDoesntExist", channelName).equalsIgnoreCase("true"))
-		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
+	} else if (Config.getSetting("MsgWhenCommandDoesntExist", channelName).equalsIgnoreCase("true"))
+	    Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
     }
 
     public static void addCommand(BotType type, String channelName, String command, String response, String permission)
@@ -85,11 +82,11 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		properties.setProperty("permissionlevel", permission);
 
 		properties.store(new FileOutputStream(filelocation + filename), null);
-		Utilities.sendMessage(type, channelName, "Command " + command + " has been added!");
+		Utilities.sendMessage(type, channelName, "Custom Command " + command + " has been added!");
 	    } else
 		Utilities.sendMessage(type, channelName, "The permission level " + permission + " doesnt  exists!");
 	} else
-	    Utilities.sendMessage(type, channelName, "Command " + command + " already exists!");
+	    Utilities.sendMessage(type, channelName, "Custom Command " + command + " already exists!");
     }
 
     public static void deleteCommand(BotType type, String channelName, String command) throws IOException {
@@ -98,7 +95,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	File filenew = new File(filelocation + filename);
 	if (filenew.exists()) {
 	    filenew.delete();
-	    Utilities.sendMessage(type, channelName, "Command " + command + " has been removed!");
+	    Utilities.sendMessage(type, channelName, "Custom Command " + command + " has been removed!");
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
@@ -147,12 +144,12 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	    } else {
 		properties.setProperty("response", response.toLowerCase());
 		properties.save(new FileOutputStream(filenew), null);
-		Utilities.sendMessage(type, channelName, command + " has been adjusted!");
+		Utilities.sendMessage(type, channelName, "Custom Command " + command + " has been adjusted!");
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
     }
-    
+
     @SuppressWarnings("deprecation")
     public static void changeCommandPermission(BotType type, String channelName, String command, String response) throws IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;
@@ -167,7 +164,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	    } else {
 		properties.setProperty("permissionlevel", response.toLowerCase());
 		properties.save(new FileOutputStream(filenew), null);
-		Utilities.sendMessage(type, channelName, command + " has been adjusted!");
+		Utilities.sendMessage(type, channelName, "Custom Command " + command + " has been adjusted!");
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");

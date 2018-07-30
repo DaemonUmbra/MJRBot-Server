@@ -16,22 +16,22 @@ public class SpinCommand extends Command {
 	if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
 	    if (PointsSystem.hasPoints(sender, 1, channel)) {
 		ResultPair result = SlotMachine.Spin(type);
-		Utilities.sendMessage(type, channel, sender + " the Slot Machine is spinning...");
+		Utilities.sendMessage(type, channel, "@" + sender + " the Slot Machine is spinning...");
 		int waittime = 0;
 		while (waittime < 250) { // TODO: Change to a Thread
 		    waittime++;
 		}
 		if (result.hasWon()) {
-		    Utilities.sendMessage(type, channel, sender + " " + result.getResult() + " you have Won! You have been given "
+		    Utilities.sendMessage(type, channel, "@" + sender + " " + result.getResult() + " you have Won! You have been given "
 			    + PointsSystem.AddRandomPoints(sender, channel) + " Points");
 		} else {
-		    Utilities.sendMessage(type, channel, sender + " " + result.getResult()
+		    Utilities.sendMessage(type, channel, "@" + sender + " " + result.getResult()
 			    + " you have lost! 1 Point taken!");
 		    PointsSystem.RemovePoints(sender, 1, channel);
 		}
 	    } else {
 		Utilities.sendMessage(type, channel,
-			sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, channel));
+			"@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, channel));
 	    }
 	}
     }

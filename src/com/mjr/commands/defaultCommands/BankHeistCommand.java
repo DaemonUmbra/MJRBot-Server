@@ -23,15 +23,15 @@ public class BankHeistCommand extends Command {
 			    twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			    twitchBot.bankHeistThread = new BankHeistThread(type, channel);
 			    twitchBot.bankHeistThread.start();
-			    Utilities.sendMessage(type, channel, sender + " has started planning a heist!"
+			    Utilities.sendMessage(type, channel, "@" + sender + " has started planning a heist!"
 				    + " To join the crew enter !heist <points> you only have 1 minute!");
 			} else
-			    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
+			    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		    } else {
 			if (Utilities.isNumeric(args[1]))
 			    twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			else
-			    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
+			    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		    }
 		}
 		else {
@@ -42,19 +42,19 @@ public class BankHeistCommand extends Command {
 			    mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			    mixerBot.bankHeistThread = new BankHeistThread(type, channel);
 			    mixerBot.bankHeistThread.start();
-			    Utilities.sendMessage(type, channel, sender + " has started planning a heist!"
+			    Utilities.sendMessage(type, channel, "@" + sender + " has started planning a heist!"
 				    + " To join the crew enter !heist <points> you only have 1 minute!");
 			} else
-			    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
+			    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		    } else {
 			if (Utilities.isNumeric(args[1]))
 			    mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 			else
-			    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
+			    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		    }
 		}
 	    } else
-		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !heist <points>");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 	}
     }
 

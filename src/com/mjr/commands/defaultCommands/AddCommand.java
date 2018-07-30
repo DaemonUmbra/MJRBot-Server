@@ -25,13 +25,13 @@ public class AddCommand extends Command {
 			e.printStackTrace();
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "Invalid arguments! The following Permission values are: User or Moderator or Streamer");
+		    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! The following Permission values are: User or Moderator or Streamer");
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! Please dont include an ! in the Command Name");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 	    }
 	} else {
-	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !addcommand COMMANDNAME PERMISSION RESPONSE");
+	    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !addcommand COMMANDNAME PERMISSION RESPONSE");
 	}
     }
 

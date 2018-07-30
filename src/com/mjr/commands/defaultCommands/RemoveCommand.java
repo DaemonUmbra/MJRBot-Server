@@ -21,10 +21,10 @@ public class RemoveCommand extends Command {
 		    e.printStackTrace();
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! Please dont include an ! in the Command Name");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 	    }
 	} else {
-	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !removecommand COMMANDNAME");
+	    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !removecommand COMMANDNAME");
 	}
     }
 

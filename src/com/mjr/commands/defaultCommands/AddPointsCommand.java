@@ -23,7 +23,7 @@ public class AddPointsCommand extends Command {
 		    Utilities.sendMessage(type, channel, "Cant add " + Points + " points" + " to " + User);
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !addpoints POINTS USER");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !addpoints POINTS USER");
 	    }
 	}
     }

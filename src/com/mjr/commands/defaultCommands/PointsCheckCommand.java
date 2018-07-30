@@ -13,14 +13,14 @@ public class PointsCheckCommand extends Command {
 	    String[] args) {
 	if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
-		String User = args[1];
-		if (PointsSystem.isOnList(User, channel)) {
-		    Utilities.sendMessage(type, channel, User + " has " + PointsSystem.getPoints(User, channel) + " points");
+		String user = args[1];
+		if (PointsSystem.isOnList(user, channel)) {
+		    Utilities.sendMessage(type, channel, user + " currently has " + PointsSystem.getPoints(user, channel) + " points");
 		} else {
-		    Utilities.sendMessage(type, channel, "Cant find " + User);
+		    Utilities.sendMessage(type, channel, "@" + sender + "Unable to find " + user + " current points value!");
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !pointscheck USER");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !pointscheck USER");
 	    }
 	}
     }

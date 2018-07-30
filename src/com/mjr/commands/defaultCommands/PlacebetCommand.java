@@ -28,18 +28,18 @@ public class PlacebetCommand extends Command {
 				PointsSystem.RemovePoints(sender, Integer.parseInt(points), channel);
 			    } else {
 				Utilities.sendMessage(type, channel,
-					"Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+					"@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 			    }
 			} else {
-			    Utilities.sendMessage(type, channel, sender + " you have already made a bet!");
+			    Utilities.sendMessage(type, channel, "@" + sender + " you have already made a bet!");
 			}
 
 		    } else {
 			Utilities.sendMessage(type, channel,
-				"Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+				"@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "Racing game hasnt been started yet!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " Racing game hasnt been started yet!");
 		}
 	    } else {
 		MixerBot mixerBot = ((MixerBot) bot);
@@ -54,7 +54,7 @@ public class PlacebetCommand extends Command {
 				PointsSystem.RemovePoints(sender, Integer.parseInt(points), channel);
 			    } else {
 				Utilities.sendMessage(type, channel,
-					"Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+					"@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 			    }
 			} else {
 			    Utilities.sendMessage(type, channel, sender + " you have already made a bet!");
@@ -62,10 +62,10 @@ public class PlacebetCommand extends Command {
 
 		    } else {
 			Utilities.sendMessage(type, channel,
-				"Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+				"@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "Racing game hasnt been started yet!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " Racing game hasnt been started yet!");
 		}
 	    }
 	}

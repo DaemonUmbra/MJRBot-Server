@@ -65,14 +65,14 @@ public class AccountLifeCommand extends Command {
 		    int diffYears = diffMonths / 12;
 		    diffMonths = diffMonths - (diffYears * 12);
 
-		    Utilities.sendMessage(type, channel, sender + " your twitch account is " + diffYears + " year(s) " + diffMonths
+		    Utilities.sendMessage(type, channel, "@" + sender + " your twitch account is " + diffYears + " year(s) " + diffMonths
 			    + " month(s) " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 		}
 	    } catch (Exception e) {
 		e.printStackTrace();
 	    }
 	} else
-	    Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
+	    Utilities.sendMessage(type, channel, "@" + sender + " This command isnt available for Mixer, right now sorry!");
     }
 
     @Override

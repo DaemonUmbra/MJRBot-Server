@@ -20,7 +20,7 @@ public class MathsCommand extends Command {
 		    Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 		    twitchBot.mathsGame.isGameActive = true;
 		} else {
-		    Utilities.sendMessage(type, channel, "Game Already started!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " Game Already started!");
 		}
 	    } else {
 		MixerBot mixerBot = ((MixerBot) bot);
@@ -29,7 +29,7 @@ public class MathsCommand extends Command {
 		    Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 		    mixerBot.mathsGame.isGameActive = true;
 		} else {
-		    Utilities.sendMessage(type, channel, "Game Already started!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " Game Already started!");
 		}
 	    }
 	}

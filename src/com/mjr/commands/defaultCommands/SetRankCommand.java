@@ -13,24 +13,24 @@ public class SetRankCommand extends Command {
 	    String[] args) {
 	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 3) {
-		String Rank = args[1];
-		String User = args[2];
-		if (Ranks.isOnList(User, channel)) {
-		    if (!Ranks.hasRank(sender, Rank, channel)) {
-			if (Ranks.isValidRank(Rank)) {
-			    Ranks.setRank(User, Rank, channel);
-			    Utilities.sendMessage(type, channel, "Added " + Rank + " to " + User);
+		String rank = args[1];
+		String user = args[2];
+		if (Ranks.isOnList(user, channel)) {
+		    if (!Ranks.hasRank(sender, rank, channel)) {
+			if (Ranks.isValidRank(rank)) {
+			    Ranks.setRank(user, rank, channel);
+			    Utilities.sendMessage(type, channel, "@" + sender + " Set " + user + " rank to" + rank);
 			} else {
-			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");
+			    Utilities.sendMessage(type, channel, "@" + sender + " the rank + " + rank + " doesnt exist!");
 			}
 		    } else {
-			Utilities.sendMessage(type, channel, User + " is has already got that rank!");
+			Utilities.sendMessage(type, channel, "@" + sender + user + " is has already got that rank!");
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "Cant add " + Rank + " to " + User);
+		    Utilities.sendMessage(type, channel, "@" + sender + "Unable to give the rank of " + rank + " to " + user);
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !setrank RANK USER");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !setrank RANK USER");
 	    }
 	}
     }

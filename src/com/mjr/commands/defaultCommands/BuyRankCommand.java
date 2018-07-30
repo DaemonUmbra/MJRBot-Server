@@ -30,13 +30,13 @@ public class BuyRankCommand extends Command {
 			    Utilities.sendMessage(type, channel, "Rank doesnt exist!");
 			}
 		    } else {
-			Utilities.sendMessage(type, channel, sender + " is has already got that rank!");
+			Utilities.sendMessage(type, channel, "@" + sender + " you already have this rank!");
 		    }
 		} else {
 		    Utilities.sendMessage(type, channel, "Cant add " + Rank + " to " + sender);
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !buyrank RANK");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !buyrank RANK");
 	    }
 	}
     }

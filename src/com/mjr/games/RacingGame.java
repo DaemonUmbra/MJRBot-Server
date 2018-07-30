@@ -82,7 +82,7 @@ public class RacingGame {
 
 	// Calculate/Give Winnings
 	if (top3Users.size() != 0 || firstUsers.size() != 0) {
-	    String pointsMessage = "User ";
+	    String pointsMessage = "";
 	    String message = "Top 3 winners are " + Arrays.asList(top3Users) + " and 1st place winners are " + Arrays.asList(firstUsers);
 	    message.replace("[", "[ ");
 	    message.replace("]", "] ");
@@ -99,7 +99,7 @@ public class RacingGame {
 
 		    }
 		}
-		pointsMessage = pointsMessage + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
+		pointsMessage = pointsMessage + "@" + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
 		PointsSystem.AddPoints(top3Users.get(l), points, channelName);
 	    }
 	    randomOds = nextFloat(1, 2);
@@ -110,7 +110,7 @@ public class RacingGame {
 			points = (int) Math.ceil((randomOds * Integer.parseInt(userBets[3][i])));
 		    }
 		}
-		pointsMessage = pointsMessage + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
+		pointsMessage = pointsMessage + "@" + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
 		PointsSystem.AddPoints(firstUsers.get(m), points, channelName);
 	    }
 	    Utilities.sendMessage(type, channelName, pointsMessage);

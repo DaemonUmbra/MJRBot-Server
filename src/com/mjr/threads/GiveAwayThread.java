@@ -41,7 +41,7 @@ public class GiveAwayThread extends Thread {
 	    Utilities.sendMessage(type, channelName, "Giveaway has ended! " + EnteredUsers.size() + " entered in to the giveaway!");
 	    Random random = new Random();
 	    int ChosenUser = random.nextInt((EnteredUsers.size() - 0) + 1) + 0;
-	    Utilities.sendMessage(type, channelName, EnteredUsers.get(ChosenUser) + " has won the giveaway!");
+	    Utilities.sendMessage(type, channelName, "@" + EnteredUsers.get(ChosenUser) + " has won the giveaway!");
 	    Delay = true;
 	    this.stop();
 	} else {

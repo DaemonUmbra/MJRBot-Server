@@ -24,13 +24,13 @@ public class ChangeCommandPermission extends Command {
 		    }
 		} else {
 		    Utilities.sendMessage(type, channel,
-			    "Invalid arguments! The following Permission values are: User or Moderator or Streamer");
+			    "@" + sender + " Invalid arguments! The following Permission values are: User or Moderator or Streamer");
 		}
 	    } else {
-		Utilities.sendMessage(type, channel, "Invalid arguments! Please dont include an ! in the Command Name");
+		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 	    }
 	} else {
-	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !commandpermission COMMANDNAME PERMISSIONLEVEL");
+	    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !commandpermission COMMANDNAME PERMISSIONLEVEL");
 	}
     }
 

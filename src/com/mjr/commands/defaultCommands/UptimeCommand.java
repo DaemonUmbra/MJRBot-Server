@@ -34,14 +34,14 @@ public class UptimeCommand extends Command {
 
 		runCommand(type, channel, sender, parse);
 	    } else {
-		Utilities.sendMessage(type, channel, channel + " is currently not streaming!");
+		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
 	    }
 	} else {
 	    MixerBot mixerBot = ((MixerBot) bot);
-	    if(mixerBot.isStreaming())
+	    if (mixerBot.isStreaming())
 		runCommand(type, channel, sender, mixerBot.getUpdatedAt());
 	    else
-		Utilities.sendMessage(type, channel, channel + " is currently not streaming!");
+		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
 	}
     }
 
@@ -65,8 +65,8 @@ public class UptimeCommand extends Command {
 	long diffSeconds = diff / 1000;
 	diff = diff - (diffSeconds * 1000);
 
-	Utilities.sendMessage(type, channel,
-		channel + " has been live for " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+	Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDay + " day(s) " + diffHours
+		+ " hour(s) " + diffMinutes + " minute(s)");
     }
 
     @Override

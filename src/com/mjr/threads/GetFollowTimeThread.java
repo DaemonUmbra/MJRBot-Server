@@ -30,7 +30,7 @@ public class GetFollowTimeThread extends Thread {
 	if (type == BotType.Twitch && bot.ConnectedToChannel) {
 	    String time = checkFollowTime(bot, user.toLowerCase());
 	    if (time == null) {
-		Utilities.sendMessage(type, bot.channelName, user + " unable to obtain follow details!");
+		Utilities.sendMessage(type, bot.channelName, "@" + user + " unable to obtain follow details for you!");
 	    } else {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 		Date parse = null;

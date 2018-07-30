@@ -12,14 +12,14 @@ public class PermitCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	if (args.length == 2) {
-	    String User = args[1];
-	    Utilities.sendMessage(type, channel, User + " is now permited to post a link");
+	    String user = args[1];
+	    Utilities.sendMessage(type, channel, "@" + user + " is now permited to post a link in their next message!");
 	    if (type == BotType.Twitch)
-		((TwitchBot) bot).linkPermitedUsers.add(User.toLowerCase());
+		((TwitchBot) bot).linkPermitedUsers.add(user.toLowerCase());
 	    else
-		((MixerBot) bot).linkPermitedUsers.add(User.toLowerCase());
+		((MixerBot) bot).linkPermitedUsers.add(user.toLowerCase());
 	} else {
-	    Utilities.sendMessage(type, channel, "Invalid arguments! You need to enter !permit USER");
+	    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !permit USER");
 	}
     }
 

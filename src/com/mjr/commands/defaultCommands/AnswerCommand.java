@@ -22,17 +22,17 @@ public class AnswerCommand extends Command {
 			if (twitchBot.mathsGame.Answer == index) {
 			    int profit = PointsSystem.AddRandomPoints(sender, channel);
 			    Utilities.sendMessage(type, channel,
-				    sender + " Well done, You have got the right answer! You have gained " + profit + " points!");
+				    "@" + sender + " Well done, You have got the right answer! You have gained " + profit + " points!");
 			    twitchBot.mathsGame.isGameActive = false;
 			} else {
 			    Utilities.sendMessage(type, channel, sender + " you have got the wrong answer try again!");
 			}
 		    } else {
 			Utilities.sendMessage(type, channel,
-				"Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
+				"@" + sender + " Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "The maths game is currently not active!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " The maths game is currently not active!");
 		}
 	    } else {
 		MixerBot mixerBot = ((MixerBot) bot);
@@ -42,17 +42,17 @@ public class AnswerCommand extends Command {
 			if (mixerBot.mathsGame.Answer == index) {
 			    int profit = PointsSystem.AddRandomPoints(sender, channel);
 			    Utilities.sendMessage(type, channel,
-				    sender + " Well done, You have got the right answer! You have gained " + profit + " points!");
+				    "@" + sender + " Well done, You have got the right answer! You have gained " + profit + " points!");
 			    mixerBot.mathsGame.isGameActive = false;
 			} else {
-			    Utilities.sendMessage(type, channel, sender + " you have got the wrong answer try again!");
+			    Utilities.sendMessage(type, channel, "@" + sender + " you have got the wrong answer try again!");
 			}
 		    } else {
 			Utilities.sendMessage(type, channel,
-				"Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
+				"@" + sender + " Invalid arguments! You need to enter !answer YOURANSWER (Example !answer 10)");
 		    }
 		} else {
-		    Utilities.sendMessage(type, channel, "The maths game is currently not active!");
+		    Utilities.sendMessage(type, channel, "@" + sender + " The maths game is currently not active!");
 		}
 	    }
 	}
