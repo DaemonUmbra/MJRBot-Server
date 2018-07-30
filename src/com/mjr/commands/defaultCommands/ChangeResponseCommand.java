@@ -20,7 +20,7 @@ public class ChangeResponseCommand extends Command {
 		String response = message.substring(message.indexOf(command));
 		response = response.substring(response.indexOf(' ') + 1);
 		try {
-		    CustomCommands.ChangeResponseCommand(type, channel, command, response);
+		    CustomCommands.changeCommandResponse(type, channel, command, response);
 		} catch (IOException e) {
 		    ConsoleUtil.TextToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
 		    e.printStackTrace();

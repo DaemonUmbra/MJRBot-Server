@@ -45,7 +45,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		Utilities.sendMessage(type, channelName, "@" + sender + " the command " + command + " doesnt exist!");
     }
 
-    public static void AddCommand(BotType type, String channelName, String command, String response, String permission)
+    public static void addCommand(BotType type, String channelName, String command, String response, String permission)
 	    throws FileNotFoundException, IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
@@ -72,7 +72,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	    Utilities.sendMessage(type, channelName, "Command " + command + " already exists!");
     }
 
-    public static void RemoveCommand(BotType type, String channelName, String command) throws IOException {
+    public static void deleteCommand(BotType type, String channelName, String command) throws IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -84,7 +84,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
     }
 
     @SuppressWarnings("deprecation")
-    public static void ChangeStateCommand(BotType type, String channelName, String command, String state) throws IOException {
+    public static void changeCommandState(BotType type, String channelName, String command, String state) throws IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -114,7 +114,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
     }
 
     @SuppressWarnings("deprecation")
-    public static void ChangeResponseCommand(BotType type, String channelName, String command, String response) throws IOException {
+    public static void changeCommandResponse(BotType type, String channelName, String command, String response) throws IOException {
 	String filelocation = MJRBot.filePath + channelName + File.separator;
 	String filename = command.toLowerCase() + "Command" + ".properties";
 	File filenew = new File(filelocation + filename);
@@ -131,26 +131,5 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
-    }
-
-    public static void ChangeComanndResponse(BotType type, String channelName, String command, String response)
-	    throws FileNotFoundException, IOException {
-	String filelocation = MJRBot.filePath + channelName + File.separator;
-	String filename = command.toLowerCase() + "Command" + ".properties";
-	File filenew = new File(filelocation + filename);
-	if (!filenew.exists()) {
-	    filenew.getParentFile().mkdirs();
-	    filenew.createNewFile();
-	    InputStream iStream = new FileInputStream(filelocation + filename);
-	    Properties properties = new Properties();
-	    properties.load(iStream);
-	    properties.store(new FileOutputStream(filelocation + filename), null);
-
-	    properties.setProperty("response", response);
-	    properties.setProperty("state", "true");
-	    properties.store(new FileOutputStream(filelocation + filename), null);
-	    Utilities.sendMessage(type, channelName, "Command " + command + " has been added!");
-	} else
-	    Utilities.sendMessage(type, channelName, "Command " + command + " already exists!");
     }
 }

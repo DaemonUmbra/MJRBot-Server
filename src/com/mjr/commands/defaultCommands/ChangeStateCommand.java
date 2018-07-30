@@ -17,7 +17,7 @@ public class ChangeStateCommand extends Command {
 		String command = args[1];
 		String state = args[2];
 		try {
-		    CustomCommands.ChangeStateCommand(type, channel, command, state);
+		    CustomCommands.changeCommandState(type, channel, command, state);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}

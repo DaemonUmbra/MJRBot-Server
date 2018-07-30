@@ -20,7 +20,7 @@ public class AddCommand extends Command {
 		    String response = message.substring(message.indexOf(permissionlevel));
 		    response = response.substring(response.indexOf(' ') + 1);
 		    try {
-			CustomCommands.AddCommand(type, channel, command, response, permissionlevel);
+			CustomCommands.addCommand(type, channel, command, response, permissionlevel);
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    }

@@ -16,7 +16,7 @@ public class RemoveCommand extends Command {
 	    if (!args[1].contains("!")) {
 		String command = args[1];
 		try {
-		    CustomCommands.RemoveCommand(type, channel, command);
+		    CustomCommands.deleteCommand(type, channel, command);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
