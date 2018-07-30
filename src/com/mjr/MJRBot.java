@@ -63,7 +63,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		//connectionType = "Database";
+		// connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -73,7 +73,7 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		//fileSystemType = "Database";
+		// fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))
@@ -150,7 +150,6 @@ public class MJRBot {
 		e.printStackTrace();
 	    }
 	} while (MySQLConnection.connected == false);
-	SQLUtilities.createDatabaseStructure();
 	System.out.println("Getting list of Channels from Database server");
 	userCooldownTickThread = new UserCooldownTickThread();
 	userCooldownTickThread.start();
@@ -176,7 +175,7 @@ public class MJRBot {
 	    addTwitchBot(channel, bot);
 	    try {
 		if (useFileSystem) {
-		    // Config.loadDefaults(channel); TODO Fix this
+		    Config.loadDefaults(channel);
 		} else {
 		    Config.loadDefaultsDatabase(channel);
 		}
