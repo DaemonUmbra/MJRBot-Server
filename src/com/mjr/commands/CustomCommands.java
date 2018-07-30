@@ -7,6 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Properties;
 
 import com.mjr.MJRBot;
@@ -30,7 +34,23 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		String permission = properties.getProperty("permissionlevel");
 		boolean allowed = Permissions.hasPermission(bot, type, channelName, sender, permission);
 		if (allowed) {
-		    Utilities.sendMessage(type, channelName, properties.getProperty("response"));
+		    String response = properties.getProperty("response");
+		    response = response.replaceAll("%sender%", sender);
+		    response = response.replaceAll("%channel%", channelName);
+		    response = response.replaceAll("%botname%", channelName);
+		    if(response.contains("%time%")) {
+			String currentTime = Instant.now().toString();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+			Date date = null;
+
+			try {
+			    date = format.parse(currentTime);
+			} catch (ParseException e) {
+			    e.printStackTrace();
+			}
+			response = response.replaceAll("%time%", date.toString());
+		    }
+		    Utilities.sendMessage(type, channelName, response);
 		} else {
 		    if (Config.getSetting("MsgWhenCommandCantBeUsed", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(type, channelName,
