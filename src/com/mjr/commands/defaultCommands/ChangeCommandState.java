@@ -8,7 +8,7 @@ import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
 
-public class ChangeStateCommand extends Command {
+public class ChangeCommandState extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {

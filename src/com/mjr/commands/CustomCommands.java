@@ -127,7 +127,7 @@ public class CustomCommands { // TODO: Add Database Storage Function
 	    } else {
 		properties.setProperty("response", response.toLowerCase());
 		properties.save(new FileOutputStream(filenew), null);
-		Utilities.sendMessage(type, channelName, command + " has been changed!");
+		Utilities.sendMessage(type, channelName, command + " has been adjusted!");
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName, command + " doesnt exist!");

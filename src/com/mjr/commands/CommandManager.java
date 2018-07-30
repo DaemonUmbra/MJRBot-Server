@@ -16,8 +16,8 @@ import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
 import com.mjr.commands.defaultCommands.BankHeistCommand;
 import com.mjr.commands.defaultCommands.BuyRankCommand;
-import com.mjr.commands.defaultCommands.ChangeResponseCommand;
-import com.mjr.commands.defaultCommands.ChangeStateCommand;
+import com.mjr.commands.defaultCommands.ChangeCommandResponse;
+import com.mjr.commands.defaultCommands.ChangeCommandState;
 import com.mjr.commands.defaultCommands.CommandsListCommand;
 import com.mjr.commands.defaultCommands.DiceCommand;
 import com.mjr.commands.defaultCommands.DisconnectCommand;
@@ -67,8 +67,8 @@ public class CommandManager {
 	// Custom Commands
 	commands.put("!addcommand", new AddCommand());
 	commands.put("!removecommand", new RemoveCommand());
-	commands.put("!commandstate", new ChangeStateCommand());
-	commands.put("!commandresponse", new ChangeResponseCommand());
+	commands.put("!commandstate", new ChangeCommandState());
+	commands.put("!commandresponse", new ChangeCommandResponse());
 
 	// Games Commands
 	commands.put("!spin", new SpinCommand());
