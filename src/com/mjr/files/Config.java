@@ -52,7 +52,6 @@ public class Config extends FileBase {
 		setSetting("CommandsCooldownAmount", "20", channelName);
 	    }
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
