@@ -7,9 +7,6 @@ import com.mjr.files.Config;
 
 public class AnnouncementsThread extends Thread {
 
-    private static long TimeDuration;
-    private boolean Delay = true;
-
     private BotType type;
     private String channelName;
 
@@ -21,27 +18,28 @@ public class AnnouncementsThread extends Thread {
 
     @Override
     public void run() {
-	while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
-	    if ((type == BotType.Twitch && MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel)
-		    || (MJRBot.getMixerBotByChannelName(channelName) != null
-			    && MJRBot.getMixerBotByChannelName(channelName).isConnected())) {
-		if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
-		    TimeDuration = (Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName)) * 60) * 1000;
-		    if (Delay) {
-			try {
-			    Thread.sleep(TimeDuration);
-			} catch (InterruptedException e) {
-			    e.printStackTrace();
-			}
+	while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel
+		: MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
+	    if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
+		int delay = Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName));
+		if (delay != 0) {
+		    long TimeDuration = (delay * 60) * 1000;
+		    try {
+			Thread.sleep(TimeDuration);
+		    } catch (InterruptedException e) {
+			e.printStackTrace();
 		    }
-		    Utilities.sendMessage(type, channelName,
-			    Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), channelName));
+		    String message = Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), channelName);
+		    if (message != "")
+			Utilities.sendMessage(type, channelName, message);
 		}
-	    }
-	    try {
-		Thread.sleep(60000);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
+	    } else {
+		try {
+		    Thread.sleep(60000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+
 	    }
 	}
     }
