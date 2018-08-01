@@ -11,7 +11,7 @@ public class DisconnectCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	MySQLConnection.executeUpdate("DELETE from channels where name = " + "\"" + channel.toLowerCase() + "\"" + " AND bot_type = " + "\""
-		+ type.getTypeName() + "\"" + ")");
+		+ type.getTypeName() + "\"");
     }
 
     @Override
