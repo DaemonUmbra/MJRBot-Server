@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
@@ -39,16 +40,17 @@ public class CustomCommands { // TODO: Add Database Storage Function
 		    response = response.replaceAll("%channel%", channelName);
 		    response = response.replaceAll("%botname%", channelName);
 		    if (response.contains("%time%")) {
-			String currentTime = Instant.now().toString();
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 			Date date = null;
-
 			try {
-			    date = format.parse(currentTime);
+			    date = format.parse(Instant.now().toString().substring(0, 19) + 'Z');
 			} catch (ParseException e) {
 			    e.printStackTrace();
 			}
-			response = response.replaceAll("%time%", date.toString());
+			String output = Utilities.convertTimeZone(date, TimeZone.getTimeZone("UTC"),
+				TimeZone.getTimeZone(Config.getSetting("SelectedTimeZone", channelName))).toString();
+			response = response.replaceAll("%time%", output.substring(0, output.indexOf("BST")) + " (Timezone: "
+				+ Config.getSetting("SelectedTimeZone", channelName) + ")");
 		    }
 		    Utilities.sendMessage(type, channelName, response);
 		} else {

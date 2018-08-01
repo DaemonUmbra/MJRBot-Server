@@ -50,6 +50,7 @@ public class Config extends FileBase {
 		setSetting("AnnouncementMessage4", "", channelName);
 		setSetting("AnnouncementMessage5", "", channelName);
 		setSetting("CommandsCooldownAmount", "20", channelName);
+		setSetting("SelectedTimeZone", "Europe/London", channelName);
 	    }
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -90,6 +91,7 @@ public class Config extends FileBase {
 	    setSetting("AnnouncementMessage4", "", channelName);
 	    setSetting("AnnouncementMessage5", "", channelName);
 	    setSetting("CommandsCooldownAmount", "20", channelName);
+	    setSetting("SelectedTimeZone", "Europe/London", channelName);
 	}
     }
 

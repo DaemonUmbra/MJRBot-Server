@@ -1,5 +1,7 @@
 package com.mjr;
 
+import java.util.TimeZone;
+
 import com.mjr.MJRBot.BotType;
 
 public class Utilities {
@@ -25,5 +27,25 @@ public class Utilities {
 	    MJRBot.getTwitchBotByChannelName(channelName).sendMessage(endMessage);
 	else
 	    MJRBot.getMixerBotByChannelName(channelName).sendMessage(endMessage);
+    }
+    
+    public static java.util.Date convertTimeZone(java.util.Date date, TimeZone fromTZ , TimeZone toTZ)
+    {
+        long fromTZDst = 0;
+        if(fromTZ.inDaylightTime(date))
+        {
+            fromTZDst = fromTZ.getDSTSavings();
+        }
+     
+        long fromTZOffset = fromTZ.getRawOffset() + fromTZDst;
+     
+        long toTZDst = 0;
+        if(toTZ.inDaylightTime(date))
+        {
+            toTZDst = toTZ.getDSTSavings();
+        }
+        long toTZOffset = toTZ.getRawOffset() + toTZDst;
+     
+        return new java.util.Date(date.getTime() + (toTZOffset - fromTZOffset));
     }
 }
