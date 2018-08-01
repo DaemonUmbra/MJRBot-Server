@@ -1,23 +1,37 @@
 package com.mjr.commands.defaultCommands;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.threads.GiveAwayThread;
 
 public class GiveAwayCommand extends Command {
-    public static boolean Started = false;
 
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
-	if (Started == false) {
-	    GiveAwayThread thread = new GiveAwayThread(type, channel);
-	    thread.start();
-	    Started = true;
+	if (type == BotType.Twitch) {
+	    TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channel);
+	    if (twitchBot.giveAwayActive == false) {
+		GiveAwayThread thread = new GiveAwayThread(type, channel);
+		thread.start();
+		twitchBot.giveAwayActive = true;
+	    } else {
+		Utilities.sendMessage(type, channel, "Giveaway has already started!");
+	    }
 	} else {
-	    Utilities.sendMessage(type, channel, "Giveaway has already started!");
+	    MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channel);
+	    if (mixerBot.giveAwayActive == false) {
+		GiveAwayThread thread = new GiveAwayThread(type, channel);
+		thread.start();
+		mixerBot.giveAwayActive = true;
+	    } else {
+		Utilities.sendMessage(type, channel, "Giveaway has already started!");
+	    }
 	}
     }
 

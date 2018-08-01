@@ -25,6 +25,9 @@ import com.mjr.threads.RaceStartThread;
 public class MixerBot extends MJR_MixerBot {
 
     public String channelName = "";
+    public boolean giveAwayActive = false;
+
+    private final CommandManager commands = new CommandManager();
 
     public GetViewersThread getViewersThread;
     public PointsThread pointsThread;
@@ -38,17 +41,16 @@ public class MixerBot extends MJR_MixerBot {
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
     public List<String> linkPermitedUsers = new ArrayList<String>();
+    public List<String> giveawayEnteredUsers = new ArrayList<String>();
 
     public MathsGame mathsGame = new MathsGame();
     public RacingGame racingGame = new RacingGame();
-    
+
     public MixerBot(String channelName) {
 	super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"),
 		ConfigMain.getSetting("MixerUsername/BotName"));
 	this.channelName = channelName;
     }
-
-    private final CommandManager commands = new CommandManager();
 
     @Override
     protected void onMessage(String sender, String message) {
@@ -87,7 +89,8 @@ public class MixerBot extends MJR_MixerBot {
 		    announcementsThread.start();
 		}
 		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckForNewFollowersThread followersThread = new CheckForNewFollowersThread(BotType.Mixer, channel); TODO Add for Mixer
+		    // CheckForNewFollowersThread followersThread = new
+		    // CheckForNewFollowersThread(BotType.Mixer, channel); TODO Add for Mixer
 		    // followersThread.start();
 		}
 
@@ -113,7 +116,7 @@ public class MixerBot extends MJR_MixerBot {
 	    ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
 	this.clearOutputMessages();
     }
-    
+
     public void disconnectMixer() {
 	if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 	    this.sendMessage(this.getBotName() + " Disconnected!");
