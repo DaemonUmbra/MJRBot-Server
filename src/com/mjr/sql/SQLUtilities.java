@@ -18,6 +18,8 @@ public class SQLUtilities {
 		"CREATE TABLE mjrbot.config (id int(50) not null auto_increment primary key, channel varchar(35), setting varchar(35), value varchar(70))");
 	MySQLConnection.executeUpdate(
 		"CREATE TABLE mjrbot.quotes (id int(50) not null auto_increment primary key, channel varchar(35), quote varchar(128))");
+	MySQLConnection.executeUpdate(
+		"CREATE TABLE mjrbot.moderation_actions (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), reason varchar(128), message varchar(128))");
     }
 
     public static boolean doesDataBaseExist(String name) {
