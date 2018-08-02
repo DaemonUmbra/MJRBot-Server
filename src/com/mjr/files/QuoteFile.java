@@ -78,7 +78,7 @@ import com.mjr.sql.MySQLConnection;
 	quote = quote.substring(11);
 	quote = "'" + quote;
 	quote = quote.replace(" @", "' ");
-	quote = quote.trim() + " " + Calendar.getInstance().get(Calendar.YEAR) + ";";
+	quote = quote.trim() + " " + Calendar.getInstance().get(Calendar.YEAR);
 	if (MJRBot.useFileSystem) {
 	    String fileTemp = file.getPath();
 	    Path filePath = Paths.get(fileTemp);
@@ -91,7 +91,7 @@ import com.mjr.sql.MySQLConnection;
 	    }
 
 	    try {
-		Files.write(filePath, ("\n" + quote).getBytes(), StandardOpenOption.APPEND);
+		Files.write(filePath, ("\n" + quote + ";").getBytes(), StandardOpenOption.APPEND);
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
