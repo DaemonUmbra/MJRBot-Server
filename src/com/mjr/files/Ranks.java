@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
+import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.sql.MySQLConnection;
 
 public class Ranks extends FileBase {
@@ -67,12 +69,16 @@ public class Ranks extends FileBase {
 		    MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + channelName
 			    + "\"" + " AND name = " + "\"" + user + "\"");
 	    }
+	    ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.Bot, null);
+	    EventLog.addEvent(channelName, user, "Set rank to" + rank);
 	}
     }
 
     public static void removeRank(String user, String channelName) {
 	user = user.toLowerCase();
 	if (getRank(user, channelName) != "None") {
+	    ConsoleUtil.TextToConsole(null, null, channelName, "Removed rank from " + user, MessageType.Bot, null);
+	    EventLog.addEvent(channelName, user, "Removed rank");
 	    setRank(user, "None", channelName);
 	}
     }

@@ -60,6 +60,8 @@ public class PointsSystem extends FileBase {
 		MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + channelName
 			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
+	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " points to " + points, MessageType.Bot, null);
+	EventLog.addEvent(channelName, user, "Set points to" + points);
     }
 
     public static Boolean isOnList(String user, String channelName) {
@@ -94,6 +96,7 @@ public class PointsSystem extends FileBase {
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints, channelName);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " points to " + user, MessageType.Bot, null);
+	EventLog.addEvent(channelName, user, "Added " + points + " points");
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
@@ -104,6 +107,7 @@ public class PointsSystem extends FileBase {
 	currentPoints = currentPoints - points;
 	setPoints(user, currentPoints, channelName);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Removed " + points + " points from " + user, MessageType.Bot, null);
+	EventLog.addEvent(channelName, user, "Removed " + points + " points");
     }
 
     public static Boolean hasPoints(String user, int points, String channelName) {
