@@ -29,7 +29,12 @@ public class AnnouncementsThread extends Thread {
 		    } catch (InterruptedException e) {
 			e.printStackTrace();
 		    }
-		    String message = Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), channelName);
+		    String message = "";
+		    int count = 0;
+		    do {
+			message = Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), channelName);
+			count = count++;
+		    } while (message == "" && count < 10);
 		    if (message != "")
 			Utilities.sendMessage(type, channelName, message);
 		}
