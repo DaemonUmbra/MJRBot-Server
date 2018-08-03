@@ -16,9 +16,9 @@ import java.util.TimeZone;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.Config;
 import com.mjr.Permissions;
 import com.mjr.Utilities;
-import com.mjr.files.Config;
 
 public class CustomCommands { // TODO: Add Database Storage Function
 

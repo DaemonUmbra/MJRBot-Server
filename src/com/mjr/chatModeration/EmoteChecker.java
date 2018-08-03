@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.files.Config;
+import com.mjr.storage.Config;
 
 public class EmoteChecker {
     private static List<String> emotes = new ArrayList<String>();

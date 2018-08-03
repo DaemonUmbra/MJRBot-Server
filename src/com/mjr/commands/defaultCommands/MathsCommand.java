@@ -6,7 +6,7 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
-import com.mjr.files.Config;
+import com.mjr.storage.Config;
 
 public class MathsCommand extends Command {
     @Override

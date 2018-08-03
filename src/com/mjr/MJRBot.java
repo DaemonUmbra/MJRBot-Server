@@ -9,13 +9,13 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import com.mjr.commands.CommandManager;
-import com.mjr.files.Config;
-import com.mjr.files.ConfigMain;
-import com.mjr.files.PointsSystem;
-import com.mjr.files.QuoteSystem;
-import com.mjr.files.RankSystem;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
+import com.mjr.storage.Config;
+import com.mjr.storage.ConfigMain;
+import com.mjr.storage.PointsSystem;
+import com.mjr.storage.QuoteSystem;
+import com.mjr.storage.RankSystem;
 import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.UserCooldownTickThread;
 
@@ -62,8 +62,8 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		//connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		connectionType = "Database";
+		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+		// connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -72,8 +72,8 @@ public class MJRBot {
 
 	    String fileSystemType = "";
 	    do {
-		//fileSystemType = console.readLine("Storage Type: File or Database?");
-		fileSystemType = "Database";
+		fileSystemType = console.readLine("Storage Type: File or Database?");
+		// fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))

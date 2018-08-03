@@ -2,10 +2,10 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.Config;
+import com.mjr.storage.PointsSystem;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
-import com.mjr.files.Config;
-import com.mjr.files.PointsSystem;
 
 public class PointsThread extends Thread {
     private BotType type;

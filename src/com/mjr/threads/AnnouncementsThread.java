@@ -2,8 +2,8 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.Config;
 import com.mjr.Utilities;
-import com.mjr.files.Config;
 
 public class AnnouncementsThread extends Thread {
 

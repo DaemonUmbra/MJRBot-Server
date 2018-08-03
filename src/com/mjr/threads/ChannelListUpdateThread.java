@@ -7,8 +7,8 @@ import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
-import com.mjr.files.ConfigMain;
 import com.mjr.sql.SQLUtilities;
+import com.mjr.storage.ConfigMain;
 
 public class ChannelListUpdateThread extends Thread {
 

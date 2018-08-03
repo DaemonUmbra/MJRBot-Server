@@ -8,10 +8,10 @@ import java.net.URL;
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.Config;
+import com.mjr.storage.PointsSystem;
+import com.mjr.storage.RankSystem;
 import com.mjr.TwitchBot;
-import com.mjr.files.Config;
-import com.mjr.files.PointsSystem;
-import com.mjr.files.RankSystem;
 
 public class GetViewersThread extends Thread {
     public String result = "";

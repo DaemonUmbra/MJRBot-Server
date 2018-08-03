@@ -1,4 +1,4 @@
-package com.mjr.files;
+package com.mjr.storage;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -43,7 +43,7 @@ import com.mjr.commands.defaultCommands.SetPointsCommand;
 import com.mjr.commands.defaultCommands.SetRankCommand;
 import com.mjr.commands.defaultCommands.SpinCommand;
 import com.mjr.commands.defaultCommands.UptimeCommand;
-import com.mjr.files.Config;
+import com.mjr.storage.Config;
 
 public class CommandManager {
     public String[] args;

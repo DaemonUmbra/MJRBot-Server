@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.Config;
 import com.mjr.TwitchBot;
-import com.mjr.files.Config;
 
 public class CheckForNewFollowersThread extends Thread {
     private BotType type;

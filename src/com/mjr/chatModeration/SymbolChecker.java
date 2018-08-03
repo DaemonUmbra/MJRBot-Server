@@ -1,6 +1,6 @@
 package com.mjr.chatModeration;
 
-import com.mjr.files.Config;
+import com.mjr.storage.Config;
 
 public class SymbolChecker {
 

@@ -3,8 +3,8 @@ package com.mjr.games;
 import java.util.HashMap;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.PointsSystem;
 import com.mjr.Utilities;
-import com.mjr.files.PointsSystem;
 
 public class BankHeistGame {
 
