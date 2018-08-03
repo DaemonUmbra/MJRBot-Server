@@ -15,7 +15,7 @@ import com.mjr.files.ModerationActionsLog;
 import com.mjr.files.Ranks;
 
 public class ChatModeration {
-    public static String filename = "Moderation_Actions.txt";
+    public static String filename = "Moderation_Actions_Log.txt";
 
     public static void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message) {
 	// ChatModeration
