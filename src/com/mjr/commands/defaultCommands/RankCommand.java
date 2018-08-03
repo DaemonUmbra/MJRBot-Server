@@ -5,14 +5,14 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 
 public class RankCommand extends Command {
     @Override
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
-	    Utilities.sendMessage(type, channel, sender + " you current rank is " + Ranks.getRank(sender, channel));
+	    Utilities.sendMessage(type, channel, sender + " you current rank is " + RankSystem.getRank(sender, channel));
 	}
     }
 

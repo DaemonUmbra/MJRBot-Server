@@ -15,7 +15,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 import com.mjr.games.MathsGame;
 import com.mjr.games.RacingGame;
 import com.mjr.threads.AnnouncementsThread;
@@ -170,8 +170,8 @@ public class TwitchBot extends PircBot {
 		}
 	    }
 	    if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
-		if (!Ranks.isOnList(sender, this.channelName)) {
-		    Ranks.setRank(sender, "None", this.channelName);
+		if (!RankSystem.isOnList(sender, this.channelName)) {
+		    RankSystem.setRank(sender, "None", this.channelName);
 		}
 	    }
 	    if (!this.viewers.contains(sender.toLowerCase())) {

@@ -14,23 +14,14 @@ import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
 
 public class EventLog extends FileBase {
-    public static String filename = "Event_Log.txt";
+    public static String fileName = "Event_Log.txt";
 
     public static void addEvent(String channelName, String user, String eventMessage) {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	if (MJRBot.useFileSystem) {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + filename);
-	    String fileTemp = file.getPath();
-	    Path filePath = Paths.get(fileTemp);
-	    if (!Files.exists(filePath)) {
-		try {
-		    Files.createFile(filePath);
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-	    }
-
+	    File file = loadFile(channelName, fileName);
+	    Path filePath = Paths.get(file.getPath());
 	    try {
 		Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + eventMessage + ";").getBytes(),
 			StandardOpenOption.APPEND);

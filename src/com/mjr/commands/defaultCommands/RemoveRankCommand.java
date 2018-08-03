@@ -5,7 +5,7 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 
 public class RemoveRankCommand extends Command {
     @Override
@@ -14,8 +14,8 @@ public class RemoveRankCommand extends Command {
 	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		String user = args[1];
-		if (Ranks.isOnList(user, channel)) {
-		    Ranks.removeRank(user, channel);
+		if (RankSystem.isOnList(user, channel)) {
+		    RankSystem.removeRank(user, channel);
 		    Utilities.sendMessage(type, channel, "@" + sender + " Removed " + user + " rank");
 		} else {
 		    Utilities.sendMessage(type, channel, "@" + sender + " Unable to remove " + user + " rank");

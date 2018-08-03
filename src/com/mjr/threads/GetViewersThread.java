@@ -11,7 +11,7 @@ import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 
 public class GetViewersThread extends Thread {
     public String result = "";
@@ -113,8 +113,8 @@ public class GetViewersThread extends Thread {
 			    }
 			}
 			if (Config.getSetting("Ranks", bot.channelName).equalsIgnoreCase("true")) {
-			    if (!Ranks.isOnList(bot.viewers.get(i), bot.channelName)) {
-				Ranks.setRank(bot.viewers.get(i), "None", bot.channelName);
+			    if (!RankSystem.isOnList(bot.viewers.get(i), bot.channelName)) {
+				RankSystem.setRank(bot.viewers.get(i), "None", bot.channelName);
 			    }
 			}
 			if (!bot.viewersJoinedTimes.containsKey(bot.viewers.get(i).toLowerCase().toLowerCase()))

@@ -20,7 +20,7 @@ import com.mjr.MJRBot;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.sql.MySQLConnection;
 
-@SuppressWarnings("resource") public class QuoteFile {
+@SuppressWarnings("resource") public class QuoteSystem {
 
     public static String getQuote(String channelName, File file, int number) {
 	List<String> quotes = getAllQuotes(channelName, file);

@@ -12,7 +12,7 @@ import com.mjr.MJRBot;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.sql.MySQLConnection;
 
-public class Ranks extends FileBase {
+public class RankSystem extends FileBase {
 
     public static String[] ranks = { "gold", "sliver", "bronze", "none" };
 

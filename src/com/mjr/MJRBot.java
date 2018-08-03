@@ -12,8 +12,8 @@ import com.mjr.commands.CommandManager;
 import com.mjr.files.Config;
 import com.mjr.files.ConfigMain;
 import com.mjr.files.PointsSystem;
-import com.mjr.files.QuoteFile;
-import com.mjr.files.Ranks;
+import com.mjr.files.QuoteSystem;
+import com.mjr.files.RankSystem;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.threads.ChannelListUpdateThread;
@@ -62,8 +62,8 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		// connectionType = "Database";
+		//connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+		connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -72,8 +72,8 @@ public class MJRBot {
 
 	    String fileSystemType = "";
 	    do {
-		fileSystemType = console.readLine("Storage Type: File or Database?");
-		// fileSystemType = "Database";
+		//fileSystemType = console.readLine("Storage Type: File or Database?");
+		fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))
@@ -109,8 +109,8 @@ public class MJRBot {
 	if (type.equalsIgnoreCase("1")) {
 	    Config.migrateFile(channelName);
 	    PointsSystem.migrateFile(channelName);
-	    Ranks.migrateFile(channelName);
-	    QuoteFile.migrateFile(channelName);
+	    RankSystem.migrateFile(channelName);
+	    QuoteSystem.migrateFile(channelName);
 	} else if (type.equalsIgnoreCase("2")) {
 	    Config.migrateFile(channelName);
 	}
@@ -118,10 +118,10 @@ public class MJRBot {
 	    PointsSystem.migrateFile(channelName);
 	}
 	if (type.equalsIgnoreCase("4")) {
-	    Ranks.migrateFile(channelName);
+	    RankSystem.migrateFile(channelName);
 	}
 	if (type.equalsIgnoreCase("5")) {
-	    QuoteFile.migrateFile(channelName);
+	    QuoteSystem.migrateFile(channelName);
 	}
 	useFileSystem = false;
 	// Thread.sleep(100000);

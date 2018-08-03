@@ -97,15 +97,6 @@ public class Config extends FileBase {
 
     public static String getSetting(String setting, String channelName) {
 	if (MJRBot.useFileSystem) {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + fileName);
-	    if (!file.exists()) {
-		file.getParentFile().mkdirs();
-		try {
-		    file.createNewFile();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-	    }
 	    return load(channelName, fileName).getProperty(setting);
 	} else {
 	    ResultSet result = MySQLConnection.executeQueryNoOutput(
@@ -130,15 +121,7 @@ public class Config extends FileBase {
     @SuppressWarnings("deprecation")
     public static void setSetting(String setting, String value, String channelName) {
 	if (MJRBot.useFileSystem) {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + fileName);
-	    if (!file.exists()) {
-		file.getParentFile().mkdirs();
-		try {
-		    file.createNewFile();
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-	    }
+	    File file = loadFile(channelName, fileName);
 	    Properties properties = load(channelName, fileName);
 	    file = loadFile(channelName, fileName);
 	    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {

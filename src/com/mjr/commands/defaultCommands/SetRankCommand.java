@@ -5,7 +5,7 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 
 public class SetRankCommand extends Command {
     @Override
@@ -15,10 +15,10 @@ public class SetRankCommand extends Command {
 	    if (args.length == 3) {
 		String rank = args[1];
 		String user = args[2];
-		if (Ranks.isOnList(user, channel)) {
-		    if (!Ranks.hasRank(sender, rank, channel)) {
-			if (Ranks.isValidRank(rank)) {
-			    Ranks.setRank(user, rank, channel);
+		if (RankSystem.isOnList(user, channel)) {
+		    if (!RankSystem.hasRank(sender, rank, channel)) {
+			if (RankSystem.isValidRank(rank)) {
+			    RankSystem.setRank(user, rank, channel);
 			    Utilities.sendMessage(type, channel, "@" + sender + " Set " + user + " rank to" + rank);
 			} else {
 			    Utilities.sendMessage(type, channel, "@" + sender + " the rank + " + rank + " doesnt exist!");

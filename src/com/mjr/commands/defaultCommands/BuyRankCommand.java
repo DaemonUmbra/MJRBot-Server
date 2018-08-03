@@ -6,7 +6,7 @@ import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.files.Config;
 import com.mjr.files.PointsSystem;
-import com.mjr.files.Ranks;
+import com.mjr.files.RankSystem;
 
 public class BuyRankCommand extends Command {
     @Override
@@ -15,12 +15,12 @@ public class BuyRankCommand extends Command {
 	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
 	    if (args.length == 2) {
 		String Rank = args[1];
-		if (Ranks.isOnList(sender, channel)) {
-		    if (!Ranks.hasRank(sender, Rank, channel)) {
-			if (Ranks.isValidRank(Rank)) {
-			    if (PointsSystem.hasPoints(sender, Ranks.getRankPrice(Rank), channel)) {
-				PointsSystem.RemovePoints(sender, Ranks.getRankPrice(Rank), channel);
-				Ranks.setRank(sender, Rank, channel);
+		if (RankSystem.isOnList(sender, channel)) {
+		    if (!RankSystem.hasRank(sender, Rank, channel)) {
+			if (RankSystem.isValidRank(Rank)) {
+			    if (PointsSystem.hasPoints(sender, RankSystem.getRankPrice(Rank), channel)) {
+				PointsSystem.RemovePoints(sender, RankSystem.getRankPrice(Rank), channel);
+				RankSystem.setRank(sender, Rank, channel);
 				Utilities.sendMessage(type, channel, "Added " + Rank + " to " + sender);
 			    } else {
 				Utilities.sendMessage(type, channel,
