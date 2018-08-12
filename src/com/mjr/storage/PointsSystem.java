@@ -61,7 +61,7 @@ public class PointsSystem extends FileBase {
 			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
 	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " points to " + points, MessageType.Bot, null);
-	EventLog.addEvent(channelName, user, "Set points to" + points);
+	EventLog.addEvent(channelName, user, "Set points to " + points);
     }
 
     public static Boolean isOnList(String user, String channelName) {
