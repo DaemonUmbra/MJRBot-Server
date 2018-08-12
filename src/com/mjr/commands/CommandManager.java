@@ -44,6 +44,8 @@ import com.mjr.commands.defaultCommands.SetRankCommand;
 import com.mjr.commands.defaultCommands.SpinCommand;
 import com.mjr.commands.defaultCommands.UptimeCommand;
 import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class CommandManager {
     public String[] args;
@@ -160,8 +162,10 @@ public class CommandManager {
 		    }
 		} else
 		    allowed = true;
-		if (allowed)
+		if (allowed) {
 		    command.onCommand(type, bot, channel, sender, login, hostname, message, args);
+		    EventLog.addEvent(channel, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
+		}
 	    }
 	} else if (args[0].startsWith("!")) { // Check for known custom command
 	    CustomCommands.getCommand(bot, type, channel, args[0], sender);

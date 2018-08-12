@@ -7,7 +7,9 @@ import com.mjr.commands.Command;
 import com.mjr.games.ResultPair;
 import com.mjr.games.SlotMachine;
 import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
+import com.mjr.storage.EventLog.EventType;
 
 public class SpinCommand extends Command {
     @Override
@@ -24,10 +26,12 @@ public class SpinCommand extends Command {
 		if (result.hasWon()) {
 		    Utilities.sendMessage(type, channel, "@" + sender + " " + result.getResult() + " you have Won! You have been given "
 			    + PointsSystem.AddRandomPoints(sender, channel) + " Points");
+		    EventLog.addEvent(channel, sender, "Won the Spin Game", EventType.Games);
 		} else {
 		    Utilities.sendMessage(type, channel, "@" + sender + " " + result.getResult()
 			    + " you have lost! 1 Point taken!");
 		    PointsSystem.RemovePoints(sender, 1, channel);
+		    EventLog.addEvent(channel, sender, "Lost the Spin Game", EventType.Games);
 		}
 	    } else {
 		Utilities.sendMessage(type, channel,

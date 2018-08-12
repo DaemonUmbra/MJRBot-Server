@@ -15,8 +15,22 @@ import com.mjr.sql.MySQLConnection;
 
 public class EventLog extends FileBase {
     public static String fileName = "Event_Log.txt";
+    
+    public enum EventType {
+	Points("Points"), Games("Games"), Rank("Rank"), Commands("Commands");
 
-    public static void addEvent(String channelName, String user, String eventMessage) {
+	private final String type;
+
+	EventType(String type) {
+	    this.type = type;
+	}
+
+	public String getName() {
+	    return type;
+	}
+    }
+
+    public static void addEvent(String channelName, String user, String eventMessage, EventType type) {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	if (MJRBot.useFileSystem) {
@@ -29,8 +43,8 @@ public class EventLog extends FileBase {
 		e.printStackTrace();
 	    }
 	} else {
-	    MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, event_message) VALUES (" + "\"" + channelName + "\""
-		    + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + eventMessage + "\"" + ")");
+	    MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message) VALUES (" + "\"" + channelName + "\""
+		    + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + type.getName() + "\""+ "," + "\"" + eventMessage + "\"" + ")");
 	}
     }
 

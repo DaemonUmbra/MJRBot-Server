@@ -11,6 +11,7 @@ import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.Utilities;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.storage.EventLog.EventType;
 
 public class PointsSystem extends FileBase {
     public static String fileName = "Points.properties";
@@ -60,9 +61,9 @@ public class PointsSystem extends FileBase {
 		MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + channelName
 			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
-	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " points to " + points, MessageType.Bot, null);
+	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " point(s) to " + points, MessageType.Bot, null);
 	if(outputEvent)
-	    EventLog.addEvent(channelName, user, "Set points to " + points);
+	    EventLog.addEvent(channelName, user, "Set point(s) to " + points, EventType.Points);
     }
 
     public static Boolean isOnList(String user, String channelName) {
@@ -96,8 +97,8 @@ public class PointsSystem extends FileBase {
 	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints, channelName, false);
-	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " points to " + user, MessageType.Bot, null);
-	EventLog.addEvent(channelName, user, "Added " + points + " points");
+	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
+	EventLog.addEvent(channelName, user, "Added " + points + " point(s)", EventType.Points);
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
@@ -107,8 +108,8 @@ public class PointsSystem extends FileBase {
 	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints - points;
 	setPoints(user, currentPoints, channelName, false);
-	ConsoleUtil.TextToConsole(null, null, channelName, "Removed " + points + " points from " + user, MessageType.Bot, null);
-	EventLog.addEvent(channelName, user, "Removed " + points + " points");
+	ConsoleUtil.TextToConsole(null, null, channelName, "Removed " + points + " point(s) from " + user, MessageType.Bot, null);
+	EventLog.addEvent(channelName, user, "Removed " + points + " point(s)", EventType.Points);
     }
 
     public static Boolean hasPoints(String user, int points, String channelName) {

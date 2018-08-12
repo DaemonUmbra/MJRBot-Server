@@ -11,6 +11,7 @@ import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.storage.EventLog.EventType;
 
 public class RankSystem extends FileBase {
 
@@ -70,7 +71,7 @@ public class RankSystem extends FileBase {
 			    + "\"" + " AND name = " + "\"" + user + "\"");
 	    }
 	    ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.Bot, null);
-	    EventLog.addEvent(channelName, user, "Set rank to" + rank);
+	    EventLog.addEvent(channelName, user, "Set rank to" + rank, EventType.Rank);
 	}
     }
 
@@ -78,7 +79,7 @@ public class RankSystem extends FileBase {
 	user = user.toLowerCase();
 	if (getRank(user, channelName) != "None") {
 	    ConsoleUtil.TextToConsole(null, null, channelName, "Removed rank from " + user, MessageType.Bot, null);
-	    EventLog.addEvent(channelName, user, "Removed rank");
+	    EventLog.addEvent(channelName, user, "Removed rank", EventType.Rank);
 	    setRank(user, "None", channelName);
 	}
     }
