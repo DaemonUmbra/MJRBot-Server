@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.Utilities;
 
 public class RacingGame {
@@ -101,6 +103,7 @@ public class RacingGame {
 		}
 		pointsMessage = pointsMessage + "@" + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
 		PointsSystem.AddPoints(top3Users.get(l), points, channelName);
+		EventLog.addEvent(channelName, top3Users.get(l) , "Won the Racing Game", EventType.Games);
 	    }
 	    randomOds = nextFloat(1, 2);
 	    for (int m = 0; m < firstUsers.size(); m++) {
@@ -112,6 +115,7 @@ public class RacingGame {
 		}
 		pointsMessage = pointsMessage + "@" + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
 		PointsSystem.AddPoints(firstUsers.get(m), points, channelName);
+		EventLog.addEvent(channelName, firstUsers.get(m) , "Won the Racing Game", EventType.Games);
 	    }
 	    Utilities.sendMessage(type, channelName, pointsMessage);
 	}
