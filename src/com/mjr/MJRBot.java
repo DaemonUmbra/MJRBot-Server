@@ -20,7 +20,7 @@ import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.6.5 - Beta, Server Version";
+    public static final String VERSION = "1.6.6 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
