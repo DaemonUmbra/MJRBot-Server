@@ -42,7 +42,7 @@ public class PointsSystem extends FileBase {
 	return Integer.parseInt(value);
     }
 
-    public static void setPoints(String user, int points, String channelName) {
+    public static void setPoints(String user, int points, String channelName, boolean outputEvent) {
 	user = user.toLowerCase();
 	if (MJRBot.useFileSystem) {
 	    Properties properties = load(channelName, fileName);
@@ -61,7 +61,8 @@ public class PointsSystem extends FileBase {
 			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
 	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " points to " + points, MessageType.Bot, null);
-	EventLog.addEvent(channelName, user, "Set points to " + points);
+	if(outputEvent)
+	    EventLog.addEvent(channelName, user, "Set points to " + points);
     }
 
     public static Boolean isOnList(String user, String channelName) {
@@ -91,10 +92,10 @@ public class PointsSystem extends FileBase {
     public static void AddPoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
 	if (!isOnList(user, channelName))
-	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", channelName)), channelName);
+	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", channelName)), channelName, false);
 	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints + points;
-	setPoints(user, currentPoints, channelName);
+	setPoints(user, currentPoints, channelName, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " points to " + user, MessageType.Bot, null);
 	EventLog.addEvent(channelName, user, "Added " + points + " points");
     }
@@ -102,10 +103,10 @@ public class PointsSystem extends FileBase {
     public static void RemovePoints(String user, int points, String channelName) {
 	user = user.toLowerCase();
 	if (!isOnList(user, channelName))
-	    setPoints(user, 0, channelName);
+	    setPoints(user, 0, channelName, false);
 	int currentPoints = getPoints(user, channelName);
 	currentPoints = currentPoints - points;
-	setPoints(user, currentPoints, channelName);
+	setPoints(user, currentPoints, channelName, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Removed " + points + " points from " + user, MessageType.Bot, null);
 	EventLog.addEvent(channelName, user, "Removed " + points + " points");
     }
