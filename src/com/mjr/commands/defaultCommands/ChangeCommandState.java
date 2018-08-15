@@ -7,6 +7,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class ChangeCommandState extends Command {
     @Override
@@ -18,6 +20,7 @@ public class ChangeCommandState extends Command {
 		String state = args[2];
 		try {
 		    CustomCommands.changeCommandState(type, channel, command, state);
+		    EventLog.addEvent(channel, sender, "Edited the Custom Command state for " + command, EventType.CustomCommands);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}

@@ -7,6 +7,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class ChangeCommandPermission extends Command {
     @Override
@@ -19,6 +21,7 @@ public class ChangeCommandPermission extends Command {
 		    String permission = args[2];
 		    try {
 			CustomCommands.changeCommandPermission(type, channel, command, permission);
+			EventLog.addEvent(channel, sender, "Edited the Custom Command permission for " + command, EventType.CustomCommands);
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    }

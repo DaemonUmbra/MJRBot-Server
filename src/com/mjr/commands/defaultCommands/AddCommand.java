@@ -7,6 +7,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class AddCommand extends Command {
     @Override
@@ -21,6 +23,7 @@ public class AddCommand extends Command {
 		    response = response.substring(response.indexOf(' ') + 1);
 		    try {
 			CustomCommands.addCommand(type, channel, command, response, permissionlevel);
+			EventLog.addEvent(channel, sender, "Added a new Custom Command of " + command, EventType.CustomCommands);
 		    } catch (IOException e) {
 			e.printStackTrace();
 		    }

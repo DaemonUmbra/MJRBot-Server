@@ -17,7 +17,7 @@ public class EventLog extends FileBase {
     public static String fileName = "Event_Log.txt";
     
     public enum EventType {
-	Points("Points"), Games("Games"), Rank("Rank"), Commands("Commands"), User("User"), Quote("Quote");
+	Points("Points"), Games("Games"), Rank("Rank"), Commands("Commands"), User("User"), Quote("Quote"), CustomCommands("CustomCommands");
 
 	private final String type;
 

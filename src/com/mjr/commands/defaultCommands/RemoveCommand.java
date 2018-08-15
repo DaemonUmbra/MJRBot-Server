@@ -7,6 +7,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class RemoveCommand extends Command {
     @Override
@@ -17,6 +19,7 @@ public class RemoveCommand extends Command {
 		String command = args[1];
 		try {
 		    CustomCommands.deleteCommand(type, channel, command);
+		    EventLog.addEvent(channel, sender, "Deleted the Custom Command of " + command, EventType.CustomCommands);
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}

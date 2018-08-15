@@ -9,6 +9,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.commands.CustomCommands;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class ChangeCommandResponse extends Command {
     @Override
@@ -21,6 +23,7 @@ public class ChangeCommandResponse extends Command {
 		response = response.substring(response.indexOf(' ') + 1);
 		try {
 		    CustomCommands.changeCommandResponse(type, channel, command, response);
+		    EventLog.addEvent(channel, sender, "Edited the Custom Command response for " + command, EventType.CustomCommands);
 		} catch (IOException e) {
 		    ConsoleUtil.TextToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
 		    e.printStackTrace();
