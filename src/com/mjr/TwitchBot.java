@@ -16,8 +16,10 @@ import com.mjr.games.MathsGame;
 import com.mjr.games.RacingGame;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
 import com.mjr.storage.RankSystem;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
@@ -75,6 +77,7 @@ public class TwitchBot extends PircBot {
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
 	if (!this.viewers.contains(sender.toLowerCase())) {
 	    this.viewers.add(sender.toLowerCase());
+	    EventLog.addEvent(channel, sender, "Joined the channel", EventType.User);
 	}
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
@@ -176,6 +179,7 @@ public class TwitchBot extends PircBot {
 	    }
 	    if (!this.viewers.contains(sender.toLowerCase())) {
 		this.viewers.add(sender.toLowerCase());
+		EventLog.addEvent(channel, sender, "Joined the channel", EventType.User);
 	    }
 	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
@@ -187,6 +191,7 @@ public class TwitchBot extends PircBot {
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.Bot, null);
 	if (this.viewers.contains(sender.toLowerCase())) {
 	    this.viewers.remove(sender.toLowerCase());
+	    EventLog.addEvent(channel, sender, "Left the channel", EventType.User);
 	}
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());

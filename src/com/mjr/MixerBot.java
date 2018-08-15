@@ -14,6 +14,8 @@ import com.mjr.games.RacingGame;
 import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
@@ -66,12 +68,14 @@ public class MixerBot extends MJR_MixerBot {
     protected void onJoin(String sender) {
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+	EventLog.addEvent(this.channelName, sender, "Joined the channel", EventType.User);
     }
 
     @Override
     protected void onPart(String sender) {
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());
+	EventLog.addEvent(this.channelName, sender, "Left the channel", EventType.User);
     }
 
     public void joinChannel(String channel) {
