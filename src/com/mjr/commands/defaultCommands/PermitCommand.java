@@ -6,6 +6,8 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 
 public class PermitCommand extends Command {
     @Override
@@ -18,6 +20,7 @@ public class PermitCommand extends Command {
 		((TwitchBot) bot).linkPermitedUsers.add(user.toLowerCase());
 	    else
 		((MixerBot) bot).linkPermitedUsers.add(user.toLowerCase());
+	    EventLog.addEvent(channel, sender, "Permitted the user " + user + " to post a link", EventType.Commands);
 	} else {
 	    Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !permit USER");
 	}
