@@ -11,7 +11,9 @@ import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.QuoteSystem;
+import com.mjr.storage.EventLog.EventType;
 
 public class QuoteCommand extends Command {
     public static String filename = "Quotes.txt";
@@ -43,6 +45,7 @@ public class QuoteCommand extends Command {
 		    Utilities.sendMessage(type, channel, "@" + sender + " your quote has been added!");
 		    ConsoleUtil.TextToConsole(bot, type, channel,
 			    "A new Quote has been added by " + sender + ". The quote message is " + message, MessageType.Bot, null);
+		    EventLog.addEvent(channel, sender, "Added a new quote", EventType.Quote);
 		}
 	    } else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {
 		Utilities.sendMessage(type, channel,
