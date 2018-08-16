@@ -71,7 +71,7 @@ public class RankSystem extends FileBase {
 			    + "\"" + " AND name = " + "\"" + user + "\"");
 	    }
 	    ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.Bot, null);
-	    EventLog.addEvent(channelName, user, "Set rank to" + rank, EventType.Rank);
+	    EventLog.addEvent(channelName, user, "Set rank to " + rank, EventType.Rank);
 	}
     }
 
