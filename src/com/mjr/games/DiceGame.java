@@ -1,7 +1,9 @@
 package com.mjr.games;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.Utilities;
 
 public class DiceGame {
@@ -26,9 +28,11 @@ public class DiceGame {
 		PointsSystem.AddPointsWithEventMsg(sender, profit, channelName);
 		Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
 			+ " points! Your current points is: " + PointsSystem.getPoints(sender, channelName));
+		EventLog.addEvent(channelName, sender , "Won the Dice Game", EventType.Games);
 	    } else {
 		Utilities.sendMessage(type, channelName,
 			"@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender, channelName));
+		EventLog.addEvent(channelName, sender , "Lost the Dice Game", EventType.Games);
 	    }
 	} else
 	    Utilities.sendMessage(type, channelName,
