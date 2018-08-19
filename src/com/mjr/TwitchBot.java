@@ -77,7 +77,7 @@ public class TwitchBot extends PircBot {
     public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
 	if (!this.viewers.contains(sender.toLowerCase())) {
 	    this.viewers.add(sender.toLowerCase());
-	    EventLog.addEvent(this.channelName, sender, "Joined the channel", EventType.User);
+	    EventLog.addEvent(this.channelName, sender, "Joined the channel (Twitch)", EventType.User);
 	}
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
@@ -179,7 +179,7 @@ public class TwitchBot extends PircBot {
 	    }
 	    if (!this.viewers.contains(sender.toLowerCase())) {
 		this.viewers.add(sender.toLowerCase());
-		EventLog.addEvent(this.channelName, sender, "Joined the channel", EventType.User);
+		EventLog.addEvent(this.channelName, sender, "Joined the channel (Twitch)", EventType.User);
 	    }
 	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
@@ -191,7 +191,7 @@ public class TwitchBot extends PircBot {
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.Bot, null);
 	if (this.viewers.contains(sender.toLowerCase())) {
 	    this.viewers.remove(sender.toLowerCase());
-	    EventLog.addEvent(this.channelName, sender, "Left the channel", EventType.User);
+	    EventLog.addEvent(this.channelName, sender, "Left the channel (Twitch)", EventType.User);
 	}
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());

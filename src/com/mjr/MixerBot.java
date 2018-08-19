@@ -68,14 +68,14 @@ public class MixerBot extends MJR_MixerBot {
     protected void onJoin(String sender) {
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
-	EventLog.addEvent(this.channelName, sender, "Joined the channel", EventType.User);
+	EventLog.addEvent(this.channelName, sender, "Joined the channel (Mixer)", EventType.User);
     }
 
     @Override
     protected void onPart(String sender) {
 	if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.remove(sender.toLowerCase());
-	EventLog.addEvent(this.channelName, sender, "Left the channel", EventType.User);
+	EventLog.addEvent(this.channelName, sender, "Left the channel (Mixer)", EventType.User);
     }
 
     public void joinChannel(String channel) {
