@@ -23,7 +23,7 @@ public class DiceGame {
 	    }
 	    if (randomNum < getWinPercent(multi)) {
 		int profit = (int) (wager * multi);
-		PointsSystem.AddPoints(sender, profit, channelName);
+		PointsSystem.AddPointsWithEventMsg(sender, profit, channelName);
 		Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager)
 			+ " points! Your current points is: " + PointsSystem.getPoints(sender, channelName));
 	    } else {

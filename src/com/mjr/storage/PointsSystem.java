@@ -90,7 +90,7 @@ public class PointsSystem extends FileBase {
 	return false;
     }
 
-    public static void AddPoints(String user, int points, String channelName) {
+    public static void AddPointsWithEventMsg(String user, int points, String channelName) {
 	user = user.toLowerCase();
 	if (!isOnList(user, channelName))
 	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", channelName)), channelName, false);
@@ -99,6 +99,16 @@ public class PointsSystem extends FileBase {
 	setPoints(user, currentPoints, channelName, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
 	EventLog.addEvent(channelName, user, "Added " + points + " point(s)", EventType.Points);
+    }
+    
+    public static void AddPoints(String user, int points, String channelName) {
+	user = user.toLowerCase();
+	if (!isOnList(user, channelName))
+	    setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", channelName)), channelName, false);
+	int currentPoints = getPoints(user, channelName);
+	currentPoints = currentPoints + points;
+	setPoints(user, currentPoints, channelName, false);
+	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
@@ -128,7 +138,7 @@ public class PointsSystem extends FileBase {
     public static int AddRandomPoints(String user, int max, int min, String channelName) {
 	user = user.toLowerCase();
 	int points = Utilities.getRandom(min, max);
-	AddPoints(user, points, channelName);
+	AddPointsWithEventMsg(user, points, channelName);
 	return points;
     }
 

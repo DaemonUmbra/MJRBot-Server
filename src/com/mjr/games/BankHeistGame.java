@@ -59,7 +59,7 @@ public class BankHeistGame {
 		randPoints = Utilities.getRandom(enteredPoints, enteredPoints * 2);
 	    Utilities.sendMessage(type, channelName, user + " got " + randPoints + " points from the heist!");
 	    EventLog.addEvent(channelName, user, "Won the Heist Game", EventType.Games);
-	    PointsSystem.AddPoints(user, randPoints, channelName);
+	    PointsSystem.AddPointsWithEventMsg(user, randPoints, channelName);
 	}
     }
 }

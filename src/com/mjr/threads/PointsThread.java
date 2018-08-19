@@ -3,7 +3,9 @@ package com.mjr.threads;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 
@@ -53,6 +55,8 @@ public class PointsThread extends Thread {
 			    }
 			}
 		    }
+		    
+		    EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
 
 		    try {
 			Thread.sleep(TimeDuration);

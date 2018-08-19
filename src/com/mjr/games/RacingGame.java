@@ -102,7 +102,7 @@ public class RacingGame {
 		    }
 		}
 		pointsMessage = pointsMessage + "@" + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
-		PointsSystem.AddPoints(top3Users.get(l), points, channelName);
+		PointsSystem.AddPointsWithEventMsg(top3Users.get(l), points, channelName);
 		EventLog.addEvent(channelName, top3Users.get(l) , "Won the Racing Game", EventType.Games);
 	    }
 	    randomOds = nextFloat(1, 2);
@@ -114,7 +114,7 @@ public class RacingGame {
 		    }
 		}
 		pointsMessage = pointsMessage + "@" + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
-		PointsSystem.AddPoints(firstUsers.get(m), points, channelName);
+		PointsSystem.AddPointsWithEventMsg(firstUsers.get(m), points, channelName);
 		EventLog.addEvent(channelName, firstUsers.get(m) , "Won the Racing Game", EventType.Games);
 	    }
 	    Utilities.sendMessage(type, channelName, pointsMessage);
