@@ -78,24 +78,24 @@ public class AnalyticsData {
 			    + " WHERE name=" + "\"" + "NumOfCommandsUsed" + "\"");
 		    AnalyticsData.clearNumOfCommandsUsed();
 		}
+		result = MySQLConnection
+			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfMessagedModerated" + "\"");
 		if (result.next()) {
-		    result = MySQLConnection
-			    .executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfMessagedModerated" + "\"");
 		    MySQLConnection
 			    .executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfMessagedModerated())
 				    + " WHERE name=" + "\"" + "NumOfMessagedModerated" + "\"");
 		    AnalyticsData.clearNumOfMessagedModerated();
 		}
+		result = MySQLConnection
+			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsGained" + "\"");
 		if (result.next()) {
-		    result = MySQLConnection
-			    .executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsGained" + "\"");
 		    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfPointsGained())
 			    + " WHERE name=" + "\"" + "NumOfPointsGained" + "\"");
 		    AnalyticsData.clearNumOfPointsGained();
 		}
+		result = MySQLConnection
+			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsRemoved" + "\"");
 		if (result.next()) {
-		    result = MySQLConnection
-			    .executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsRemoved" + "\"");
 		    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfPointsRemoved())
 			    + " WHERE name=" + "\"" + "NumOfPointsRemoved" + "\"");
 		    AnalyticsData.clearNumOfPointsRemoved();
