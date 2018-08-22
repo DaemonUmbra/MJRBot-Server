@@ -11,7 +11,7 @@ public class AnalyticsData {
     }
 
     public static void addNumOfCommandsUsed(int number) {
-	numOfCommandsUsed += numOfCommandsUsed;
+	numOfCommandsUsed += number;
     }
 
     public static int getNumOfMessagedModerated() {
@@ -19,7 +19,7 @@ public class AnalyticsData {
     }
 
     public static void addNumOfMessagedModerated(int number) {
-	numOfMessagedModerated += numOfMessagedModerated;
+	numOfMessagedModerated += number;
     }
 
     public static int getNumOfPointsGained() {
@@ -27,7 +27,7 @@ public class AnalyticsData {
     }
 
     public static void addNumOfPointsGained(int number) {
-	numOfPointsGained += numOfPointsGained;
+	numOfPointsGained += number;
     }
 
     public static int getNumOfPointsRemoved() {
@@ -35,7 +35,7 @@ public class AnalyticsData {
     }
 
     public static void addNumOfPointsRemoved(int number) {
-	numOfPointsRemoved += numOfPointsRemoved;
+	numOfPointsRemoved += number;
     }
 
     public static void clearNumOfCommandsUsed() {

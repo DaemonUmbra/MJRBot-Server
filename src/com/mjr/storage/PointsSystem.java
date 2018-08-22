@@ -62,7 +62,8 @@ public class PointsSystem extends FileBase {
 		MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + channelName
 			+ "\"" + " AND name = " + "\"" + user + "\"");
 	}
-	ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " point(s) to " + points, MessageType.Bot, null);
+	if(outputConsole)
+	    ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " point(s) to " + points, MessageType.Bot, null);
 	if(outputEvent)
 	    EventLog.addEvent(channelName, user, "Set point(s) to " + points, EventType.Points);
     }
