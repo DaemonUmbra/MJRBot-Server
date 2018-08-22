@@ -16,7 +16,7 @@ public class SetPointsCommand extends Command {
 		String points = args[1];
 		String user = args[2];
 		if (PointsSystem.isOnList(user, channel)) {
-		    PointsSystem.setPoints(user.toLowerCase(), Integer.parseInt(points), channel, true);
+		    PointsSystem.setPoints(user.toLowerCase(), Integer.parseInt(points), channel, true, true);
 		    Utilities.sendMessage(type, channel, "@" + sender + " Set " + points + " points" + " to " + user);
 		} else {
 		    Utilities.sendMessage(type, channel, "@" + sender + " Unable to set " + user + " points" + " to " + points);

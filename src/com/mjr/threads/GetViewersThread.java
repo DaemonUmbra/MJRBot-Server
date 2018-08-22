@@ -112,7 +112,7 @@ public class GetViewersThread extends Thread {
 			if (Config.getSetting("Points", bot.channelName).equalsIgnoreCase("true")) {
 			    if (!PointsSystem.isOnList(bot.viewers.get(i), bot.channelName)) {
 				PointsSystem.setPoints(bot.viewers.get(i),
-					Integer.parseInt(Config.getSetting("StartingPoints", bot.channelName)), bot.channelName, false);
+					Integer.parseInt(Config.getSetting("StartingPoints", bot.channelName)), bot.channelName, false, false);
 			    }
 			}
 			if (Config.getSetting("Ranks", bot.channelName).equalsIgnoreCase("true")) {

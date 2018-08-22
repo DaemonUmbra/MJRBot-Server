@@ -165,7 +165,7 @@ public class TwitchBot extends PircBot {
 	if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
 	    if (!PointsSystem.isOnList(sender, this.channelName)) {
 		PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), this.channelName,
-			false);
+			false, false);
 	    }
 	}
 	if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
