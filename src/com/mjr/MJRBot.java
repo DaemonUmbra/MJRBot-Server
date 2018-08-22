@@ -152,11 +152,13 @@ public class MJRBot {
 		e.printStackTrace();
 	    }
 	} while (MySQLConnection.connected == false);
-	System.out.println("Getting list of Channels from Database server");
+	ConsoleUtil.TextToConsole("Getting list of Channels from Database server");
 	userCooldownTickThread = new UserCooldownTickThread();
 	userCooldownTickThread.start();
-	updateAnalyticsThread = new UpdateAnalyticsThread();
-	updateAnalyticsThread.start();
+	if (!useFileSystem) {
+	    updateAnalyticsThread = new UpdateAnalyticsThread();
+	    updateAnalyticsThread.start();
+	}
 	HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 	for (String channelName : channelList.keySet()) {
 	    createBot(channelName, channelList.get(channelName));
@@ -192,7 +194,7 @@ public class MJRBot {
 	    bot.joinChannel(channel);
 	    try {
 		if (useFileSystem) {
-		    // Config.loadDefaults(channel);
+		    Config.loadDefaults(channel);
 		} else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
