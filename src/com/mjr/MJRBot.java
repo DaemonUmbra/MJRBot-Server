@@ -17,6 +17,7 @@ import com.mjr.storage.PointsSystem;
 import com.mjr.storage.QuoteSystem;
 import com.mjr.storage.RankSystem;
 import com.mjr.threads.ChannelListUpdateThread;
+import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
@@ -32,6 +33,7 @@ public class MJRBot {
     private static String channel = "";
     public static boolean useFileSystem = false;
     public static UserCooldownTickThread userCooldownTickThread;
+    public static UpdateAnalyticsThread updateAnalyticsThread;
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -153,6 +155,8 @@ public class MJRBot {
 	System.out.println("Getting list of Channels from Database server");
 	userCooldownTickThread = new UserCooldownTickThread();
 	userCooldownTickThread.start();
+	updateAnalyticsThread = new UpdateAnalyticsThread();
+	updateAnalyticsThread.start();
 	HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 	for (String channelName : channelList.keySet()) {
 	    createBot(channelName, channelList.get(channelName));

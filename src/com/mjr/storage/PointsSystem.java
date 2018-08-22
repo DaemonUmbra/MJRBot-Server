@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.mjr.AnalyticsData;
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
@@ -109,6 +110,7 @@ public class PointsSystem extends FileBase {
 	currentPoints = currentPoints + points;
 	setPoints(user, currentPoints, channelName, false, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
+	AnalyticsData.addNumOfPointsGained(points);
     }
 
     public static void RemovePoints(String user, int points, String channelName) {
@@ -120,6 +122,7 @@ public class PointsSystem extends FileBase {
 	setPoints(user, currentPoints, channelName, false, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Removed " + points + " point(s) from " + user, MessageType.Bot, null);
 	EventLog.addEvent(channelName, user, "Removed " + points + " point(s)", EventType.Points);
+	AnalyticsData.addNumOfPointsRemoved(points);
     }
 
     public static Boolean hasPoints(String user, int points, String channelName) {

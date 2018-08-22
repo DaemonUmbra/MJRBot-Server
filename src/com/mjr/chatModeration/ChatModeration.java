@@ -1,6 +1,7 @@
 package com.mjr.chatModeration;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.AnalyticsData;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
@@ -19,6 +20,7 @@ public class ChatModeration {
 	else if (!Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.User.getName()))
 	    return;
 	else {
+	    AnalyticsData.addNumOfMessagedModerated(1);
 	    if (Config.getSetting("LinkChecker", channel).equalsIgnoreCase("true")) {
 		boolean allowed = LinkChecker.CheckLink(bot, type, channel, message, sender);
 		if (!allowed) {

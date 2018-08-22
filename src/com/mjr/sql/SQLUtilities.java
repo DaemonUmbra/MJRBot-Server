@@ -22,6 +22,8 @@ public class SQLUtilities {
 		"CREATE TABLE mjrbot.moderation_actions (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), reason varchar(128), message varchar(500))");
 	MySQLConnection.executeUpdate(
 		"CREATE TABLE mjrbot.events (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), type varchar(35), event_message varchar(128))");
+	MySQLConnection.executeUpdate(
+		"CREATE TABLE mjrbot.analytics (id int(50) not null auto_increment primary key, name varchar(35), value int(50))");
     }
 
     public static boolean doesDataBaseExist(String name) {

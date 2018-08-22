@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 
+import com.mjr.AnalyticsData;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
@@ -165,6 +166,7 @@ public class CommandManager {
 		if (allowed) {
 		    command.onCommand(type, bot, channel, sender, login, hostname, message, args);
 		    EventLog.addEvent(channel, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
+		    AnalyticsData.addNumOfCommandsUsed(1);
 		}
 	    }
 	} else if (args[0].startsWith("!")) { // Check for known custom command
