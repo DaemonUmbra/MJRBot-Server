@@ -84,19 +84,12 @@ public class MixerBot extends MJR_MixerBot {
 	    this.joinMixerChannel(channel);
 	    if (this.isConnected() && this.isAuthenticated()) {
 		// Start Threads
-		if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
-		    pointsThread = new PointsThread(BotType.Mixer, channel);
-		    pointsThread.start();
-		}
-		if (Config.getSetting("Announcements", channel).equalsIgnoreCase("true")) {
-		    announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
-		    announcementsThread.start();
-		}
-		if (Config.getSetting("FollowerCheck", channel).equalsIgnoreCase("true")) {
-		    // CheckForNewFollowersThread followersThread = new
-		    // CheckForNewFollowersThread(BotType.Mixer, channel); TODO Add for Mixer
-		    // followersThread.start();
-		}
+		pointsThread = new PointsThread(BotType.Mixer, channel);
+		pointsThread.start();
+		announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
+		announcementsThread.start();
+		// CheckForNewFollowersThread followersThread = new CheckForNewFollowersThread(BotType.Mixer, channel); TODO Add for Mixer
+		// followersThread.start();
 
 		for (String viewer : this.getViewers())
 		    if (!this.viewersJoinedTimes.containsKey(viewer.toLowerCase()))

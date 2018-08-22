@@ -17,9 +17,9 @@ import com.mjr.games.RacingGame;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
 import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.storage.PointsSystem;
 import com.mjr.storage.RankSystem;
-import com.mjr.storage.EventLog.EventType;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
@@ -57,7 +57,7 @@ public class TwitchBot extends PircBot {
 
     public MathsGame mathsGame = new MathsGame();
     public RacingGame racingGame = new RacingGame();
-    
+
     public void init(String channelName) {
 	try {
 	    this.ConnectToTwitch();
@@ -144,18 +144,13 @@ public class TwitchBot extends PircBot {
 	    ConnectedToChannel = true;
 
 	    // Start Threads
-	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
-		pointsThread = new PointsThread(BotType.Twitch, this.channelName);
-		pointsThread.start();
-	    }
-	    if (Config.getSetting("Announcements", this.channelName).equalsIgnoreCase("true")) {
-		announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
-		announcementsThread.start();
-	    }
-	    if (Config.getSetting("FollowerCheck", this.channelName).equalsIgnoreCase("true")) {
-		followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
-		followersThread.start();
-	    }
+	    pointsThread = new PointsThread(BotType.Twitch, this.channelName);
+	    pointsThread.start();
+	    announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
+	    announcementsThread.start();
+	    followersThread = new CheckForNewFollowersThread(this, BotType.Twitch);
+	    followersThread.start();
+
 	    this.sendMessage(this.stream, "/mods");
 	    if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
 		this.sendMessage(this.stream, this.getNick() + " Connected!");
