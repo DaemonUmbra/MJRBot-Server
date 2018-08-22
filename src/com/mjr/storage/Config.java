@@ -217,6 +217,8 @@ public class Config extends FileBase {
 		+ "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelName) + "\"" + ")");
 	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
 		+ "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelName) + "\"" + ")");
     }
 
 }
