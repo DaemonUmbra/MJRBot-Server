@@ -32,6 +32,7 @@ import com.mjr.commands.defaultCommands.PingCommand;
 import com.mjr.commands.defaultCommands.PlacebetCommand;
 import com.mjr.commands.defaultCommands.PointsCheckCommand;
 import com.mjr.commands.defaultCommands.PointsCommand;
+import com.mjr.commands.defaultCommands.PointsLeaderboardCommands;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.commands.defaultCommands.RaceCommand;
 import com.mjr.commands.defaultCommands.RankCheckCommand;
@@ -62,6 +63,7 @@ public class CommandManager {
 	commands.put("!removepoints", new RemovePointsCommand());
 	commands.put("!setpoints", new SetPointsCommand());
 	commands.put("!pointscheck", new PointsCheckCommand());
+	commands.put("!leaderboard", new PointsLeaderboardCommands());
 
 	// Rank Commands
 	commands.put("!rank", new RankCommand());

@@ -72,29 +72,26 @@ public class AnalyticsData {
 			"INSERT INTO analytics(name, value) VALUES (" + "\"" + "NumOfPointsRemoved" + "\"" + "," + "\"" + 0 + "\"" + ")");
 	    } else {
 		ResultSet result = MySQLConnection
-			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfCommandsUsed" + "\"");
+			.executeQuery("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfCommandsUsed" + "\"");
 		if (result.next()) {
 		    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfCommandsUsed())
 			    + " WHERE name=" + "\"" + "NumOfCommandsUsed" + "\"");
 		    AnalyticsData.clearNumOfCommandsUsed();
 		}
-		result = MySQLConnection
-			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfMessagedModerated" + "\"");
+		result = MySQLConnection.executeQuery("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfMessagedModerated" + "\"");
 		if (result.next()) {
 		    MySQLConnection
 			    .executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfMessagedModerated())
 				    + " WHERE name=" + "\"" + "NumOfMessagedModerated" + "\"");
 		    AnalyticsData.clearNumOfMessagedModerated();
 		}
-		result = MySQLConnection
-			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsGained" + "\"");
+		result = MySQLConnection.executeQuery("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsGained" + "\"");
 		if (result.next()) {
 		    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfPointsGained())
 			    + " WHERE name=" + "\"" + "NumOfPointsGained" + "\"");
 		    AnalyticsData.clearNumOfPointsGained();
 		}
-		result = MySQLConnection
-			.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsRemoved" + "\"");
+		result = MySQLConnection.executeQuery("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsRemoved" + "\"");
 		if (result.next()) {
 		    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1) + AnalyticsData.getNumOfPointsRemoved())
 			    + " WHERE name=" + "\"" + "NumOfPointsRemoved" + "\"");
