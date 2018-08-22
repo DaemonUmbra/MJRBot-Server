@@ -43,6 +43,7 @@ import com.mjr.commands.defaultCommands.RemoveRankCommand;
 import com.mjr.commands.defaultCommands.SetPointsCommand;
 import com.mjr.commands.defaultCommands.SetRankCommand;
 import com.mjr.commands.defaultCommands.SpinCommand;
+import com.mjr.commands.defaultCommands.StopBotCommand;
 import com.mjr.commands.defaultCommands.UptimeCommand;
 import com.mjr.storage.Config;
 import com.mjr.storage.EventLog;
@@ -99,6 +100,7 @@ public class CommandManager {
 	commands.put("!accountlife", new AccountLifeCommand());
 	commands.put("!followtime", new FollowTimeCommand());
 	commands.put("!ping", new PingCommand());
+	commands.put("!stopBot", new StopBotCommand());
     }
 
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)
