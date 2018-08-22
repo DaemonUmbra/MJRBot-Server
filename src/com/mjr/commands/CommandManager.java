@@ -102,7 +102,7 @@ public class CommandManager {
 	commands.put("!accountlife", new AccountLifeCommand());
 	commands.put("!followtime", new FollowTimeCommand());
 	commands.put("!ping", new PingCommand());
-	commands.put("!stopBot", new StopBotCommand());
+	commands.put("!stopbot", new StopBotCommand());
     }
 
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message)

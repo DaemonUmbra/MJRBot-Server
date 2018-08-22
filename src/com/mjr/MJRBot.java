@@ -34,6 +34,7 @@ public class MJRBot {
     public static boolean useFileSystem = false;
     public static UserCooldownTickThread userCooldownTickThread;
     public static UpdateAnalyticsThread updateAnalyticsThread;
+    public static ChannelListUpdateThread updateThread;
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -169,7 +170,7 @@ public class MJRBot {
 	    createBot(channelName, channelList.get(channelName));
 	}
 
-	ChannelListUpdateThread updateThread = new ChannelListUpdateThread();
+	updateThread = new ChannelListUpdateThread();
 	updateThread.start();
     }
 
