@@ -101,6 +101,7 @@ public class PointsSystem extends FileBase {
 	setPoints(user, currentPoints, channelName, false, false);
 	ConsoleUtil.TextToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
 	EventLog.addEvent(channelName, user, "Added " + points + " point(s)", EventType.Points);
+	AnalyticsData.addNumOfPointsGained(points);
     }
     
     public static void AddPoints(String user, int points, String channelName) {
