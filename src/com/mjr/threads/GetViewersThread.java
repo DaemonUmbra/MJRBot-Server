@@ -9,8 +9,10 @@ import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
 import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
 import com.mjr.storage.PointsSystem;
 import com.mjr.storage.RankSystem;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.TwitchBot;
 
 public class GetViewersThread extends Thread {
@@ -89,6 +91,7 @@ public class GetViewersThread extends Thread {
 			for (String viewer : newresult.split(",")) {
 			    if (!bot.viewers.contains(viewer.toLowerCase())) {
 				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
 			    }
 			}
 			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!",
