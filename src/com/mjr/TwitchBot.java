@@ -159,26 +159,26 @@ public class TwitchBot extends PircBot {
 	    getViewersThread.start();
 	    getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 	    getFollowersThread.start();
-	} else {
-	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
-	    if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
-		if (!PointsSystem.isOnList(sender, this.channelName)) {
-		    PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)),
-			    this.channelName, false);
-		}
-	    }
-	    if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
-		if (!RankSystem.isOnList(sender, this.channelName)) {
-		    RankSystem.setRank(sender, "None", this.channelName);
-		}
-	    }
-	    if (!this.viewers.contains(sender.toLowerCase())) {
-		this.viewers.add(sender.toLowerCase());
-		EventLog.addEvent(this.channelName, sender, "Joined the channel (Twitch)", EventType.User);
-	    }
-	    if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
-		this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	}
+
+	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
+	if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
+	    if (!PointsSystem.isOnList(sender, this.channelName)) {
+		PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), this.channelName,
+			false);
+	    }
+	}
+	if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
+	    if (!RankSystem.isOnList(sender, this.channelName)) {
+		RankSystem.setRank(sender, "None", this.channelName);
+	    }
+	}
+	if (!this.viewers.contains(sender.toLowerCase())) {
+	    this.viewers.add(sender.toLowerCase());
+	    EventLog.addEvent(this.channelName, sender, "Joined the channel (Twitch)", EventType.User);
+	}
+	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
+	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
     }
 
     @Override
@@ -234,7 +234,8 @@ public class TwitchBot extends PircBot {
     }
 
     public void sendMessage(String message) {
-	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) { // Used to slow down messages if not a moderator due to Twitch's message delay for normal users
+	// Used to slow down messages if not a moderator due to Twitch's message delay for normal users
+	if (!moderators.isEmpty() && !moderators.contains(this.getBotName().toLowerCase())) {
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
