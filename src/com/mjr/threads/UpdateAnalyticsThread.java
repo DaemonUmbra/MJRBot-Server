@@ -27,29 +27,29 @@ public class UpdateAnalyticsThread extends Thread {
 			ResultSet result = MySQLConnection
 				.executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfCommandsUsed" + "\"");
 			if (result.next()) {
-			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + result.getInt(1)
-				    + AnalyticsData.getNumOfCommandsUsed() + " WHERE name=" + "\"" + "NumOfCommandsUsed" + "\"");
+			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1)
+				    + AnalyticsData.getNumOfCommandsUsed()) + " WHERE name=" + "\"" + "NumOfCommandsUsed" + "\"");
 			    AnalyticsData.clearNumOfCommandsUsed();
 			}
 			if (result.next()) {
 			    result = MySQLConnection.executeQueryNoOutput(
 				    "SELECT value FROM analytics WHERE name = " + "\"" + "NumOfMessagedModerated" + "\"");
-			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + result.getInt(1)
-				    + AnalyticsData.getNumOfCommandsUsed() + " WHERE name=" + "\"" + "NumOfMessagedModerated" + "\"");
+			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1)
+				    + AnalyticsData.getNumOfMessagedModerated()) + " WHERE name=" + "\"" + "NumOfMessagedModerated" + "\"");
 			    AnalyticsData.clearNumOfMessagedModerated();
 			}
 			if (result.next()) {
 			    result = MySQLConnection
 				    .executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsGained" + "\"");
-			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + result.getInt(1)
-				    + AnalyticsData.getNumOfCommandsUsed() + " WHERE name=" + "\"" + "NumOfPointsGained" + "\"");
+			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1)
+				    + AnalyticsData.getNumOfPointsGained()) + " WHERE name=" + "\"" + "NumOfPointsGained" + "\"");
 			    AnalyticsData.clearNumOfPointsGained();
 			}
 			if (result.next()) {
 			    result = MySQLConnection
 				    .executeQueryNoOutput("SELECT value FROM analytics WHERE name = " + "\"" + "NumOfPointsRemoved" + "\"");
-			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + result.getInt(1)
-				    + AnalyticsData.getNumOfCommandsUsed() + " WHERE name=" + "\"" + "NumOfPointsRemoved" + "\"");
+			    MySQLConnection.executeUpdate("UPDATE analytics SET value=" + (result.getInt(1)
+				    + AnalyticsData.getNumOfPointsRemoved()) + " WHERE name=" + "\"" + "NumOfPointsRemoved" + "\"");
 			    AnalyticsData.clearNumOfPointsRemoved();
 			}
 			ConsoleUtil.TextToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
