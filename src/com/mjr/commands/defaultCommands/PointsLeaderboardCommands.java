@@ -22,9 +22,9 @@ public class PointsLeaderboardCommands extends Command{
 	    String top10Users = "";
 	    try {
 		while(result.next()) {
-		    top10Users = top10Users + result.getString("name") + ":" + result.getInt("amount") + " points, ";
+		    top10Users = top10Users + result.getString("name") + ":" + result.getInt("amount") + " point(s), ";
 		}
-		Utilities.sendMessage(type, channel, "The top 10 in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
+		Utilities.sendMessage(type, channel, "The top 10 users in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
 	    } catch (SQLException e) {
 		e.printStackTrace();
 	    }
