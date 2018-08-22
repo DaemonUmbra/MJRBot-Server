@@ -15,6 +15,8 @@ import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
 import com.mjr.storage.EventLog;
+import com.mjr.storage.PointsSystem;
+import com.mjr.storage.RankSystem;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.BankHeistThread;
@@ -68,6 +70,17 @@ public class MixerBot extends MJR_MixerBot {
     protected void onJoin(String sender) {
 	if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
+	if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
+	    if (!PointsSystem.isOnList(sender, this.channelName)) {
+		PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), this.channelName,
+			false, false);
+	    }
+	}
+	if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
+	    if (!RankSystem.isOnList(sender, this.channelName)) {
+		RankSystem.setRank(sender, "None", this.channelName);
+	    }
+	}
 	EventLog.addEvent(this.channelName, sender, "Joined the channel (Mixer)", EventType.User);
     }
 
