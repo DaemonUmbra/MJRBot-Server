@@ -23,7 +23,7 @@ import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
-import com.mjr.threads.PointsThread;
+import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.RaceStartThread;
 
 public class MixerBot extends MJR_MixerBot {
@@ -34,7 +34,7 @@ public class MixerBot extends MJR_MixerBot {
     private final CommandManager commands = new CommandManager();
 
     public GetViewersThread getViewersThread;
-    public PointsThread pointsThread;
+    public AutoPointsThread pointsThread;
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
@@ -97,7 +97,7 @@ public class MixerBot extends MJR_MixerBot {
 	    this.joinMixerChannel(channel);
 	    if (this.isConnected() && this.isAuthenticated()) {
 		// Start Threads
-		pointsThread = new PointsThread(BotType.Mixer, channel);
+		pointsThread = new AutoPointsThread(BotType.Mixer, channel);
 		pointsThread.start();
 		announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
 		announcementsThread.start();

@@ -9,11 +9,11 @@ import com.mjr.storage.EventLog.EventType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 
-public class PointsThread extends Thread {
+public class AutoPointsThread extends Thread {
     private BotType type;
     private String channelName;
 
-    public PointsThread(BotType type, String channelName) {
+    public AutoPointsThread(BotType type, String channelName) {
 	super();
 	this.type = type;
 	this.channelName = channelName;

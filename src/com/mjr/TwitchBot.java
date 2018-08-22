@@ -25,7 +25,7 @@ import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
-import com.mjr.threads.PointsThread;
+import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.RaceStartThread;
 
 public class TwitchBot extends PircBot {
@@ -39,7 +39,7 @@ public class TwitchBot extends PircBot {
     private final CommandManager commands = new CommandManager();
 
     public GetViewersThread getViewersThread;
-    public PointsThread pointsThread;
+    public AutoPointsThread pointsThread;
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
     public GetFollowersThread getFollowersThread;
@@ -144,7 +144,7 @@ public class TwitchBot extends PircBot {
 	    ConnectedToChannel = true;
 
 	    // Start Threads
-	    pointsThread = new PointsThread(BotType.Twitch, this.channelName);
+	    pointsThread = new AutoPointsThread(BotType.Twitch, this.channelName);
 	    pointsThread.start();
 	    announcementsThread = new AnnouncementsThread(BotType.Twitch, this.channelName);
 	    announcementsThread.start();
