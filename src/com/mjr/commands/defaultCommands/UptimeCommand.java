@@ -2,8 +2,11 @@ package com.mjr.commands.defaultCommands;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
@@ -20,10 +23,11 @@ public class UptimeCommand extends Command {
 	if (type == BotType.Twitch) {
 	    String result = HTTPConnect
 		    .GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
-	    if (result.contains("updated_at")) {
-		String upTime = result.substring(result.indexOf("updated_at") + 13);
+	    if (result.contains("created_at")) {
+		String upTime = result.substring(result.indexOf("created_at") + 13);
 		upTime = upTime.substring(0, 20);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		format.setTimeZone(TimeZone.getTimeZone("UTC"));
 		Date parse = null;
 
 		try {
@@ -46,26 +50,14 @@ public class UptimeCommand extends Command {
     }
 
     public void runCommand(BotType type, String channel, String sender, Date date2) {
-	String currentTime = Instant.now().toString();
-	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-	Date date = null;
+	OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
+	Date date = Date.from(utc.toInstant());
+	long diffInMilliSec = date.getTime() - date2.getTime();
+	long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMilliSec) % 60;
+	long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
+	long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 
-	try {
-	    date = format.parse(currentTime);
-	} catch (ParseException e) {
-	    e.printStackTrace();
-	}
-	long diff = date.getTime() - date2.getTime();
-	long diffDay = diff / (24 * 60 * 60 * 1000);
-	diff = diff - (diffDay * 24 * 60 * 60 * 1000);
-	long diffHours = diff / (60 * 60 * 1000);
-	diff = diff - (diffHours * 60 * 60 * 1000);
-	long diffMinutes = diff / (60 * 1000);
-	diff = diff - (diffMinutes * 60 * 1000);
-	long diffSeconds = diff / 1000;
-	diff = diff - (diffSeconds * 1000);
-
-	Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDay + " day(s) " + diffHours
+	Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDays + " day(s) " + diffHours
 		+ " hour(s) " + diffMinutes + " minute(s)");
     }
 

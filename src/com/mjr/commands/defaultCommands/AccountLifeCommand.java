@@ -6,7 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
@@ -37,6 +41,7 @@ public class AccountLifeCommand extends Command {
 		    time = time.substring(0, 20);
 
 		    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+		    format.setTimeZone(TimeZone.getTimeZone("UTC"));
 		    Date parse = null;
 
 		    try {
@@ -45,28 +50,17 @@ public class AccountLifeCommand extends Command {
 			e.printStackTrace();
 		    }
 
-		    long currentTime = System.currentTimeMillis();
+		    OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
+		    Date date = Date.from(utc.toInstant());
 
-		    Date date = new Date(currentTime);
+		    long diffInMilliSec = date.getTime() - parse.getTime();
+		    long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMilliSec) % 60;
+		    long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
+		    long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
+		    long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-		    long diff = date.getTime() - parse.getTime();
-		    long diffDay = diff / (24 * 60 * 60 * 1000);
-		    diff = diff - (diffDay * 24 * 60 * 60 * 1000);
-		    long diffHours = diff / (60 * 60 * 1000);
-		    diff = diff - (diffHours * 60 * 60 * 1000);
-		    long diffMinutes = diff / (60 * 1000);
-		    diff = diff - (diffMinutes * 60 * 1000);
-		    long diffSeconds = diff / 1000;
-		    diff = diff - (diffSeconds * 1000);
-
-		    int diffMonths = (int) (diffDay / 31);
-		    diffDay = diffDay - (diffMonths * 31);
-
-		    int diffYears = diffMonths / 12;
-		    diffMonths = diffMonths - (diffYears * 12);
-
-		    Utilities.sendMessage(type, channel, "@" + sender + " your twitch account is " + diffYears + " year(s) " + diffMonths
-			    + " month(s) " + diffDay + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
+		    Utilities.sendMessage(type, channel, "@" + sender + " your twitch account is " + diffYears + " year(s) " + diffDays
+			    + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 		}
 	    } catch (Exception e) {
 		e.printStackTrace();
