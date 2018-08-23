@@ -84,7 +84,7 @@ public class GetViewersThread extends Thread {
 				bot.viewers.add(viewer.toLowerCase());
 			    }
 			}
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current viewers!",
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!",
 				MessageType.Bot, null);
 
 		    } else {
@@ -94,7 +94,7 @@ public class GetViewersThread extends Thread {
 				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
 			    }
 			}
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current viewers!",
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active viewers!",
 				MessageType.Bot, null);
 
 			Mods = Mods.replace(" ", "");
@@ -104,7 +104,7 @@ public class GetViewersThread extends Thread {
 				bot.moderators.add(mod.toLowerCase());
 			    }
 			}
-			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current moderators!",
+			ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active moderators!",
 				MessageType.Bot, null);
 		    }
 
