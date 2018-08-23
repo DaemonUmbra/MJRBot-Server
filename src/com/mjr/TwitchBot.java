@@ -101,6 +101,12 @@ public class TwitchBot extends PircBot {
 
     @Override
     protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
+	if (notice.contains("Now hosting")) {
+	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, notice.substring(notice.indexOf("Now hosting")), MessageType.Bot, null);
+	}
+	if (notice.contains("Exited host mode")) {
+	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "No longer hosting a channel!", MessageType.Bot, null);
+	}
 	if (notice.contains("The moderators of this channel are:")) {
 	    try {
 		notice = notice.substring(notice.indexOf(":") + 2);
