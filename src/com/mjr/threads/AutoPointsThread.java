@@ -2,12 +2,12 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.Config;
-import com.mjr.storage.EventLog;
-import com.mjr.storage.PointsSystem;
-import com.mjr.storage.EventLog.EventType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
+import com.mjr.storage.Config;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
+import com.mjr.storage.PointsSystem;
 
 public class AutoPointsThread extends Thread {
     private BotType type;
@@ -55,8 +55,9 @@ public class AutoPointsThread extends Thread {
 			    }
 			}
 		    }
-		    
-		    EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
+
+		    EventLog.addEvent(channelName, "Current Viewers",
+			    "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
 
 		    try {
 			Thread.sleep(TimeDuration);
@@ -64,12 +65,11 @@ public class AutoPointsThread extends Thread {
 			e.printStackTrace();
 		    }
 		}
-	    } else {
-		try {
-		    Thread.sleep(60000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
+	    }
+	    try {
+		Thread.sleep(60000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
 	    }
 	}
     }

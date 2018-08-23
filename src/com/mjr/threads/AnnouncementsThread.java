@@ -2,8 +2,8 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.Config;
 import com.mjr.Utilities;
+import com.mjr.storage.Config;
 
 public class AnnouncementsThread extends Thread {
 
@@ -38,14 +38,14 @@ public class AnnouncementsThread extends Thread {
 		    if (message != "")
 			Utilities.sendMessage(type, channelName, message);
 		}
-	    } else {
-		try {
-		    Thread.sleep(60000);
-		} catch (InterruptedException e) {
-		    e.printStackTrace();
-		}
-
 	    }
+
+	    try {
+		Thread.sleep(60000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+
 	}
     }
 }
