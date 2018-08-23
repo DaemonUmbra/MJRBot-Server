@@ -133,7 +133,13 @@ public class TwitchBot extends PircBot {
     }
 
     @Override
-    public void onPrivateMessage(String sender, String login, String hostname, String message) {
+    public void onPrivateMessage(String sender, String login, String hostname, String channel, String message) {
+	if(channel.equalsIgnoreCase(this.channelName)) {
+	    if(message.contains("is now hosting you.")) {
+		Utilities.sendMessage(BotType.Twitch, channel, message);
+		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Bot, null);
+	    }
+	}
     }
 
     @Override
