@@ -21,7 +21,7 @@ import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.7.3 - Beta, Server Version";
+    public static final String VERSION = "1.7.4 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
