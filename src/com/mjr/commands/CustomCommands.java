@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
-import java.util.TimeZone;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
@@ -22,6 +21,7 @@ import com.mjr.Permissions;
 import com.mjr.Utilities;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
+import com.mjr.storage.ConfigMain;
 
 public class CustomCommands {
 
@@ -67,19 +67,11 @@ public class CustomCommands {
 		if (allowed) {
 		    response = response.replaceAll("%sender%", sender);
 		    response = response.replaceAll("%channel%", channelName);
-		    response = response.replaceAll("%botname%", channelName);
+		    response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
 		    if (response.contains("%time%")) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-			Date date = null;
-			try {
-			    date = format.parse(Instant.now().toString().substring(0, 19) + 'Z');
-			} catch (ParseException e) {
-			    e.printStackTrace();
-			}
-			String output = Utilities.convertTimeZone(date, TimeZone.getTimeZone("UTC"),
-				TimeZone.getTimeZone(Config.getSetting("SelectedTimeZone", channelName))).toString();
-			response = response.replaceAll("%time%", output.substring(0, output.indexOf("BST")) + " (Timezone: "
-				+ Config.getSetting("SelectedTimeZone", channelName) + ")");
+			ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
+			response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + Config.getSetting("SelectedTimeZone", channelName) + ")");
 		    }
 		    Utilities.sendMessage(type, channelName, response);
 		} else {
