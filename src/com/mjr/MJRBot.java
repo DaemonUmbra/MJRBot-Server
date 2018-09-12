@@ -100,13 +100,7 @@ public class MJRBot {
 
 	// channelName = "mjrlegends";
 	useFileSystem = true;
-	try {
-	    MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
-		    Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
-		    ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
-	} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-	    e.printStackTrace();
-	}
+	MySQLConnection.connect();
 	type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
 
 	if (type.equalsIgnoreCase("1")) {
@@ -145,13 +139,7 @@ public class MJRBot {
 
     public static void runDatabaseMode() {
 	do {
-	    try {
-		MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"),
-			Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
-			ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
-	    } catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-		e.printStackTrace();
-	    }
+	    MySQLConnection.connect();
 	} while (MySQLConnection.connected == false);
 	ConsoleUtil.TextToConsole("Getting list of Channels from Database server");
 	userCooldownTickThread = new UserCooldownTickThread();
