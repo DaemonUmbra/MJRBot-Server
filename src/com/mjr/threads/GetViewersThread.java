@@ -34,7 +34,6 @@ public class GetViewersThread extends Thread {
 		String staff = "";
 		String admins = "";
 		String global_moderators = "";
-		String end_result = "";
 		URL url = new URL("https://tmi.twitch.tv/group/user/" + bot.channelName + "/chatters");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("GET");
@@ -70,23 +69,86 @@ public class GetViewersThread extends Thread {
 		    viewers = viewers.substring(0, viewers.indexOf("]"));
 		}
 
-		end_result = moderators + staff + admins + global_moderators + viewers;
-		end_result = end_result.replace(" ", "");
-		end_result = end_result.replace("\"", "");
+		moderators = moderators.replace(" ", "").replace("\"", "");
+		staff = staff.replace(" ", "").replace("\"", "");
+		admins = admins.replace(" ", "").replace("\"", "");
+		global_moderators = global_moderators.replace(" ", "").replace("\"", "");
+		viewers = viewers.replace(" ", "").replace("\"", "");
+
 		if (bot.viewers.isEmpty()) {
-		    for (String viewer : end_result.split(",")) {
+		    for (String viewer : moderators.split(",")) {
 			if (!bot.viewers.contains(viewer.toLowerCase())) {
-			    bot.viewers.add(viewer.toLowerCase());
+			    if (!viewer.equals(""))
+				bot.viewers.add(viewer.toLowerCase());
+			}
+		    }
+		    for (String viewer : staff.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals(""))
+				bot.viewers.add(viewer.toLowerCase());
+			}
+		    }
+		    for (String viewer : admins.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals(""))
+				bot.viewers.add(viewer.toLowerCase());
+			}
+		    }
+		    for (String viewer : global_moderators.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals(""))
+				bot.viewers.add(viewer.toLowerCase());
+			}
+		    }
+		    for (String viewer : viewers.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals(""))
+				bot.viewers.add(viewer.toLowerCase());
 			}
 		    }
 		    ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!",
 			    MessageType.Bot, null);
 
 		} else {
-		    for (String viewer : end_result.split(",")) {
+		    for (String viewer : moderators.split(",")) {
 			if (!bot.viewers.contains(viewer.toLowerCase())) {
-			    bot.viewers.add(viewer.toLowerCase());
-			    EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    if (!viewer.equals("")) {
+				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    }
+			}
+		    }
+		    for (String viewer : staff.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals("")) {
+				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    }
+			}
+		    }
+		    for (String viewer : admins.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals("")) {
+				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    }
+			}
+		    }
+		    for (String viewer : global_moderators.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals("")) {
+				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    }
+			}
+		    }
+		    for (String viewer : viewers.split(",")) {
+			if (!bot.viewers.contains(viewer.toLowerCase())) {
+			    if (!viewer.equals("")) {
+				bot.viewers.add(viewer.toLowerCase());
+				EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+			    }
+
 			}
 		    }
 		    ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active viewers!",
@@ -96,11 +158,11 @@ public class GetViewersThread extends Thread {
 		    moderators = moderators.replace("\"", "");
 		    for (String mod : moderators.split(",")) {
 			if (!bot.moderators.contains(mod.toLowerCase())) {
-			    bot.moderators.add(mod.toLowerCase());
+			    if (!mod.equals(""))
+				bot.moderators.add(mod.toLowerCase());
 			}
 		    }
-		    ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName,
-			    "Bot has updated the list of current active moderators!", MessageType.Bot, null);
+		    ConsoleUtil.TextToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active moderators!", MessageType.Bot, null);
 		}
 
 		for (int i = 1; i < bot.viewers.size(); i++) {
