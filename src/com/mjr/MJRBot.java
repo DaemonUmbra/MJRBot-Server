@@ -21,7 +21,7 @@ import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
 
 public class MJRBot {
-    public static final String VERSION = "1.7.6 - Beta, Server Version";
+    public static final String VERSION = "1.7.7 - Beta, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
@@ -165,9 +165,6 @@ public class MJRBot {
     public static void createBot(String channel, String botType) {
 	channel = channel.toLowerCase(Locale.ENGLISH);
 	if (botType.equalsIgnoreCase("twitch") && channel != "") {
-	    TwitchBot bot = new TwitchBot();
-	    bot.init(channel);
-	    addTwitchBot(channel, bot);
 	    try {
 		if (useFileSystem) {
 		    Config.loadDefaults(channel);
@@ -177,10 +174,10 @@ public class MJRBot {
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
+	    TwitchBot bot = new TwitchBot();
+	    bot.init(channel);
+	    addTwitchBot(channel, bot);
 	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-	    MixerBot bot = new MixerBot(channel);
-	    addMixerBot(channel, bot);
-	    bot.joinChannel(channel);
 	    try {
 		if (useFileSystem) {
 		    Config.loadDefaults(channel);
@@ -189,6 +186,9 @@ public class MJRBot {
 	    } catch (IOException e) {
 		e.printStackTrace();
 	    }
+	    MixerBot bot = new MixerBot(channel);
+	    addMixerBot(channel, bot);
+	    bot.joinChannel(channel);
 	} else if (channel != "")
 	    ConsoleUtil.TextToConsole("Unknown Type of Connection!");
 	else
