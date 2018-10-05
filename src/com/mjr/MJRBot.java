@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mjr.commands.CommandManager;
 import com.mjr.sql.MySQLConnection;
@@ -21,6 +22,9 @@ import com.mjr.storage.RankSystem;
 import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
     public static final String VERSION = "1.7.7 - Beta, Server Version";
@@ -56,6 +60,13 @@ public class MJRBot {
 
     public static void main(final String[] args)
 	    throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
+	
+	// Disable logging from dependency packages
+	LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        for(ch.qos.logback.classic.Logger l : lc.getLoggerList()){ l.setLevel(Level.OFF); }
+        System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
+        
+        
 	if (OSUtilities.isUnix())
 	    filePath = "/home/" + File.separator + "MJRBot" + File.separator;
 	else if (OSUtilities.isWindows())
