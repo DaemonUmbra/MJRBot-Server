@@ -6,6 +6,7 @@
     <property name="lib-dir" value="libs"/>
     <property name="jar-dir" value="${dist-dir}/jar"/>
     <property name="main-class" value="com.mjr.MJRBot"/>
+    <property name="version" value="v1.7.7 - Beta"/>
 
     <path id="classpath">
         <fileset dir="${lib-dir}" includes="**/*.jar"/>
@@ -13,44 +14,30 @@
 
     <target name="clean" description="compile the source">
         <delete dir="${build-dir}" />
-        <delete dir="${dist-dir}" />
+        <delete dir="${jar-dir}" />
     </target>
 
-    <target name="cleanall" depends="clean"/>
-
-    <target name="init">
-        <!-- Create the build directory structure used by compile -->
+    <target name="init" depends="clean" >
         <mkdir dir="${build-dir}"/>
         <mkdir dir="${jar-dir}"/>
-        <!--<mkdir dir="${dist-dir}"/>-->
     </target>
 
     <target name="compile" depends="init" description="compile the source " >
         <javac srcdir="${src-dir}" destdir="${build-dir}" 
             classpathref="classpath" includeantruntime="false" />
-        <!--<javac srcdir="${src-dir}" destdir="${build-dir}"/>-->
     </target>
 
     <target name="build" depends="compile">
-        <manifestclasspath property="jar.classpath" jarfile="${jar-dir}/${ant.project.name} - v1.7.7 Beta.jar">
+        <manifestclasspath property="jar.classpath" jarfile="${jar-dir}/${ant.project.name} - ${version}.jar">
           <classpath refid="classpath"/>
         </manifestclasspath>    
-        <jar destfile="${jar-dir}/${ant.project.name} - v1.7.7 Beta.jar" basedir="${build-dir}">
+        <jar destfile="${jar-dir}/${ant.project.name} - ${version}.jar" basedir="${build-dir}">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
                 <attribute name="Class-Path" value="${jar.classpath}"/>
             </manifest>
             <zipgroupfileset dir="${lib-dir}" includes="*.jar"/>
+        	<fileset dir="${src-dir}" includes="*.properties"/>
         </jar>
     </target>
-
-    <target name="run" depends="build">
-        <java fork="true" classname="${main-class}">
-            <classpath>
-                <path refid="classpath"/>
-                <path location="${jar-dir}/${ant.project.name} - v1.7.7 Beta.jar"/>
-            </classpath>
-        </java>
-    </target>
-
 </project>
