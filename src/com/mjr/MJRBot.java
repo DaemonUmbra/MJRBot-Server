@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.log4j.Logger;
+
 import com.mjr.commands.CommandManager;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
@@ -35,6 +37,8 @@ public class MJRBot {
     public static UserCooldownTickThread userCooldownTickThread;
     public static UpdateAnalyticsThread updateAnalyticsThread;
     public static ChannelListUpdateThread updateThread;
+
+    private static Logger logger = Logger.getLogger(MJRBot.class);
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -259,5 +263,13 @@ public class MJRBot {
 		return mixerBots.get(bot);
 	}
 	return null;
+    }
+
+    public static Logger getLogger() {
+	return logger;
+    }
+
+    public static void setLogger(Logger logger) {
+	MJRBot.logger = logger;
     }
 }
