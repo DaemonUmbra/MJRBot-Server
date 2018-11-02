@@ -101,7 +101,14 @@ public class TwitchBot extends PircBot {
     
     @Override
     public void onMessageExtra(final String line, final String channel, final String sender, final String login, final String hostname, final String message) {
-	System.out.println(line);
+	if(line.contains("bits=")) {
+	    String bitsAmount = line.substring(line.indexOf("bits=")+ 5);
+	    bitsAmount = bitsAmount.substring(0, bitsAmount.indexOf(";"));
+	    if(Config.getSetting("BitsAlerts", this.channelName).equalsIgnoreCase("true"))
+		    Utilities.sendMessage(BotType.Twitch, this.channelName, sender + " just gave " + bitsAmount + " bit(s) to the channel!");
+	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " just gave " + bitsAmount + " bit(s) to the channel!", MessageType.Bot, null);
+	    EventLog.addEvent(this.channelName, sender, "Just gave " + bitsAmount + " bit(s) to the channel!", EventType.Bits);
+	}
     }
 
     @Override
@@ -153,7 +160,7 @@ public class TwitchBot extends PircBot {
 	    this.disconnectTwitch();
 	    MJRBot.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
 	}
-	else if(line.contains("msg-id=sub")) {
+	else if(line.contains("msg-id=sub") && !line.contains("msg-param-recipient-display-name=")) {
 	    String user = line.substring(line.indexOf("display-name=") + 13);
 	    user = user.substring(0, user.indexOf(';'));
 	    if (line.contains("msg-param-sub-plan=Prime")) {
@@ -187,7 +194,7 @@ public class TwitchBot extends PircBot {
 		EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel for "+ months + " months in a row!", EventType.Sub);
 	    }
 	}
-	else if(line.contains("msg-id=subgift")) {
+	else if(line.contains("msg-param-recipient-display-name=")) {
 	    String gifter = line.substring(line.indexOf("display-name=") + 13);
 	    gifter = gifter.substring(0, gifter.indexOf(';'));
 	    String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
