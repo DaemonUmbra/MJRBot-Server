@@ -58,6 +58,7 @@ public class Config extends FileBase {
 		setSetting("RaidAlerts", "true", channelName);
 		setSetting("BitsAlerts", "true", channelName);
 		setSetting("FollowAlerts", "true", channelName);
+		setSetting("AnnouncementsWhenOffline", "false", channelName);
 	    }
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -106,6 +107,7 @@ public class Config extends FileBase {
             setSetting("RaidAlerts", "true", channelName);
             setSetting("BitsAlerts", "true", channelName);
             setSetting("FollowAlerts", "true", channelName);
+            setSetting("AnnouncementsWhenOffline", "false", channelName);
 	}
     }
 
@@ -233,6 +235,22 @@ public class Config extends FileBase {
 		+ "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelName) + "\"" + ")");
 	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
 		+ "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "GiftSubAlerts" + "\"" + "," + "\"" + getSetting("GiftSubAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "HostingAlerts" + "\"" + "," + "\"" + getSetting("HostingAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelName) + "\"" + ")");
     }
 
 }
