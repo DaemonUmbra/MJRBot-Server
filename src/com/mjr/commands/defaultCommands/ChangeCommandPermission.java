@@ -16,7 +16,7 @@ public class ChangeCommandPermission extends Command {
 	    String[] args) {
 	if (args.length == 3) {
 	    if (!args[1].contains("!")) {
-		if (args[2].equalsIgnoreCase("User") || args[2].equalsIgnoreCase("Moderator") || args[2].equalsIgnoreCase("Streamer")) {
+		if (args[2].equalsIgnoreCase("User") || args[2].equalsIgnoreCase("Moderator")|| args[2].equalsIgnoreCase("Subscriber") || args[2].equalsIgnoreCase("Streamer")) {
 		    String command = args[1];
 		    String permission = args[2];
 		    try {
@@ -27,7 +27,7 @@ public class ChangeCommandPermission extends Command {
 		    }
 		} else {
 		    Utilities.sendMessage(type, channel,
-			    "@" + sender + " Invalid arguments! The following Permission values are: User or Moderator or Streamer");
+			    "@" + sender + " Invalid arguments! The following Permission values are: User or Subscriber or Moderator or Streamer");
 		}
 	    } else {
 		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");

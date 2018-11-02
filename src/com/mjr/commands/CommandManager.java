@@ -134,7 +134,7 @@ public class CommandManager {
 			TwitchBot twitchBot = ((TwitchBot) bot);
 			if (twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
 			    if (PermissionLevel
-				    .getTierValueByName(Permissions.getPermissionLevel(bot, type, channel, sender.toLowerCase())) > 0) {
+				    .getTierValueByName(Permissions.getPermissionLevel(bot, type, channel, sender.toLowerCase())) > 1) {
 				allowed = true;
 			    } else if (twitchBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
 				allowed = true;
