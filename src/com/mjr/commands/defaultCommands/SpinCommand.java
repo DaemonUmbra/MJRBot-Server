@@ -8,8 +8,8 @@ import com.mjr.games.ResultPair;
 import com.mjr.games.SlotMachine;
 import com.mjr.storage.Config;
 import com.mjr.storage.EventLog;
-import com.mjr.storage.PointsSystem;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.storage.PointsSystem;
 
 public class SpinCommand extends Command {
     @Override

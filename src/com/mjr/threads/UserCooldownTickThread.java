@@ -48,7 +48,7 @@ public class UserCooldownTickThread extends Thread {
 	    try {
 		Thread.sleep(1000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }

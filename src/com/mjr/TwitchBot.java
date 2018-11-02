@@ -65,7 +65,7 @@ public class TwitchBot extends PircBot {
 	try {
 	    this.ConnectToTwitch();
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	this.channelName = channelName.toLowerCase();
 	this.setChannel("#" + channelName.toLowerCase());
@@ -96,7 +96,7 @@ public class TwitchBot extends PircBot {
 		commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName,
 			sender.toLowerCase(), login, hostname, message);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 	return;
@@ -313,7 +313,7 @@ public class TwitchBot extends PircBot {
 	    try {
 		Thread.sleep(3000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 	this.sendMessage(this.stream, message);

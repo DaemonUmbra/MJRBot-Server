@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import com.mjr.MJRBot;
+
 public class SQLUtilities {
 
     public static void createDatabaseStructure() {
@@ -40,7 +42,7 @@ public class SQLUtilities {
 	    }
 	    resultSet.close();
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 
 	return false;
@@ -54,12 +56,12 @@ public class SQLUtilities {
 		channels.put(result.getString("name"), result.getString("bot_type"));
 	    }
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	try {
 	    result.close();
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	return channels;
     }
@@ -72,12 +74,12 @@ public class SQLUtilities {
 		channels.put(result.getString("name"), result.getString("bot_type"));
 	    }
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	try {
 	    result.close();
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	return channels;
     }

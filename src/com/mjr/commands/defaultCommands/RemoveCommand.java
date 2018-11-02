@@ -2,6 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import java.io.IOException;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -21,7 +22,7 @@ public class RemoveCommand extends Command {
 		    CustomCommands.deleteCommand(type, channel, command);
 		    EventLog.addEvent(channel, sender, "Deleted the Custom Command of " + command, EventType.CustomCommands);
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    } else {
 		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");

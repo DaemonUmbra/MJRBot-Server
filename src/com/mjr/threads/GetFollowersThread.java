@@ -85,7 +85,7 @@ public class GetFollowersThread extends Thread {
 	    }
 	    ConsoleUtil.TextToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.Bot, null);
 	} catch (Exception e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 
     }

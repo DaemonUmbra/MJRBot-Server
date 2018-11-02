@@ -26,7 +26,7 @@ public class ModerationActionsLog extends FileBase {
 		Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + reason + " Message: " + message + ";").getBytes(),
 			StandardOpenOption.APPEND);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	} else {
 	    MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message) VALUES (" + "\""

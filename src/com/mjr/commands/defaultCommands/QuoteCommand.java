@@ -12,8 +12,8 @@ import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.storage.Config;
 import com.mjr.storage.EventLog;
-import com.mjr.storage.QuoteSystem;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.storage.QuoteSystem;
 
 public class QuoteCommand extends Command {
     public static String filename = "Quotes.txt";

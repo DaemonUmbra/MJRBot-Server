@@ -58,14 +58,14 @@ public class ConfigMain {
 	    try {
 		properties.save(new FileOutputStream(file), null);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	} else {
 	    properties.setProperty(setting, value);
 	    try {
 		properties.store(new FileOutputStream(file), null);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 

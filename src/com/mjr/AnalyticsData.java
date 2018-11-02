@@ -100,7 +100,7 @@ public class AnalyticsData {
 		ConsoleUtil.TextToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
 	    }
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 }

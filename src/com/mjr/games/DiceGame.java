@@ -1,10 +1,11 @@
 package com.mjr.games;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.EventLog;
-import com.mjr.storage.PointsSystem;
-import com.mjr.storage.EventLog.EventType;
 import com.mjr.Utilities;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
+import com.mjr.storage.PointsSystem;
 
 public class DiceGame {
     public static final int DEFAULT_MULTIIPLER = 1;
@@ -21,7 +22,7 @@ public class DiceGame {
 	    try {
 		Thread.sleep(2000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    if (randomNum < getWinPercent(multi)) {
 		int profit = (int) (wager * multi);

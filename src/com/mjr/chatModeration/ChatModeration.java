@@ -1,15 +1,15 @@
 package com.mjr.chatModeration;
 
-import com.mjr.MJRBot.BotType;
 import com.mjr.AnalyticsData;
+import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.TwitchBot;
+import com.mjr.Utilities;
 import com.mjr.storage.Config;
 import com.mjr.storage.ModerationActionsLog;
 import com.mjr.storage.RankSystem;
-import com.mjr.TwitchBot;
-import com.mjr.Utilities;
 
 public class ChatModeration {
 

@@ -15,15 +15,15 @@ import com.mjr.mjrmixer.MJR_MixerBot;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
 import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
 import com.mjr.storage.PointsSystem;
 import com.mjr.storage.RankSystem;
-import com.mjr.storage.EventLog.EventType;
 import com.mjr.threads.AnnouncementsThread;
+import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
-import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.RaceStartThread;
 
 public class MixerBot extends MJR_MixerBot {
@@ -62,7 +62,7 @@ public class MixerBot extends MJR_MixerBot {
 	try {
 	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 
@@ -116,7 +116,7 @@ public class MixerBot extends MJR_MixerBot {
 		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName,
 			"Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 	} catch (InterruptedException | ExecutionException | IOException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 

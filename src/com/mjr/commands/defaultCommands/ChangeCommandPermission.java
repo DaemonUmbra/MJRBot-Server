@@ -2,6 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import java.io.IOException;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -23,7 +24,7 @@ public class ChangeCommandPermission extends Command {
 			CustomCommands.changeCommandPermission(type, channel, command, permission);
 			EventLog.addEvent(channel, sender, "Edited the Custom Command permission for " + command, EventType.CustomCommands);
 		    } catch (IOException e) {
-			e.printStackTrace();
+			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		    }
 		} else {
 		    Utilities.sendMessage(type, channel,

@@ -22,7 +22,7 @@ public class BankHeistThread extends Thread {
 	try {
 	    Thread.sleep(60000);
 	} catch (InterruptedException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 
 	BankHeistGame.stage0(type, channelName);
@@ -30,7 +30,7 @@ public class BankHeistThread extends Thread {
 	try {
 	    Thread.sleep(10000);
 	} catch (InterruptedException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 
 	BankHeistGame.stage1(type, channelName);
@@ -38,7 +38,7 @@ public class BankHeistThread extends Thread {
 	try {
 	    Thread.sleep(60000);
 	} catch (InterruptedException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 
 	if (type == BotType.Twitch) {

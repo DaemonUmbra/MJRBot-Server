@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.Config;
 import com.mjr.TwitchBot;
+import com.mjr.storage.Config;
 
 public class CheckForNewFollowersThread extends Thread {
     private BotType type;
@@ -33,7 +33,7 @@ public class CheckForNewFollowersThread extends Thread {
 			try {
 			    Thread.sleep(10000);
 			} catch (InterruptedException e) {
-			    e.printStackTrace();
+			    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 			}
 		    }
 		}
@@ -41,7 +41,7 @@ public class CheckForNewFollowersThread extends Thread {
 	    try {
 		Thread.sleep(60000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }
@@ -79,7 +79,7 @@ public class CheckForNewFollowersThread extends Thread {
 			isfollower = true;
 		}
 	    } catch (Exception e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    if (!currentfollowers.contains(user) && isfollower) {
 		bot.sendMessage(user + " " + Config.getSetting("FollowerMessage", bot.channelName));

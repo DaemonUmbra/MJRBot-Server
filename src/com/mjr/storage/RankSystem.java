@@ -8,8 +8,8 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import com.mjr.ConsoleUtil;
-import com.mjr.MJRBot;
 import com.mjr.ConsoleUtil.MessageType;
+import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.EventLog.EventType;
 
@@ -43,7 +43,7 @@ public class RankSystem extends FileBase {
 		    return result.getString(1);
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 	return value;
@@ -60,7 +60,7 @@ public class RankSystem extends FileBase {
 		try {
 		    properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
 		} catch (FileNotFoundException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    } else {
 		if (isOnList(user, channelName) == false)
@@ -113,7 +113,7 @@ public class RankSystem extends FileBase {
 		else
 		    return true;
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 	return null;

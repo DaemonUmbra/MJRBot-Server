@@ -7,6 +7,7 @@ import java.net.URL;
 
 import com.mjr.ConsoleUtil;
 import com.mjr.ConsoleUtil.MessageType;
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
@@ -181,12 +182,12 @@ public class GetViewersThread extends Thread {
 			bot.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
 		}
 	    } catch (Exception e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    try {
 		Thread.sleep(60000 * 2);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }

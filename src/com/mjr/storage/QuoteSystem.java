@@ -43,7 +43,7 @@ import com.mjr.sql.MySQLConnection;
 	    try {
 		inFile1 = new Scanner(file).useDelimiter(";\\s*");
 	    } catch (FileNotFoundException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    List<String> temps = new ArrayList<String>();
 	    while (inFile1.hasNext()) {
@@ -68,7 +68,7 @@ import com.mjr.sql.MySQLConnection;
 		    return quotes;
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		return new ArrayList<String>();
 	    }
 	}
@@ -86,14 +86,14 @@ import com.mjr.sql.MySQLConnection;
 		try {
 		    Files.createFile(filePath);
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    }
 
 	    try {
 		Files.write(filePath, ("\n" + quote + ";").getBytes(), StandardOpenOption.APPEND);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	} else {
 	    MySQLConnection.executeUpdate(

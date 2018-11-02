@@ -4,10 +4,10 @@ import java.util.Random;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.Config;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.Utilities;
+import com.mjr.storage.Config;
 
 public class GiveAwayThread extends Thread {
     private BotType type;
@@ -26,7 +26,7 @@ public class GiveAwayThread extends Thread {
 	try {
 	    Thread.sleep((Integer.parseInt(Config.getSetting("GiveawayDelay", channelName)) * 60) * 1000);
 	} catch (InterruptedException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
 	if (type == BotType.Twitch) {
 	    TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);

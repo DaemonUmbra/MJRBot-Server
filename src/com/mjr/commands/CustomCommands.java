@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -57,7 +56,7 @@ public class CustomCommands {
 		    response = result.getString("response");
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 
@@ -121,7 +120,7 @@ public class CustomCommands {
 		    } else
 			Utilities.sendMessage(type, channelName, "Custom Command " + command + " already exists!");
 		} catch (SQLException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    }
 	} else
@@ -150,7 +149,7 @@ public class CustomCommands {
 		Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 	    }
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 
@@ -199,7 +198,7 @@ public class CustomCommands {
 		    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }
@@ -235,7 +234,7 @@ public class CustomCommands {
 		    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }
@@ -272,7 +271,7 @@ public class CustomCommands {
 		    Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }

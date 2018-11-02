@@ -188,7 +188,7 @@ public class MJRBot {
 		    Config.loadDefaultsDatabase(channel);
 		}
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    TwitchBot bot = new TwitchBot();
 	    bot.init(channel);
@@ -200,7 +200,7 @@ public class MJRBot {
 		} else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);

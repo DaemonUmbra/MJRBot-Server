@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mjr.MJRBot;
 import com.mjr.storage.ConfigMain;
 
 public class MySQLConnection {
@@ -20,7 +21,7 @@ public class MySQLConnection {
 		    Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"),
 		    ConfigMain.getSetting("DatabaseUsername"), ConfigMain.getSetting("DatabasePassword"));
 	} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 
@@ -80,7 +81,7 @@ public class MySQLConnection {
 		ResultSet myRs = myStmt.executeQuery(statement);
 		return myRs;
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	} else
 	    System.out.println("MySQL is disconnected! Please restart bot!");
@@ -122,7 +123,7 @@ public class MySQLConnection {
 		myStmt.executeUpdate(statement);
 		myStmt.close();
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	} else
 	    System.out.println("MySQL is disconnected! Please restart bot!");

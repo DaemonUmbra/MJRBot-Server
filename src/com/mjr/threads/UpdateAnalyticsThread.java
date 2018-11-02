@@ -13,7 +13,7 @@ public class UpdateAnalyticsThread extends Thread {
 	    try {
 		Thread.sleep(300000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }

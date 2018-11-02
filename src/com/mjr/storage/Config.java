@@ -61,7 +61,7 @@ public class Config extends FileBase {
 		setSetting("AnnouncementsWhenOffline", "false", channelName);
 	    }
 	} catch (SQLException e) {
-	    e.printStackTrace();
+	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	}
     }
 
@@ -128,7 +128,7 @@ public class Config extends FileBase {
 		    return result.getString(1);
 		}
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
 	return null;
@@ -150,14 +150,14 @@ public class Config extends FileBase {
 		try {
 		    properties.save(new FileOutputStream(file), null);
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    } else {
 		properties.setProperty(setting, value);
 		try {
 		    properties.store(new FileOutputStream(file), null);
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    }
 	} else {

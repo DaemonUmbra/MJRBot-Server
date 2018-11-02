@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mjr.MJRBot;
-import com.mjr.Utilities;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.sql.MySQLConnection;
 
@@ -26,7 +26,7 @@ public class PointsLeaderboardCommands extends Command{
 		}
 		Utilities.sendMessage(type, channel, "The top 10 users in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
 	    } catch (SQLException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	}
     }

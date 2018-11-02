@@ -2,11 +2,12 @@ package com.mjr.games;
 
 import java.util.HashMap;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.storage.EventLog;
-import com.mjr.storage.PointsSystem;
-import com.mjr.storage.EventLog.EventType;
 import com.mjr.Utilities;
+import com.mjr.storage.EventLog;
+import com.mjr.storage.EventLog.EventType;
+import com.mjr.storage.PointsSystem;
 
 public class BankHeistGame {
 
@@ -32,7 +33,7 @@ public class BankHeistGame {
 	    try {
 		Thread.sleep(60000);
 	    } catch (InterruptedException e) {
-		e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 	    }
 	    int randNum2 = Utilities.getRandom(1, 2);
 	    if (randNum2 == 1)

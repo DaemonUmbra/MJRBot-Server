@@ -2,6 +2,7 @@ package com.mjr.commands.defaultCommands;
 
 import java.io.IOException;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.Utilities;
@@ -22,7 +23,7 @@ public class ChangeCommandState extends Command {
 		    CustomCommands.changeCommandState(type, channel, command, state);
 		    EventLog.addEvent(channel, sender, "Edited the Custom Command state for " + command, EventType.CustomCommands);
 		} catch (IOException e) {
-		    e.printStackTrace();
+		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    } else {
 		Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
