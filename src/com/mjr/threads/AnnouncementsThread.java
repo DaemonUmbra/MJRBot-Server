@@ -26,8 +26,7 @@ public class AnnouncementsThread extends Thread {
 		String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
 		if (result.contains("created_at"))
 		    streaming = true;
-		if ((Config.getSetting("AnnouncementsWhenOffline", channelName).equalsIgnoreCase("true") && streaming == false)
-			|| streaming) {
+		if (Config.getSetting("AnnouncementsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
 		    int delay = Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName));
 		    if (delay != 0) {
 			long TimeDuration = (delay * 60) * 1000;
