@@ -25,6 +25,7 @@ import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.BankHeistThread;
 import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
+import com.mjr.threads.GetSubscribersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.RaceStartThread;
 
@@ -39,6 +40,7 @@ public class TwitchBot extends PircBot {
     private final CommandManager commands = new CommandManager();
 
     public GetViewersThread getViewersThread;
+    public GetSubscribersThread getSubscribersThread;
     public AutoPointsThread pointsThread;
     public AnnouncementsThread announcementsThread;
     public CheckForNewFollowersThread followersThread;
@@ -49,6 +51,7 @@ public class TwitchBot extends PircBot {
     public List<String> moderators = new ArrayList<String>();
     public List<String> viewers = new ArrayList<String>();
     public List<String> followers = new ArrayList<String>();
+    public List<String> subscribers = new ArrayList<String>();
     public HashMap<String, Integer> usersCooldowns = new HashMap<String, Integer>();
     public HashMap<String, Long> viewersJoinedTimes = new HashMap<String, Long>();
     public HashMap<String, Integer> bankHeistEnteredUsers = new HashMap<String, Integer>();
@@ -227,6 +230,8 @@ public class TwitchBot extends PircBot {
 	    getViewersThread.start();
 	    getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 	    getFollowersThread.start();
+	    getSubscribersThread = new GetSubscribersThread(this, BotType.Twitch);
+	    getSubscribersThread.start();
 	}
 
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
