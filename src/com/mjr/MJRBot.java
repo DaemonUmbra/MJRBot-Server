@@ -27,7 +27,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
-    public static final String VERSION = "1.7.8, Server Version";
+    public static final String VERSION = "1.7.9, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
@@ -60,13 +60,14 @@ public class MJRBot {
 
     public static void main(final String[] args)
 	    throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
-	
+
 	// Disable logging from dependency packages
 	LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        for(ch.qos.logback.classic.Logger l : lc.getLoggerList()){ l.setLevel(Level.OFF); }
-        System.setProperty("org.apache.commons.logging.Log","org.apache.commons.logging.impl.NoOpLog");
-        
-        
+	for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
+	    l.setLevel(Level.OFF);
+	}
+	System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+
 	if (OSUtilities.isUnix())
 	    filePath = "/home/" + File.separator + "MJRBot" + File.separator;
 	else if (OSUtilities.isWindows())
@@ -81,7 +82,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		// connectionType = "Database";
+		// connectionType = "Manual";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -91,7 +92,7 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		// fileSystemType = "Database";
+		// fileSystemType = "File";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))

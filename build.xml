@@ -6,7 +6,7 @@
     <property name="lib-dir" value="libs"/>
     <property name="jar-dir" value="${dist-dir}/jar"/>
     <property name="main-class" value="com.mjr.MJRBot"/>
-    <property name="version" value="v1.7.8"/>
+    <property name="version" value="v1.7.9"/>
 
     <path id="classpath">
         <fileset dir="${lib-dir}" includes="**/*.jar"/>
