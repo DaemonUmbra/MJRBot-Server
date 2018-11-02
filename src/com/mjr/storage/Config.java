@@ -51,6 +51,13 @@ public class Config extends FileBase {
 		setSetting("AnnouncementMessage5", "", channelName);
 		setSetting("CommandsCooldownAmount", "20", channelName);
 		setSetting("SelectedTimeZone", "Europe/London", channelName);
+		setSetting("SubAlerts", "true", channelName);
+		setSetting("ResubAlerts", "true", channelName);
+		setSetting("GiftSubAlerts", "true", channelName);
+		setSetting("HostingAlerts", "true", channelName);
+		setSetting("RaidAlerts", "true", channelName);
+		setSetting("BitsAlerts", "true", channelName);
+		setSetting("FollowAlerts", "true", channelName);
 	    }
 	} catch (SQLException e) {
 	    e.printStackTrace();
@@ -92,6 +99,13 @@ public class Config extends FileBase {
 	    setSetting("AnnouncementMessage5", "", channelName);
 	    setSetting("CommandsCooldownAmount", "20", channelName);
 	    setSetting("SelectedTimeZone", "Europe/London", channelName);
+	    setSetting("SubAlerts", "true", channelName);
+            setSetting("ResubAlerts", "true", channelName);
+            setSetting("GiftSubAlerts", "true", channelName);
+            setSetting("HostingAlerts", "true", channelName);
+            setSetting("RaidAlerts", "true", channelName);
+            setSetting("BitsAlerts", "true", channelName);
+            setSetting("FollowAlerts", "true", channelName);
 	}
     }
 
