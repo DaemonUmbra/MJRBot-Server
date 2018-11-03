@@ -171,12 +171,14 @@ public class TwitchBot extends PircBot {
 		    Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just subscribed to the channel using Twitch Prime!");
 		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel using Twitch Prime!", MessageType.Bot, null);
 		EventLog.addEvent(this.channelName, user, "Just subscribed to the channel using Twitch Prime!", EventType.Sub);
+		this.subscribers.add(user);
 	    }
 	    else {
 		if(Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 		    Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just subscribed to the channel!");
 		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel!", MessageType.Bot, null);
 		EventLog.addEvent(this.channelName, user, "Just subscribed to the channel!", EventType.Sub);
+		this.subscribers.add(user);
 	    }
 	}
 	else if(line.contains("msg-id=resub")) {
@@ -189,12 +191,14 @@ public class TwitchBot extends PircBot {
 		    Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just resubscribed to the channel using Twitch Prime for "+ months + " months in a row!");
 		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel using Twitch Prime for "+ months + " months in a row!", MessageType.Bot, null);
 		EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel using Twitch Prime for "+ months + " months in a row!", EventType.Sub);
+		this.subscribers.add(user);
 	    }
 	    else {
 		if(Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 		    Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just resubscribed to the channel for "+ months + " months in a row!");
 		ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel for "+ months + " months in a row!", MessageType.Bot, null);
 		EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel for "+ months + " months in a row!", EventType.Sub);
+		this.subscribers.add(user);
 	    }
 	}
 	else if(line.contains("msg-param-recipient-display-name=")) {
@@ -206,6 +210,7 @@ public class TwitchBot extends PircBot {
 		Utilities.sendMessage(BotType.Twitch, this.channelName, gifter + " has gifted a sub to " + user);
 	    ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, gifter + " has gifted a sub to " + user, MessageType.Bot, null);
 	    EventLog.addEvent(this.channelName, gifter, "Has gifted a sub to " + user, EventType.Sub);
+	    this.subscribers.add(user);
 	}
     }
 
