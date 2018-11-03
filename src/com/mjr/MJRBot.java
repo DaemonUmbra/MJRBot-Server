@@ -27,7 +27,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
-    public static final String VERSION = "1.7.9, Server Version";
+    public static final String VERSION = "1.8.0, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
     public static String filePath;
@@ -82,7 +82,7 @@ public class MJRBot {
 	    String connectionType = "";
 	    do {
 		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		// connectionType = "Manual";
+		// connectionType = "Database";
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -92,7 +92,7 @@ public class MJRBot {
 	    String fileSystemType = "";
 	    do {
 		fileSystemType = console.readLine("Storage Type: File or Database?");
-		// fileSystemType = "File";
+		// fileSystemType = "Database";
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))
