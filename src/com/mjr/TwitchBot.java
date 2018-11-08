@@ -86,6 +86,7 @@ public class TwitchBot extends PircBot {
 	    this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 	// GUI
 	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Chat, sender);
+	CrossChatLink.sendMessageAcrossPlatforms(BotType.Twitch, channel, sender, message);
 	if (moderators != null)
 	    if (Arrays.asList(moderators).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
 		ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender,

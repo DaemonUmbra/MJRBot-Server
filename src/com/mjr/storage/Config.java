@@ -59,6 +59,8 @@ public class Config extends FileBase {
 		setSetting("BitsAlerts", "true", channelName);
 		setSetting("FollowAlerts", "true", channelName);
 		setSetting("AnnouncementsWhenOffline", "false", channelName);
+		setSetting("TwitchChatLink", "true", channelName);
+		setSetting("MixerChatLink", "true", channelName);
 	    }
 	} catch (SQLException e) {
 	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
@@ -108,6 +110,8 @@ public class Config extends FileBase {
             setSetting("BitsAlerts", "true", channelName);
             setSetting("FollowAlerts", "true", channelName);
             setSetting("AnnouncementsWhenOffline", "false", channelName);
+            setSetting("TwitchChatLink", "true", channelName);
+            setSetting("MixerChatLink", "true", channelName);
 	}
     }
 
@@ -251,6 +255,10 @@ public class Config extends FileBase {
 		+ "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelName) + "\"" + ")");
 	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
 		+ "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelName) + "\"" + ")");
     }
 
 }
