@@ -4,3 +4,4 @@ src/com/mjr/AccountSettings.java
 *.jar
 .classpath
 .project
+/target/

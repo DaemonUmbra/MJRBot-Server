@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mjr.commands.CommandManager;
@@ -47,8 +48,9 @@ public class MJRBot {
     public static UserCooldownTickThread userCooldownTickThread;
     public static UpdateAnalyticsThread updateAnalyticsThread;
     public static ChannelListUpdateThread updateThread;
+    public static DiscordBot bot;
 
-    private static Logger logger = Logger.getLogger(MJRBot.class);
+    private static Logger logger = LogManager.getLogger();
 
     public enum BotType {
 	Twitch("Twitch"), Mixer("Mixer");
@@ -66,7 +68,6 @@ public class MJRBot {
 
     public static void main(final String[] args)
 	    throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
-
 	// Disable logging from dependency packages
 	LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 	for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
@@ -121,6 +122,8 @@ public class MJRBot {
 	    }
 	    CommandManager.loadCommands();
 	}
+	bot = new DiscordBot();
+	bot.startBot(ConfigMain.getSetting("DiscordToken"));
     }
 
     public static void runMirgration() {
@@ -277,7 +280,6 @@ public class MJRBot {
 	ConsoleUtil.TextToConsole("MJRBot has been removed from the channel " + channelName);
 	twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
     }
-
     public static TwitchBot getTwitchBotByChannelName(String channelName) {
 	for (String bot : twitchBots.keySet()) {
 	    if (bot.equalsIgnoreCase(channelName))

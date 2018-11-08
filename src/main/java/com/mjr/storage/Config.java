@@ -61,6 +61,8 @@ public class Config extends FileBase {
 		setSetting("AnnouncementsWhenOffline", "false", channelName);
 		setSetting("TwitchChatLink", "true", channelName);
 		setSetting("MixerChatLink", "true", channelName);
+		setSetting("DiscordEnabled", "true", channelName);
+		setSetting("DiscordChatLink", "true", channelName);
 	    }
 	} catch (SQLException e) {
 	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
@@ -112,6 +114,8 @@ public class Config extends FileBase {
             setSetting("AnnouncementsWhenOffline", "false", channelName);
             setSetting("TwitchChatLink", "true", channelName);
             setSetting("MixerChatLink", "true", channelName);
+            setSetting("DiscordEnabled", "true", channelName);
+            setSetting("DiscordChatLink", "true", channelName);
 	}
     }
 
@@ -259,6 +263,10 @@ public class Config extends FileBase {
 		+ "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelName) + "\"" + ")");
 	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
 		+ "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelName) + "\"" + ")");
+	MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\""
+		+ "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelName) + "\"" + ")");
     }
 
 }

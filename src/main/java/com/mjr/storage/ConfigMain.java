@@ -37,6 +37,7 @@ public class ConfigMain {
 	    setSetting("UpdateChannelFromDatabaseTime(Seconds)", "30");
 	    setSetting("TwitchVerboseMessages", "false");
 	    setSetting("TwitchClientSecret", "");
+	    setSetting("DiscordToken", "");
 	}
 	FileReader reader = new FileReader(file);
 	properties.load(reader);
