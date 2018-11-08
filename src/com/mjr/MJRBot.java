@@ -27,6 +27,12 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
+
+    public static boolean developmentModeDatabase = false;
+    public static boolean developmentModeManual = true;
+    public static String developmentChannel = "mjrlegends";
+    public static String developmentPlatform = "Twitch";
+
     public static final String VERSION = "1.8.0, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
@@ -81,8 +87,12 @@ public class MJRBot {
 	    ConfigMain.load();
 	    String connectionType = "";
 	    do {
-		connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-		// connectionType = "Database";
+		if (developmentModeDatabase)
+		    connectionType = "Database";
+		if (developmentModeManual)
+		    connectionType = "Manual";
+		else
+		    connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
 
 		if (connectionType.equalsIgnoreCase("Migrate")) {
 		    runMirgration();
@@ -91,8 +101,12 @@ public class MJRBot {
 
 	    String fileSystemType = "";
 	    do {
-		fileSystemType = console.readLine("Storage Type: File or Database?");
-		// fileSystemType = "Database";
+		if (developmentModeDatabase)
+		    fileSystemType = "Database";
+		if (developmentModeManual)
+		    fileSystemType = "File";
+		else
+		    fileSystemType = console.readLine("Storage Type: File or Database?");
 	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
 
 	    if (fileSystemType.equalsIgnoreCase("File"))
@@ -113,8 +127,6 @@ public class MJRBot {
 	String channelName = "";
 	String type = "";
 	channelName = console.readLine("Channel Name?");
-
-	// channelName = "mjrlegends";
 	useFileSystem = true;
 	MySQLConnection.connect();
 	type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
@@ -143,11 +155,14 @@ public class MJRBot {
     public static void runManualMode() {
 	do {
 	    String botType;
-	    botType = console.readLine("Connection Type: Twitch or Mixer?");
-	    channel = console.readLine("Channel Name?");
+	    if (developmentModeManual) {
+                botType = developmentPlatform;
+                channel = developmentChannel;
+	    } else {
+                botType = console.readLine("Connection Type: Twitch or Mixer?");
+                channel = console.readLine("Channel Name?");
+	    }
 
-	    // botType = "Twitch";
-	    // channel = "mjrlegends";
 	    createBot(channel, botType);
 
 	} while (twitchBots.isEmpty() && mixerBots.isEmpty());
@@ -188,7 +203,8 @@ public class MJRBot {
 		    Config.loadDefaultsDatabase(channel);
 		}
 	    } catch (IOException e) {
-		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+		e.printStackTrace();
 	    }
 	    TwitchBot bot = new TwitchBot();
 	    bot.init(channel);
@@ -200,7 +216,8 @@ public class MJRBot {
 		} else
 		    Config.loadDefaultsDatabase(channel);
 	    } catch (IOException e) {
-		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
+		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+		e.printStackTrace();
 	    }
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);
