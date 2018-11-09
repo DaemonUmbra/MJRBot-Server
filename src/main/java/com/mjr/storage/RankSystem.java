@@ -70,7 +70,7 @@ public class RankSystem extends FileBase {
 		    MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + channelName
 			    + "\"" + " AND name = " + "\"" + user + "\"");
 	    }
-	    ConsoleUtil.TextToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.Bot, null);
+	    ConsoleUtil.textToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.Bot, null);
 	    EventLog.addEvent(channelName, user, "Set rank to " + rank, EventType.Rank);
 	}
     }
@@ -78,7 +78,7 @@ public class RankSystem extends FileBase {
     public static void removeRank(String user, String channelName) {
 	user = user.toLowerCase();
 	if (getRank(user, channelName) != "None") {
-	    ConsoleUtil.TextToConsole(null, null, channelName, "Removed rank from " + user, MessageType.Bot, null);
+	    ConsoleUtil.textToConsole(null, null, channelName, "Removed rank from " + user, MessageType.Bot, null);
 	    EventLog.addEvent(channelName, user, "Removed rank", EventType.Rank);
 	    setRank(user, "None", channelName);
 	}

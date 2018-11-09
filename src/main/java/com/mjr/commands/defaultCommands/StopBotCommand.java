@@ -16,7 +16,7 @@ public class StopBotCommand extends Command {
     public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
 	    String[] args) {
 	Utilities.sendMessage(type, channel, "Bot is shutting down!");
-	ConsoleUtil.TextToConsole("Stop Bot command has been triggered, Bot is shutting down!");
+	ConsoleUtil.textToConsole("Stop Bot command has been triggered, Bot is shutting down!");
 	MJRBot.updateThread.stop();
 	for (String channelNameMain : MJRBot.getTwitchBots().keySet()) {
 	    TwitchBot tempBot = MJRBot.getTwitchBotByChannelName(channelNameMain);

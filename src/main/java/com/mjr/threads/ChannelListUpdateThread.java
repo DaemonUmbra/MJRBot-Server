@@ -21,7 +21,7 @@ public class ChannelListUpdateThread extends Thread {
 	    HashMap<String, MixerBot> currentChannelListMixer = MJRBot.getMixerBots();
 
 	    // Check for new channels
-	    ConsoleUtil.TextToConsole("Update Channels List");
+	    ConsoleUtil.textToConsole("Update Channels List");
 	    boolean found = false;
 	    for (String channelName : channelListTwitch.keySet()) {
 		found = false;

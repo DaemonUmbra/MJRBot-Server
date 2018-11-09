@@ -26,7 +26,7 @@ public class ChangeCommandResponse extends Command {
 		    CustomCommands.changeCommandResponse(type, channel, command, response);
 		    EventLog.addEvent(channel, sender, "Edited the Custom Command response for " + command, EventType.CustomCommands);
 		} catch (IOException e) {
-		    ConsoleUtil.TextToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
+		    ConsoleUtil.textToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
 		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
 		}
 	    } else {

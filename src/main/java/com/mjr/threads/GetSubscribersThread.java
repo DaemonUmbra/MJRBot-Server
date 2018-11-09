@@ -71,7 +71,7 @@ public class GetSubscribersThread extends Thread {
 			}
 		    }
 		}
-		ConsoleUtil.TextToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot,
+		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot,
 			null);
 	    }
 	} catch (Exception e) {

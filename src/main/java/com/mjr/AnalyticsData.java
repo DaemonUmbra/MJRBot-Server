@@ -98,7 +98,7 @@ public class AnalyticsData {
 			    + " WHERE name=" + "\"" + "NumOfPointsRemoved" + "\"");
 		    AnalyticsData.clearNumOfPointsRemoved();
 		}
-		ConsoleUtil.TextToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
+		ConsoleUtil.textToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
 	    }
 	} catch (SQLException e) {
 	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();

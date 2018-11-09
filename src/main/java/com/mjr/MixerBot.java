@@ -59,7 +59,7 @@ public class MixerBot extends MJR_MixerBot {
 
     @Override
     protected void onMessage(String sender, String message) {
-	ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
+	ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
 	CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
 	try {
 	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
@@ -110,12 +110,12 @@ public class MixerBot extends MJR_MixerBot {
 		    if (!this.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
 			this.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
+		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!",
 			MessageType.Chat, null);
 		if (Config.getSetting("SilentJoin", channel).equalsIgnoreCase("false"))
 		    this.sendMessage(this.getBotName() + " Connected!");
 	    } else
-		ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName,
+		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName,
 			"Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 	} catch (InterruptedException | ExecutionException | IOException e) {
 	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
@@ -125,7 +125,7 @@ public class MixerBot extends MJR_MixerBot {
     @Override
     protected void onDebugMessage() {
 	for (String message : this.getOutputMessages())
-	    ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
+	    ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
 	this.clearOutputMessages();
     }
 
@@ -134,7 +134,7 @@ public class MixerBot extends MJR_MixerBot {
 	    this.sendMessage(this.getBotName() + " Disconnected!");
 	}
 	this.disconnect();
-	ConsoleUtil.TextToConsole(this, BotType.Twitch, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
+	ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
 	this.viewersJoinedTimes.clear();
     }
 }

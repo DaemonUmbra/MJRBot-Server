@@ -25,11 +25,11 @@ public class ConsoleUtil {
 	}
     }
 
-    public static void TextToConsole(String message) {
-	TextToConsole(null, null, "", message, MessageType.Console, null);
+    public static void textToConsole(String message) {
+	textToConsole(null, null, "", message, MessageType.Console, null);
     }
 
-    public static void TextToConsole(Object bot, BotType type, String channel, String message, MessageType messageType, String sender) {
+    public static void textToConsole(Object bot, BotType type, String channel, String message, MessageType messageType, String sender) {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	Date date = new Date();
 	if (messageType == MessageType.Chat) {
@@ -53,7 +53,7 @@ public class ConsoleUtil {
 		    MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel
 			    + " - [Moderator]" + sender + ": " + message);
 		} else if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.User.getName())) {
-		    MJRBot.getLogger().info(dateFormat.format(date) + "[Bot Type]" + type.getTypeName() + " [Channel]" + channel
+		    MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel
 			    + " - [User]" + sender + ": " + message);
 		}
 	    }

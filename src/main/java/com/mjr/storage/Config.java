@@ -150,9 +150,9 @@ public class Config extends FileBase {
 	    file = loadFile(channelName, fileName);
 	    if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 		if (value == "true")
-		    ConsoleUtil.TextToConsole(setting + " has been has enabled!");
+		    ConsoleUtil.textToConsole(setting + " has been has enabled!");
 		else
-		    ConsoleUtil.TextToConsole(setting + " has been has disabled!");
+		    ConsoleUtil.textToConsole(setting + " has been has disabled!");
 
 		properties.setProperty(setting, value);
 		try {
