@@ -60,7 +60,7 @@ public class MixerBot extends MJR_MixerBot {
     @Override
     protected void onMessage(String sender, String message) {
 	ConsoleUtil.TextToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
-	CrossChatLink.sendMessageAcrossPlatforms(BotType.Twitch, this.channelName, sender, message);
+	CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
 	try {
 	    commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 	} catch (IOException e) {

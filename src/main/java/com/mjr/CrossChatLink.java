@@ -14,7 +14,7 @@ public class CrossChatLink {
 	boolean twitch = type == BotType.Twitch ? false : true;
 	boolean mixer = type == BotType.Mixer ? false : true;
 	boolean discord = Config.getSetting("DiscordEnabled", channelName).equalsIgnoreCase("true") ? true : false;
-	String platformPrefex = type == BotType.Twitch ? "[Twitch]" : "Mixer";
+	String platformPrefex = type == BotType.Twitch ? "[Twitch]" : "[Mixer]";
 	String senderPrefex = " " + sender + ": ";
 
 	if(twitch && Config.getSetting("TwitchChatLink", channelName).equalsIgnoreCase("true"))

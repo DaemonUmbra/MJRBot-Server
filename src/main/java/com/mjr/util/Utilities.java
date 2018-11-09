@@ -4,6 +4,8 @@ import java.util.TimeZone;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MixerBot;
+import com.mjr.TwitchBot;
 
 public class Utilities {
 
@@ -24,10 +26,16 @@ public class Utilities {
     }
 
     public static void sendMessage(BotType type, String channelName, String endMessage) {
-	if (type == BotType.Twitch)
-	    MJRBot.getTwitchBotByChannelName(channelName).sendMessage(endMessage);
-	else
-	    MJRBot.getMixerBotByChannelName(channelName).sendMessage(endMessage);
+	if (type == BotType.Twitch) {
+	    TwitchBot bot = MJRBot.getTwitchBotByChannelName(channelName);
+	    if(bot != null)
+		bot.sendMessage(endMessage);
+	}
+	else {
+	    MixerBot bot = MJRBot.getMixerBotByChannelName(channelName);
+	    if(bot != null)
+		bot.sendMessage(endMessage);
+	}
     }
     
     public static java.util.Date convertTimeZone(java.util.Date date, TimeZone fromTZ , TimeZone toTZ)
