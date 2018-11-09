@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>MJRBot-Server</groupId>
+   <groupId>com.mjrbot.MJRBot</groupId>
    <artifactId>MJRBot-Server</artifactId>
    <version>1.8.0</version>
    <repositories>
@@ -12,6 +12,7 @@
       </repository>
       <repository>
          <id>maven.mjrlegends.com</id>
+         <name>MJRLegends</name>
          <url>https://maven.mjrlegends.com</url>
       </repository>
    </repositories>
@@ -49,21 +50,6 @@
          <version>2.10.1</version>
       </dependency>
       <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-core</artifactId>
-         <version>2.9.5</version>
-      </dependency>
-      <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-annotations</artifactId>
-         <version>2.9.5</version>
-      </dependency>
-      <dependency>
-         <groupId>com.fasterxml.jackson.core</groupId>
-         <artifactId>jackson-databind</artifactId>
-         <version>2.9.5</version>
-      </dependency>
-      <dependency>
          <groupId>ch.qos.logback</groupId>
          <artifactId>logback-classic</artifactId>
          <version>1.2.3</version>
@@ -71,7 +57,8 @@
       <dependency>
          <groupId>com.mjr.mjrmixer</groupId>
          <artifactId>Mixer-Bot-Framework</artifactId>
-         <version>v1.0.0Build</version>
+         <version>1.0.0</version>
+         <type>jar</type>
       </dependency>
       <dependency>
 	      <groupId>org.jibble.pircbot</groupId>
