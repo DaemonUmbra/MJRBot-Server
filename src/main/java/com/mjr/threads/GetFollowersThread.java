@@ -5,10 +5,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.mjr.ConsoleUtil;
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.TwitchBot;
 
 public class GetFollowersThread extends Thread {

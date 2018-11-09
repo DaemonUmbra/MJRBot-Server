@@ -2,9 +2,9 @@ package com.mjr.games;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
 import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.util.Utilities;
 import com.mjr.storage.PointsSystem;
 
 public class DiceGame {

@@ -8,13 +8,13 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mjr.ConsoleUtil;
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.TwitchBot;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.ConfigMain;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 public class GetSubscribersThread extends Thread {
     private BotType type;

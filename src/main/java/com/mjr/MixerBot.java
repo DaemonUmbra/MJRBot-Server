@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
 import com.mjr.commands.CommandManager;
 import com.mjr.games.MathsGame;
@@ -25,6 +24,8 @@ import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.RaceStartThread;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 public class MixerBot extends MJR_MixerBot {
 

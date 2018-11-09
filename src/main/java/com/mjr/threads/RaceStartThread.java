@@ -2,7 +2,7 @@ package com.mjr.threads;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
+import com.mjr.util.Utilities;
 
 public class RaceStartThread extends Thread {
     private BotType type;

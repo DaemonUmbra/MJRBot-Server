@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
+import com.mjr.util.Utilities;
 
 public class AccountLifeCommand extends Command {
 

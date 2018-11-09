@@ -1,4 +1,4 @@
-package com.mjr;
+package com.mjr.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -3,8 +3,8 @@ package com.mjr.commands.defaultCommands;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
+import com.mjr.util.Utilities;
 
 public class CommandsListCommand extends Command {
     @Override

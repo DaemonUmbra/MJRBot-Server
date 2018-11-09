@@ -8,13 +8,13 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
+import com.mjr.util.HTTPConnect;
+import com.mjr.util.Utilities;
 
 public class UptimeCommand extends Command {
     @Override

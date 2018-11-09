@@ -1,7 +1,7 @@
 package com.mjr.games;
 
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
+import com.mjr.util.Utilities;
 
 public class SlotMachine {
     public static String[] emotesTwtich = { "MrDestructoid", "PJSugar", "SSSsss", "PJSalt", "KappaPride", "StinkyCheese", "FunRun",

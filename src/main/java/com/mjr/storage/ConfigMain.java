@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
+import com.mjr.util.ConsoleUtil;
 
 public class ConfigMain {
     public static String filename = "Settings.properties";

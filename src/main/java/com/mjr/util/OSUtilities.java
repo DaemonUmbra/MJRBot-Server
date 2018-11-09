@@ -1,4 +1,4 @@
-package com.mjr;
+package com.mjr.util;
 
 public class OSUtilities {
 

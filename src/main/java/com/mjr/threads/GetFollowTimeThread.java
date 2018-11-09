@@ -14,8 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.util.Utilities;
 import com.mjr.TwitchBot;
-import com.mjr.Utilities;
 
 public class GetFollowTimeThread extends Thread {
     private BotType type;

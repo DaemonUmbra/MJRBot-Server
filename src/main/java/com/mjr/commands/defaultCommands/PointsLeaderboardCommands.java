@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 public class PointsLeaderboardCommands extends Command{
 

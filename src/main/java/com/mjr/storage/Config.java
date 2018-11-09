@@ -7,9 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.ConsoleUtil;
 
 public class Config extends FileBase {
     public static String fileName = "Config.properties";

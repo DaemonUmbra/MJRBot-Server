@@ -1,9 +1,9 @@
 package com.mjr.games;
 
-import com.mjr.ConsoleUtil;
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.Utilities;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 public class MathsGame {
     public int rannum1;

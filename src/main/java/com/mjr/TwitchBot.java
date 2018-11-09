@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.jibble.pircbot.PircBot;
 
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot.BotType;
 import com.mjr.chatModeration.ChatModeration;
 import com.mjr.commands.CommandManager;
@@ -28,6 +27,9 @@ import com.mjr.threads.GetFollowersThread;
 import com.mjr.threads.GetSubscribersThread;
 import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.RaceStartThread;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.Utilities;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 public class TwitchBot extends PircBot {
 

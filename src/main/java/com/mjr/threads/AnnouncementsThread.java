@@ -1,10 +1,10 @@
 package com.mjr.threads;
 
-import com.mjr.HTTPConnect;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
 import com.mjr.storage.Config;
+import com.mjr.util.HTTPConnect;
+import com.mjr.util.Utilities;
 
 public class AnnouncementsThread extends Thread {
 

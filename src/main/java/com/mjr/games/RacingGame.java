@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.mjr.MJRBot.BotType;
-import com.mjr.Utilities;
 import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.util.Utilities;
 import com.mjr.storage.PointsSystem;
 
 public class RacingGame {

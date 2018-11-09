@@ -4,9 +4,9 @@ import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.storage.Config;
+import com.mjr.util.Utilities;
 
 public class MathsCommand extends Command {
     @Override

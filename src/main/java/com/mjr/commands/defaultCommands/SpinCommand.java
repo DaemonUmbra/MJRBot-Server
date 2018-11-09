@@ -2,13 +2,13 @@ package com.mjr.commands.defaultCommands;
 
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions.PermissionLevel;
-import com.mjr.Utilities;
 import com.mjr.commands.Command;
 import com.mjr.games.ResultPair;
 import com.mjr.games.SlotMachine;
 import com.mjr.storage.Config;
 import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.util.Utilities;
 import com.mjr.storage.PointsSystem;
 
 public class SpinCommand extends Command {

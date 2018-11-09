@@ -6,8 +6,8 @@ import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
-import com.mjr.Utilities;
 import com.mjr.storage.Config;
+import com.mjr.util.Utilities;
 
 public class GiveAwayThread extends Thread {
     private BotType type;

@@ -17,10 +17,10 @@ import java.util.Properties;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
-import com.mjr.Utilities;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
+import com.mjr.util.Utilities;
 
 public class CustomCommands {
 

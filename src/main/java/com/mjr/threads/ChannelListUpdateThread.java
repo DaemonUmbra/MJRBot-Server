@@ -2,13 +2,13 @@ package com.mjr.threads;
 
 import java.util.HashMap;
 
-import com.mjr.ConsoleUtil;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.storage.ConfigMain;
+import com.mjr.util.ConsoleUtil;
 
 public class ChannelListUpdateThread extends Thread {
 

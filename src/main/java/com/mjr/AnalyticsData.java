@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.ConsoleUtil;
 
 public class AnalyticsData {
     private static int numOfCommandsUsed = 0;

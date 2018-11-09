@@ -1,7 +1,8 @@
-package com.mjr;
+package com.mjr.util;
 
 import java.util.TimeZone;
 
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 
 public class Utilities {

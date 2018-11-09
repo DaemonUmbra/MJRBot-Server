@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.mjr.ConsoleUtil;
-import com.mjr.ConsoleUtil.MessageType;
 import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.EventLog.EventType;
+import com.mjr.util.ConsoleUtil;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 public class RankSystem extends FileBase {
 
