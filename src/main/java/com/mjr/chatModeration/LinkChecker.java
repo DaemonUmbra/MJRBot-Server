@@ -14,46 +14,42 @@ import com.mjr.TwitchBot;
 
 public class LinkChecker {
 
-    private static List<String> endings = new ArrayList<String>(
-	    Arrays.asList(".com", ".co.uk", ".co", ".tv", ".net", ".pro", ".org", ".gov", ".ly"));
+	private static List<String> endings = new ArrayList<String>(Arrays.asList(".com", ".co.uk", ".co", ".tv", ".net", ".pro", ".org", ".gov", ".ly"));
 
-    private static final Pattern urlPattern = Pattern
-	    .compile(
-		    "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*"
-			    + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
-		    Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+	private static final Pattern urlPattern = Pattern.compile("(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*" + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
+			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-    public static boolean CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
-	boolean isLink = false;
-	message = message.replace(" ", "");
-	message = message.replace(",", "");
-	message = message.replace("www.", "");
-	message = message.replace("-", "");
-	message = message.replace("*", "");
-	message = message.replace("/", "");
-	message = message.replace("+", "");
-	message = message.replace("@", "");
-	message = message.replace("#", "");
-	for (String end : endings)
-	    if (message.contains(end))
-		isLink = true;
-	if (!isLink) {
+	public static boolean CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
+		boolean isLink = false;
+		message = message.replace(" ", "");
+		message = message.replace(",", "");
+		message = message.replace("www.", "");
+		message = message.replace("-", "");
+		message = message.replace("*", "");
+		message = message.replace("/", "");
+		message = message.replace("+", "");
+		message = message.replace("@", "");
+		message = message.replace("#", "");
+		for (String end : endings)
+			if (message.contains(end))
+				isLink = true;
+		if (!isLink) {
 
-	    Matcher matcher = urlPattern.matcher(message);
-	    while (matcher.find()) {
-		isLink = true;
-	    }
+			Matcher matcher = urlPattern.matcher(message);
+			while (matcher.find()) {
+				isLink = true;
+			}
+		}
+		if (isLink) {
+			if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName()))
+				return true;
+			else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
+				return true;
+			else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender))
+				return true;
+			else
+				return false;
+		}
+		return true;
 	}
-	if (isLink) {
-	    if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName()))
-		return true;
-	    else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
-		return true;
-	    else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender))
-		return true;
-	    else
-		return false;
-	}
-	return true;
-    }
 }

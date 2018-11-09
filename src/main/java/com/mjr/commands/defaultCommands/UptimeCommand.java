@@ -17,57 +17,55 @@ import com.mjr.util.HTTPConnect;
 import com.mjr.util.Utilities;
 
 public class UptimeCommand extends Command {
-    @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
-	    String[] args) {
-	if (type == BotType.Twitch) {
-	    String result = HTTPConnect
-		    .GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
-	    if (result.contains("created_at")) {
-		String upTime = result.substring(result.indexOf("created_at") + 13);
-		upTime = upTime.substring(0, 20);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-		format.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Date parse = null;
+	@Override
+	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+		if (type == BotType.Twitch) {
+			String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
+			if (result.contains("created_at")) {
+				String upTime = result.substring(result.indexOf("created_at") + 13);
+				upTime = upTime.substring(0, 20);
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+				format.setTimeZone(TimeZone.getTimeZone("UTC"));
+				Date parse = null;
 
-		try {
-		    parse = format.parse(upTime);
-		} catch (ParseException e) {
-		    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
+				try {
+					parse = format.parse(upTime);
+				} catch (ParseException e) {
+					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+					e.printStackTrace();
+				}
+
+				runCommand(type, channel, sender, parse);
+			} else {
+				Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
+			}
+		} else {
+			MixerBot mixerBot = ((MixerBot) bot);
+			if (mixerBot.isStreaming())
+				runCommand(type, channel, sender, mixerBot.getUpdatedAt());
+			else
+				Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
 		}
-
-		runCommand(type, channel, sender, parse);
-	    } else {
-		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
-	    }
-	} else {
-	    MixerBot mixerBot = ((MixerBot) bot);
-	    if (mixerBot.isStreaming())
-		runCommand(type, channel, sender, mixerBot.getUpdatedAt());
-	    else
-		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
 	}
-    }
 
-    public void runCommand(BotType type, String channel, String sender, Date date2) {
-	OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
-	Date date = Date.from(utc.toInstant());
-	long diffInMilliSec = date.getTime() - date2.getTime();
-	long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMilliSec) % 60;
-	long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
-	long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
+	public void runCommand(BotType type, String channel, String sender, Date date2) {
+		OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
+		Date date = Date.from(utc.toInstant());
+		long diffInMilliSec = date.getTime() - date2.getTime();
+		long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diffInMilliSec) % 60;
+		long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
+		long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 
-	Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDays + " day(s) " + diffHours
-		+ " hour(s) " + diffMinutes + " minute(s)");
-    }
+		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+	}
 
-    @Override
-    public String getPermissionLevel() {
-	return PermissionLevel.User.getName();
-    }
+	@Override
+	public String getPermissionLevel() {
+		return PermissionLevel.User.getName();
+	}
 
-    @Override
-    public boolean hasCooldown() {
-	return true;
-    }
+	@Override
+	public boolean hasCooldown() {
+		return true;
+	}
 }

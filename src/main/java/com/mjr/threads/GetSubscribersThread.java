@@ -17,129 +17,124 @@ import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 
 public class GetSubscribersThread extends Thread {
-    private BotType type;
-    private TwitchBot bot;
+	private BotType type;
+	private TwitchBot bot;
 
-    public GetSubscribersThread(TwitchBot bot, BotType type) {
-	super();
-	this.type = type;
-	this.bot = bot;
-    }
+	public GetSubscribersThread(TwitchBot bot, BotType type) {
+		super();
+		this.type = type;
+		this.bot = bot;
+	}
 
-    @Override
-    public void run() {
-	ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
-	try {
-	    if (set != null && set.next()) {
-		String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
-			+ "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token") + "&limit=25");
-		if (!result.contains("does not have a subscription program")) {
-		    String copyresult = result;
-		    String total = result.substring(result.indexOf("_total") + 8);
-		    int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
-		    int current = 1;
+	@Override
+	public void run() {
+		ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
+		try {
+			if (set != null && set.next()) {
+				String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token") + "&limit=25");
+				if (!result.contains("does not have a subscription program")) {
+					String copyresult = result;
+					String total = result.substring(result.indexOf("_total") + 8);
+					int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
+					int current = 1;
 
-		    String newSubscriber = "";
-		    String newresult = result;
+					String newSubscriber = "";
+					String newresult = result;
 
-		    if (times > 1700)
-			times = 1700;
-		    int amount = (int) Math.ceil(((float) times / 25));
-		    for (int i = 0; i < amount; i++) {
-			if (i != 0) {
-			    result = "";
-			    String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
-			    newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-			    newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
-			    result = getList(newurl);
-			    copyresult = result;
-			    newresult = result;
-			}
-			for (int j = 0; j < 25; j++) {
-			    if (current <= times) {
-				newSubscriber = newresult.substring(newresult.indexOf("display_name") + 15);
-				newSubscriber = newSubscriber.substring(0, newSubscriber.indexOf("\""));
-				result = result.substring(result.indexOf(newSubscriber));
+					if (times > 1700)
+						times = 1700;
+					int amount = (int) Math.ceil(((float) times / 25));
+					for (int i = 0; i < amount; i++) {
+						if (i != 0) {
+							result = "";
+							String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
+							newurl = newurl.substring(0, newurl.indexOf("},") - 1);
+							newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
+							result = getList(newurl);
+							copyresult = result;
+							newresult = result;
+						}
+						for (int j = 0; j < 25; j++) {
+							if (current <= times) {
+								newSubscriber = newresult.substring(newresult.indexOf("display_name") + 15);
+								newSubscriber = newSubscriber.substring(0, newSubscriber.indexOf("\""));
+								result = result.substring(result.indexOf(newSubscriber));
 
-				bot.subscribers.add(newSubscriber.toLowerCase());
-				if (current % 100 != 0) {
-				    if (result.indexOf("logo\":\"") != -1)
-					newresult = result.substring(result.indexOf("logo\":\""));
+								bot.subscribers.add(newSubscriber.toLowerCase());
+								if (current % 100 != 0) {
+									if (result.indexOf("logo\":\"") != -1)
+										newresult = result.substring(result.indexOf("logo\":\""));
+								}
+								current++;
+							}
+						}
+					}
 				}
-				current++;
-			    }
+				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot, null);
 			}
-		    }
+		} catch (Exception e) {
+			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+			e.printStackTrace();
 		}
-		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot,
-			null);
-	    }
-	} catch (Exception e) {
-	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-	    e.printStackTrace();
 	}
-    }
 
-    public String getList(String urlLink) {
-	String result = "";
-	boolean refreshToken = false;
-	boolean skip = false;
-	do {
-	    try {
-		if (refreshToken)
-		    refreshToken();
-		URL url = new URL(urlLink);
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("GET");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		String line = "";
-		while ((line = reader.readLine()) != null) {
-		    result += line;
+	public String getList(String urlLink) {
+		String result = "";
+		boolean refreshToken = false;
+		boolean skip = false;
+		do {
+			try {
+				if (refreshToken)
+					refreshToken();
+				URL url = new URL(urlLink);
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("GET");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					result += line;
+				}
+				reader.close();
+				connection.disconnect();
+				return result;
+			} catch (IOException e) {
+				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+				e.printStackTrace();
+				if (e.getMessage().contains("401") || e.getMessage().contains("403"))
+					refreshToken = true;
+				else if (e.getMessage().contains("400"))
+					skip = true;
+			}
+		} while (result.equals("") && skip == false);
+		return null;
+	}
+
+	public void refreshToken() {
+		URL url;
+		try {
+			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
+			if (tokenSet.next()) {
+				url = new URL("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				connection.setRequestMethod("POST");
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line = "";
+				String result = "";
+				while ((line = reader.readLine()) != null) {
+					result += line;
+				}
+				String access_token = result.substring(result.indexOf("access_token") + 16);
+				access_token = access_token.substring(0, access_token.indexOf(",") - 2);
+				String refresh_token = result.substring(result.indexOf("refresh_token") + 16);
+				refresh_token = refresh_token.substring(0, refresh_token.indexOf(",") - 2);
+				MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "'WHERE channel='" + bot.channelName + "';");
+
+				reader.close();
+				connection.disconnect();
+			}
+		} catch (SQLException | IOException e) {
+			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+			e.printStackTrace();
 		}
-		reader.close();
-		connection.disconnect();
-		return result;
-	    } catch (IOException e) {
-		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-		e.printStackTrace();
-		if(e.getMessage().contains("401") || e.getMessage().contains("403"))
-		    refreshToken = true;
-		else if(e.getMessage().contains("400"))
-		    skip = true;
-	    }
-	} while (result.equals("") && skip == false);
-	return null;
-    }
-
-    public void refreshToken() {
-	URL url;
-	try {
-	    ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
-	    if(tokenSet.next()) {
-    	    url = new URL("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token="
-    		    + tokenSet.getString("refresh_token")
-    		    + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
-    	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-    	    connection.setRequestMethod("POST");
-    	    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-    	    String line = "";
-    	    String result = "";
-    	    while ((line = reader.readLine()) != null) {
-    		result += line;
-    	    }
-    	    String access_token = result.substring(result.indexOf("access_token") + 16);
-    	    access_token = access_token.substring(0, access_token.indexOf(",") - 2);
-    	    String refresh_token = result.substring(result.indexOf("refresh_token") + 16);
-    	    refresh_token = refresh_token.substring(0, refresh_token.indexOf(",") - 2);
-    	    MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token
-    		    + "'WHERE channel='" + bot.channelName + "';");
-
-    	    reader.close();
-    	    connection.disconnect();
-	    }
-	} catch (SQLException | IOException e) {
-	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-	    e.printStackTrace();
 	}
-    }
 }

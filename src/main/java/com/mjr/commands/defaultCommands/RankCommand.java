@@ -8,21 +8,20 @@ import com.mjr.storage.RankSystem;
 import com.mjr.util.Utilities;
 
 public class RankCommand extends Command {
-    @Override
-    public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message,
-	    String[] args) {
-	if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
-	    Utilities.sendMessage(type, channel, sender + " you current rank is " + RankSystem.getRank(sender, channel));
+	@Override
+	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
+			Utilities.sendMessage(type, channel, sender + " you current rank is " + RankSystem.getRank(sender, channel));
+		}
 	}
-    }
 
-    @Override
-    public String getPermissionLevel() {
-	return PermissionLevel.User.getName();
-    }
+	@Override
+	public String getPermissionLevel() {
+		return PermissionLevel.User.getName();
+	}
 
-    @Override
-    public boolean hasCooldown() {
-	return true;
-    }
+	@Override
+	public boolean hasCooldown() {
+		return true;
+	}
 }

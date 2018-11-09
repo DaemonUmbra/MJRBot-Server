@@ -9,31 +9,33 @@ import com.mjr.MJRBot;
 
 public class FileBase {
 
-    public static Properties load(String channelName, String fileName) {
-	try {
-	    FileReader reader;
-	    reader = new FileReader(loadFile(channelName, fileName));
+	public static Properties load(String channelName, String fileName) {
+		try {
+			FileReader reader;
+			reader = new FileReader(loadFile(channelName, fileName));
 
-	    Properties properties = new Properties();
-	    properties.load(reader);
-	    return properties;
-	} catch (IOException e) {
-	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
+			Properties properties = new Properties();
+			properties.load(reader);
+			return properties;
+		} catch (IOException e) {
+			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+			e.printStackTrace();
+		}
+		return null;
 	}
-	return null;
-    }
 
-    public static File loadFile(String channelName, String fileName) {
-	try {
-	    File file = new File(MJRBot.filePath + channelName + File.separator + fileName);
-	    if (!file.exists()) {
-		file.getParentFile().mkdirs();
-		file.createNewFile();
-	    }
-	    return file;
-	} catch (IOException e) {
-	    MJRBot.getLogger().info(e.getMessage() + " " + e.getCause()); e.printStackTrace();
+	public static File loadFile(String channelName, String fileName) {
+		try {
+			File file = new File(MJRBot.filePath + channelName + File.separator + fileName);
+			if (!file.exists()) {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			}
+			return file;
+		} catch (IOException e) {
+			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+			e.printStackTrace();
+		}
+		return null;
 	}
-	return null;
-    }
 }

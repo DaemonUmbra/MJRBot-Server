@@ -31,287 +31,287 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-    public static boolean developmentModeDatabase = false;
-    public static boolean developmentModeManual = true;
-    public static String developmentChannel = "mjrlegends";
-    public static String developmentPlatform = "Twitch";
-    public static String developmentID = "5831";
+	public static boolean developmentModeDatabase = false;
+	public static boolean developmentModeManual = true;
+	public static String developmentChannel = "TopicTech";
+	public static String developmentPlatform = "Mixer";
+	public static String developmentID = "176426";
 
-    public static final String VERSION = "1.8.0, Server Version";
-    public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
+	public static final String VERSION = "1.8.0, Server Version";
+	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
-    public static String filePath;
+	public static String filePath;
 
-    private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
-    private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
+	private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
+	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
 
-    private static Console console = System.console();
-    private static String channel = "";
-    public static String id = "";
-    public static boolean useFileSystem = false;
-    public static boolean useMannalMode = false;
-    public static UserCooldownTickThread userCooldownTickThread;
-    public static UpdateAnalyticsThread updateAnalyticsThread;
-    public static ChannelListUpdateThread updateThread;
-    public static DiscordBot bot;
+	private static Console console = System.console();
+	private static String channel = "";
+	public static String id = "";
+	public static boolean useFileSystem = false;
+	public static boolean useMannalMode = false;
+	public static UserCooldownTickThread userCooldownTickThread;
+	public static UpdateAnalyticsThread updateAnalyticsThread;
+	public static ChannelListUpdateThread updateThread;
+	public static DiscordBot bot;
 
-    private static Logger logger = LogManager.getLogger();
+	private static Logger logger = LogManager.getLogger();
 
-    public enum BotType {
-	Twitch("Twitch"), Mixer("Mixer");
+	public enum BotType {
+		Twitch("Twitch"), Mixer("Mixer");
 
-	private final String typeName;
+		private final String typeName;
 
-	BotType(String typeName) {
-	    this.typeName = typeName;
-	}
-
-	public String getTypeName() {
-	    return typeName;
-	}
-    }
-
-    public static void main(final String[] args)
-	    throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
-	// Disable logging from dependency packages
-	LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-	for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
-	    l.setLevel(Level.OFF);
-	}
-	System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
-
-	if (OSUtilities.isUnix())
-	    filePath = "/home/" + File.separator + "MJRBot" + File.separator;
-	else if (OSUtilities.isWindows())
-	    filePath = "C:" + File.separator + "MJRBot" + File.separator;
-	else {
-	    ConsoleUtil.textToConsole("Your Operating System is currently not supported!");
-	    return;
-	}
-
-	if (filePath != null) {
-	    ConfigMain.load();
-	    String connectionType = "";
-	    do {
-		if (developmentModeDatabase)
-		    connectionType = "Database";
-		if (developmentModeManual)
-		    connectionType = "Manual";
-		else
-		    connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
-
-		if (connectionType.equalsIgnoreCase("Migrate")) {
-		    runMirgration();
+		BotType(String typeName) {
+			this.typeName = typeName;
 		}
-	    } while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
 
-	    String fileSystemType = "";
-	    do {
-		if (developmentModeDatabase)
-		    fileSystemType = "Database";
-		if (developmentModeManual)
-		    fileSystemType = "File";
-		else
-		    fileSystemType = console.readLine("Storage Type: File or Database?");
-	    } while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
+		public String getTypeName() {
+			return typeName;
+		}
+	}
 
-	    if (fileSystemType.equalsIgnoreCase("File"))
+	public static void main(final String[] args) throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
+		// Disable logging from dependency packages
+		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
+			l.setLevel(Level.OFF);
+		}
+		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
+
+		if (OSUtilities.isUnix())
+			filePath = "/home/" + File.separator + "MJRBot" + File.separator;
+		else if (OSUtilities.isWindows())
+			filePath = "C:" + File.separator + "MJRBot" + File.separator;
+		else {
+			ConsoleUtil.textToConsole("Your Operating System is currently not supported!");
+			return;
+		}
+
+		if (filePath != null) {
+			ConfigMain.load();
+			String connectionType = "";
+			do {
+				if (developmentModeDatabase)
+					connectionType = "Database";
+				if (developmentModeManual)
+					connectionType = "Manual";
+				else
+					connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+
+				if (connectionType.equalsIgnoreCase("Migrate")) {
+					runMirgration();
+				}
+			} while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
+
+			String fileSystemType = "";
+			do {
+				if (developmentModeDatabase)
+					fileSystemType = "Database";
+				if (developmentModeManual)
+					fileSystemType = "File";
+				else
+					fileSystemType = console.readLine("Storage Type: File or Database?");
+			} while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
+
+			if (fileSystemType.equalsIgnoreCase("File"))
+				useFileSystem = true;
+			else
+				useFileSystem = false;
+
+			if (connectionType.equalsIgnoreCase("Manual")) {
+				runManualMode();
+			} else if (connectionType.equalsIgnoreCase("Database")) {
+				runDatabaseMode();
+			}
+			CommandManager.loadCommands();
+		}
+		bot = new DiscordBot();
+		bot.startBot(ConfigMain.getSetting("DiscordToken"));
+	}
+
+	public static void runMirgration() {
+		String channelName = "";
+		String type = "";
+		channelName = console.readLine("Channel Name?");
 		useFileSystem = true;
-	    else
-		useFileSystem = false;
+		MySQLConnection.connect();
+		type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
 
-	    if (connectionType.equalsIgnoreCase("Manual")) {
-		runManualMode();
-	    } else if (connectionType.equalsIgnoreCase("Database")) {
-		runDatabaseMode();
-	    }
-	    CommandManager.loadCommands();
-	}
-	bot = new DiscordBot();
-	bot.startBot(ConfigMain.getSetting("DiscordToken"));
-    }
-
-    public static void runMirgration() {
-	String channelName = "";
-	String type = "";
-	channelName = console.readLine("Channel Name?");
-	useFileSystem = true;
-	MySQLConnection.connect();
-	type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
-
-	if (type.equalsIgnoreCase("1")) {
-	    Config.migrateFile(channelName);
-	    PointsSystem.migrateFile(channelName);
-	    RankSystem.migrateFile(channelName);
-	    QuoteSystem.migrateFile(channelName);
-	} else if (type.equalsIgnoreCase("2")) {
-	    Config.migrateFile(channelName);
-	}
-	if (type.equalsIgnoreCase("3")) {
-	    PointsSystem.migrateFile(channelName);
-	}
-	if (type.equalsIgnoreCase("4")) {
-	    RankSystem.migrateFile(channelName);
-	}
-	if (type.equalsIgnoreCase("5")) {
-	    QuoteSystem.migrateFile(channelName);
-	}
-	useFileSystem = false;
-	// Thread.sleep(100000);
-    }
-
-    public static void runManualMode() {
-	do {
-	    String botType;
-	    if (developmentModeManual) {
-                botType = developmentPlatform;
-                channel = developmentChannel;
-                id = developmentID;
-	    } else {
-                botType = console.readLine("Connection Type: Twitch or Mixer?");
-                channel = console.readLine("Channel Name?");
-                id = console.readLine("Channel ID?");
-	    }
-	    useMannalMode = true;
-	    createBot(channel, botType);
-
-	} while (twitchBots.isEmpty() && mixerBots.isEmpty());
-    }
-
-    public static void runDatabaseMode() {
-	do {
-	    MySQLConnection.connect();
-	} while (MySQLConnection.connected == false);
-	ConsoleUtil.textToConsole("Getting list of Channels from Database server");
-	userCooldownTickThread = new UserCooldownTickThread();
-	userCooldownTickThread.start();
-	if (!useFileSystem) {
-	    updateAnalyticsThread = new UpdateAnalyticsThread();
-	    updateAnalyticsThread.start();
-	}
-	HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
-	for (String channelName : channelList.keySet()) {
-	    createBot(channelName, channelList.get(channelName));
-	}
-
-	channelList = SQLUtilities.getChannelsMixer();
-	for (String channelName : channelList.keySet()) {
-	    createBot(channelName, channelList.get(channelName));
-	}
-
-	updateThread = new ChannelListUpdateThread();
-	updateThread.start();
-    }
-
-    public static void createBot(String channel, String botType) {
-	channel = channel.toLowerCase(Locale.ENGLISH);
-	if (botType.equalsIgnoreCase("twitch") && channel != "") {
-	    try {
-		if (useFileSystem) {
-		    Config.loadDefaults(channel);
-		} else {
-		    Config.loadDefaultsDatabase(channel);
+		if (type.equalsIgnoreCase("1")) {
+			Config.migrateFile(channelName);
+			PointsSystem.migrateFile(channelName);
+			RankSystem.migrateFile(channelName);
+			QuoteSystem.migrateFile(channelName);
+		} else if (type.equalsIgnoreCase("2")) {
+			Config.migrateFile(channelName);
 		}
-	    } catch (IOException e) {
-		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-		e.printStackTrace();
-	    }
-	    TwitchBot bot = new TwitchBot();
-	    bot.init(channel);
-	    addTwitchBot(channel, bot);
-	} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-	    try {
-		if (useFileSystem) {
-		    Config.loadDefaults(channel);
-		} else
-		    Config.loadDefaultsDatabase(channel);
-	    } catch (IOException e) {
-		MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-		e.printStackTrace();
-	    }
-	    MixerBot bot = new MixerBot(channel);
-	    addMixerBot(channel, bot);
-	    try {
-		bot.joinChannel(channel);
-	    } catch (SQLException e) {
-		e.printStackTrace();
-	    }
-	} else if (channel != "")
-	    ConsoleUtil.textToConsole("Unknown Type of Connection!");
-	else
-	    ConsoleUtil.textToConsole("Invalid entry for Channel Name!!");
-    }
-
-    public static Console getConsole() {
-	return console;
-    }
-
-    public static HashMap<String, TwitchBot> getTwitchBots() {
-	return twitchBots;
-    }
-
-    public static void setTwitchBots(HashMap<String, TwitchBot> bots) {
-	MJRBot.twitchBots = bots;
-    }
-
-    public static void addTwitchBot(String channelName, TwitchBot bot) {
-	ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
-	twitchBots.put(channelName, bot);
-    }
-
-    public static void removeTwitchBot(TwitchBot bot) {
-	ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
-	twitchBots.remove(bot.channelName, bot);
-    }
-
-    public static void removeTwitchBot(String channelName) {
-	ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
-	twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
-    }
-
-    public static HashMap<String, MixerBot> getMixerBots() {
-	return mixerBots;
-    }
-
-    public static void setMixerBots(HashMap<String, MixerBot> bots) {
-	MJRBot.mixerBots = bots;
-    }
-
-    public static void addMixerBot(String channelName, MixerBot bot) {
-	ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
-	mixerBots.put(channelName, bot);
-    }
-
-    public static void removeMixerBot(MixerBot bot) {
-	ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
-	twitchBots.remove(bot.channelName, bot);
-    }
-
-    public static void removeMixerBot(String channelName) {
-	ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
-	twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
-    }
-    public static TwitchBot getTwitchBotByChannelName(String channelName) {
-	for (String bot : twitchBots.keySet()) {
-	    if (bot.equalsIgnoreCase(channelName))
-		return twitchBots.get(bot);
+		if (type.equalsIgnoreCase("3")) {
+			PointsSystem.migrateFile(channelName);
+		}
+		if (type.equalsIgnoreCase("4")) {
+			RankSystem.migrateFile(channelName);
+		}
+		if (type.equalsIgnoreCase("5")) {
+			QuoteSystem.migrateFile(channelName);
+		}
+		useFileSystem = false;
+		// Thread.sleep(100000);
 	}
-	return null;
-    }
 
-    public static MixerBot getMixerBotByChannelName(String channelName) {
-	for (String bot : mixerBots.keySet()) {
-	    if (bot.equalsIgnoreCase(channelName))
-		return mixerBots.get(bot);
+	public static void runManualMode() {
+		do {
+			String botType;
+			if (developmentModeManual) {
+				botType = developmentPlatform;
+				channel = developmentChannel;
+				id = developmentID;
+			} else {
+				botType = console.readLine("Connection Type: Twitch or Mixer?");
+				channel = console.readLine("Channel Name?");
+				id = console.readLine("Channel ID?");
+			}
+			useMannalMode = true;
+			createBot(channel, botType);
+
+		} while (twitchBots.isEmpty() && mixerBots.isEmpty());
 	}
-	return null;
-    }
 
-    public static Logger getLogger() {
-	return logger;
-    }
+	public static void runDatabaseMode() {
+		do {
+			MySQLConnection.connect();
+		} while (MySQLConnection.connected == false);
+		ConsoleUtil.textToConsole("Getting list of Channels from Database server");
+		userCooldownTickThread = new UserCooldownTickThread();
+		userCooldownTickThread.start();
+		if (!useFileSystem) {
+			updateAnalyticsThread = new UpdateAnalyticsThread();
+			updateAnalyticsThread.start();
+		}
+		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
+		for (String channelName : channelList.keySet()) {
+			createBot(channelName, channelList.get(channelName));
+		}
 
-    public static void setLogger(Logger logger) {
-	MJRBot.logger = logger;
-    }
+		channelList = SQLUtilities.getChannelsMixer();
+		for (String channelName : channelList.keySet()) {
+			createBot(channelName, channelList.get(channelName));
+		}
+
+		updateThread = new ChannelListUpdateThread();
+		updateThread.start();
+	}
+
+	public static void createBot(String channel, String botType) {
+		channel = channel.toLowerCase(Locale.ENGLISH);
+		if (botType.equalsIgnoreCase("twitch") && channel != "") {
+			try {
+				if (useFileSystem) {
+					Config.loadDefaults(channel);
+				} else {
+					Config.loadDefaultsDatabase(channel);
+				}
+			} catch (IOException e) {
+				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+				e.printStackTrace();
+			}
+			TwitchBot bot = new TwitchBot();
+			bot.init(channel);
+			addTwitchBot(channel, bot);
+		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
+			try {
+				if (useFileSystem) {
+					Config.loadDefaults(channel);
+				} else
+					Config.loadDefaultsDatabase(channel);
+			} catch (IOException e) {
+				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
+				e.printStackTrace();
+			}
+			MixerBot bot = new MixerBot(channel);
+			addMixerBot(channel, bot);
+			try {
+				bot.joinChannel(channel);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (channel != "")
+			ConsoleUtil.textToConsole("Unknown Type of Connection!");
+		else
+			ConsoleUtil.textToConsole("Invalid entry for Channel Name!!");
+	}
+
+	public static Console getConsole() {
+		return console;
+	}
+
+	public static HashMap<String, TwitchBot> getTwitchBots() {
+		return twitchBots;
+	}
+
+	public static void setTwitchBots(HashMap<String, TwitchBot> bots) {
+		MJRBot.twitchBots = bots;
+	}
+
+	public static void addTwitchBot(String channelName, TwitchBot bot) {
+		ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
+		twitchBots.put(channelName, bot);
+	}
+
+	public static void removeTwitchBot(TwitchBot bot) {
+		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
+		twitchBots.remove(bot.channelName, bot);
+	}
+
+	public static void removeTwitchBot(String channelName) {
+		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
+		twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
+	}
+
+	public static HashMap<String, MixerBot> getMixerBots() {
+		return mixerBots;
+	}
+
+	public static void setMixerBots(HashMap<String, MixerBot> bots) {
+		MJRBot.mixerBots = bots;
+	}
+
+	public static void addMixerBot(String channelName, MixerBot bot) {
+		ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
+		mixerBots.put(channelName, bot);
+	}
+
+	public static void removeMixerBot(MixerBot bot) {
+		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
+		twitchBots.remove(bot.channelName, bot);
+	}
+
+	public static void removeMixerBot(String channelName) {
+		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
+		twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
+	}
+
+	public static TwitchBot getTwitchBotByChannelName(String channelName) {
+		for (String bot : twitchBots.keySet()) {
+			if (bot.equalsIgnoreCase(channelName))
+				return twitchBots.get(bot);
+		}
+		return null;
+	}
+
+	public static MixerBot getMixerBotByChannelName(String channelName) {
+		for (String bot : mixerBots.keySet()) {
+			if (bot.equalsIgnoreCase(channelName))
+				return mixerBots.get(bot);
+		}
+		return null;
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public static void setLogger(Logger logger) {
+		MJRBot.logger = logger;
+	}
 }
