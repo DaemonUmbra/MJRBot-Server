@@ -67,6 +67,8 @@ public class Permissions {
 			else if (!MJRBot.getMixerBotByChannelName(channelName).getModerators().isEmpty() && MJRBot.getMixerBotByChannelName(channelName).getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName))
 					|| user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
+			if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
+				return PermissionLevel.Subscriber.getName();
 			else
 				return PermissionLevel.User.getName();
 		}

@@ -33,6 +33,7 @@ public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
 	public static boolean developmentModeManual = true;
+	public static boolean developmentDisableSendMessage = true;
 	public static String developmentChannel = "TopicTech";
 	public static String developmentPlatform = "Mixer";
 	public static String developmentID = "176426";

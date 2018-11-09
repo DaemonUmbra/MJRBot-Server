@@ -26,6 +26,8 @@ public class Utilities {
 	}
 
 	public static void sendMessage(BotType type, String channelName, String endMessage) {
+		if(MJRBot.developmentDisableSendMessage)
+			return;
 		if (type == BotType.Twitch) {
 			TwitchBot bot = MJRBot.getTwitchBotByChannelName(channelName);
 			if (bot != null)
