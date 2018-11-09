@@ -35,6 +35,7 @@ public class MJRBot {
     public static boolean developmentModeManual = true;
     public static String developmentChannel = "mjrlegends";
     public static String developmentPlatform = "Twitch";
+    public static String developmentID = "5831";
 
     public static final String VERSION = "1.8.0, Server Version";
     public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
@@ -46,7 +47,9 @@ public class MJRBot {
 
     private static Console console = System.console();
     private static String channel = "";
+    public static String id = "";
     public static boolean useFileSystem = false;
+    public static boolean useMannalMode = false;
     public static UserCooldownTickThread userCooldownTickThread;
     public static UpdateAnalyticsThread updateAnalyticsThread;
     public static ChannelListUpdateThread updateThread;
@@ -163,11 +166,13 @@ public class MJRBot {
 	    if (developmentModeManual) {
                 botType = developmentPlatform;
                 channel = developmentChannel;
+                id = developmentID;
 	    } else {
                 botType = console.readLine("Connection Type: Twitch or Mixer?");
                 channel = console.readLine("Channel Name?");
+                id = console.readLine("Channel ID?");
 	    }
-
+	    useMannalMode = true;
 	    createBot(channel, botType);
 
 	} while (twitchBots.isEmpty() && mixerBots.isEmpty());
@@ -226,7 +231,11 @@ public class MJRBot {
 	    }
 	    MixerBot bot = new MixerBot(channel);
 	    addMixerBot(channel, bot);
-	    bot.joinChannel(channel);
+	    try {
+		bot.joinChannel(channel);
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
 	} else if (channel != "")
 	    ConsoleUtil.textToConsole("Unknown Type of Connection!");
 	else

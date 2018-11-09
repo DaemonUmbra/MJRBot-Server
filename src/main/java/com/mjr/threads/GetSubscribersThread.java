@@ -28,7 +28,7 @@ public class GetSubscribersThread extends Thread {
 
     @Override
     public void run() {
-	ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "'");
+	ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
 	try {
 	    if (set != null && set.next()) {
 		String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase()
