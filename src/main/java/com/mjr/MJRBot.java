@@ -35,8 +35,8 @@ public class MJRBot {
 	public static boolean developmentModeDatabase = false;
 	public static boolean developmentModeManual = true;
 	public static boolean developmentDisableSendMessage = true;
-	public static String developmentChannel = "TopicTech";
-	public static String developmentPlatform = "Mixer";
+	public static String developmentChannel = "MJRLegends";
+	public static String developmentPlatform = "Twitch";
 	public static String developmentID = "176426";
 
 	public static final String VERSION = "1.8.0, Server Version";

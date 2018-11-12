@@ -4,6 +4,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.mjr.util.ConsoleUtil;
+
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
@@ -22,10 +24,10 @@ public class DiscordBot {
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20);
 
 	public void startBot(String token) {
-		MJRBot.logErrorMessage("Starting Discord bot");
+		ConsoleUtil.textToConsole("Starting Discord bot");
 		client = createClient(token, true);
 		EventDispatcher dispatcher = client.getDispatcher();
-		MJRBot.logErrorMessage("Finshed starting Discord bot");
+		ConsoleUtil.textToConsole("Finshed starting Discord bot");
 	}
 
 	public IDiscordClient createClient(String token, boolean login) {
@@ -48,7 +50,7 @@ public class DiscordBot {
 	}
 
 	public void sendMessage(IChannel channel, String message) {
-		MJRBot.logErrorMessage("Discord: Attempting to send message to Channel: " + channel.getName() + " Message: " + message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = null;
 		int numAttempts = 0;
 		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue) & to make sure the return is the message object not null
@@ -75,7 +77,7 @@ public class DiscordBot {
 	}
 
 	public void sendDirectMessageToUser(IUser user, String message) {
-		MJRBot.logErrorMessage("Discord: Attempting to send message to User: " + user.getName() + " Message: " + message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send message to User: " + user.getName() + " Message: " + message);
 		RequestBuffer.request(() -> {
 			try {
 				user.getOrCreatePMChannel().sendMessage(message);
@@ -90,7 +92,7 @@ public class DiscordBot {
 	}
 
 	public void sendTimedMessage(IChannel channel, String message, Long delay, TimeUnit timeUnit) {
-		MJRBot.logErrorMessage("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
 			scheduler.schedule(() -> {
@@ -100,7 +102,7 @@ public class DiscordBot {
 	}
 
 	public void sendTimedMessage(IChannel channel, String message) {
-		MJRBot.logErrorMessage("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
 			scheduler.schedule(() -> {
@@ -110,7 +112,7 @@ public class DiscordBot {
 	}
 
 	public IMessage sendMsgToChannelReturnMessageOBJ(IChannel channel, String message) {
-		MJRBot.logErrorMessage("Discord: Attempting to return obj send message to Channel: " + channel.getName() + " Message: " + message);
+		ConsoleUtil.textToConsole("Discord: Attempting to return obj send message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = null;
 		int numAttempts = 0;
 		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue) & to make sure the return is the message object not null
@@ -138,7 +140,7 @@ public class DiscordBot {
 
 	public void nukeChannel(IChannel channel) {
 		try {
-			MJRBot.logErrorMessage("Discord: Attempting to run a nuke of all messages on Channel: " + channel.getName());
+			ConsoleUtil.textToConsole("Discord: Attempting to run a nuke of all messages on Channel: " + channel.getName());
 			channel.bulkDelete(channel.getFullMessageHistory());
 		} catch (DiscordException e) {
 			MJRBot.logErrorMessage("Discord: Channel could not be nuked of messages due to: " + e.getMessage());
@@ -152,7 +154,7 @@ public class DiscordBot {
 	public void deleteMessage(IMessage message) {
 		RequestBuffer.request(() -> {
 			try {
-				MJRBot.logErrorMessage("Discord: Deleting message with id: " + message.getLongID() + " from " + message.getChannel().getName());
+				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + message.getChannel().getName());
 				message.delete();
 			} catch (DiscordException e) {
 				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
@@ -176,7 +178,7 @@ public class DiscordBot {
 	public void deleteMessage(IChannel channel, IMessage message) {
 		RequestBuffer.request(() -> {
 			try {
-				MJRBot.logErrorMessage("Discord: Deleting message with id: " + message.getLongID() + " from " + channel.getName());
+				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + channel.getName());
 				channel.getMessageByID(message.getLongID()).delete();
 			} catch (DiscordException e) {
 				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
