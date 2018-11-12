@@ -22,8 +22,7 @@ public class ChangeCommandState extends Command {
 					CustomCommands.changeCommandState(type, channel, command, state);
 					EventLog.addEvent(channel, sender, "Edited the Custom Command state for " + command, EventType.CustomCommands);
 				} catch (IOException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			} else {
 				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");

@@ -74,8 +74,7 @@ public class ChannelListUpdateThread extends Thread {
 			try {
 				Thread.sleep(Integer.parseInt(ConfigMain.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
 			} catch (InterruptedException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}

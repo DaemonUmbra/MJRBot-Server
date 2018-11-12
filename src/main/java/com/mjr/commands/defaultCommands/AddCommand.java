@@ -25,8 +25,7 @@ public class AddCommand extends Command {
 						CustomCommands.addCommand(type, channel, command, response, permissionlevel);
 						EventLog.addEvent(channel, sender, "Added a new Custom Command of " + command, EventType.CustomCommands);
 					} catch (IOException e) {
-						MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-						e.printStackTrace();
+						MJRBot.logErrorMessage(e);
 					}
 				} else {
 					Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! The following Permission values are: User or Subscriber or Moderator or Streamer");

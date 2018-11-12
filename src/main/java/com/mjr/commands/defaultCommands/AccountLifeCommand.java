@@ -46,7 +46,7 @@ public class AccountLifeCommand extends Command {
 					try {
 						parse = format.parse(time);
 					} catch (ParseException e) {
-						e.printStackTrace();
+						MJRBot.logErrorMessage(e);
 					}
 
 					OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
@@ -61,7 +61,7 @@ public class AccountLifeCommand extends Command {
 					Utilities.sendMessage(type, channel, "@" + sender + " your twitch account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else
 			Utilities.sendMessage(type, channel, "@" + sender + " This command isnt available for Mixer, right now sorry!");

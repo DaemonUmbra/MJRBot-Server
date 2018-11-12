@@ -69,8 +69,7 @@ public class MixerBot extends MJR_MixerBot {
 		try {
 			commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 		} catch (IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -137,8 +136,7 @@ public class MixerBot extends MJR_MixerBot {
 			}
 			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 		} catch (InterruptedException | ExecutionException | IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 

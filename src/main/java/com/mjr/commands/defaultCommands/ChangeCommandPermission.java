@@ -23,8 +23,7 @@ public class ChangeCommandPermission extends Command {
 						CustomCommands.changeCommandPermission(type, channel, command, permission);
 						EventLog.addEvent(channel, sender, "Edited the Custom Command permission for " + command, EventType.CustomCommands);
 					} catch (IOException e) {
-						MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-						e.printStackTrace();
+						MJRBot.logErrorMessage(e);
 					}
 				} else {
 					Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! The following Permission values are: User or Subscriber or Moderator or Streamer");

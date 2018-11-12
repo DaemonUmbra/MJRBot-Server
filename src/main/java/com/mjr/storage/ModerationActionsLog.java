@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 public class ModerationActionsLog extends FileBase {
 	public static String fileName = "Moderation_Actions_Log.txt";
@@ -25,8 +26,7 @@ public class ModerationActionsLog extends FileBase {
 			try {
 				Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + reason + " Message: " + message + ";").getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else {
 			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + reason

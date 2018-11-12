@@ -37,8 +37,7 @@ public class PointsSystem extends FileBase {
 					return Integer.parseInt(result.getString(1));
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return Integer.parseInt(value);
@@ -52,8 +51,7 @@ public class PointsSystem extends FileBase {
 			try {
 				properties.store(new FileOutputStream(loadFile(channelName, fileName)), null);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else {
 			if (isOnList(user, channelName) == false)
@@ -84,8 +82,7 @@ public class PointsSystem extends FileBase {
 				else
 					return true;
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return false;

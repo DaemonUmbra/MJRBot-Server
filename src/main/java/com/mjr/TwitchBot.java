@@ -97,8 +97,7 @@ public class TwitchBot extends PircBot {
 			try {
 				commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender.toLowerCase(), login, hostname, message);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return;
@@ -278,8 +277,8 @@ public class TwitchBot extends PircBot {
 					this.sendRawLine("CAP REQ :twitch.tv/commands");
 					this.sendRawLine("CAP REQ :twitch.tv/membership");
 					this.sendRawLine("CAP REQ :twitch.tv/tags");
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				} catch (Exception e) {
+					MJRBot.logErrorMessage(e);
 					ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Failed to connect to Twitch! Check your internet connection!", MessageType.Bot, null);
 					return;
 				}
@@ -305,8 +304,7 @@ public class TwitchBot extends PircBot {
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		this.sendMessage(this.stream, message);

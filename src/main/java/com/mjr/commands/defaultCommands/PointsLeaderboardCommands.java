@@ -25,8 +25,7 @@ public class PointsLeaderboardCommands extends Command {
 				}
 				Utilities.sendMessage(type, channel, "The top 10 users in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}

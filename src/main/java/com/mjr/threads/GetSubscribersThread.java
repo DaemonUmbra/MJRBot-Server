@@ -73,8 +73,7 @@ public class GetSubscribersThread extends Thread {
 				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot, null);
 			}
 		} catch (Exception e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -98,8 +97,7 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 				return result;
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 				if (e.getMessage().contains("401") || e.getMessage().contains("403"))
 					refreshToken = true;
 				else if (e.getMessage().contains("400"))
@@ -133,8 +131,7 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 			}
 		} catch (SQLException | IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 }

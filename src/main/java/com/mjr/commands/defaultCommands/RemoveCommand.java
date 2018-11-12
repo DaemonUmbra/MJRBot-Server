@@ -21,8 +21,7 @@ public class RemoveCommand extends Command {
 					CustomCommands.deleteCommand(type, channel, command);
 					EventLog.addEvent(channel, sender, "Deleted the Custom Command of " + command, EventType.CustomCommands);
 				} catch (IOException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			} else {
 				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");

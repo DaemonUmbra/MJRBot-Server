@@ -63,8 +63,7 @@ public class Config extends FileBase {
 				setSetting("DiscordChatLink", "false", channelName);
 			}
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -134,8 +133,7 @@ public class Config extends FileBase {
 					return result.getString(1);
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return null;
@@ -157,16 +155,14 @@ public class Config extends FileBase {
 				try {
 					properties.save(new FileOutputStream(file), null);
 				} catch (IOException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			} else {
 				properties.setProperty(setting, value);
 				try {
 					properties.store(new FileOutputStream(file), null);
 				} catch (IOException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			}
 		} else {

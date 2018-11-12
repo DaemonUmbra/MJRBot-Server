@@ -30,8 +30,7 @@ public class BankHeistGame {
 			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 			int randNum2 = Utilities.getRandom(1, 2);
 			if (randNum2 == 1)

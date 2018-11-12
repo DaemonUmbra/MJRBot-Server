@@ -33,8 +33,7 @@ public class SQLUtilities {
 			}
 			resultSet.close();
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 
 		return false;
@@ -48,14 +47,12 @@ public class SQLUtilities {
 				channels.put(result.getString("name"), result.getString("bot_type"));
 			}
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		try {
 			result.close();
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		return channels;
 	}
@@ -68,14 +65,12 @@ public class SQLUtilities {
 				channels.put(result.getString("name"), result.getString("bot_type"));
 			}
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		try {
 			result.close();
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		return channels;
 	}

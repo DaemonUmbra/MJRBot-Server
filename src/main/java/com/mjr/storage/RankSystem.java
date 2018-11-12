@@ -42,8 +42,7 @@ public class RankSystem extends FileBase {
 					return result.getString(1);
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return value;
@@ -60,8 +59,7 @@ public class RankSystem extends FileBase {
 				try {
 					properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
 				} catch (FileNotFoundException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			} else {
 				if (isOnList(user, channelName) == false)
@@ -111,8 +109,7 @@ public class RankSystem extends FileBase {
 				else
 					return true;
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 		return null;

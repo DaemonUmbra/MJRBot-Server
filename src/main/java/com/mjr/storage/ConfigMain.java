@@ -59,16 +59,14 @@ public class ConfigMain {
 			try {
 				properties.save(new FileOutputStream(file), null);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else {
 			properties.setProperty(setting, value);
 			try {
 				properties.store(new FileOutputStream(file), null);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 

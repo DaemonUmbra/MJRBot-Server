@@ -19,6 +19,7 @@ import java.util.Scanner;
 import com.mjr.MJRBot;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 @SuppressWarnings("resource")
 public class QuoteSystem {
@@ -44,8 +45,7 @@ public class QuoteSystem {
 			try {
 				inFile1 = new Scanner(file).useDelimiter(";\\s*");
 			} catch (FileNotFoundException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 			List<String> temps = new ArrayList<String>();
 			while (inFile1.hasNext()) {
@@ -70,8 +70,7 @@ public class QuoteSystem {
 					return quotes;
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 				return new ArrayList<String>();
 			}
 		}
@@ -89,16 +88,14 @@ public class QuoteSystem {
 				try {
 					Files.createFile(filePath);
 				} catch (IOException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			}
 
 			try {
 				Files.write(filePath, ("\n" + quote + ";").getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else {
 			MySQLConnection.executeUpdate("INSERT INTO quotes(channel, quote) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + quote + "\"" + ")");

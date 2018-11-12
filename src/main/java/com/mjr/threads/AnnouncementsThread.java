@@ -32,8 +32,7 @@ public class AnnouncementsThread extends Thread {
 						try {
 							Thread.sleep(TimeDuration);
 						} catch (InterruptedException e) {
-							MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-							e.printStackTrace();
+							MJRBot.logErrorMessage(e);
 						}
 						String message = "";
 						int count = 0;
@@ -49,8 +48,7 @@ public class AnnouncementsThread extends Thread {
 			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}

@@ -31,8 +31,7 @@ public class UptimeCommand extends Command {
 				try {
 					parse = format.parse(upTime);
 				} catch (ParseException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 
 				runCommand(type, channel, sender, parse);

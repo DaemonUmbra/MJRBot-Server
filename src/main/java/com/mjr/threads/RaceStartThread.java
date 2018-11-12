@@ -19,15 +19,13 @@ public class RaceStartThread extends Thread {
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		Utilities.sendMessage(type, channelName, "Race is about to start! Make sure to get your bets in now!");
 		try {
 			Thread.sleep(30000);
 		} catch (InterruptedException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		if (type == BotType.Twitch)
 			MJRBot.getTwitchBotByChannelName(channelName).racingGame.start(type, channelName);

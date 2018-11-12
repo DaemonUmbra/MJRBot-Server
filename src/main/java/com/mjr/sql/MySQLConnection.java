@@ -20,8 +20,7 @@ public class MySQLConnection {
 			MySQLConnection.initConnection(ConfigMain.getSetting("DatabaseIPAddress"), Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"), ConfigMain.getSetting("DatabaseUsername"),
 					ConfigMain.getSetting("DatabasePassword"));
 		} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -53,10 +52,13 @@ public class MySQLConnection {
 					SQLUtilities.createDatabaseStructure();
 					connected = false;
 				} catch (SQLException ex) {
+					MJRBot.logErrorMessage(ex);
 					System.out.println("MySQL Connection Failed! Error: " + ex.getMessage());
 				}
-			} else
+			} else {
+				MJRBot.logErrorMessage(e);
 				System.out.println("MySQL Connection Failed! Error: " + e.getMessage());
+			}
 		}
 	}
 
@@ -69,8 +71,8 @@ public class MySQLConnection {
 			try {
 				if (!getConnection().isValid(5))
 					connect();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			} catch (SQLException e) {
+				MJRBot.logErrorMessage(e);
 			}
 			Statement myStmt;
 			try {
@@ -78,8 +80,7 @@ public class MySQLConnection {
 				ResultSet myRs = myStmt.executeQuery(statement);
 				return myRs;
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else
 			System.out.println("MySQL is disconnected! Please restart bot!");
@@ -91,8 +92,8 @@ public class MySQLConnection {
 			try {
 				if (!getConnection().isValid(5))
 					connect();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			} catch (SQLException e) {
+				MJRBot.logErrorMessage(e);
 			}
 			Statement myStmt;
 			try {
@@ -112,8 +113,8 @@ public class MySQLConnection {
 			try {
 				if (!getConnection().isValid(5))
 					connect();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			} catch (SQLException e) {
+				MJRBot.logErrorMessage(e);
 			}
 			Statement myStmt;
 			try {
@@ -121,8 +122,7 @@ public class MySQLConnection {
 				myStmt.executeUpdate(statement);
 				myStmt.close();
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else
 			System.out.println("MySQL is disconnected! Please restart bot!");

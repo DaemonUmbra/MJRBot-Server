@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.mjr.MJRBot;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 public class EventLog extends FileBase {
 	public static String fileName = "Event_Log.txt";
@@ -39,8 +40,7 @@ public class EventLog extends FileBase {
 			try {
 				Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + eventMessage + ";").getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else {
 			MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + type.getName()

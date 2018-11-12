@@ -25,9 +25,7 @@ public class ChangeCommandResponse extends Command {
 					CustomCommands.changeCommandResponse(type, channel, command, response);
 					EventLog.addEvent(channel, sender, "Edited the Custom Command response for " + command, EventType.CustomCommands);
 				} catch (IOException e) {
-					ConsoleUtil.textToConsole(bot, type, channel, e.getMessage(), MessageType.Bot, null);
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			} else {
 				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");

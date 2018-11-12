@@ -1,6 +1,10 @@
 package com.mjr;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.mjr.MJRBot.BotType;
+import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
 import com.mjr.util.Utilities;
@@ -21,7 +25,15 @@ public class CrossChatLink {
 			Utilities.sendMessage(BotType.Twitch, channelName, platformPrefex + senderPrefex + message);
 		if (mixer && Config.getSetting("MixerChatLink", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(BotType.Mixer, channelName, platformPrefex + senderPrefex + message);
-		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true"))
-			MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelByID(510201182497800192L), platformPrefex + senderPrefex + message);
+		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && MJRBot.useMannalMode == false) {
+			ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
+			try {
+				if (channel_id.next()) {
+					MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelByID(Long.parseLong(channel_id.getString("cross_link_channel_id"))), platformPrefex + senderPrefex + message);
+				}
+			} catch (NumberFormatException | SQLException e) {
+				MJRBot.logErrorMessage(e);
+			}
+		}
 	}
 }

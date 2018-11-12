@@ -55,8 +55,7 @@ public class CustomCommands {
 					response = result.getString("response");
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 
@@ -115,8 +114,7 @@ public class CustomCommands {
 					} else
 						Utilities.sendMessage(type, channelName, "Custom Command " + command + " already exists!");
 				} catch (SQLException e) {
-					MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-					e.printStackTrace();
+					MJRBot.logErrorMessage(e);
 				}
 			}
 		} else
@@ -143,8 +141,7 @@ public class CustomCommands {
 				Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 			}
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -191,8 +188,7 @@ public class CustomCommands {
 					Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}
@@ -226,8 +222,7 @@ public class CustomCommands {
 					Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}
@@ -261,8 +256,7 @@ public class CustomCommands {
 					Utilities.sendMessage(type, channelName, command + " doesnt exist!");
 				}
 			} catch (SQLException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}

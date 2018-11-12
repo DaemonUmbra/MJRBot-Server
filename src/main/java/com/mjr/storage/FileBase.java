@@ -18,8 +18,7 @@ public class FileBase {
 			properties.load(reader);
 			return properties;
 		} catch (IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		return null;
 	}
@@ -33,8 +32,7 @@ public class FileBase {
 			}
 			return file;
 		} catch (IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 		return null;
 	}

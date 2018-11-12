@@ -60,16 +60,14 @@ public class AutoPointsThread extends Thread {
 					try {
 						Thread.sleep(TimeDuration);
 					} catch (InterruptedException e) {
-						MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-						e.printStackTrace();
+						MJRBot.logErrorMessage(e);
 					}
 				}
 			}
 			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		}
 	}

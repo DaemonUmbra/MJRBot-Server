@@ -91,8 +91,7 @@ public class AnalyticsData {
 				ConsoleUtil.textToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
 			}
 		} catch (SQLException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
+			MJRBot.logErrorMessage(e);
 		}
 	}
 }

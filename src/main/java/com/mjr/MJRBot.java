@@ -25,6 +25,7 @@ import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.OSUtilities;
+import com.mjr.util.Utilities;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -213,8 +214,7 @@ public class MJRBot {
 					Config.loadDefaultsDatabase(channel);
 				}
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 			TwitchBot bot = new TwitchBot();
 			bot.init(channel);
@@ -226,15 +226,14 @@ public class MJRBot {
 				} else
 					Config.loadDefaultsDatabase(channel);
 			} catch (IOException e) {
-				MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 			MixerBot bot = new MixerBot(channel);
 			addMixerBot(channel, bot);
 			try {
 				bot.joinChannel(channel);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				MJRBot.logErrorMessage(e);
 			}
 		} else if (channel != "")
 			ConsoleUtil.textToConsole("Unknown Type of Connection!");
@@ -314,5 +313,15 @@ public class MJRBot {
 
 	public static void setLogger(Logger logger) {
 		MJRBot.logger = logger;
+	}
+	
+	public static void logErrorMessage(final Throwable throwable) {
+		String stackTrace = Utilities.getStackTraceString(throwable);
+		logErrorMessage(stackTrace);
+	}
+	
+	public static void logErrorMessage(String stackTrace) {
+		getLogger().info(stackTrace);
+		bot.sendErrorMessage(stackTrace);
 	}
 }
