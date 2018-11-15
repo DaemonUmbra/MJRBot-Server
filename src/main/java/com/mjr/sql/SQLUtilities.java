@@ -20,6 +20,8 @@ public class SQLUtilities {
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.events (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), type varchar(35), event_message varchar(128))");
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.analytics (id int(50) not null auto_increment primary key, name varchar(35), value int(50))");
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.custom_commands (id int(50) not null auto_increment primary key, channel varchar(35), command_name varchar(35), state varchar(6), permission_level varchar(16), response varchar(500))");
+			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.discord_info (id int(50) not null auto_increment primary key, channel varchar(35), guild_id varchar(100), cross_link_channel_id varchar(100))");
+			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.tokens (id int(50) not null auto_increment primary key, channel varchar(35), access_token varchar(100), refresh_token varchar(100), platform varchar(10), channel_id int(20))");
 		}
 	}
 
