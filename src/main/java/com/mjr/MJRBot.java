@@ -34,6 +34,8 @@ public class MJRBot {
 
 	public static boolean developmentModeDatabase = true;
 	public static boolean developmentModeManual = false;
+	public static boolean developmentStorageFileMode = true;
+	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "MJRLegends";
 	public static String developmentPlatform = "Twitch";
@@ -108,9 +110,9 @@ public class MJRBot {
 
 			String fileSystemType = "";
 			do {
-				if (developmentModeDatabase)
+				if (developmentStorageDatabaseMode)
 					fileSystemType = "Database";
-				else if (developmentModeManual)
+				else if (developmentStorageFileMode)
 					fileSystemType = "File";
 				else
 					fileSystemType = console.readLine("Storage Type: File or Database?");
