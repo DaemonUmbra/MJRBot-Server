@@ -33,13 +33,13 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = true;
-	public static boolean developmentDisableSendMessage = true;
+	public static boolean developmentModeManual = false;
+	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "MJRLegends";
 	public static String developmentPlatform = "Twitch";
 	public static String developmentID = "176426";
 
-	public static final String VERSION = "1.8.0, Server Version";
+	public static final String VERSION = "1.8.1, Server Version";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
 	public static String filePath;
