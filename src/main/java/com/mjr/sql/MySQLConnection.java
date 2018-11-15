@@ -28,7 +28,7 @@ public class MySQLConnection {
 		try {
 			do {
 				System.out.println("MySQl getConnection() initializing!");
-				Class.forName("com.mysql.cj.jdbc.Driver");
+				Class.forName("com.mysql.jdbc.Driver");
 				connection = DriverManager.getConnection("jdbc:mysql://" + ipAddress + ":" + port + "/" + databaseName + "?serverTimezone=GMT", user, password);
 				connected = getConnection().isValid(5);
 				if (!connected)
