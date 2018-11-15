@@ -29,7 +29,7 @@ public class CrossChatLink {
 			Utilities.sendMessage(BotType.Twitch, channelName, platformPrefex + senderPrefex + message);
 		if (mixer && Config.getSetting("MixerChatLink", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(BotType.Mixer, channelName, platformPrefex + senderPrefex + message);
-		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && MJRBot.useMannalMode == false && type != BotType.Discord) {
+		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && MJRBot.useManualMode == false && type != BotType.Discord) {
 			ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 			try {
 				if (channel_id.next()) {

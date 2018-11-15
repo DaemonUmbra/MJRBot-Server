@@ -228,8 +228,12 @@ public class TwitchBot extends PircBot {
 			getViewersThread.start();
 			getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 			getFollowersThread.start();
-			getSubscribersThread = new GetSubscribersThread(this, BotType.Twitch);
-			getSubscribersThread.start();
+			if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
+				getSubscribersThread = new GetSubscribersThread(this, BotType.Twitch);
+				getSubscribersThread.start();
+			}
+			else
+				ConsoleUtil.textToConsole("Getting Subscribers Thread for Twtich has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
 		}
 
 		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);

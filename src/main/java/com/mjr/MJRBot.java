@@ -32,8 +32,8 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = true;
+	public static boolean developmentModeDatabase = true;
+	public static boolean developmentModeManual = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "MJRLegends";
 	public static String developmentPlatform = "Twitch";
@@ -51,11 +51,11 @@ public class MJRBot {
 	private static String channel = "";
 	public static String id = "";
 	public static boolean useFileSystem = false;
-	public static boolean useMannalMode = false;
+	public static boolean useManualMode = false;
 	public static UserCooldownTickThread userCooldownTickThread;
 	public static UpdateAnalyticsThread updateAnalyticsThread;
 	public static ChannelListUpdateThread updateThread;
-	public static DiscordBot bot;
+	public static DiscordBot bot = null;
 
 	private static Logger logger = LogManager.getLogger();
 
@@ -96,7 +96,7 @@ public class MJRBot {
 			do {
 				if (developmentModeDatabase)
 					connectionType = "Database";
-				if (developmentModeManual)
+				else if (developmentModeManual)
 					connectionType = "Manual";
 				else
 					connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
@@ -110,7 +110,7 @@ public class MJRBot {
 			do {
 				if (developmentModeDatabase)
 					fileSystemType = "Database";
-				if (developmentModeManual)
+				else if (developmentModeManual)
 					fileSystemType = "File";
 				else
 					fileSystemType = console.readLine("Storage Type: File or Database?");
@@ -128,12 +128,12 @@ public class MJRBot {
 			}
 			CommandManager.loadCommands();
 		}
-		if(!useFileSystem) {
+		if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
 			bot = new DiscordBot();
 			bot.startBot(ConfigMain.getSetting("DiscordToken"));
 		}
 		else {
-			ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type!");
+			ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
 		}
 	}
 
@@ -167,6 +167,7 @@ public class MJRBot {
 	}
 
 	public static void runManualMode() {
+		ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
 		do {
 			String botType;
 			if (developmentModeManual) {
@@ -178,7 +179,7 @@ public class MJRBot {
 				channel = console.readLine("Channel Name?");
 				id = console.readLine("Channel ID?");
 			}
-			useMannalMode = true;
+			useManualMode = true;
 			createBot(channel, botType);
 
 		} while (twitchBots.isEmpty() && mixerBots.isEmpty());
@@ -330,6 +331,7 @@ public class MJRBot {
 	
 	public static void logErrorMessage(String stackTrace) {
 		getLogger().info(stackTrace);
-		bot.sendErrorMessage(stackTrace);
+		if(MJRBot.bot != null)
+			bot.sendErrorMessage(stackTrace);
 	}
 }

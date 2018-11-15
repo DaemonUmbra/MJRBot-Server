@@ -101,7 +101,7 @@ public class MixerBot extends MJR_MixerBot {
 		try {
 			this.setdebug(true);
 			int channel_id = 0;
-			if (MJRBot.useMannalMode) {
+			if (MJRBot.useManualMode) {
 				channel_id = Integer.parseInt(MJRBot.id);
 			} else {
 				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + channel + "' AND platform = 'Mixer'");
