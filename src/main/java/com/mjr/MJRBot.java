@@ -128,8 +128,13 @@ public class MJRBot {
 			}
 			CommandManager.loadCommands();
 		}
-		bot = new DiscordBot();
-		bot.startBot(ConfigMain.getSetting("DiscordToken"));
+		if(!useFileSystem) {
+			bot = new DiscordBot();
+			bot.startBot(ConfigMain.getSetting("DiscordToken"));
+		}
+		else {
+			ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type!");
+		}
 	}
 
 	public static void runMirgration() {
@@ -189,6 +194,9 @@ public class MJRBot {
 		if (!useFileSystem) {
 			updateAnalyticsThread = new UpdateAnalyticsThread();
 			updateAnalyticsThread.start();
+		}
+		else {
+			ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
 		}
 		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 		for (String channelName : channelList.keySet()) {
