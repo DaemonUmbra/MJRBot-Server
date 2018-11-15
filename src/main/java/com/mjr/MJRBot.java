@@ -33,7 +33,7 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = false;
+	public static boolean developmentModeManual = true;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "MJRLegends";
 	public static String developmentPlatform = "Twitch";
@@ -60,7 +60,7 @@ public class MJRBot {
 	private static Logger logger = LogManager.getLogger();
 
 	public enum BotType {
-		Twitch("Twitch"), Mixer("Mixer");
+		Twitch("Twitch"), Mixer("Mixer"), Discord("Discord");
 
 		private final String typeName;
 

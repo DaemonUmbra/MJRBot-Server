@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.mjr.discord.MessageManager;
 import com.mjr.util.ConsoleUtil;
 
 import sx.blah.discord.api.ClientBuilder;
@@ -27,6 +28,7 @@ public class DiscordBot {
 		ConsoleUtil.textToConsole("Starting Discord bot");
 		client = createClient(token, true);
 		EventDispatcher dispatcher = client.getDispatcher();
+		dispatcher.registerListener(new MessageManager());
 		ConsoleUtil.textToConsole("Finshed starting Discord bot");
 	}
 

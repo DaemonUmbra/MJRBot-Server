@@ -18,14 +18,18 @@ public class CrossChatLink {
 		boolean twitch = type == BotType.Twitch ? false : true;
 		boolean mixer = type == BotType.Mixer ? false : true;
 		boolean discord = Config.getSetting("DiscordEnabled", channelName).equalsIgnoreCase("true") ? true : false;
-		String platformPrefex = type == BotType.Twitch ? "[Twitch]" : "[Mixer]";
+		String platformPrefex = null;
+		if(type == BotType.Discord)
+			platformPrefex = "[Discord]";
+		else
+			platformPrefex = type == BotType.Twitch ? "[Twitch]" : "[Mixer]";
 		String senderPrefex = " " + sender + ": ";
 
 		if (twitch && Config.getSetting("TwitchChatLink", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(BotType.Twitch, channelName, platformPrefex + senderPrefex + message);
 		if (mixer && Config.getSetting("MixerChatLink", channelName).equalsIgnoreCase("true"))
 			Utilities.sendMessage(BotType.Mixer, channelName, platformPrefex + senderPrefex + message);
-		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && MJRBot.useMannalMode == false) {
+		if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && MJRBot.useMannalMode == false && type != BotType.Discord) {
 			ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 			try {
 				if (channel_id.next()) {
