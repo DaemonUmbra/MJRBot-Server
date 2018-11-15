@@ -29,7 +29,8 @@ public class CrossChatLink {
 			ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 			try {
 				if (channel_id.next()) {
-					MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelByID(Long.parseLong(channel_id.getString("cross_link_channel_id"))), platformPrefex + senderPrefex + message);
+					if(channel_id.getString("cross_link_channel_id") != null)
+						MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelByID(Long.parseLong(channel_id.getString("cross_link_channel_id"))), platformPrefex + senderPrefex + message);
 				}
 			} catch (NumberFormatException | SQLException e) {
 				MJRBot.logErrorMessage(e);

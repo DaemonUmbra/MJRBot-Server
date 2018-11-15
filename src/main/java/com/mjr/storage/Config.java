@@ -15,56 +15,50 @@ public class Config extends FileBase {
 	public static String fileName = "Config.properties";
 
 	public static void loadDefaultsDatabase(String channelName) throws IOException {
-		try {
-			if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + "LinkWarning" + "\"").next()) {
-				setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
-				setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
-				setSetting("FollowerMessage", "has followed!", channelName);
-				setSetting("SymbolWarning", "you are using to many symbols", channelName);
-				setSetting("AnnouncementsDelay", "0", channelName);
-				setSetting("GiveawayDelay", "0", channelName);
-				setSetting("StartingPoints", "0", channelName);
-				setSetting("AutoPointsDelay", "0", channelName);
-				setSetting("EmoteWarning", "dont spam emotes!", channelName);
-				setSetting("Commands", "false", channelName);
-				setSetting("Games", "false", channelName);
-				setSetting("Ranks", "false", channelName);
-				setSetting("Points", "false", channelName);
-				setSetting("Announcements", "false", channelName);
-				setSetting("Badwords", "false", channelName);
-				setSetting("LinkChecker", "false", channelName);
-				setSetting("Emote", "false", channelName);
-				setSetting("Symbol", "false", channelName);
-				setSetting("SilentJoin", "true", channelName);
-				setSetting("FollowerCheck", "false", channelName);
-				setSetting("Quotes", "false", channelName);
-				setSetting("MaxSymbols", "5", channelName);
-				setSetting("MaxEmotes", "5", channelName);
-				setSetting("MsgWhenCommandDoesntExist", "true", channelName);
-				setSetting("MsgWhenCommandCantBeUsed", "false", channelName);
-				setSetting("AnnouncementMessage1", "", channelName);
-				setSetting("AnnouncementMessage2", "", channelName);
-				setSetting("AnnouncementMessage3", "", channelName);
-				setSetting("AnnouncementMessage4", "", channelName);
-				setSetting("AnnouncementMessage5", "", channelName);
-				setSetting("CommandsCooldownAmount", "20", channelName);
-				setSetting("SelectedTimeZone", "Europe/London", channelName);
-				setSetting("SubAlerts", "true", channelName);
-				setSetting("ResubAlerts", "true", channelName);
-				setSetting("GiftSubAlerts", "true", channelName);
-				setSetting("HostingAlerts", "true", channelName);
-				setSetting("RaidAlerts", "true", channelName);
-				setSetting("BitsAlerts", "true", channelName);
-				setSetting("FollowAlerts", "true", channelName);
-				setSetting("AnnouncementsWhenOffline", "false", channelName);
-				setSetting("TwitchChatLink", "false", channelName);
-				setSetting("MixerChatLink", "false", channelName);
-				setSetting("DiscordEnabled", "false", channelName);
-				setSetting("DiscordChatLink", "false", channelName);
-			}
-		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
-		}
+		setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
+		setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
+		setSetting("FollowerMessage", "has followed!", channelName);
+		setSetting("SymbolWarning", "you are using to many symbols", channelName);
+		setSetting("AnnouncementsDelay", "0", channelName);
+		setSetting("GiveawayDelay", "0", channelName);
+		setSetting("StartingPoints", "0", channelName);
+		setSetting("AutoPointsDelay", "0", channelName);
+		setSetting("EmoteWarning", "dont spam emotes!", channelName);
+		setSetting("Commands", "false", channelName);
+		setSetting("Games", "false", channelName);
+		setSetting("Ranks", "false", channelName);
+		setSetting("Points", "false", channelName);
+		setSetting("Announcements", "false", channelName);
+		setSetting("Badwords", "false", channelName);
+		setSetting("LinkChecker", "false", channelName);
+		setSetting("Emote", "false", channelName);
+		setSetting("Symbol", "false", channelName);
+		setSetting("SilentJoin", "true", channelName);
+		setSetting("FollowerCheck", "false", channelName);
+		setSetting("Quotes", "false", channelName);
+		setSetting("MaxSymbols", "5", channelName);
+		setSetting("MaxEmotes", "5", channelName);
+		setSetting("MsgWhenCommandDoesntExist", "true", channelName);
+		setSetting("MsgWhenCommandCantBeUsed", "false", channelName);
+		setSetting("AnnouncementMessage1", "", channelName);
+		setSetting("AnnouncementMessage2", "", channelName);
+		setSetting("AnnouncementMessage3", "", channelName);
+		setSetting("AnnouncementMessage4", "", channelName);
+		setSetting("AnnouncementMessage5", "", channelName);
+		setSetting("CommandsCooldownAmount", "20", channelName);
+		setSetting("SelectedTimeZone", "Europe/London", channelName);
+		setSetting("SubAlerts", "true", channelName);
+		setSetting("ResubAlerts", "true", channelName);
+		setSetting("GiftSubAlerts", "true", channelName);
+		setSetting("HostingAlerts", "true", channelName);
+		setSetting("RaidAlerts", "true", channelName);
+		setSetting("BitsAlerts", "true", channelName);
+		setSetting("FollowAlerts", "true", channelName);
+		setSetting("AnnouncementsWhenOffline", "false", channelName);
+		setSetting("TwitchChatLink", "false", channelName);
+		setSetting("MixerChatLink", "false", channelName);
+		setSetting("DiscordEnabled", "false", channelName);
+		setSetting("DiscordChatLink", "false", channelName);
 	}
 
 	public static void loadDefaults(String channelName) throws IOException {
