@@ -31,6 +31,7 @@ public class GetViewersThread extends Thread {
 			try {
 				String result = "";
 				String viewers = "";
+				String vips = "";
 				String moderators = "";
 				String staff = "";
 				String admins = "";
@@ -44,6 +45,11 @@ public class GetViewersThread extends Thread {
 					result += line;
 				}
 				reader.close();
+				if (result.contains("vips" + "\"" + ": [") && !result.contains("vips" + "\"" + ": [],")) {
+					vips = result.substring(result.indexOf("moderators") + 8);
+					result = vips;
+					vips = vips.substring(0, vips.indexOf("],"));
+				}
 				if (result.contains("moderators" + "\"" + ": [") && !result.contains("moderators" + "\"" + ": [],")) {
 					moderators = result.substring(result.indexOf("moderators") + 14);
 					result = moderators;
@@ -70,6 +76,7 @@ public class GetViewersThread extends Thread {
 					viewers = viewers.substring(0, viewers.indexOf("]"));
 				}
 
+				vips = vips.replace(" ", "").replace("\"", "");
 				moderators = moderators.replace(" ", "").replace("\"", "");
 				staff = staff.replace(" ", "").replace("\"", "");
 				admins = admins.replace(" ", "").replace("\"", "");
@@ -77,6 +84,12 @@ public class GetViewersThread extends Thread {
 				viewers = viewers.replace(" ", "").replace("\"", "");
 
 				if (bot.viewers.isEmpty()) {
+					for (String viewer : vips.split(",")) {
+						if (!bot.vips.contains(viewer.toLowerCase())) {
+							if (!viewer.equals(""))
+								bot.vips.add(viewer.toLowerCase());
+						}
+					}
 					for (String viewer : moderators.split(",")) {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals(""))
@@ -110,6 +123,14 @@ public class GetViewersThread extends Thread {
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!", MessageType.Bot, null);
 
 				} else {
+					for (String viewer : vips.split(",")) {
+						if (!bot.vips.contains(viewer.toLowerCase())) {
+							if (!viewer.equals("")) {
+								bot.vips.add(viewer.toLowerCase());
+								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+							}
+						}
+					}
 					for (String viewer : moderators.split(",")) {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
