@@ -17,6 +17,7 @@ import java.util.Properties;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
+import com.mjr.gameIntegrations.CallOfDuty;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
@@ -70,6 +71,75 @@ public class CustomCommands {
 						ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
 						DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
 						response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + Config.getSetting("SelectedTimeZone", channelName) + ")");
+					}
+					try {
+						String[] parts = response.split(" ");
+						if (parts.length != 0) {
+							for (int i = 0; i < parts.length; i++) {
+								if (parts[i].startsWith("%cod_")) {
+									if(parts[i].startsWith("%cod_STATNAMEHERE") || parts[i].startsWith("%cod_("))
+										throw new IndexOutOfBoundsException("Invalid stat name!");
+									String stat = parts[i].substring(parts[i].indexOf("%cod_") + 5);
+									stat = stat.substring(0, stat.indexOf("("));
+
+									String temp = parts[i].substring(parts[i].indexOf(stat));
+									temp = temp.substring(temp.indexOf("(") + 1);
+									temp = temp.substring(0, temp.indexOf(")"));
+
+									String[] codParts = temp.split(":");
+									if (codParts.length != 3 && codParts.length != 4)
+										throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
+
+									if (!codParts[0].equalsIgnoreCase("bo4"))
+										throw new IndexOutOfBoundsException("Invalid game!");
+
+									if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle"))
+										throw new IndexOutOfBoundsException("Invalid pathform!");
+
+									if (codParts.length == 3) {
+										parts[i] = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
+									}
+									else if (codParts.length == 4) {
+										if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
+											throw new IndexOutOfBoundsException("Invalid game mode type!");
+										parts[i] = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
+									}
+								}
+							}
+							response = String.join(" ", parts);
+						} else {
+							if (response.startsWith("%cod_")) {
+								if(response.startsWith("%cod_STATNAMEHERE") || response.startsWith("%cod_("))
+									throw new IndexOutOfBoundsException("Invalid stat name!");
+								String stat = response.substring(response.indexOf("%cod_") + 5);
+								stat = stat.substring(0, stat.indexOf("("));
+
+								String temp = response.substring(response.indexOf(stat));
+								temp = temp.substring(temp.indexOf("(") + 1);
+								temp = temp.substring(0, temp.indexOf(")"));
+
+								String[] codParts = temp.split(":");
+								if (codParts.length != 3 && codParts.length != 4)
+									throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
+
+								if (!codParts[0].equalsIgnoreCase("bo4"))
+									throw new IndexOutOfBoundsException("Invalid game!");
+
+								if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle"))
+									throw new IndexOutOfBoundsException("Invalid pathform!");
+
+								if (codParts.length == 3) {
+									response = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
+								}
+								else if (codParts.length == 4) {
+									if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
+										throw new IndexOutOfBoundsException("Invalid game mode type!");
+									response = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
+								}
+							}
+						}
+					} catch (Exception e) {
+						response = "Invaild cod stats variable format, Error: " + e.getMessage() + (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)%" : "");
 					}
 					Utilities.sendMessage(type, channelName, response);
 				} else {
