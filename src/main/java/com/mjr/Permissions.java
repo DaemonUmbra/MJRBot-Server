@@ -12,7 +12,7 @@ public class Permissions {
 	public static List<String> knownBots = new ArrayList<String>(Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
 
 	public enum PermissionLevel {
-		User("User", 0), Subscriber("Subscriber", 1), Moderator("Moderator", 2), Streamer("Streamer", 4), KnownBot("KnownBot", 5), Bot("Bot", 6), BotOwner("BotOwner", 6);
+		User("User", 0), VIP("VIP", 1), Subscriber("Subscriber", 2), Moderator("Moderator", 3), Streamer("Streamer", 4), KnownBot("KnownBot", 5), Bot("Bot", 6), BotOwner("BotOwner", 6);
 
 		private final String permission;
 		private final int tierValue;
@@ -49,10 +49,12 @@ public class Permissions {
 				return PermissionLevel.KnownBot.getName();
 			else if (user.equalsIgnoreCase("mjrlegends"))
 				return PermissionLevel.BotOwner.getName();
-			if (((TwitchBot) bot).moderators != null && ((TwitchBot) bot).moderators.contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
+			else if (((TwitchBot) bot).moderators != null && ((TwitchBot) bot).moderators.contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
-			if (((TwitchBot) bot).subscribers != null && ((TwitchBot) bot).subscribers.contains(user))
+			else if (((TwitchBot) bot).subscribers != null && ((TwitchBot) bot).subscribers.contains(user))
 				return PermissionLevel.Subscriber.getName();
+			else if (((TwitchBot) bot).vips != null && ((TwitchBot) bot).vips.contains(user))
+				return PermissionLevel.VIP.getName();
 			else
 				return PermissionLevel.User.getName();
 		} else {
@@ -67,7 +69,7 @@ public class Permissions {
 			else if (!MJRBot.getMixerBotByChannelName(channelName).getModerators().isEmpty() && MJRBot.getMixerBotByChannelName(channelName).getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName))
 					|| user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
-			if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
+			else if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
 				return PermissionLevel.Subscriber.getName();
 			else
 				return PermissionLevel.User.getName();
