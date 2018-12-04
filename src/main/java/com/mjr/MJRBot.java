@@ -33,8 +33,8 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = true;
-	public static boolean developmentStorageFileMode = true;
+	public static boolean developmentModeManual = false;
+	public static boolean developmentStorageFileMode = false;
 	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
