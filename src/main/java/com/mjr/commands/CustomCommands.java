@@ -67,6 +67,20 @@ public class CustomCommands {
 					response = response.replaceAll("%sender%", sender);
 					response = response.replaceAll("%channel%", channelName);
 					response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
+					if(type == BotType.Twitch)
+						response = response.replaceAll("%subcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).subscribers.size());
+					else
+						response = response.replaceAll("%subcount%", "" + MJRBot.getMixerBotByChannelName(channelName).subscribers.size());
+					if(type == BotType.Twitch)
+						response = response.replaceAll("%viewercount%", "" + MJRBot.getTwitchBotByChannelName(channelName).viewers.size());
+					else
+						response = response.replaceAll("%viewercount%", "" + MJRBot.getMixerBotByChannelName(channelName).getViewers().size());
+					if(type == BotType.Twitch)
+						response = response.replaceAll("%moderatorcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).moderators.size());
+					else
+						response = response.replaceAll("%moderatorcount%", "" + MJRBot.getMixerBotByChannelName(channelName).getModerators().size());
+					if(type == BotType.Twitch)
+						response = response.replaceAll("%vipcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).vips.size());
 					if (response.contains("%time%")) {
 						ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
 						DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
@@ -90,16 +104,16 @@ public class CustomCommands {
 									if (codParts.length != 3 && codParts.length != 4)
 										throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
 
-									if (!codParts[0].equalsIgnoreCase("bo4"))
+									if (!codParts[0].equalsIgnoreCase("bo4") && !codParts[0].equalsIgnoreCase("wwii"))
 										throw new IndexOutOfBoundsException("Invalid game!");
 
-									if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle"))
+									if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle") && !codParts[1].equalsIgnoreCase("steam"))
 										throw new IndexOutOfBoundsException("Invalid pathform!");
 
 									if (codParts.length == 3) {
 										parts[i] = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
 									}
-									else if (codParts.length == 4) {
+									else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
 										if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
 											throw new IndexOutOfBoundsException("Invalid game mode type!");
 										parts[i] = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
@@ -122,16 +136,16 @@ public class CustomCommands {
 								if (codParts.length != 3 && codParts.length != 4)
 									throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
 
-								if (!codParts[0].equalsIgnoreCase("bo4"))
+								if (!codParts[0].equalsIgnoreCase("bo4") && !codParts[0].equalsIgnoreCase("wwii"))
 									throw new IndexOutOfBoundsException("Invalid game!");
 
-								if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle"))
+								if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle") && !codParts[1].equalsIgnoreCase("steam"))
 									throw new IndexOutOfBoundsException("Invalid pathform!");
 
 								if (codParts.length == 3) {
 									response = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
 								}
-								else if (codParts.length == 4) {
+								else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
 									if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
 										throw new IndexOutOfBoundsException("Invalid game mode type!");
 									response = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
@@ -139,7 +153,7 @@ public class CustomCommands {
 							}
 						}
 					} catch (Exception e) {
-						response = "Invaild cod stats variable format, Error: " + e.getMessage() + (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)%" : "");
+						response = "Invaild cod stats variable format, Error: " + e.getMessage() + (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)% OR %cod_STATNAMEHERE(game:pathform:user:type)%" : "");
 					}
 					Utilities.sendMessage(type, channelName, response);
 				} else {
