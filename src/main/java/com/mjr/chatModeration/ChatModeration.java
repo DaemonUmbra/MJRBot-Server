@@ -30,8 +30,13 @@ public class ChatModeration {
 						return;
 					ModerationActionsLog.addEvent(channel, sender, " flagged by Link Checker", message);
 					Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("LinkWarning", channel));
-					Utilities.sendMessage(type, channel, "/timeout " + sender);
-					Utilities.sendMessage(type, channel, "/unban " + sender);
+					if(type == BotType.Twitch) {
+						Utilities.sendMessage(type, channel, "/timeout " + sender);
+						Utilities.sendMessage(type, channel, "/unban " + sender);
+					}
+					else {
+						((MixerBot) bot).deleteLastMessageForUser(sender);
+					}
 					return;
 				}
 				if (type == BotType.Twitch)
@@ -47,8 +52,13 @@ public class ChatModeration {
 					else {
 						ModerationActionsLog.addEvent(channel, sender, " flagged by Badwords Checker", message);
 						Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("LanguageWarning", channel));
-						Utilities.sendMessage(type, channel, "/timeout " + sender);
-						Utilities.sendMessage(type, channel, "/unban " + sender);
+						if(type == BotType.Twitch) {
+							Utilities.sendMessage(type, channel, "/timeout " + sender);
+							Utilities.sendMessage(type, channel, "/unban " + sender);
+						}
+						else {
+							((MixerBot) bot).deleteLastMessageForUser(sender);
+						}
 						return;
 					}
 				}
@@ -64,8 +74,13 @@ public class ChatModeration {
 							return;
 						ModerationActionsLog.addEvent(channel, sender, " flagged by Emote Spam Checker", message);
 						Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("EmoteWarning", channel));
-						Utilities.sendMessage(type, channel, "/timeout " + sender);
-						Utilities.sendMessage(type, channel, "/unban " + sender);
+						if(type == BotType.Twitch) {
+							Utilities.sendMessage(type, channel, "/timeout " + sender);
+							Utilities.sendMessage(type, channel, "/unban " + sender);
+						}
+						else {
+							((MixerBot) bot).deleteLastMessageForUser(sender);
+						}
 						return;
 					}
 				}
@@ -84,8 +99,13 @@ public class ChatModeration {
 							return;
 						ModerationActionsLog.addEvent(channel, sender, " flagged by Symbol Spam Checker", message);
 						Utilities.sendMessage(type, channel, "@" + sender + " " + Config.getSetting("SymbolWarning", channel));
-						Utilities.sendMessage(type, channel, "/timeout " + sender);
-						Utilities.sendMessage(type, channel, "/unban " + sender);
+						if(type == BotType.Twitch) {
+							Utilities.sendMessage(type, channel, "/timeout " + sender);
+							Utilities.sendMessage(type, channel, "/unban " + sender);
+						}
+						else {
+							((MixerBot) bot).deleteLastMessageForUser(sender);
+						}
 						return;
 					}
 				}

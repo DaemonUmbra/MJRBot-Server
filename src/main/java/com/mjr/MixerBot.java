@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mjr.MJRBot.BotType;
+import com.mjr.chatModeration.ChatModeration;
 import com.mjr.commands.CommandManager;
 import com.mjr.games.MathsGame;
 import com.mjr.games.RacingGame;
@@ -66,6 +67,7 @@ public class MixerBot extends MJR_MixerBot {
 	protected void onMessage(String sender, String message) {
 		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
 		CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
+		ChatModeration.onCommand(BotType.Mixer, MJRBot.getMixerBotByChannelName(this.channelName), this.channelName, sender, null, null, message);
 		try {
 			commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
 		} catch (IOException e) {
