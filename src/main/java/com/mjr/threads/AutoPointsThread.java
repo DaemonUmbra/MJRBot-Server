@@ -51,7 +51,7 @@ public class AutoPointsThread extends Thread {
 						MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
 						if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
 							boolean streaming = false;
-							streaming = MJRBot.getMixerBotByChannelName(channelName).isStreaming();
+							streaming = mixerBot.isStreaming();
 							if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
 								for (int i = 0; i < mixerBot.getViewers().size(); i++) {
 									if (mixerBot.viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
