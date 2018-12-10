@@ -64,97 +64,7 @@ public class CustomCommands {
 			if (state.equalsIgnoreCase("true")) {
 				boolean allowed = Permissions.hasPermission(bot, type, channelName, sender, permissionLevel);
 				if (allowed) {
-					response = response.replaceAll("%sender%", sender);
-					response = response.replaceAll("%channel%", channelName);
-					response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
-					if(type == BotType.Twitch)
-						response = response.replaceAll("%subcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).subscribers.size());
-					else
-						response = response.replaceAll("%subcount%", "" + MJRBot.getMixerBotByChannelName(channelName).subscribers.size());
-					if(type == BotType.Twitch)
-						response = response.replaceAll("%viewercount%", "" + MJRBot.getTwitchBotByChannelName(channelName).viewers.size());
-					else
-						response = response.replaceAll("%viewercount%", "" + MJRBot.getMixerBotByChannelName(channelName).getViewers().size());
-					if(type == BotType.Twitch)
-						response = response.replaceAll("%moderatorcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).moderators.size());
-					else
-						response = response.replaceAll("%moderatorcount%", "" + MJRBot.getMixerBotByChannelName(channelName).getModerators().size());
-					if(type == BotType.Twitch)
-						response = response.replaceAll("%vipcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).vips.size());
-					if (response.contains("%time%")) {
-						ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
-						DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
-						response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + Config.getSetting("SelectedTimeZone", channelName) + ")");
-					}
-					try {
-						String[] parts = response.split(" ");
-						if (parts.length != 0) {
-							for (int i = 0; i < parts.length; i++) {
-								if (parts[i].startsWith("%cod_")) {
-									if(parts[i].startsWith("%cod_STATNAMEHERE") || parts[i].startsWith("%cod_("))
-										throw new IndexOutOfBoundsException("Invalid stat name!");
-									String stat = parts[i].substring(parts[i].indexOf("%cod_") + 5);
-									stat = stat.substring(0, stat.indexOf("("));
-
-									String temp = parts[i].substring(parts[i].indexOf(stat));
-									temp = temp.substring(temp.indexOf("(") + 1);
-									temp = temp.substring(0, temp.indexOf(")"));
-
-									String[] codParts = temp.split(":");
-									if (codParts.length != 3 && codParts.length != 4)
-										throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
-
-									if (!codParts[0].equalsIgnoreCase("bo4") && !codParts[0].equalsIgnoreCase("wwii"))
-										throw new IndexOutOfBoundsException("Invalid game!");
-
-									if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle") && !codParts[1].equalsIgnoreCase("steam"))
-										throw new IndexOutOfBoundsException("Invalid pathform!");
-
-									if (codParts.length == 3) {
-										parts[i] = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
-									}
-									else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
-										if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
-											throw new IndexOutOfBoundsException("Invalid game mode type!");
-										parts[i] = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
-									}
-								}
-							}
-							response = String.join(" ", parts);
-						} else {
-							if (response.startsWith("%cod_")) {
-								if(response.startsWith("%cod_STATNAMEHERE") || response.startsWith("%cod_("))
-									throw new IndexOutOfBoundsException("Invalid stat name!");
-								String stat = response.substring(response.indexOf("%cod_") + 5);
-								stat = stat.substring(0, stat.indexOf("("));
-
-								String temp = response.substring(response.indexOf(stat));
-								temp = temp.substring(temp.indexOf("(") + 1);
-								temp = temp.substring(0, temp.indexOf(")"));
-
-								String[] codParts = temp.split(":");
-								if (codParts.length != 3 && codParts.length != 4)
-									throw new IndexOutOfBoundsException("Missing args in cod stats variable!");
-
-								if (!codParts[0].equalsIgnoreCase("bo4") && !codParts[0].equalsIgnoreCase("wwii"))
-									throw new IndexOutOfBoundsException("Invalid game!");
-
-								if (!codParts[1].equalsIgnoreCase("xbl") && !codParts[1].equalsIgnoreCase("psn") && !codParts[1].equalsIgnoreCase("battle") && !codParts[1].equalsIgnoreCase("steam"))
-									throw new IndexOutOfBoundsException("Invalid pathform!");
-
-								if (codParts.length == 3) {
-									response = CallOfDuty.getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
-								}
-								else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
-									if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
-										throw new IndexOutOfBoundsException("Invalid game mode type!");
-									response = CallOfDuty.getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
-								}
-							}
-						}
-					} catch (Exception e) {
-						response = "Invaild cod stats variable format, Error: " + e.getMessage() + (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)% OR %cod_STATNAMEHERE(game:pathform:user:type)%" : "");
-					}
+					response = replaceVariablesWithData(response, type, channelName, sender);
 					Utilities.sendMessage(type, channelName, response);
 				} else {
 					if (Config.getSetting("MsgWhenCommandCantBeUsed", channelName).equalsIgnoreCase("true"))
@@ -162,6 +72,50 @@ public class CustomCommands {
 				}
 			}
 		}
+	}
+
+	public static String replaceVariablesWithData(String response, BotType type, String channelName, String sender) {
+		response = response.replaceAll("%sender%", sender);
+		response = response.replaceAll("%channel%", channelName);
+		response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
+		if (type == BotType.Twitch)
+			response = response.replaceAll("%subcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).subscribers.size());
+		else
+			response = response.replaceAll("%subcount%", "" + MJRBot.getMixerBotByChannelName(channelName).subscribers.size());
+		if (type == BotType.Twitch)
+			response = response.replaceAll("%viewercount%", "" + MJRBot.getTwitchBotByChannelName(channelName).viewers.size());
+		else
+			response = response.replaceAll("%viewercount%", "" + MJRBot.getMixerBotByChannelName(channelName).getViewers().size());
+		if (type == BotType.Twitch)
+			response = response.replaceAll("%moderatorcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).moderators.size());
+		else
+			response = response.replaceAll("%moderatorcount%", "" + MJRBot.getMixerBotByChannelName(channelName).getModerators().size());
+		if (type == BotType.Twitch)
+			response = response.replaceAll("%vipcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).vips.size());
+		if (response.contains("%time%")) {
+			ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
+			response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + Config.getSetting("SelectedTimeZone", channelName) + ")");
+		}
+		try {
+			String[] parts = response.split(" ");
+			if (parts.length != 0) {
+				for (int i = 0; i < parts.length; i++) {
+					if (parts[i].startsWith("%cod_")) {
+						parts[i] = CallOfDuty.replaceVariablesWithData(parts[i]);
+					}
+				}
+				response = String.join(" ", parts);
+			} else {
+				if (response.startsWith("%cod_")) {
+					response = CallOfDuty.replaceVariablesWithData(response);
+				}
+			}
+		} catch (Exception e) {
+			response = "Invaild cod stats variable format, Error: " + e.getMessage()
+					+ (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)% OR %cod_STATNAMEHERE(game:pathform:user:type)%" : "");
+		}
+		return response;
 	}
 
 	public static void addCommand(BotType type, String channelName, String command, String response, String permission) throws FileNotFoundException, IOException {
