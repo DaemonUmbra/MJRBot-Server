@@ -61,6 +61,7 @@ public class Config extends FileBase {
 				setSetting("MixerChatLink", "false", channelName);
 				setSetting("DiscordEnabled", "false", channelName);
 				setSetting("DiscordChatLink", "false", channelName);
+				setSetting("AutoPointsWhenOffline", "false", channelName);
 			}
 		} catch (SQLException e) {
 			MJRBot.logErrorMessage(e);
@@ -114,6 +115,7 @@ public class Config extends FileBase {
 			setSetting("MixerChatLink", "false", channelName);
 			setSetting("DiscordEnabled", "false", channelName);
 			setSetting("DiscordChatLink", "false", channelName);
+			setSetting("AutoPointsWhenOffline", "false", channelName);
 		}
 	}
 
