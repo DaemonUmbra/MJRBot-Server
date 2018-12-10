@@ -33,13 +33,13 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = false;
-	public static boolean developmentStorageFileMode = false;
+	public static boolean developmentModeManual = true;
+	public static boolean developmentStorageFileMode = true;
 	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
 	public static String developmentPlatform = "Mixer";
-	public static String developmentID = "176426";
+	public static String developmentID = "5831";
 
 	public static final String VERSION = "1.8.3, Server Version";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
@@ -182,6 +182,8 @@ public class MJRBot {
 				id = console.readLine("Channel ID?");
 			}
 			useManualMode = true;
+			userCooldownTickThread = new UserCooldownTickThread();
+			userCooldownTickThread.start();
 			createBot(channel, botType);
 
 		} while (twitchBots.isEmpty() && mixerBots.isEmpty());
