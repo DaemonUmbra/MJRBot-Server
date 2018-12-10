@@ -22,9 +22,14 @@ public class AnnouncementsThread extends Thread {
 		while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
 			if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
 				boolean streaming = false;
-				String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
-				if (result.contains("created_at"))
-					streaming = true;
+				if(type == BotType.Twitch) {
+					String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+					if (result.contains("created_at"))
+						streaming = true;
+				}
+				else {
+					streaming = MJRBot.getMixerBotByChannelName(channelName).isStreaming();
+				}
 				if (Config.getSetting("AnnouncementsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
 					int delay = Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName));
 					if (delay != 0) {
