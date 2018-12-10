@@ -93,14 +93,10 @@ public class MJRBot {
 		}
 
 		if (filePath != null) {
-			ConfigMain.load();
-			if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
-				bot = new DiscordBot();
-				bot.startBot(ConfigMain.getSetting("DiscordToken"));
-			}
-			else {
-				ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
-			}
+			ConfigMain.load();				
+			bot = new DiscordBot();
+			bot.startBot(ConfigMain.getSetting("DiscordToken"));
+			Thread.sleep(2000);
 			String connectionType = "";
 			do {
 				if (developmentModeDatabase)

@@ -26,6 +26,8 @@ public class DiscordBot {
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20);
 
 	public void startBot(String token) {
+		if(token.length() == 0)
+			return;
 		ConsoleUtil.textToConsole("Starting Discord bot");
 		client = createClient(token, true);
 		EventDispatcher dispatcher = client.getDispatcher();
@@ -49,14 +51,20 @@ public class DiscordBot {
 	}
 
 	public void sendErrorMessage(String message) {
+		if(client == null)
+			return;
 		sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.error_channel_id), message);
 	}
 	
 	public void sendAdminEventMessage(String message) {
-		sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.admin_event_log_channel_id), message);
+		if(client == null)
+			return;
+			sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.admin_event_log_channel_id), message);
 	}
 
 	public void sendMessage(IChannel channel, String message) {
+		if(client == null)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = null;
 		int numAttempts = 0;
@@ -84,6 +92,8 @@ public class DiscordBot {
 	}
 
 	public void sendDirectMessageToUser(IUser user, String message) {
+		if(client == null)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send message to User: " + user.getName() + " Message: " + message);
 		RequestBuffer.request(() -> {
 			try {
@@ -99,6 +109,8 @@ public class DiscordBot {
 	}
 
 	public void sendTimedMessage(IChannel channel, String message, Long delay, TimeUnit timeUnit) {
+		if(client == null)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
@@ -109,6 +121,8 @@ public class DiscordBot {
 	}
 
 	public void sendTimedMessage(IChannel channel, String message) {
+		if(client == null)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
@@ -146,6 +160,8 @@ public class DiscordBot {
 	}
 
 	public void nukeChannel(IChannel channel) {
+		if(client == null)
+			return;
 		try {
 			ConsoleUtil.textToConsole("Discord: Attempting to run a nuke of all messages on Channel: " + channel.getName());
 			channel.bulkDelete(channel.getFullMessageHistory());
@@ -159,6 +175,8 @@ public class DiscordBot {
 	}
 
 	public void deleteMessage(IMessage message) {
+		if(client == null)
+			return;
 		RequestBuffer.request(() -> {
 			try {
 				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + message.getChannel().getName());
@@ -174,15 +192,21 @@ public class DiscordBot {
 	}
 
 	public void deleteMessage(Long channelID, Long messageID) {
+		if(client == null)
+			return;
 		IChannel channel = client.getChannelByID(channelID);
 		deleteMessage(channel, messageID);
 	}
 
 	public void deleteMessage(IChannel channel, Long messageID) {
+		if(client == null)
+			return;
 		deleteMessage(channel, channel.getMessageByID(messageID));
 	}
 
 	public void deleteMessage(IChannel channel, IMessage message) {
+		if(client == null)
+			return;
 		RequestBuffer.request(() -> {
 			try {
 				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + channel.getName());
@@ -198,6 +222,8 @@ public class DiscordBot {
 	}
 
 	public void editMessage(IMessage oldMessage, String newMessage) {
+		if(client == null)
+			return;
 		IMessage lastMessage = null;
 		int numAttempts = 0;
 		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue)
