@@ -28,10 +28,10 @@ public class AutoPointsThread extends Thread {
 				if (delay != 0) {
 					long TimeDuration = (delay * 60) * 1000;
 					long timenow = System.currentTimeMillis();
+					boolean streaming = false;
 					if (type == BotType.Twitch) {
 						TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
 						if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
-							boolean streaming = false;
 							String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
 							if (result.contains("created_at"))
 								streaming = true;
@@ -50,7 +50,6 @@ public class AutoPointsThread extends Thread {
 					} else if (type == BotType.Mixer) {
 						MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
 						if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
-							boolean streaming = false;
 							streaming = mixerBot.isStreaming();
 							if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
 								for (int i = 0; i < mixerBot.getViewers().size(); i++) {
@@ -65,8 +64,8 @@ public class AutoPointsThread extends Thread {
 							}
 						}
 					}
-
-					EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
+					if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming)
+						EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
 
 					try {
 						Thread.sleep(TimeDuration);
