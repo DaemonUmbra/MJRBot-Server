@@ -20,6 +20,7 @@ import sx.blah.discord.util.RequestBuffer;
 public class DiscordBot {
 	public static long mjrlegends_guild_id = 304416423147601921L;
 	public static long error_channel_id = 510208195629809704L;
+	public static long admin_event_log_channel_id = 512734468029808651L;
 	public String channelName;
 	public IDiscordClient client;
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20);
@@ -49,6 +50,10 @@ public class DiscordBot {
 
 	public void sendErrorMessage(String message) {
 		sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.error_channel_id), message);
+	}
+	
+	public void sendAdminEventMessage(String message) {
+		sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.admin_event_log_channel_id), message);
 	}
 
 	public void sendMessage(IChannel channel, String message) {

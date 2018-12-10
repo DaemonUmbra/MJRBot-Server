@@ -265,17 +265,20 @@ public class MJRBot {
 	}
 
 	public static void addTwitchBot(String channelName, TwitchBot bot) {
-		ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been added to the channel " + channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been added to the channel " + channelName);
 		twitchBots.put(channelName, bot);
 	}
 
 	public static void removeTwitchBot(TwitchBot bot) {
-		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + bot.channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + bot.channelName);
 		twitchBots.remove(bot.channelName, bot);
 	}
 
 	public static void removeTwitchBot(String channelName) {
-		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + channelName);
+		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + channelName);
 		twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
 	}
 
@@ -288,17 +291,20 @@ public class MJRBot {
 	}
 
 	public static void addMixerBot(String channelName, MixerBot bot) {
-		ConsoleUtil.textToConsole("MJRBot has been added to the channel " + channelName);
+		ConsoleUtil.textToConsole("[Mixer] MJRBot has been added to the channel " + channelName);
+		MJRBot.bot.sendAdminEventMessage("[Mixer] MJRBot has been added to the channel " + channelName);
 		mixerBots.put(channelName, bot);
 	}
 
 	public static void removeMixerBot(MixerBot bot) {
-		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + bot.channelName);
-		twitchBots.remove(bot.channelName, bot);
+		ConsoleUtil.textToConsole("[Mixer] MJRBot has been removed from the channel " + bot.channelName);
+		MJRBot.bot.sendAdminEventMessage("[Mixer] MJRBot has been removed from the channel " + bot.channelName);
+		mixerBots.remove(bot.channelName, bot);
 	}
 
 	public static void removeMixerBot(String channelName) {
-		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
+		ConsoleUtil.textToConsole("[Mixer] MJRBot has been removed from the channel " + channelName);
+		MJRBot.bot.sendAdminEventMessage("[Mixer] MJRBot has been removed from the channel " + channelName);
 		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
 	}
 
