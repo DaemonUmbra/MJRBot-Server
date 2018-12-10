@@ -33,15 +33,15 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = true;
-	public static boolean developmentStorageFileMode = true;
+	public static boolean developmentModeManual = false;
+	public static boolean developmentStorageFileMode = false;
 	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
 	public static String developmentPlatform = "Mixer";
 	public static String developmentID = "176426";
 
-	public static final String VERSION = "1.8.2, Server Version";
+	public static final String VERSION = "1.8.3, Server Version";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
 	public static String filePath;
@@ -94,6 +94,13 @@ public class MJRBot {
 
 		if (filePath != null) {
 			ConfigMain.load();
+			if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
+				bot = new DiscordBot();
+				bot.startBot(ConfigMain.getSetting("DiscordToken"));
+			}
+			else {
+				ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
+			}
 			String connectionType = "";
 			do {
 				if (developmentModeDatabase)
@@ -129,13 +136,6 @@ public class MJRBot {
 				runDatabaseMode();
 			}
 			CommandManager.loadCommands();
-		}
-		if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
-			bot = new DiscordBot();
-			bot.startBot(ConfigMain.getSetting("DiscordToken"));
-		}
-		else {
-			ConsoleUtil.textToConsole("Discord Integration has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
 		}
 	}
 
@@ -266,19 +266,19 @@ public class MJRBot {
 
 	public static void addTwitchBot(String channelName, TwitchBot bot) {
 		ConsoleUtil.textToConsole("[Twitch] MJRBot has been added to the channel " + channelName);
-		ConsoleUtil.textToConsole("[Twitch] MJRBot has been added to the channel " + channelName);
+		MJRBot.bot.sendAdminEventMessage("[Twitch] MJRBot has been added to the channel " + channelName);
 		twitchBots.put(channelName, bot);
 	}
 
 	public static void removeTwitchBot(TwitchBot bot) {
 		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + bot.channelName);
-		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + bot.channelName);
+		MJRBot.bot.sendAdminEventMessage("[Twitch] MJRBot has been removed from the channel " + bot.channelName);
 		twitchBots.remove(bot.channelName, bot);
 	}
 
 	public static void removeTwitchBot(String channelName) {
 		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + channelName);
-		ConsoleUtil.textToConsole("[Twitch] MJRBot has been removed from the channel " + channelName);
+		MJRBot.bot.sendAdminEventMessage("[Twitch] MJRBot has been removed from the channel " + channelName);
 		twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
 	}
 
