@@ -154,7 +154,7 @@ public class MixerBot extends MJR_MixerBot {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();
-		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
 		this.viewersJoinedTimes.clear();
 	}
 

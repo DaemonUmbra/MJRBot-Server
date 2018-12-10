@@ -33,12 +33,12 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = false;
-	public static boolean developmentStorageFileMode = false;
+	public static boolean developmentModeManual = true;
+	public static boolean developmentStorageFileMode = true;
 	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
-	public static String developmentPlatform = "Twitch";
+	public static String developmentPlatform = "Mixer";
 	public static String developmentID = "176426";
 
 	public static final String VERSION = "1.8.2, Server Version";
@@ -299,7 +299,7 @@ public class MJRBot {
 
 	public static void removeMixerBot(String channelName) {
 		ConsoleUtil.textToConsole("MJRBot has been removed from the channel " + channelName);
-		twitchBots.remove(channelName, getMixerBotByChannelName(channelName));
+		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
 	}
 
 	public static TwitchBot getTwitchBotByChannelName(String channelName) {
