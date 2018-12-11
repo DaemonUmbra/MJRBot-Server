@@ -22,63 +22,67 @@ public class AutoPointsThread extends Thread {
 
 	@Override
 	public void run() {
-		while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
-			if (Config.getSetting("Points", channelName).equalsIgnoreCase("true")) {
-				int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", channelName));
-				if (delay != 0) {
-					long TimeDuration = (delay * 60) * 1000;
-					long timenow = System.currentTimeMillis();
-					boolean streaming = false;
-					if (type == BotType.Twitch) {
-						TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
-						if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
-							String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
-							if (result.contains("created_at"))
-								streaming = true;
-							if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
-								for (int i = 0; i < twitchBot.viewers.size(); i++) {
-									if (twitchBot.viewersJoinedTimes.containsKey(twitchBot.viewers.get(i))) {
-										long oldtime = twitchBot.viewersJoinedTimes.get(twitchBot.viewers.get(i));
-										if ((timenow - oldtime) >= TimeDuration) {
-											PointsSystem.AddPoints(twitchBot.viewers.get(i), 1, channelName);
-											twitchBot.viewersJoinedTimes.put(twitchBot.viewers.get(i), System.currentTimeMillis());
+		try {
+			while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
+				if (Config.getSetting("Points", channelName).equalsIgnoreCase("true")) {
+					int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", channelName));
+					if (delay != 0) {
+						long TimeDuration = (delay * 60) * 1000;
+						long timenow = System.currentTimeMillis();
+						boolean streaming = false;
+						if (type == BotType.Twitch) {
+							TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
+							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
+								String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+								if (result.contains("created_at"))
+									streaming = true;
+								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
+									for (int i = 0; i < twitchBot.viewers.size(); i++) {
+										if (twitchBot.viewersJoinedTimes.containsKey(twitchBot.viewers.get(i))) {
+											long oldtime = twitchBot.viewersJoinedTimes.get(twitchBot.viewers.get(i));
+											if ((timenow - oldtime) >= TimeDuration) {
+												PointsSystem.AddPoints(twitchBot.viewers.get(i), 1, channelName);
+												twitchBot.viewersJoinedTimes.put(twitchBot.viewers.get(i), System.currentTimeMillis());
+											}
+										}
+									}
+								}
+							}
+						} else if (type == BotType.Mixer) {
+							MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+							if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
+								streaming = mixerBot.isStreaming();
+								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
+									for (int i = 0; i < mixerBot.getViewers().size(); i++) {
+										if (mixerBot.viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
+											long oldtime = mixerBot.viewersJoinedTimes.get(mixerBot.getViewers().get(i));
+											if ((timenow - oldtime) >= TimeDuration) {
+												PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, channelName);
+												mixerBot.viewersJoinedTimes.put(mixerBot.getViewers().get(i), System.currentTimeMillis());
+											}
 										}
 									}
 								}
 							}
 						}
-					} else if (type == BotType.Mixer) {
-						MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
-						if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
-							streaming = mixerBot.isStreaming();
-							if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
-								for (int i = 0; i < mixerBot.getViewers().size(); i++) {
-									if (mixerBot.viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
-										long oldtime = mixerBot.viewersJoinedTimes.get(mixerBot.getViewers().get(i));
-										if ((timenow - oldtime) >= TimeDuration) {
-											PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, channelName);
-											mixerBot.viewersJoinedTimes.put(mixerBot.getViewers().get(i), System.currentTimeMillis());
-										}
-									}
-								}
-							}
-						}
-					}
-					if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming)
-						EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
+						if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming)
+							EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
 
-					try {
-						Thread.sleep(TimeDuration);
-					} catch (InterruptedException e) {
-						MJRBot.logErrorMessage(e);
+						try {
+							Thread.sleep(TimeDuration);
+						} catch (InterruptedException e) {
+							MJRBot.logErrorMessage(e);
+						}
 					}
 				}
+				try {
+					Thread.sleep(60000);
+				} catch (InterruptedException e) {
+					MJRBot.logErrorMessage(e);
+				}
 			}
-			try {
-				Thread.sleep(60000);
-			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
-			}
+		} catch (Exception e) {
+			MJRBot.logErrorMessage(e);
 		}
 	}
 }

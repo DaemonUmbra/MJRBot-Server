@@ -28,8 +28,8 @@ public class GetSubscribersThread extends Thread {
 
 	@Override
 	public void run() {
-		ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
 		try {
+			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
 			if (set != null && set.next()) {
 				String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token") + "&limit=25");
 				if (!result.contains("does not have a subscription program")) {

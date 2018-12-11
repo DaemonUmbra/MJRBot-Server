@@ -11,39 +11,43 @@ public class UserCooldownTickThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			HashMap<String, TwitchBot> channelListTwitch = MJRBot.getTwitchBots();
-			HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
+			try {
+				HashMap<String, TwitchBot> channelListTwitch = MJRBot.getTwitchBots();
+				HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
 
-			for (String channelNameMain : channelListTwitch.keySet()) {
-				TwitchBot twitchBot = channelListTwitch.get(channelNameMain);
-				Iterator<String> iter = twitchBot.usersCooldowns.keySet().iterator();
-				while (iter.hasNext()) {
-					String user = iter.next();
-					int oldTime = twitchBot.usersCooldowns.get(user);
-					if (oldTime > 0) {
-						oldTime = oldTime - 1;
-						if (twitchBot.usersCooldowns.containsKey(user)) {
-							twitchBot.usersCooldowns.put(user, oldTime);
+				for (String channelNameMain : channelListTwitch.keySet()) {
+					TwitchBot twitchBot = channelListTwitch.get(channelNameMain);
+					Iterator<String> iter = twitchBot.usersCooldowns.keySet().iterator();
+					while (iter.hasNext()) {
+						String user = iter.next();
+						int oldTime = twitchBot.usersCooldowns.get(user);
+						if (oldTime > 0) {
+							oldTime = oldTime - 1;
+							if (twitchBot.usersCooldowns.containsKey(user)) {
+								twitchBot.usersCooldowns.put(user, oldTime);
+							}
 						}
+						iter.remove();
 					}
-					iter.remove();
 				}
-			}
 
-			for (String channelNameMain : channelListMixer.keySet()) {
-				MixerBot mixerBot = channelListMixer.get(channelNameMain);
-				Iterator<String> iter = mixerBot.usersCooldowns.keySet().iterator();
-				while (iter.hasNext()) {
-					String user = iter.next();
-					int oldTime = mixerBot.usersCooldowns.get(user);
-					if (oldTime > 0) {
-						oldTime = oldTime - 1;
-						if (mixerBot.usersCooldowns.containsKey(user)) {
-							mixerBot.usersCooldowns.put(user, oldTime);
+				for (String channelNameMain : channelListMixer.keySet()) {
+					MixerBot mixerBot = channelListMixer.get(channelNameMain);
+					Iterator<String> iter = mixerBot.usersCooldowns.keySet().iterator();
+					while (iter.hasNext()) {
+						String user = iter.next();
+						int oldTime = mixerBot.usersCooldowns.get(user);
+						if (oldTime > 0) {
+							oldTime = oldTime - 1;
+							if (mixerBot.usersCooldowns.containsKey(user)) {
+								mixerBot.usersCooldowns.put(user, oldTime);
+							}
 						}
+						iter.remove();
 					}
-					iter.remove();
 				}
+			} catch (Exception e) {
+				MJRBot.logErrorMessage(e);
 			}
 			try {
 				Thread.sleep(1000);

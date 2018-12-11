@@ -21,36 +21,40 @@ public class GiveAwayThread extends Thread {
 
 	@Override
 	public void run() {
-		Utilities.sendMessage(type, channelName, "Giveaway will end in " + Config.getSetting("GiveawayDelay", channelName) + " minutes. To enter use !enter");
 		try {
-			Thread.sleep((Integer.parseInt(Config.getSetting("GiveawayDelay", channelName)) * 60) * 1000);
-		} catch (InterruptedException e) {
+			Utilities.sendMessage(type, channelName, "Giveaway will end in " + Config.getSetting("GiveawayDelay", channelName) + " minutes. To enter use !enter");
+			try {
+				Thread.sleep((Integer.parseInt(Config.getSetting("GiveawayDelay", channelName)) * 60) * 1000);
+			} catch (InterruptedException e) {
+				MJRBot.logErrorMessage(e);
+			}
+			if (type == BotType.Twitch) {
+				TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
+				if (twitchBot.giveawayEnteredUsers.size() > 0) {
+					Utilities.sendMessage(type, channelName, "Giveaway has ended! " + twitchBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
+					Random random = new Random();
+					int userNumber = random.nextInt((twitchBot.giveawayEnteredUsers.size() - 0) + 1) + 0;
+					Utilities.sendMessage(type, channelName, "@" + twitchBot.giveawayEnteredUsers.get(userNumber) + " has won the giveaway!");
+				} else {
+					Utilities.sendMessage(type, channelName, "Giveaway canceled due to no users entered!");
+				}
+				twitchBot.giveAwayActive = false;
+				twitchBot.giveawayEnteredUsers.clear();
+			} else {
+				MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+				if (mixerBot.giveawayEnteredUsers.size() > 0) {
+					Utilities.sendMessage(type, channelName, "Giveaway has ended! " + mixerBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
+					Random random = new Random();
+					int userNumber = random.nextInt((mixerBot.giveawayEnteredUsers.size() - 0) + 1) + 0;
+					Utilities.sendMessage(type, channelName, "@" + mixerBot.giveawayEnteredUsers.get(userNumber) + " has won the giveaway!");
+				} else {
+					Utilities.sendMessage(type, channelName, "Giveaway canceled due to no users entered!");
+				}
+				mixerBot.giveAwayActive = false;
+				mixerBot.giveawayEnteredUsers.clear();
+			}
+		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
-		}
-		if (type == BotType.Twitch) {
-			TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
-			if (twitchBot.giveawayEnteredUsers.size() > 0) {
-				Utilities.sendMessage(type, channelName, "Giveaway has ended! " + twitchBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
-				Random random = new Random();
-				int userNumber = random.nextInt((twitchBot.giveawayEnteredUsers.size() - 0) + 1) + 0;
-				Utilities.sendMessage(type, channelName, "@" + twitchBot.giveawayEnteredUsers.get(userNumber) + " has won the giveaway!");
-			} else {
-				Utilities.sendMessage(type, channelName, "Giveaway canceled due to no users entered!");
-			}
-			twitchBot.giveAwayActive = false;
-			twitchBot.giveawayEnteredUsers.clear();
-		} else {
-			MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
-			if (mixerBot.giveawayEnteredUsers.size() > 0) {
-				Utilities.sendMessage(type, channelName, "Giveaway has ended! " + mixerBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
-				Random random = new Random();
-				int userNumber = random.nextInt((mixerBot.giveawayEnteredUsers.size() - 0) + 1) + 0;
-				Utilities.sendMessage(type, channelName, "@" + mixerBot.giveawayEnteredUsers.get(userNumber) + " has won the giveaway!");
-			} else {
-				Utilities.sendMessage(type, channelName, "Giveaway canceled due to no users entered!");
-			}
-			mixerBot.giveAwayActive = false;
-			mixerBot.giveawayEnteredUsers.clear();
 		}
 	}
 }
