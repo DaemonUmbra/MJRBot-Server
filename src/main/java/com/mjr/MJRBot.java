@@ -33,15 +33,15 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = true;
-	public static boolean developmentStorageFileMode = true;
+	public static boolean developmentModeManual = false;
+	public static boolean developmentStorageFileMode = false;
 	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
 	public static String developmentPlatform = "Mixer";
 	public static String developmentID = "5831";
 
-	public static final String VERSION = "1.8.3, Server Version";
+	public static final String VERSION = "1.8.4, Server Version";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
 	public static String filePath;
@@ -226,8 +226,8 @@ public class MJRBot {
 				MJRBot.logErrorMessage(e);
 			}
 			TwitchBot bot = new TwitchBot();
-			bot.init(channel);
 			addTwitchBot(channel, bot);
+			bot.init(channel);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
 				if (useFileSystem) {
@@ -328,6 +328,16 @@ public class MJRBot {
 
 	public static void setLogger(Logger logger) {
 		MJRBot.logger = logger;
+	}
+	
+	public static void logErrorMessage(final Throwable throwable, String channelName) {
+		String stackTrace = Utilities.getStackTraceString(throwable);
+		logErrorMessage(channelName + " - " + stackTrace);
+	}
+	
+	public static void logErrorMessage(final Throwable throwable, BotType type, String channelName) {
+		String stackTrace = Utilities.getStackTraceString(throwable);
+		logErrorMessage(type.getTypeName() +": " + channelName + " - " + stackTrace);
 	}
 	
 	public static void logErrorMessage(final Throwable throwable) {
