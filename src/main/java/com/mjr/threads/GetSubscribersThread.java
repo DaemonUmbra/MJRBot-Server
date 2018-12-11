@@ -41,15 +41,15 @@ public class GetSubscribersThread extends Thread {
 					String newSubscriber = "";
 					String newresult = result;
 
-					if (times > 1700)
-						times = 1700;
+					if (times > 1600)
+						times = 1600;
 					int amount = (int) Math.ceil(((float) times / 25));
 					for (int i = 0; i < amount; i++) {
 						if (i != 0) {
 							result = "";
 							String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
-							newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-							newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
+							newurl = newurl.substring(0, newurl.indexOf("}"));
+							newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token");
 							result = getList(newurl);
 							copyresult = result;
 							newresult = result;
@@ -71,6 +71,7 @@ public class GetSubscribersThread extends Thread {
 					}
 				}
 				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Subscriber list: " + String.join(", ", bot.subscribers), MessageType.Bot, null);
 			}
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
@@ -97,17 +98,21 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 				return result;
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
 				if (e.getMessage().contains("401") || e.getMessage().contains("403"))
 					refreshToken = true;
-				else if (e.getMessage().contains("400"))
+				else if (e.getMessage().contains("400")) {
 					skip = true;
+					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.Bot, null);
+				}
+				else
+					MJRBot.logErrorMessage(e);
 			}
 		} while (result.equals("") && skip == false);
 		return null;
 	}
 
 	public void refreshToken() {
+		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token!", MessageType.Bot, null);
 		URL url;
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");

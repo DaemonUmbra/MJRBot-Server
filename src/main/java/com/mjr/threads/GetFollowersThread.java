@@ -45,15 +45,15 @@ public class GetFollowersThread extends Thread {
 			String newfollower = "";
 			String newresult = result;
 
-			if (times > 1700)
-				times = 1700;
+			if (times > 1600)
+				times = 1600;
 			int amount = (int) Math.ceil(((float) times / 25));
 			for (int i = 0; i < amount; i++) {
 				if (i != 0) {
 					result = "";
 					String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
 					newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-					newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
+					newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current - 1);
 					url = new URL(newurl);
 					connection = (HttpURLConnection) url.openConnection();
 					connection.setRequestMethod("GET");
@@ -72,8 +72,8 @@ public class GetFollowersThread extends Thread {
 						newfollower = newresult.substring(newresult.indexOf("display_name") + 15);
 						newfollower = newfollower.substring(0, newfollower.indexOf("\""));
 						result = result.substring(result.indexOf(newfollower));
-
-						bot.followers.add(newfollower.toLowerCase());
+						if(!newfollower.equalsIgnoreCase("bio"))
+							bot.followers.add(newfollower.toLowerCase());
 						if (current % 100 != 0) {
 							if (result.indexOf("type\":\"") != -1)
 								newresult = result.substring(result.indexOf("type\":\""));
@@ -83,6 +83,7 @@ public class GetFollowersThread extends Thread {
 				}
 			}
 			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Follower list: " + String.join(", ", bot.followers), MessageType.Bot, null);
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
 		}
