@@ -53,11 +53,11 @@ public class AnnouncementsThread extends Thread {
 				try {
 					Thread.sleep(60000);
 				} catch (InterruptedException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBot.logErrorMessage(e, type, channelName);
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, channelName);
 		}
 	}
 }

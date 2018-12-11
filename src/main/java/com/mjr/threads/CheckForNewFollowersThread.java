@@ -33,7 +33,7 @@ public class CheckForNewFollowersThread extends Thread {
 						try {
 							Thread.sleep(10000);
 						} catch (InterruptedException e) {
-							MJRBot.logErrorMessage(e);
+							MJRBot.logErrorMessage(e, type, bot.channelName);
 						}
 					}
 				}
@@ -41,7 +41,7 @@ public class CheckForNewFollowersThread extends Thread {
 			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBot.logErrorMessage(e, type, bot.channelName);
 			}
 		}
 	}
@@ -78,7 +78,7 @@ public class CheckForNewFollowersThread extends Thread {
 						isfollower = true;
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e);
+				MJRBot.logErrorMessage(e, bot.channelName);
 			}
 			if (!currentfollowers.contains(user) && isfollower) {
 				bot.sendMessage(user + " " + Config.getSetting("FollowerMessage", bot.channelName));

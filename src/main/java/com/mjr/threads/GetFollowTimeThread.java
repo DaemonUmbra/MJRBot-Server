@@ -44,7 +44,7 @@ public class GetFollowTimeThread extends Thread {
 					try {
 						parse = format.parse(time);
 					} catch (ParseException e) {
-						MJRBot.logErrorMessage(e);
+						MJRBot.logErrorMessage(e, type, bot.channelName);
 					}
 
 					OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
@@ -60,7 +60,7 @@ public class GetFollowTimeThread extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, bot.channelName);
 		}
 	}
 
@@ -128,7 +128,7 @@ public class GetFollowTimeThread extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, bot.channelName);
 		}
 		return null;
 	}

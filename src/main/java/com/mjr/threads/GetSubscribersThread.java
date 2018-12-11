@@ -74,7 +74,7 @@ public class GetSubscribersThread extends Thread {
 				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Subscriber list: " + String.join(", ", bot.subscribers), MessageType.Bot, null);
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, bot.channelName);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class GetSubscribersThread extends Thread {
 					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.Bot, null);
 				}
 				else
-					MJRBot.logErrorMessage(e);
+					MJRBot.logErrorMessage(e, type, bot.channelName);
 			}
 		} while (result.equals("") && skip == false);
 		return null;
@@ -136,7 +136,7 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 			}
 		} catch (SQLException | IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, bot.channelName);
 		}
 	}
 }

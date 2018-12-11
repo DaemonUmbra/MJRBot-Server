@@ -71,18 +71,18 @@ public class AutoPointsThread extends Thread {
 						try {
 							Thread.sleep(TimeDuration);
 						} catch (InterruptedException e) {
-							MJRBot.logErrorMessage(e);
+							MJRBot.logErrorMessage(e, type, channelName);
 						}
 					}
 				}
 				try {
 					Thread.sleep(60000);
 				} catch (InterruptedException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBot.logErrorMessage(e, type, channelName);
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, channelName);
 		}
 	}
 }

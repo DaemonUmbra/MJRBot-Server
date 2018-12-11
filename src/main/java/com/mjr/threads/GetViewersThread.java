@@ -200,12 +200,12 @@ public class GetViewersThread extends Thread {
 						bot.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e);
+				MJRBot.logErrorMessage(e, bot.channelName);
 			}
 			try {
 				Thread.sleep(60000 * 2);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBot.logErrorMessage(e, bot.channelName);
 			}
 		}
 	}

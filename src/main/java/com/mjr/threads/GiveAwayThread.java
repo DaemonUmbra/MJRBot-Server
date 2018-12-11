@@ -26,7 +26,7 @@ public class GiveAwayThread extends Thread {
 			try {
 				Thread.sleep((Integer.parseInt(Config.getSetting("GiveawayDelay", channelName)) * 60) * 1000);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBot.logErrorMessage(e, type, channelName);
 			}
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
@@ -54,7 +54,7 @@ public class GiveAwayThread extends Thread {
 				mixerBot.giveawayEnteredUsers.clear();
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBot.logErrorMessage(e, type, channelName);
 		}
 	}
 }
