@@ -65,6 +65,8 @@ public class DiscordBot {
 	public void sendMessage(IChannel channel, String message) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = null;
 		int numAttempts = 0;
@@ -80,7 +82,7 @@ public class DiscordBot {
 					}
 					return null;
 				} catch (MissingPermissionsException e) {
-					MJRBot.logErrorMessage("Discord: Private Message could not be sent, error: " + e.getMessage());
+					MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
 					return null;
 				}
 			}).get();
@@ -93,6 +95,8 @@ public class DiscordBot {
 
 	public void sendDirectMessageToUser(IUser user, String message) {
 		if(client == null)
+			return;
+		if(client.isReady() == false)
 			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send message to User: " + user.getName() + " Message: " + message);
 		RequestBuffer.request(() -> {
@@ -111,6 +115,8 @@ public class DiscordBot {
 	public void sendTimedMessage(IChannel channel, String message, Long delay, TimeUnit timeUnit) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
@@ -123,6 +129,8 @@ public class DiscordBot {
 	public void sendTimedMessage(IChannel channel, String message) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
@@ -133,6 +141,10 @@ public class DiscordBot {
 	}
 
 	public IMessage sendMsgToChannelReturnMessageOBJ(IChannel channel, String message) {
+		if(client == null)
+			return null;
+		if(client.isReady() == false)
+			return null;
 		ConsoleUtil.textToConsole("Discord: Attempting to return obj send message to Channel: " + channel.getName() + " Message: " + message);
 		IMessage lastMessage = null;
 		int numAttempts = 0;
@@ -162,6 +174,8 @@ public class DiscordBot {
 	public void nukeChannel(IChannel channel) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		try {
 			ConsoleUtil.textToConsole("Discord: Attempting to run a nuke of all messages on Channel: " + channel.getName());
 			channel.bulkDelete(channel.getFullMessageHistory());
@@ -176,6 +190,8 @@ public class DiscordBot {
 
 	public void deleteMessage(IMessage message) {
 		if(client == null)
+			return;
+		if(client.isReady() == false)
 			return;
 		RequestBuffer.request(() -> {
 			try {
@@ -194,6 +210,8 @@ public class DiscordBot {
 	public void deleteMessage(Long channelID, Long messageID) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		IChannel channel = client.getChannelByID(channelID);
 		deleteMessage(channel, messageID);
 	}
@@ -201,11 +219,15 @@ public class DiscordBot {
 	public void deleteMessage(IChannel channel, Long messageID) {
 		if(client == null)
 			return;
+		if(client.isReady() == false)
+			return;
 		deleteMessage(channel, channel.getMessageByID(messageID));
 	}
 
 	public void deleteMessage(IChannel channel, IMessage message) {
 		if(client == null)
+			return;
+		if(client.isReady() == false)
 			return;
 		RequestBuffer.request(() -> {
 			try {
@@ -223,6 +245,8 @@ public class DiscordBot {
 
 	public void editMessage(IMessage oldMessage, String newMessage) {
 		if(client == null)
+			return;
+		if(client.isReady() == false)
 			return;
 		IMessage lastMessage = null;
 		int numAttempts = 0;
