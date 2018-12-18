@@ -38,6 +38,7 @@ public class ConfigMain {
 			setSetting("TwitchVerboseMessages", "false");
 			setSetting("TwitchClientSecret", "");
 			setSetting("DiscordToken", "");
+			setSetting("PUBGToken", "");
 		}
 		FileReader reader = new FileReader(file);
 		properties.load(reader);

@@ -18,6 +18,7 @@ import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
 import com.mjr.gameIntegrations.CallOfDuty;
+import com.mjr.gameIntegrations.PUBG;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
@@ -104,16 +105,22 @@ public class CustomCommands {
 					if (parts[i].startsWith("%cod_")) {
 						parts[i] = CallOfDuty.replaceVariablesWithData(parts[i]);
 					}
+					if (parts[i].startsWith("%pubg_")) {
+						parts[i] = PUBG.replaceVariablesWithData(parts[i]);
+					}
 				}
 				response = String.join(" ", parts);
 			} else {
 				if (response.startsWith("%cod_")) {
 					response = CallOfDuty.replaceVariablesWithData(response);
 				}
+				if (response.startsWith("%pubg_")) {
+					response = PUBG.replaceVariablesWithData(response);
+				}
 			}
 		} catch (Exception e) {
-			response = "Invaild cod stats variable format, Error: " + e.getMessage()
-					+ (e.getMessage().contains("Missing args in cod stats variable") ? "! Format is: %cod_STATNAMEHERE(game:pathform:user)% OR %cod_STATNAMEHERE(game:pathform:user:type)%" : "");
+			response = "Invaild game stats variable format, Error: " + e.getMessage()
+					+ (e.getMessage().contains("Missing args in game stats variable") ? "! Possible Formats are: %cod_STATNAMEHERE(game:pathform:user)% OR %cod_STATNAMEHERE(game:pathform:user:type)% or %pubg_STAT(pathform:user:type)%" : "");
 		}
 		return response;
 	}
