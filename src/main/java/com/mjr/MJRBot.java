@@ -348,6 +348,6 @@ public class MJRBot {
 	public static void logErrorMessage(String stackTrace) {
 		getLogger().info(stackTrace);
 		if(MJRBot.bot != null)
-			bot.sendErrorMessage(stackTrace);
+			bot.sendErrorMessage((developmentModeDatabase || developmentModeManual ? "**Dev:** " : "")+ stackTrace);
 	}
 }
