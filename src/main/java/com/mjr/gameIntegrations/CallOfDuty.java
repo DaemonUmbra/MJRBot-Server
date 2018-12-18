@@ -64,7 +64,7 @@ public class CallOfDuty {
 			}
 			reader.close();
 			result = result.substring(result.indexOf("\""+stat + "\""));
-			return result.substring(result.indexOf(':') + 1, result.indexOf(','));
+			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
 			return null;
@@ -86,7 +86,7 @@ public class CallOfDuty {
 			}
 			reader.close();
 			result = result.substring(result.indexOf("\""+stat + "\""));
-			return result.substring(result.indexOf(':') + 1, result.indexOf(','));
+			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
 			return null;
