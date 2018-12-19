@@ -150,7 +150,8 @@ public class MixerBot extends MJR_MixerBot {
 	}
 
 	public void disconnectMixer() {
-		if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
+		String silentJoin = Config.getSetting("SilentJoin", this.channelName);
+		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();

@@ -329,7 +329,8 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void disconnectTwitch() {
-		if (Config.getSetting("SilentJoin", this.channelName).equalsIgnoreCase("false")) {
+		String silentJoin = Config.getSetting("SilentJoin", this.channelName);
+		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();
