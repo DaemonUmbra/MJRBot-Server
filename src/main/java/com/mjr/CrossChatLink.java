@@ -39,7 +39,7 @@ public class CrossChatLink {
 					if (channel_id.next()) {
 						if(channel_id.getString("cross_link_channel_id") != null) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("cross_link_channel_id")));
-							MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelById(channel), platformPrefex + senderPrefex + message);
+							MJRBot.bot.sendMessage(MJRBot.bot.getClient().getChannelById(channel), platformPrefex + senderPrefex + message);
 						}
 					}
 				}
