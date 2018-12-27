@@ -10,6 +10,8 @@ import com.mjr.storage.ConfigMain;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.Utilities;
 
+import discord4j.core.object.util.Snowflake;
+
 public class CrossChatLink {
 
 	public static void sendMessageAcrossPlatforms(BotType type, String channelName, String sender, String message) {
@@ -35,8 +37,10 @@ public class CrossChatLink {
 				if(MJRBot.useManualMode == false) {
 					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 					if (channel_id.next()) {
-						if(channel_id.getString("cross_link_channel_id") != null)
-							MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelByID(Long.parseLong(channel_id.getString("cross_link_channel_id"))), platformPrefex + senderPrefex + message);
+						if(channel_id.getString("cross_link_channel_id") != null) {
+							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("cross_link_channel_id")));
+							MJRBot.bot.sendMessage(MJRBot.bot.client.getChannelById(channel), platformPrefex + senderPrefex + message);
+						}
 					}
 				}
 				else {

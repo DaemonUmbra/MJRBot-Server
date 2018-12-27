@@ -3,122 +3,105 @@ package com.mjr;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import com.mjr.discord.MessageManager;
 import com.mjr.util.ConsoleUtil;
 
-import sx.blah.discord.api.ClientBuilder;
-import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.api.events.EventDispatcher;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.MissingPermissionsException;
-import sx.blah.discord.util.RequestBuffer;
+import discord4j.core.DiscordClient;
+import discord4j.core.DiscordClientBuilder;
+import discord4j.core.event.EventDispatcher;
+import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Channel;
+import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.TextChannel;
+import discord4j.core.object.entity.User;
+import discord4j.core.object.util.Snowflake;
+import discord4j.core.spec.MessageEditSpec;
+import reactor.core.publisher.Mono;
 
 public class DiscordBot {
-	public static long mjrlegends_guild_id = 304416423147601921L;
-	public static long error_channel_id = 510208195629809704L;
-	public static long admin_event_log_channel_id = 512734468029808651L;
+	public static Snowflake mjrlegends_guild_id = Snowflake.of(304416423147601921L);
+	public static Snowflake error_channel_id = Snowflake.of(510208195629809704L);
+	public static Snowflake admin_event_log_channel_id = Snowflake.of(512734468029808651L);
 	public String channelName;
-	public IDiscordClient client;
+	public DiscordClient client;
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(20);
 
 	public void startBot(String token) {
-		if(token.length() == 0)
+		if (token.length() == 0)
 			return;
 		ConsoleUtil.textToConsole("Starting Discord bot");
-		client = createClient(token, true);
-		EventDispatcher dispatcher = client.getDispatcher();
-		dispatcher.registerListener(new MessageManager());
+		client = createClient(token);
+		EventDispatcher dispatcher = client.getEventDispatcher();
+		dispatcher.on(MessageCreateEvent.class).subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
 		ConsoleUtil.textToConsole("Finshed starting Discord bot");
 	}
 
-	public IDiscordClient createClient(String token, boolean login) {
-		ClientBuilder clientBuilder = new ClientBuilder();
-		clientBuilder.withToken(token);
+	public DiscordClient createClient(String token) {
 		try {
-			if (login) {
-				return clientBuilder.login();
-			} else {
-				return clientBuilder.build();
-			}
-		} catch (DiscordException e) {
+			DiscordClient temp = new DiscordClientBuilder(token).build();
+			temp.login().subscribe();
+			return temp;
+		} catch (Exception e) {
 			MJRBot.logErrorMessage("Discord: Bot was unable to create a connection, error: " + e.getMessage());
 			return null;
 		}
 	}
 
 	public void sendErrorMessage(String message) {
-		if(client == null)
+		if (client == null)
 			return;
-		sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.error_channel_id), message);
-	}
-	
-	public void sendAdminEventMessage(String message) {
-		if(client == null)
-			return;
-			sendMessage(client.getGuildByID(DiscordBot.mjrlegends_guild_id).getChannelByID(DiscordBot.admin_event_log_channel_id), message);
+		sendMessage(client.getChannelById(DiscordBot.error_channel_id), message);
 	}
 
-	public void sendMessage(IChannel channel, String message) {
-		if(client == null)
+	public void sendAdminEventMessage(String message) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
-			return;
-		ConsoleUtil.textToConsole("Discord: Attempting to send message to Channel: " + channel.getName() + " Message: " + message);
-		IMessage lastMessage = null;
-		int numAttempts = 0;
-		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue) & to make sure the return is the message object not null
-			lastMessage = RequestBuffer.request(() -> {
-				try {
-					return channel.sendMessage(message);
-				} catch (DiscordException e) {
-					if (e.getMessage().contains("Discord didn't return a response")) {
-						MJRBot.logErrorMessage("Discord: Message could not be sent, retrying to send message");
-					} else {
-						MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
-					}
-					return null;
-				} catch (MissingPermissionsException e) {
-					MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
-					return null;
-				}
-			}).get();
-			numAttempts++;
-		} while (lastMessage == null && numAttempts < 10);
-		if (numAttempts >= 9) {
-			MJRBot.logErrorMessage(":warning: unable to send message of ```" + message + "```" + " to channel " + channel.getName() + " after 10 attempts due to an error, please check the log for details!");
+		sendMessage(client.getChannelById(DiscordBot.admin_event_log_channel_id), message);
+	}
+
+	public Mono<Message> sendMessage(Mono<Channel> channel, String message) {
+		if (client == null)
+			return null;
+		if (client.isConnected() == false)
+			return null;
+		ConsoleUtil.textToConsole("Discord: Attempting to send message to Channel: " + channel.ofType(TextChannel.class).block().getName() + " Message: " + message);
+		try {
+			Mono<Message> messageReturn = channel.ofType(TextChannel.class).block().createMessage(message);
+			messageReturn.subscribe();
+			return messageReturn;		
+		} catch (Exception e) {
+			if (e.getMessage().contains("Discord didn't return a response")) {
+				MJRBot.logErrorMessage("Discord: Message could not be sent, retrying to send message");
+			} else {
+				MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
+			}
+			return null;
 		}
 	}
 
-	public void sendDirectMessageToUser(IUser user, String message) {
-		if(client == null)
+	public void sendDirectMessageToUser(Mono<User> user, String message) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return;
-		ConsoleUtil.textToConsole("Discord: Attempting to send message to User: " + user.getName() + " Message: " + message);
-		RequestBuffer.request(() -> {
-			try {
-				user.getOrCreatePMChannel().sendMessage(message);
-			} catch (DiscordException e) {
-				MJRBot.logErrorMessage("Discord: Private Message could not be sent, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to send message of ```" + message + "```" + " to user " + user.getName() + " after 10 attempts due to an error, please check the log for details!");
-			} catch (MissingPermissionsException e) {
-				MJRBot.logErrorMessage("Discord: Private Message could not be sent, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to send message of ```" + message + "```" + " to user " + user.getName() + " after 10 attempts due to an error, please check the log for details!");
-			}
-		});
+		ConsoleUtil.textToConsole("Discord: Attempting to send message to User: " + user.block().getUsername() + " Message: " + message);
+		try {
+			user.block().getPrivateChannel().block().createMessage(message).subscribe();
+		} catch (Exception e) {
+			MJRBot.logErrorMessage("Discord: Private Message could not be sent, error: " + e.getMessage());
+			MJRBot.logErrorMessage(":warning: unable to send message of ```" + message + "```" + " to user " + user.block().getUsername());
+		}
 	}
 
-	public void sendTimedMessage(IChannel channel, String message, Long delay, TimeUnit timeUnit) {
-		if(client == null)
+	public void sendTimedMessage(Mono<Channel> channel, String message, Long delay, TimeUnit timeUnit) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return;
-		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
-		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.ofType(TextChannel.class).block().getName() + " Message: " + message);
+		Mono<Message> lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
 			scheduler.schedule(() -> {
 				deleteMessage(channel, lastMessage);
@@ -126,13 +109,13 @@ public class DiscordBot {
 		}
 	}
 
-	public void sendTimedMessage(IChannel channel, String message) {
-		if(client == null)
+	public void sendTimedMessage(Mono<Channel> channel, String message) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return;
-		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.getName() + " Message: " + message);
-		IMessage lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
+		ConsoleUtil.textToConsole("Discord: Attempting to send timed message to Channel: " + channel.ofType(TextChannel.class).block().getName() + " Message: " + message);
+		Mono<Message> lastMessage = sendMsgToChannelReturnMessageOBJ(channel, message);
 		if (lastMessage != null) {
 			scheduler.schedule(() -> {
 				deleteMessage(channel, lastMessage);
@@ -140,135 +123,92 @@ public class DiscordBot {
 		}
 	}
 
-	public IMessage sendMsgToChannelReturnMessageOBJ(IChannel channel, String message) {
-		if(client == null)
+	public Mono<Message> sendMsgToChannelReturnMessageOBJ(Mono<Channel> channel, String message) {
+		if (client == null)
 			return null;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return null;
-		ConsoleUtil.textToConsole("Discord: Attempting to return obj send message to Channel: " + channel.getName() + " Message: " + message);
-		IMessage lastMessage = null;
-		int numAttempts = 0;
-		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue) & to make sure the return is the message object not null
-			lastMessage = RequestBuffer.request(() -> {
-				try {
-					return channel.sendMessage(message);
-				} catch (DiscordException e) {
-					if (e.getMessage().contains("Discord didn't return a response")) {
-						MJRBot.logErrorMessage("Discord: Message could not be sent, retrying to send message");
-					} else {
-						MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
-					}
-					return null;
-				} catch (MissingPermissionsException e) {
-					MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
-					return null;
-				}
-			}).get();
-		} while (lastMessage == null && numAttempts < 10);
-		if (numAttempts >= 9) {
-			MJRBot.logErrorMessage(":warning: unable to send message of ```" + message + "```" + " to channel " + channel.getName() + " after 10 attempts due to an error, please check the log for details!");
+		ConsoleUtil.textToConsole("Discord: Attempting to return obj send message to Channel: " + channel.ofType(TextChannel.class).block().getName() + " Message: " + message);
+		try {
+			Mono<Message> messageReturn = channel.ofType(TextChannel.class).block().createMessage(message);
+			messageReturn.subscribe();
+			return messageReturn;
+		} catch (Exception e) {
+			if (e.getMessage().contains("Discord didn't return a response")) {
+				MJRBot.logErrorMessage("Discord: Message could not be sent, retrying to send message");
+			} else {
+				MJRBot.logErrorMessage("Discord: Message could not be sent, error: " + e.getMessage());
+			}
+			return null;
 		}
-		return lastMessage;
 	}
 
-	public void nukeChannel(IChannel channel) {
-		if(client == null)
+	public void nukeChannel(Mono<Channel> channel) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return;
 		try {
-			ConsoleUtil.textToConsole("Discord: Attempting to run a nuke of all messages on Channel: " + channel.getName());
-			channel.bulkDelete(channel.getFullMessageHistory());
-		} catch (DiscordException e) {
+			ConsoleUtil.textToConsole("Discord: Attempting to run a nuke of all messages on Channel: " + channel.ofType(TextChannel.class).block().getName());
+			// channel.bulkDelete(channel.ofType(TextChannel.class).block().getMessagesBefore(messageId).getFullMessageHistory());
+		} catch (Exception e) {
 			MJRBot.logErrorMessage("Discord: Channel could not be nuked of messages due to: " + e.getMessage());
-			MJRBot.logErrorMessage(":warning: unable to nuke all messages from " + channel.getName() + " due to an error, please check the log for details!");
-		} catch (MissingPermissionsException e) {
-			MJRBot.logErrorMessage("Discord: Channel could not be nuked of messages due, error: " + e.getMessage());
-			MJRBot.logErrorMessage(":warning: unable to nuke all messages from " + channel.getName() + " due to an error, please check the log for details!");
+			MJRBot.logErrorMessage(":warning: unable to nuke all messages from " + channel.ofType(TextChannel.class).block().getName() + " due to an error, please check the log for details!");
 		}
 	}
 
-	public void deleteMessage(IMessage message) {
-		if(client == null)
+	public void deleteMessage(Mono<Message> message) {
+		if (client == null)
 			return;
-		if(client.isReady() == false)
+		if (client.isConnected() == false)
 			return;
-		RequestBuffer.request(() -> {
-			try {
-				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + message.getChannel().getName());
-				message.delete();
-			} catch (DiscordException e) {
-				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to delete a message in " + message.getChannel().getName() + " due to an error, please check the log for details!");
-			} catch (MissingPermissionsException e) {
-				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to delete a message in " + message.getChannel().getName() + " due to an error, please check the log for details!");
+		try {
+			ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.block().getId() + " from " + message.block().getChannel().ofType(TextChannel.class).block().getName());
+			message.block().delete().subscribe();
+		} catch (Exception e) {
+			MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
+			MJRBot.logErrorMessage(":warning: unable to delete a message in " + message.block().getChannel().ofType(TextChannel.class).block().getName() + " due to an error, please check the log for details!");
+		}
+	}
+
+	public void deleteMessage(Mono<Channel> channel, Snowflake messageID) {
+		if (client == null)
+			return;
+		if (client.isConnected() == false)
+			return;
+		deleteMessage(channel, client.getMessageById(channel.block().getId(), messageID));
+	}
+
+	public void deleteMessage(Mono<Channel> channel, Mono<Message> message) {
+		if (client == null)
+			return;
+		if (client.isConnected() == false)
+			return;
+		try {
+			ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.block().getId() + " from " + channel.ofType(TextChannel.class).block().getName());
+			channel.ofType(TextChannel.class).block().getMessageById(message.block().getId()).block().delete().subscribe();
+		} catch (Exception e) {
+			MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
+			MJRBot.logErrorMessage(":warning: unable to delete a message in " + channel.ofType(TextChannel.class).block().getName() + " due to an error, please check the log for details!");
+		}
+	}
+
+	public Mono<Message> editMessage(Mono<Message> oldMessage, Consumer<MessageEditSpec> newMessage) {
+		if (client == null)
+			return null;
+		if (client.isConnected() == false)
+			return null;
+		try {
+			oldMessage.block().edit(newMessage);
+			oldMessage.subscribe();
+			return oldMessage;
+		} catch (Exception e) {
+			if (e.getMessage().contains("Discord didn't return a response")) {
+				MJRBot.logErrorMessage("Discord: Message could not be edited, retrying to edit message");
+			} else {
+				MJRBot.logErrorMessage("Discord: Message could not be edited, error: " + e.getMessage());
 			}
-		}).get();
-	}
-
-	public void deleteMessage(Long channelID, Long messageID) {
-		if(client == null)
-			return;
-		if(client.isReady() == false)
-			return;
-		IChannel channel = client.getChannelByID(channelID);
-		deleteMessage(channel, messageID);
-	}
-
-	public void deleteMessage(IChannel channel, Long messageID) {
-		if(client == null)
-			return;
-		if(client.isReady() == false)
-			return;
-		deleteMessage(channel, channel.getMessageByID(messageID));
-	}
-
-	public void deleteMessage(IChannel channel, IMessage message) {
-		if(client == null)
-			return;
-		if(client.isReady() == false)
-			return;
-		RequestBuffer.request(() -> {
-			try {
-				ConsoleUtil.textToConsole("Discord: Deleting message with id: " + message.getLongID() + " from " + channel.getName());
-				channel.getMessageByID(message.getLongID()).delete();
-			} catch (DiscordException e) {
-				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to delete a message in " + channel.getName() + " due to an error, please check the log for details!");
-			} catch (MissingPermissionsException e) {
-				MJRBot.logErrorMessage("Discord: Message could not be deleted, error: " + e.getMessage());
-				MJRBot.logErrorMessage(":warning: unable to delete a message in " + channel.getName() + " due to an error, please check the log for details!");
-			}
-		}).get();
-	}
-
-	public void editMessage(IMessage oldMessage, String newMessage) {
-		if(client == null)
-			return;
-		if(client.isReady() == false)
-			return;
-		IMessage lastMessage = null;
-		int numAttempts = 0;
-		do { // Do While loop to fix Discord4j Discord didn't return a response error (Apache Httpclient issue)
-			lastMessage = RequestBuffer.request(() -> {
-				try {
-					return oldMessage.edit(newMessage);
-				} catch (DiscordException e) {
-					if (e.getMessage().contains("Discord didn't return a response")) {
-						MJRBot.logErrorMessage("Discord: Message could not be edited, retrying to edit message");
-					} else {
-						MJRBot.logErrorMessage("Discord: Message could not be edited, error: " + e.getMessage());
-					}
-					return null;
-				} catch (MissingPermissionsException e) {
-					MJRBot.logErrorMessage("Discord: Message could not be edited, error: " + e.getMessage());
-					return null;
-				}
-			}).get();
-		} while (lastMessage == null || !lastMessage.getContent().replaceAll("[^A-Za-z0-9]", "").equalsIgnoreCase(newMessage.replaceAll("[^A-Za-z0-9]", "")) && numAttempts < 10);
-		if (numAttempts >= 9) {
-			MJRBot.logErrorMessage(":warning: unable to edit an message in " + oldMessage.getChannel().getName() + " due to an error, please check the log for details!");
+			return null;
 		}
 	}
 }
