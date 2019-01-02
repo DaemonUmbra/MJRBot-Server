@@ -1,7 +1,6 @@
 package com.mjr;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.mjr.MJRBot.BotType;
 import com.mjr.sql.MySQLConnection;
@@ -47,7 +46,7 @@ public class CrossChatLink {
 					ConsoleUtil.textToConsole("Discord Crosslink is disabled, as it is currently not supported on the file based storage type!");
 				}
 			}
-		} catch (NumberFormatException | SQLException e) {
+		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
 		}
 	}
