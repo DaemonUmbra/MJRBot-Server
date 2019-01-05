@@ -12,7 +12,7 @@ public class Permissions {
 	public static List<String> knownBots = new ArrayList<String>(Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
 
 	public enum PermissionLevel {
-		User("User", 0), VIP("VIP", 1), Subscriber("Subscriber", 2), Moderator("Moderator", 3), Streamer("Streamer", 4), KnownBot("KnownBot", 5), Bot("Bot", 6), BotOwner("BotOwner", 6);
+		User("User", 0), Follower("Follower", 1), VIP("VIP", 2), Subscriber("Subscriber", 3), Moderator("Moderator", 4), Streamer("Streamer", 5), KnownBot("KnownBot", 6), Bot("Bot", 7), BotOwner("BotOwner", 7);
 
 		private final String permission;
 		private final int tierValue;
@@ -55,6 +55,8 @@ public class Permissions {
 				return PermissionLevel.Subscriber.getName();
 			else if (((TwitchBot) bot).vips != null && ((TwitchBot) bot).vips.contains(user))
 				return PermissionLevel.VIP.getName();
+			else if (((TwitchBot) bot).followers != null && ((TwitchBot) bot).followers.contains(user))
+				return PermissionLevel.Follower.getName();
 			else
 				return PermissionLevel.User.getName();
 		} else {
@@ -71,6 +73,8 @@ public class Permissions {
 				return PermissionLevel.Moderator.getName();
 			else if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
 				return PermissionLevel.Subscriber.getName();
+			else if (((MixerBot) bot).followers != null && ((MixerBot) bot).followers.contains(user))
+				return PermissionLevel.Follower.getName();
 			else
 				return PermissionLevel.User.getName();
 		}
