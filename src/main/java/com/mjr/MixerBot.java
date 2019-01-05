@@ -54,6 +54,7 @@ public class MixerBot extends MJR_MixerBot {
 	public List<String> linkPermitedUsers = new ArrayList<String>();
 	public List<String> giveawayEnteredUsers = new ArrayList<String>();
 	public List<String> subscribers = new ArrayList<String>();
+	public List<String> followers = new ArrayList<String>();
 
 	public MathsGame mathsGame = new MathsGame();
 	public RacingGame racingGame = new RacingGame();
@@ -188,6 +189,25 @@ public class MixerBot extends MJR_MixerBot {
 			if (Config.getSetting("HostingAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now hosting you!");
 			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now hosting you!", MessageType.Bot, null);
+		} else if (type.equalsIgnoreCase("followed")) {
+			String user = line.substring(line.indexOf("username") + 11);
+			user = user.substring(0, user.indexOf("'"));
+			String following = line.substring(line.indexOf("following") + 12);
+			following = following.substring(0, following.indexOf("}"));
+			if(following.trim().equals("true")) {
+				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
+					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now following you!");
+				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now following you!", MessageType.Bot, null);
+				if(!this.followers.contains(user.toLowerCase()))
+					this.followers.add(user.toLowerCase());
+			}
+			else {
+				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
+					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now unfollowing you!");
+				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now unfollowing you!", MessageType.Bot, null);
+				if(this.followers.contains(user.toLowerCase()))
+					this.followers.remove(user.toLowerCase());
+			}
 		}
 	}
 }
