@@ -1,6 +1,10 @@
 package com.mjr;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -80,7 +84,12 @@ public class TwitchBot extends PircBot {
 	}
 
 	@Override
-	public void onMessage(final String channel, final String sender, final String login, final String hostname, final String message) {
+	public void onMessage(final String channel, final String sender, final String login, final String hostname, final String userID, final boolean subscriber, final String message) {
+		if(subscriber) {
+			if(!this.subscribers.contains(sender.toLowerCase()))
+				this.subscribers.add(sender.toLowerCase());
+		}
+		checkFollower(sender);
 		if (!this.viewers.contains(sender.toLowerCase())) {
 			this.viewers.add(sender.toLowerCase());
 			EventLog.addEvent(this.channelName, sender, "Joined the channel (Twitch)", EventType.User);
@@ -102,6 +111,34 @@ public class TwitchBot extends PircBot {
 			}
 		}
 		return;
+	}
+	
+	public void checkFollower(final String sender) {
+		String result = "";
+		URL url;
+		try {
+			url = new URL("https://api.twitch.tv/kraken/users/" + sender + "/follows/channels/" + this.channelName + "?client_id=" + MJRBot.CLIENT_ID);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				result += line;
+			}
+			reader.close();
+			if(result.contains("created_at"))
+				if(!this.followers.contains(sender.toLowerCase()))
+					this.followers.add(sender.toLowerCase());
+			else
+				if(this.followers.contains(sender.toLowerCase()))
+					this.followers.remove(sender.toLowerCase());
+		} catch (Exception e) {
+			if(!e.getMessage().contains("404"))
+				MJRBot.logErrorMessage(e);
+			else
+				if(this.followers.contains(sender.toLowerCase()))
+					this.followers.remove(sender.toLowerCase());
+		}
 	}
 
 	@Override
@@ -159,6 +196,7 @@ public class TwitchBot extends PircBot {
 	@Override
 	protected void onUnknown(String line) {
 		if (line.contains("tmi.twitch.tv RECONNECT")) { // When Twitch tells the bot instance to reconnect
+			MJRBot.logErrorMessage(this.channelName + " has triggered a Reconnect event!");
 			this.disconnectTwitch();
 			MJRBot.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
 		} else if (line.contains("msg-id=sub") && !line.contains("msg-param-recipient-display-name=")) {
@@ -266,6 +304,17 @@ public class TwitchBot extends PircBot {
 		if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 			this.viewersJoinedTimes.remove(sender.toLowerCase());
 	}
+	
+//	@Override
+//	protected void onDisconnect() {
+//		MJRBot.logErrorMessage(this.channelName + " has triggered a onDisconnect event!");
+//		this.disconnectTwitch();
+//		try {
+//			this.ConnectToTwitch();
+//		} catch (IOException e) {
+//			MJRBot.logErrorMessage(e);
+//		}
+//	}
 
 	public void ConnectToTwitch() throws IOException {
 		if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("") && !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
