@@ -1,7 +1,6 @@
 package com.mjr.discord;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.mjr.CrossChatLink;
 import com.mjr.MJRBot;
@@ -14,8 +13,8 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 public class MessageManager {
 
 	public static void onMessageReceivedEvent(MessageCreateEvent event) {
-		ResultSet channel = MySQLConnection.executeQuery("SELECT channel FROM discord_info WHERE guild_id = '" + event.getGuildId().get().asLong() + "'");
 		try {
+			ResultSet channel = MySQLConnection.executeQuery("SELECT channel FROM discord_info WHERE guild_id = '" + event.getGuildId().get().asLong() + "'");
 			if (channel.next()) {
 				String channelName = channel.getString("channel");
 				ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
@@ -27,8 +26,8 @@ public class MessageManager {
 					}
 				}
 			}
-		} catch (NumberFormatException | SQLException e) {
-			MJRBot.logErrorMessage(e);
+		} catch (Exception e) {
+			MJRBot.logErrorMessage("onMessageReceivedEvent Error", e);
 		}
 	}
 }

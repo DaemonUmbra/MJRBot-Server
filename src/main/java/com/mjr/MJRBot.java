@@ -32,10 +32,10 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-	public static boolean developmentModeDatabase = true;
+	public static boolean developmentModeDatabase = false;
 	public static boolean developmentModeManual = false;
 	public static boolean developmentStorageFileMode = false;
-	public static boolean developmentStorageDatabaseMode = true;
+	public static boolean developmentStorageDatabaseMode = false;
 	public static boolean developmentDisableSendMessage = false;
 	public static String developmentChannel = "mjrlegends";
 	public static String developmentPlatform = "Twitch";
@@ -328,6 +328,11 @@ public class MJRBot {
 
 	public static void setLogger(Logger logger) {
 		MJRBot.logger = logger;
+	}
+	
+	public static void logErrorMessage(String error, final Throwable throwable) {
+		String stackTrace = Utilities.getStackTraceString(throwable);
+		logErrorMessage(error + " - " + stackTrace);
 	}
 	
 	public static void logErrorMessage(final Throwable throwable, String channelName) {

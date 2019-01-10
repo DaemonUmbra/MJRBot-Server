@@ -19,7 +19,7 @@ public class DiscordBot extends Discord_Bot {
 
 	@Override
 	public void setupEvents() {
-		this.getDispatcher().on(MessageCreateEvent.class).subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
+		this.getDispatcher().on(MessageCreateEvent.class).doOnError(error -> MJRBot.logErrorMessage("Please restart MJRBot via console: Error", error)).subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
 	}
 
 	public void sendErrorMessage(String message) {
