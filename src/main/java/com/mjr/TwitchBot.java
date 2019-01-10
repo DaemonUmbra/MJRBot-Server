@@ -305,16 +305,17 @@ public class TwitchBot extends PircBot {
 			this.viewersJoinedTimes.remove(sender.toLowerCase());
 	}
 	
-//	@Override
-//	protected void onDisconnect() {
-//		MJRBot.logErrorMessage(this.channelName + " has triggered a onDisconnect event!");
-//		this.disconnectTwitch();
-//		try {
-//			this.ConnectToTwitch();
-//		} catch (IOException e) {
-//			MJRBot.logErrorMessage(e);
-//		}
-//	}
+	@Override
+	protected void onDisconnect() {
+		MJRBot.logErrorMessage(this.channelName + " has triggered a onDisconnect event!");
+		this.disconnectTwitch();
+		try {
+			Thread.sleep(5000);
+			this.ConnectToTwitch();
+		} catch (IOException | InterruptedException e) {
+			MJRBot.logErrorMessage(e);
+		}
+	}
 
 	public void ConnectToTwitch() throws IOException {
 		if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("") && !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
