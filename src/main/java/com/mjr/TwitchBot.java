@@ -1,6 +1,7 @@
 package com.mjr;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -85,8 +86,8 @@ public class TwitchBot extends PircBot {
 
 	@Override
 	public void onMessage(final String channel, final String sender, final String login, final String hostname, final String userID, final boolean subscriber, final String message) {
-		if(subscriber) {
-			if(!this.subscribers.contains(sender.toLowerCase()))
+		if (subscriber) {
+			if (!this.subscribers.contains(sender.toLowerCase()))
 				this.subscribers.add(sender.toLowerCase());
 		}
 		checkFollower(sender);
@@ -112,7 +113,7 @@ public class TwitchBot extends PircBot {
 		}
 		return;
 	}
-	
+
 	public void checkFollower(final String sender) {
 		String result = "";
 		URL url;
@@ -126,18 +127,16 @@ public class TwitchBot extends PircBot {
 				result += line;
 			}
 			reader.close();
-			if(result.contains("created_at"))
-				if(!this.followers.contains(sender.toLowerCase()))
+			if (result.contains("created_at"))
+				if (!this.followers.contains(sender.toLowerCase()))
 					this.followers.add(sender.toLowerCase());
-			else
-				if(this.followers.contains(sender.toLowerCase()))
+				else if (this.followers.contains(sender.toLowerCase()))
 					this.followers.remove(sender.toLowerCase());
+		} catch (FileNotFoundException e) {
+			if (this.followers.contains(sender.toLowerCase()))
+				this.followers.remove(sender.toLowerCase());
 		} catch (Exception e) {
-			if(!e.getMessage().contains("404"))
-				MJRBot.logErrorMessage(e);
-			else
-				if(this.followers.contains(sender.toLowerCase()))
-					this.followers.remove(sender.toLowerCase());
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
@@ -267,11 +266,10 @@ public class TwitchBot extends PircBot {
 			getViewersThread.start();
 			getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 			getFollowersThread.start();
-			if(!MJRBot.useFileSystem && !MJRBot.useManualMode) {
+			if (!MJRBot.useFileSystem && !MJRBot.useManualMode) {
 				getSubscribersThread = new GetSubscribersThread(this, BotType.Twitch);
 				getSubscribersThread.start();
-			}
-			else
+			} else
 				ConsoleUtil.textToConsole("Getting Subscribers Thread for Twtich has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
 		}
 
@@ -304,17 +302,12 @@ public class TwitchBot extends PircBot {
 		if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 			this.viewersJoinedTimes.remove(sender.toLowerCase());
 	}
-	
+
 	@Override
 	protected void onDisconnect() {
 		MJRBot.logErrorMessage(this.channelName + " has triggered a onDisconnect event!");
-		this.disconnectTwitch();
-		try {
-			Thread.sleep(5000);
-			this.ConnectToTwitch();
-		} catch (IOException | InterruptedException e) {
-			MJRBot.logErrorMessage(e);
-		}
+		disconnectTwitch();
+		MJRBot.removeTwitchBot(this);
 	}
 
 	public void ConnectToTwitch() throws IOException {
