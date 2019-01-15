@@ -8,12 +8,16 @@ public class SetStorageTypeCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (args[1].equalsIgnoreCase("database"))
-			MJRBot.storageType = StorageType.Database;
-		else if (args[1].equalsIgnoreCase("file"))
-			MJRBot.storageType = StorageType.File;
-		else
-			System.out.println("Invalid Storage Type, Use Database or File");
+		if (args.length > 1) {
+			if (args[1].equalsIgnoreCase("database"))
+				MJRBot.storageType = StorageType.Database;
+			else if (args[1].equalsIgnoreCase("file"))
+				MJRBot.storageType = StorageType.File;
+			else
+				System.out.println("Invalid Storage Type, Use Database or File");
+		} else {
+			System.out.println("Invalid syntax, Use storage " + getParametersDescription());
+		}
 	}
 
 	@Override
