@@ -1,6 +1,10 @@
 package com.mjr;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -61,7 +65,8 @@ public class MixerBot extends MJR_MixerBot {
 	}
 
 	@Override
-	protected void onMessage(String sender, String message) {
+	protected void onMessage(String sender, int userId, String message) {
+		checkFollower(sender, userId);
 		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
 		CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
 		ChatModeration.onCommand(BotType.Mixer, MJRBot.getMixerBotByChannelName(this.channelName), this.channelName, sender, null, null, message);
@@ -71,6 +76,37 @@ public class MixerBot extends MJR_MixerBot {
 			MJRBot.logErrorMessage(e);
 		}
 	}
+
+	public void checkFollower(final String sender, int userId) {
+		String result = "";
+		URL url;
+		int channel_id = 0;
+		try {
+			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + this.channelName + "' AND platform = 'Mixer'");
+			if (set != null && set.next()) {
+				channel_id = set.getInt("channel_id");
+			}
+			url = new URL("https://mixer.com/api/v1/channels/" + channel_id + "/relationship?user=" + userId);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+				result += line;
+			}
+			reader.close();
+			if (!result.contains("null")) {
+				if (!this.followers.contains(sender.toLowerCase()))
+					this.followers.add(sender.toLowerCase());
+			} else {
+				if (this.followers.contains(sender.toLowerCase()))
+					this.followers.remove(sender.toLowerCase());
+			}
+		} catch (Exception e) {
+			MJRBot.logErrorMessage(e);
+		}
+	}
+
 
 	@Override
 	protected void onJoin(String sender) {
