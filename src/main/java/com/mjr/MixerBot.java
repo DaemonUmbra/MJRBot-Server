@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import com.mixer.api.resource.MixerUser.Role;
 import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mjr.MJRBot.BotType;
 import com.mjr.chatModeration.ChatModeration;
@@ -65,8 +66,15 @@ public class MixerBot extends MJR_MixerBot {
 	}
 
 	@Override
-	protected void onMessage(String sender, int userId, String message) {
+	protected void onMessage(String sender, int userId, List<Role> userRoles, String message) {
 		checkFollower(sender, userId);
+		if(userRoles.contains(Role.SUBSCRIBER)) {
+			if (!this.subscribers.contains(sender.toLowerCase()))
+				this.subscribers.add(sender.toLowerCase());
+		} else {
+			if (this.subscribers.contains(sender.toLowerCase()))
+				this.subscribers.remove(sender.toLowerCase());
+		}
 		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
 		CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
 		ChatModeration.onCommand(BotType.Mixer, MJRBot.getMixerBotByChannelName(this.channelName), this.channelName, sender, null, null, message);
@@ -106,7 +114,6 @@ public class MixerBot extends MJR_MixerBot {
 			MJRBot.logErrorMessage(e);
 		}
 	}
-
 
 	@Override
 	protected void onJoin(String sender) {
