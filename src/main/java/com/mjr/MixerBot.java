@@ -25,9 +25,7 @@ import com.mjr.storage.RankSystem;
 import com.mjr.threads.AnnouncementsThread;
 import com.mjr.threads.AutoPointsThread;
 import com.mjr.threads.BankHeistThread;
-import com.mjr.threads.CheckForNewFollowersThread;
 import com.mjr.threads.GetFollowersThread;
-import com.mjr.threads.GetViewersThread;
 import com.mjr.threads.RaceStartThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
@@ -40,10 +38,8 @@ public class MixerBot extends MJR_MixerBot {
 
 	private final CommandManager commands = new CommandManager();
 
-	public GetViewersThread getViewersThread;
 	public AutoPointsThread pointsThread;
 	public AnnouncementsThread announcementsThread;
-	public CheckForNewFollowersThread followersThread;
 	public GetFollowersThread getFollowersThread;
 	public BankHeistThread bankHeistThread;
 	public RaceStartThread racingThread;
@@ -191,21 +187,20 @@ public class MixerBot extends MJR_MixerBot {
 			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now hosting you!", MessageType.Bot, null);
 		} else if (type.equalsIgnoreCase("followed")) {
 			String user = line.substring(line.indexOf("username") + 11);
-			user = user.substring(0, user.indexOf("'"));
-			String following = line.substring(line.indexOf("following") + 12);
+			user = user.substring(0, user.indexOf("\""));
+			String following = line.substring(line.indexOf("following") + 11);
 			following = following.substring(0, following.indexOf("}"));
-			if(following.trim().equals("true")) {
+			if (following.trim().equals("true")) {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now following you!");
 				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now following you!", MessageType.Bot, null);
-				if(!this.followers.contains(user.toLowerCase()))
+				if (!this.followers.contains(user.toLowerCase()))
 					this.followers.add(user.toLowerCase());
-			}
-			else {
+			} else {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now unfollowing you!");
 				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now unfollowing you!", MessageType.Bot, null);
-				if(this.followers.contains(user.toLowerCase()))
+				if (this.followers.contains(user.toLowerCase()))
 					this.followers.remove(user.toLowerCase());
 			}
 		}
