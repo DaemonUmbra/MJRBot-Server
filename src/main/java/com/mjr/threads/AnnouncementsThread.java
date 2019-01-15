@@ -1,7 +1,8 @@
 package com.mjr.threads;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.storage.Config;
 import com.mjr.util.HTTPConnect;
 import com.mjr.util.Utilities;
@@ -20,7 +21,7 @@ public class AnnouncementsThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
+			while (type == BotType.Twitch ? ChatBotManager.getTwitchBotByChannelName(channelName).ConnectedToChannel : ChatBotManager.getMixerBotByChannelName(channelName).isConnected()) {
 				if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {
@@ -28,7 +29,7 @@ public class AnnouncementsThread extends Thread {
 						if (result.contains("created_at"))
 							streaming = true;
 					} else {
-						streaming = MJRBot.getMixerBotByChannelName(channelName).isStreaming();
+						streaming = ChatBotManager.getMixerBotByChannelName(channelName).isStreaming();
 					}
 					if (Config.getSetting("AnnouncementsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
 						int delay = Integer.parseInt(Config.getSetting("AnnouncementsDelay", channelName));

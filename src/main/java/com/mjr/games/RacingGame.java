@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.storage.PointsSystem;

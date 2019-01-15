@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;

@@ -2,8 +2,9 @@ package com.mjr.threads;
 
 import java.util.Random;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
@@ -29,7 +30,7 @@ public class GiveAwayThread extends Thread {
 				MJRBot.logErrorMessage(e, type, channelName);
 			}
 			if (type == BotType.Twitch) {
-				TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
+				TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channelName);
 				if (twitchBot.giveawayEnteredUsers.size() > 0) {
 					Utilities.sendMessage(type, channelName, "Giveaway has ended! " + twitchBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
 					Random random = new Random();
@@ -41,7 +42,7 @@ public class GiveAwayThread extends Thread {
 				twitchBot.giveAwayActive = false;
 				twitchBot.giveawayEnteredUsers.clear();
 			} else {
-				MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channelName);
 				if (mixerBot.giveawayEnteredUsers.size() > 0) {
 					Utilities.sendMessage(type, channelName, "Giveaway has ended! " + mixerBot.giveawayEnteredUsers.size() + " entered in to the giveaway!");
 					Random random = new Random();

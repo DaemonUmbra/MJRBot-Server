@@ -1,7 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
@@ -14,11 +14,11 @@ public class ReconnectCommand extends Command {
 		if (type == BotType.Twitch) {
 			TwitchBot twitchBot = (TwitchBot) bot;
 			twitchBot.disconnectTwitch();
-			MJRBot.removeTwitchBot(twitchBot);
+			ChatBotManager.removeTwitchBot(twitchBot);
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = (MixerBot) bot;
 			mixerBot.disconnectMixer();
-			MJRBot.removeMixerBot(mixerBot);
+			ChatBotManager.removeMixerBot(mixerBot);
 		}
 	}
 

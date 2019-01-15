@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.jibble.pircbot.PircBot;
 
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot.ConnectionType;
 import com.mjr.MJRBot.StorageType;
 import com.mjr.chatModeration.ChatModeration;
@@ -104,11 +104,11 @@ public class TwitchBot extends PircBot {
 		CrossChatLink.sendMessageAcrossPlatforms(BotType.Twitch, this.channelName, sender, message);
 		if (moderators != null)
 			if (Arrays.asList(moderators).toString().toLowerCase().contains(this.getBotName().toLowerCase()))
-				ChatModeration.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender, login, hostname, message);
+				ChatModeration.onCommand(BotType.Twitch, ChatBotManager.getTwitchBotByChannelName(this.channelName), this.channelName, sender, login, hostname, message);
 
 		if (Config.getSetting("Commands", this.channelName).equalsIgnoreCase("true")) {
 			try {
-				commands.onCommand(BotType.Twitch, MJRBot.getTwitchBotByChannelName(this.channelName), this.channelName, sender.toLowerCase(), login, hostname, message);
+				commands.onCommand(BotType.Twitch, ChatBotManager.getTwitchBotByChannelName(this.channelName), this.channelName, sender.toLowerCase(), login, hostname, message);
 			} catch (IOException e) {
 				MJRBot.logErrorMessage(e);
 			}
@@ -199,7 +199,7 @@ public class TwitchBot extends PircBot {
 		if (line.contains("tmi.twitch.tv RECONNECT")) { // When Twitch tells the bot instance to reconnect
 			MJRBot.logErrorMessage(this.channelName + " has triggered a Reconnect event!");
 			this.disconnectTwitch();
-			MJRBot.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
+			ChatBotManager.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
 		} else if (line.contains("msg-id=sub") && !line.contains("msg-param-recipient-display-name=")) {
 			String user = line.substring(line.indexOf("display-name=") + 13);
 			user = user.substring(0, user.indexOf(';'));
@@ -309,7 +309,7 @@ public class TwitchBot extends PircBot {
 	protected void onDisconnect() {
 		MJRBot.bot.sendAdminEventMessage(this.channelName + " has triggered a onDisconnect event!");
 		disconnectTwitch();
-		MJRBot.removeTwitchBot(this);
+		ChatBotManager.removeTwitchBot(this);
 	}
 
 	public void ConnectToTwitch() throws IOException {

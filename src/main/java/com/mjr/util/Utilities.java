@@ -4,8 +4,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.TimeZone;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 
@@ -31,11 +32,11 @@ public class Utilities {
 		if(MJRBot.developmentDisableSendMessage)
 			return;
 		if (type == BotType.Twitch) {
-			TwitchBot bot = MJRBot.getTwitchBotByChannelName(channelName);
+			TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(channelName);
 			if (bot != null)
 				bot.sendMessage(endMessage);
 		} else {
-			MixerBot bot = MJRBot.getMixerBotByChannelName(channelName);
+			MixerBot bot = ChatBotManager.getMixerBotByChannelName(channelName);
 			if (bot != null)
 				bot.sendMessage(endMessage);
 		}

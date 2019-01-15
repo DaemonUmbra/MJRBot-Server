@@ -4,14 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Locale;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.commands.CommandManager;
 import com.mjr.console.ConsoleCommandManager;
 import com.mjr.sql.MySQLConnection;
@@ -39,9 +38,6 @@ public class MJRBot {
 	public static String filePath;
 	private static Logger logger = LogManager.getLogger();
 
-	private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
-	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
-
 	public static StorageType storageType = StorageType.Database;
 	public static ConnectionType connectionType = ConnectionType.Database;
 	public static UserCooldownTickThread userCooldownTickThread;
@@ -62,20 +58,6 @@ public class MJRBot {
 	public static String developmentChannel = "MJRBotTest";
 	public static String developmentPlatform = "Mixer";
 	public static String developmentID = "57804636";
-
-	public enum BotType {
-		Twitch("Twitch"), Mixer("Mixer"), Discord("Discord");
-
-		private final String typeName;
-
-		BotType(String typeName) {
-			this.typeName = typeName;
-		}
-
-		public String getTypeName() {
-			return typeName;
-		}
-	}
 
 	public enum ConnectionType {
 		Database(), Manual();
@@ -216,121 +198,16 @@ public class MJRBot {
 		}
 		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
 		for (String channelName : channelList.keySet()) {
-			createBot(channelName, channelList.get(channelName));
+			ChatBotManager.createBot(channelName, channelList.get(channelName));
 		}
 
 		channelList = SQLUtilities.getChannelsMixer();
 		for (String channelName : channelList.keySet()) {
-			createBot(channelName, channelList.get(channelName));
+			ChatBotManager.createBot(channelName, channelList.get(channelName));
 		}
 
 		updateThread = new ChannelListUpdateThread();
 		updateThread.start();
-	}
-
-	public static void createBot(String channel, String botType) {
-		channel = channel.toLowerCase(Locale.ENGLISH);
-		if (botType.equalsIgnoreCase("twitch") && channel != "") {
-			try {
-				if (storageType == StorageType.File) {
-					Config.loadDefaults(channel);
-				} else {
-					Config.loadDefaultsDatabase(channel);
-				}
-			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
-			}
-			TwitchBot bot = new TwitchBot();
-			addTwitchBot(channel, bot);
-			bot.init(channel);
-		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-			try {
-				if (storageType == StorageType.File) {
-					Config.loadDefaults(channel);
-				} else
-					Config.loadDefaultsDatabase(channel);
-			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
-			}
-			MixerBot bot = new MixerBot(channel);
-			addMixerBot(channel, bot);
-			try {
-				bot.joinChannel(channel);
-			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
-			}
-		} else if (channel != "")
-			ConsoleUtil.textToConsole("Unknown Type of Connection!");
-		else
-			ConsoleUtil.textToConsole("Invalid entry for Channel Name!!");
-	}
-
-	public static HashMap<String, TwitchBot> getTwitchBots() {
-		return twitchBots;
-	}
-
-	public static void setTwitchBots(HashMap<String, TwitchBot> bots) {
-		MJRBot.twitchBots = bots;
-	}
-
-	public static void addTwitchBot(String channelName, TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + channelName);
-		twitchBots.put(channelName, bot);
-	}
-
-	public static void removeTwitchBot(TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + bot.channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + bot.channelName);
-		twitchBots.remove(bot.channelName, bot);
-	}
-
-	public static void removeTwitchBot(String channelName) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + channelName);
-		twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
-	}
-
-	public static HashMap<String, MixerBot> getMixerBots() {
-		return mixerBots;
-	}
-
-	public static void setMixerBots(HashMap<String, MixerBot> bots) {
-		MJRBot.mixerBots = bots;
-	}
-
-	public static void addMixerBot(String channelName, MixerBot bot) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
-		mixerBots.put(channelName, bot);
-	}
-
-	public static void removeMixerBot(MixerBot bot) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.channelName);
-		MJRBot.bot.sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.channelName);
-		mixerBots.remove(bot.channelName, bot);
-	}
-
-	public static void removeMixerBot(String channelName) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
-		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
-	}
-
-	public static TwitchBot getTwitchBotByChannelName(String channelName) {
-		for (String bot : twitchBots.keySet()) {
-			if (bot.equalsIgnoreCase(channelName))
-				return twitchBots.get(bot);
-		}
-		return null;
-	}
-
-	public static MixerBot getMixerBotByChannelName(String channelName) {
-		for (String bot : mixerBots.keySet()) {
-			if (bot.equalsIgnoreCase(channelName))
-				return mixerBots.get(bot);
-		}
-		return null;
 	}
 
 	public static Logger getLogger() {

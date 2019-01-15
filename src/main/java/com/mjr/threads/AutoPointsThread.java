@@ -1,7 +1,8 @@
 package com.mjr.threads;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
@@ -23,7 +24,7 @@ public class AutoPointsThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (type == BotType.Twitch ? MJRBot.getTwitchBotByChannelName(channelName).ConnectedToChannel : MJRBot.getMixerBotByChannelName(channelName).isConnected()) {
+			while (type == BotType.Twitch ? ChatBotManager.getTwitchBotByChannelName(channelName).ConnectedToChannel : ChatBotManager.getMixerBotByChannelName(channelName).isConnected()) {
 				if (Config.getSetting("Points", channelName).equalsIgnoreCase("true")) {
 					int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", channelName));
 					if (delay != 0) {
@@ -31,7 +32,7 @@ public class AutoPointsThread extends Thread {
 						long timenow = System.currentTimeMillis();
 						boolean streaming = false;
 						if (type == BotType.Twitch) {
-							TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channelName);
+							TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channelName);
 							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
 								String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
 								if (result.contains("created_at"))
@@ -49,7 +50,7 @@ public class AutoPointsThread extends Thread {
 								}
 							}
 						} else if (type == BotType.Mixer) {
-							MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channelName);
+							MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channelName);
 							if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
 								streaming = mixerBot.isStreaming();
 								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {

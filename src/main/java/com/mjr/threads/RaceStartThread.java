@@ -1,7 +1,8 @@
 package com.mjr.threads;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.util.Utilities;
 
 public class RaceStartThread extends Thread {
@@ -29,9 +30,9 @@ public class RaceStartThread extends Thread {
 				MJRBot.logErrorMessage(e, type, channelName);
 			}
 			if (type == BotType.Twitch)
-				MJRBot.getTwitchBotByChannelName(channelName).racingGame.start(type, channelName);
+				ChatBotManager.getTwitchBotByChannelName(channelName).racingGame.start(type, channelName);
 			else
-				MJRBot.getMixerBotByChannelName(channelName).racingGame.start(type, channelName);
+				ChatBotManager.getMixerBotByChannelName(channelName).racingGame.start(type, channelName);
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e, type, channelName);
 		}

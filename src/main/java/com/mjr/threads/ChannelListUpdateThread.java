@@ -2,8 +2,9 @@ package com.mjr.threads;
 
 import java.util.HashMap;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.sql.SQLUtilities;
@@ -18,8 +19,8 @@ public class ChannelListUpdateThread extends Thread {
 			try {
 				HashMap<String, String> channelListTwitch = SQLUtilities.getChannelsTwitch();
 				HashMap<String, String> channelListMixer = SQLUtilities.getChannelsMixer();
-				HashMap<String, TwitchBot> currentChannelListTwitch = MJRBot.getTwitchBots();
-				HashMap<String, MixerBot> currentChannelListMixer = MJRBot.getMixerBots();
+				HashMap<String, TwitchBot> currentChannelListTwitch = ChatBotManager.getTwitchBots();
+				HashMap<String, MixerBot> currentChannelListMixer = ChatBotManager.getMixerBots();
 
 				// Check for new channels
 				ConsoleUtil.textToConsole("Update Channels List");
@@ -32,7 +33,7 @@ public class ChannelListUpdateThread extends Thread {
 						}
 					}
 					if (found == false) {
-						MJRBot.createBot(channelName, channelListTwitch.get(channelName));
+						ChatBotManager.createBot(channelName, channelListTwitch.get(channelName));
 					}
 				}
 
@@ -44,7 +45,7 @@ public class ChannelListUpdateThread extends Thread {
 						}
 					}
 					if (found == false) {
-						MJRBot.createBot(channelName, channelListMixer.get(channelName));
+						ChatBotManager.createBot(channelName, channelListMixer.get(channelName));
 					}
 				}
 
@@ -63,13 +64,13 @@ public class ChannelListUpdateThread extends Thread {
 
 				for (String removeChannel : channelsToDisconnect.keySet()) {
 					if (channelsToDisconnect.get(removeChannel).equalsIgnoreCase(BotType.Twitch.getTypeName())) {
-						TwitchBot bot = MJRBot.getTwitchBotByChannelName(removeChannel);
+						TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(removeChannel);
 						bot.disconnectTwitch();
-						MJRBot.removeTwitchBot(removeChannel);
+						ChatBotManager.removeTwitchBot(removeChannel);
 					} else if (channelsToDisconnect.get(removeChannel).equalsIgnoreCase(BotType.Mixer.getTypeName())) {
-						MixerBot bot = MJRBot.getMixerBotByChannelName(removeChannel);
+						MixerBot bot = ChatBotManager.getMixerBotByChannelName(removeChannel);
 						bot.disconnectMixer();
-						MJRBot.removeMixerBot(removeChannel);
+						ChatBotManager.removeMixerBot(removeChannel);
 					}
 				}
 				try {

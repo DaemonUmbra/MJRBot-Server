@@ -1,7 +1,7 @@
 package com.mjr.commands.defaultCommands;
 
-import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
@@ -13,12 +13,12 @@ public class EnterCommand extends Command {
 	@Override
 	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
-			TwitchBot twitchBot = MJRBot.getTwitchBotByChannelName(channel);
+			TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channel);
 			if (twitchBot.giveAwayActive)
 				if (!twitchBot.giveawayEnteredUsers.contains(sender.toLowerCase()))
 					twitchBot.giveawayEnteredUsers.add(sender.toLowerCase());
 		} else {
-			MixerBot mixerBot = MJRBot.getMixerBotByChannelName(channel);
+			MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channel);
 			if (mixerBot.giveAwayActive)
 				if (!mixerBot.giveawayEnteredUsers.contains(sender.toLowerCase()))
 					mixerBot.giveawayEnteredUsers.add(sender.toLowerCase());

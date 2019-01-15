@@ -14,8 +14,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MJRBot.StorageType;
 import com.mjr.Permissions;
 import com.mjr.gameIntegrations.CallOfDuty;
@@ -81,19 +82,19 @@ public class CustomCommands {
 		response = response.replaceAll("%channel%", channelName);
 		response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
 		if (type == BotType.Twitch)
-			response = response.replaceAll("%subcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).subscribers.size());
+			response = response.replaceAll("%subcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).subscribers.size());
 		else
-			response = response.replaceAll("%subcount%", "" + MJRBot.getMixerBotByChannelName(channelName).subscribers.size());
+			response = response.replaceAll("%subcount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).subscribers.size());
 		if (type == BotType.Twitch)
-			response = response.replaceAll("%viewercount%", "" + MJRBot.getTwitchBotByChannelName(channelName).viewers.size());
+			response = response.replaceAll("%viewercount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).viewers.size());
 		else
-			response = response.replaceAll("%viewercount%", "" + MJRBot.getMixerBotByChannelName(channelName).getViewers().size());
+			response = response.replaceAll("%viewercount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).getViewers().size());
 		if (type == BotType.Twitch)
-			response = response.replaceAll("%moderatorcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).moderators.size());
+			response = response.replaceAll("%moderatorcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).moderators.size());
 		else
-			response = response.replaceAll("%moderatorcount%", "" + MJRBot.getMixerBotByChannelName(channelName).getModerators().size());
+			response = response.replaceAll("%moderatorcount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).getModerators().size());
 		if (type == BotType.Twitch)
-			response = response.replaceAll("%vipcount%", "" + MJRBot.getTwitchBotByChannelName(channelName).vips.size());
+			response = response.replaceAll("%vipcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).vips.size());
 		if (response.contains("%time%")) {
 			ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", channelName)));
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");

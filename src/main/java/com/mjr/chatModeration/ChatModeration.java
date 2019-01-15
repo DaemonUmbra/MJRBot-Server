@@ -1,7 +1,7 @@
 package com.mjr.chatModeration;
 
 import com.mjr.AnalyticsData;
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MixerBot;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;

@@ -20,7 +20,6 @@ import com.mjr.MJRBot;
 import com.mjr.MJRBot.StorageType;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.sql.MySQLConnection;
-import com.mjr.util.Utilities;
 
 @SuppressWarnings("resource")
 public class QuoteSystem {

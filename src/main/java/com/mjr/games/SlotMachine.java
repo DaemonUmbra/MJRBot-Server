@@ -1,6 +1,6 @@
 package com.mjr.games;
 
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.util.Utilities;
 
 public class SlotMachine {

@@ -3,6 +3,7 @@ package com.mjr.threads;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.mjr.ChatBotManager;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
@@ -12,8 +13,8 @@ public class UserCooldownTickThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				HashMap<String, TwitchBot> channelListTwitch = MJRBot.getTwitchBots();
-				HashMap<String, MixerBot> channelListMixer = MJRBot.getMixerBots();
+				HashMap<String, TwitchBot> channelListTwitch = ChatBotManager.getTwitchBots();
+				HashMap<String, MixerBot> channelListMixer = ChatBotManager.getMixerBots();
 
 				for (String channelNameMain : channelListTwitch.keySet()) {
 					TwitchBot twitchBot = channelListTwitch.get(channelNameMain);

@@ -1,7 +1,8 @@
 package com.mjr.threads;
 
+import com.mjr.ChatBotManager;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.games.BankHeistGame;
 
 public class BankHeistThread extends Thread {
@@ -42,9 +43,9 @@ public class BankHeistThread extends Thread {
 		}
 
 		if (type == BotType.Twitch) {
-			BankHeistGame.stage2(type, channelName, MJRBot.getTwitchBotByChannelName(channelName).bankHeistEnteredUsers);
+			BankHeistGame.stage2(type, channelName, ChatBotManager.getTwitchBotByChannelName(channelName).bankHeistEnteredUsers);
 		} else {
-			BankHeistGame.stage2(type, channelName, MJRBot.getMixerBotByChannelName(channelName).bankHeistEnteredUsers);
+			BankHeistGame.stage2(type, channelName, ChatBotManager.getMixerBotByChannelName(channelName).bankHeistEnteredUsers);
 		}
 		gameActive = false;
 	}

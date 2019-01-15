@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.storage.Config;
 
 public class EmoteChecker {

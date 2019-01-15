@@ -2,7 +2,7 @@ package com.mjr;
 
 import java.sql.ResultSet;
 
-import com.mjr.MJRBot.BotType;
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot.ConnectionType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;

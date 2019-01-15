@@ -1,7 +1,7 @@
 package com.mjr.games;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.storage.PointsSystem;

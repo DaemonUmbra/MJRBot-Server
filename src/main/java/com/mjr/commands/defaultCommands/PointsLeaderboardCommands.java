@@ -3,8 +3,8 @@ package com.mjr.commands.defaultCommands;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
-import com.mjr.MJRBot.BotType;
 import com.mjr.MJRBot.StorageType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.Command;

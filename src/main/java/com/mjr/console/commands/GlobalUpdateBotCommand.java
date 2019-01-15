@@ -1,6 +1,6 @@
 package com.mjr.console.commands;
 
-import com.mjr.MJRBot;
+import com.mjr.ChatBotManager;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.console.ConsoleCommand;
@@ -10,10 +10,10 @@ public class GlobalUpdateBotCommand extends ConsoleCommand {
 	@Override
 	public void onCommand(String message, String[] args) {
 		String msg = "MJRBot is updating, it will be back with your shortly!";
-		for (TwitchBot bot : MJRBot.getTwitchBots().values()) {
+		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 			bot.sendMessage(msg);
 		}
-		for (MixerBot bot : MJRBot.getMixerBots().values()) {
+		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 			bot.sendMessage(msg);
 		}
 	}

@@ -1,6 +1,6 @@
 package com.mjr.console.commands;
 
-import com.mjr.MJRBot;
+import com.mjr.ChatBotManager;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.console.ConsoleCommand;
@@ -13,10 +13,10 @@ public class GlobalMessageCommand extends ConsoleCommand {
 			String msg = "";
 			for (int i = 1; i < args.length; i++)
 				msg = msg + " " + args[i];
-			for (TwitchBot bot : MJRBot.getTwitchBots().values()) {
+			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 				bot.sendMessage(msg);
 			}
-			for (MixerBot bot : MJRBot.getMixerBots().values()) {
+			for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 				bot.sendMessage(msg);
 			}
 		} else {
