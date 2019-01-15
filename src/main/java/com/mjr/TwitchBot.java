@@ -14,6 +14,8 @@ import java.util.List;
 import org.jibble.pircbot.PircBot;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot.ConnectionType;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.chatModeration.ChatModeration;
 import com.mjr.commands.CommandManager;
 import com.mjr.games.MathsGame;
@@ -266,7 +268,7 @@ public class TwitchBot extends PircBot {
 			getViewersThread.start();
 			getFollowersThread = new GetFollowersThread(this, BotType.Twitch);
 			getFollowersThread.start();
-			if (!MJRBot.useFileSystem && !MJRBot.useManualMode) {
+			if (MJRBot.storageType == StorageType.Database && MJRBot.connectionType == ConnectionType.Database) {
 				getSubscribersThread = new GetSubscribersThread(this, BotType.Twitch);
 				getSubscribersThread.start();
 			} else

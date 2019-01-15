@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.commands.defaultCommands.QuoteCommand;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.util.Utilities;
@@ -39,7 +40,7 @@ public class QuoteSystem {
 	}
 
 	public static List<String> getAllQuotes(String channelName, File file) {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String token1 = "";
 			Scanner inFile1 = null;
 			try {
@@ -81,7 +82,7 @@ public class QuoteSystem {
 		quote = "'" + quote;
 		quote = quote.replace(" @", "' ");
 		quote = quote.trim() + " " + Calendar.getInstance().get(Calendar.YEAR);
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String fileTemp = file.getPath();
 			Path filePath = Paths.get(fileTemp);
 			if (!Files.exists(filePath)) {

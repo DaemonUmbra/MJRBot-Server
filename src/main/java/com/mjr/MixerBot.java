@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 import com.mixer.api.resource.MixerUser.Role;
 import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot.ConnectionType;
 import com.mjr.chatModeration.ChatModeration;
 import com.mjr.commands.CommandManager;
 import com.mjr.games.MathsGame;
@@ -143,7 +144,7 @@ public class MixerBot extends MJR_MixerBot {
 		try {
 			this.setdebug(true);
 			int channel_id = 0;
-			if (MJRBot.useManualMode) {
+			if (MJRBot.connectionType == ConnectionType.Manual) {
 				channel_id = Integer.parseInt(MJRBot.id);
 			} else {
 				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + channel + "' AND platform = 'Mixer'");

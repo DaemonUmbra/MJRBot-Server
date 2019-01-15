@@ -2,12 +2,13 @@ package com.mjr.threads;
 
 import com.mjr.AnalyticsData;
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 
 public class UpdateAnalyticsThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			if (MJRBot.useFileSystem == false) {
+			if (MJRBot.storageType == StorageType.Database) {
 				AnalyticsData.sendData();
 			}
 			try {

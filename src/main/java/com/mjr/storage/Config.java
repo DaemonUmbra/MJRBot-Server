@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.util.ConsoleUtil;
 
@@ -125,9 +126,13 @@ public class Config extends FileBase {
 			setSetting("AutoPointsWhenOffline", "false", channelName);
 		}
 	}
-
+	
 	public static String getSetting(String setting, String channelName) {
-		if (MJRBot.useFileSystem) {
+		return getSetting(setting, channelName, false);
+	}
+
+	public static String getSetting(String setting, String channelName, boolean overrideStorageType) {
+		if (MJRBot.storageType == StorageType.File || overrideStorageType) {
 			return load(channelName, fileName).getProperty(setting);
 		} else {
 			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
@@ -150,7 +155,7 @@ public class Config extends FileBase {
 
 	@SuppressWarnings("deprecation")
 	public static void setSetting(String setting, String value, String channelName) {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			File file = loadFile(channelName, fileName);
 			Properties properties = load(channelName, fileName);
 			file = loadFile(channelName, fileName);

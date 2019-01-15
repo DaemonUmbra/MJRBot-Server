@@ -3,6 +3,7 @@ package com.mjr;
 import java.sql.ResultSet;
 
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot.ConnectionType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
@@ -33,7 +34,7 @@ public class CrossChatLink {
 			if (mixer && Config.getSetting("MixerChatLink", channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, channelName, platformPrefex + senderPrefex + message);
 			if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && type != BotType.Discord) {
-				if(MJRBot.useManualMode == false) {
+				if(MJRBot.connectionType == ConnectionType.Database) {
 					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 					if (channel_id.next()) {
 						if(channel_id.getString("cross_link_channel_id") != null) {

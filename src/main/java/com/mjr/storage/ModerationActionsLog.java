@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.sql.MySQLConnection;
-import com.mjr.util.Utilities;
 
 public class ModerationActionsLog extends FileBase {
 	public static String fileName = "Moderation_Actions_Log.txt";
@@ -20,7 +20,7 @@ public class ModerationActionsLog extends FileBase {
 	public static void addEvent(String channelName, String user, String reason, String message) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			File file = loadFile(channelName, fileName);
 			Path filePath = Paths.get(file.getPath());
 			try {

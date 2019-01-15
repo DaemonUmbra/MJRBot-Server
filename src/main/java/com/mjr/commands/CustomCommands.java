@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.Permissions;
 import com.mjr.gameIntegrations.CallOfDuty;
 import com.mjr.gameIntegrations.PUBG;
@@ -30,7 +31,7 @@ public class CustomCommands {
 		String state = null;
 		String permissionLevel = null;
 		String response = null;
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String filelocation = MJRBot.filePath + channelName + File.separator;
 			String filename = command.substring(command.indexOf("!") + 1);
 			filename = filename + "Command" + ".properties";
@@ -127,7 +128,7 @@ public class CustomCommands {
 
 	public static void addCommand(BotType type, String channelName, String command, String response, String permission) throws FileNotFoundException, IOException {
 		if (permission.equalsIgnoreCase("Moderator") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Followers")|| permission.equalsIgnoreCase("User")) {
-			if (MJRBot.useFileSystem) {
+			if (MJRBot.storageType == StorageType.File) {
 				String filelocation = MJRBot.filePath + channelName + File.separator;
 				String filename = command.toLowerCase() + "Command" + ".properties";
 				File filenew = new File(filelocation + filename);
@@ -167,7 +168,7 @@ public class CustomCommands {
 	}
 
 	public static void deleteCommand(BotType type, String channelName, String command) throws IOException {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String filelocation = MJRBot.filePath + channelName + File.separator;
 			String filename = command.toLowerCase() + "Command" + ".properties";
 			File filenew = new File(filelocation + filename);
@@ -192,7 +193,7 @@ public class CustomCommands {
 
 	@SuppressWarnings("deprecation")
 	public static void changeCommandState(BotType type, String channelName, String command, String state) throws IOException {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String filelocation = MJRBot.filePath + channelName + File.separator;
 			String filename = command.toLowerCase() + "Command" + ".properties";
 			File filenew = new File(filelocation + filename);
@@ -240,7 +241,7 @@ public class CustomCommands {
 
 	@SuppressWarnings("deprecation")
 	public static void changeCommandResponse(BotType type, String channelName, String command, String response) throws IOException {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String filelocation = MJRBot.filePath + channelName + File.separator;
 			String filename = command.toLowerCase() + "Command" + ".properties";
 			File filenew = new File(filelocation + filename);
@@ -274,7 +275,7 @@ public class CustomCommands {
 
 	@SuppressWarnings("deprecation")
 	public static void changeCommandPermission(BotType type, String channelName, String command, String permissionLevel) throws IOException {
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			String filelocation = MJRBot.filePath + channelName + File.separator;
 			String filename = command.toLowerCase() + "Command" + ".properties";
 			File filenew = new File(filelocation + filename);

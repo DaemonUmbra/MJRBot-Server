@@ -1,18 +1,19 @@
 package com.mjr;
 
-import java.io.Console;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mjr.commands.CommandManager;
+import com.mjr.console.ConsoleCommandManager;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
 import com.mjr.storage.Config;
@@ -32,34 +33,35 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = false;
-	public static boolean developmentStorageFileMode = false;
-	public static boolean developmentStorageDatabaseMode = false;
-	public static boolean developmentDisableSendMessage = false;
-	public static String developmentChannel = "mjrlegends";
-	public static String developmentPlatform = "Twitch";
-	public static String developmentID = "5831";
-
-	public static final String VERSION = "1.8.7, Server Version";
+	public static final String VERSION = "1.8.7, Server Edition";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
 	public static String filePath;
+	private static Logger logger = LogManager.getLogger();
 
 	private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
 	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
 
-	private static Console console = System.console();
-	private static String channel = "";
-	public static String id = "";
-	public static boolean useFileSystem = false;
-	public static boolean useManualMode = false;
+	public static StorageType storageType = StorageType.Database;
+	public static ConnectionType connectionType = ConnectionType.Database;
 	public static UserCooldownTickThread userCooldownTickThread;
 	public static UpdateAnalyticsThread updateAnalyticsThread;
 	public static ChannelListUpdateThread updateThread;
 	public static DiscordBot bot = null;
 
-	private static Logger logger = LogManager.getLogger();
+	// Manual Mode
+	private static String channel = "";
+	public static String id = "";
+
+	// Development
+	public static boolean developmentModeDatabase = false;
+	public static boolean developmentModeManual = false;
+	public static boolean developmentStorageFileMode = false;
+	public static boolean developmentStorageDatabaseMode = false;
+	public static boolean developmentDisableSendMessage = false;
+	public static String developmentChannel = "MJRBotTest";
+	public static String developmentPlatform = "Mixer";
+	public static String developmentID = "57804636";
 
 	public enum BotType {
 		Twitch("Twitch"), Mixer("Mixer"), Discord("Discord");
@@ -75,7 +77,19 @@ public class MJRBot {
 		}
 	}
 
-	public static void main(final String[] args) throws IOException, InterruptedException, ExecutionException, ClassNotFoundException, SQLException {
+	public enum ConnectionType {
+		Database(), Manual();
+	}
+
+	public enum StorageType {
+		Database(), File();
+	}
+
+	public enum MirgrationType {
+		All(), Config(), Points(), Ranks(), Quotes();
+	}
+
+	public static void main(final String[] args) {
 		// Disable logging from dependency packages
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
 		for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
@@ -93,96 +107,98 @@ public class MJRBot {
 		}
 
 		if (filePath != null) {
-			ConfigMain.load();				
-			bot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
-			bot.setupEvents();
-			Thread.sleep(2000);
-			String connectionType = "";
-			do {
-				if (developmentModeDatabase)
-					connectionType = "Database";
-				else if (developmentModeManual)
-					connectionType = "Manual";
-				else
-					connectionType = console.readLine("Bot Type: Database or Manual or Migrate?");
+			ConsoleCommandManager.loadCommands();
+			System.out.println("  __  __       _   ____    ____            _   \r\n" + 
+					" |  \\/  |     | | |  _ \\  | __ )    ___   | |_ \r\n" + 
+					" | |\\/| |  _  | | | |_) | |  _ \\   / _ \\  | __|\r\n" + 
+					" | |  | | | |_| | |  _ <  | |_) | | (_) | | |_ \r\n" + 
+					" |_|  |_|  \\___/  |_| \\_\\ |____/   \\___/   \\__|\r\n" + 
+					"                                               ");
+			System.out.println("Welcome to MJRBot!");
+			System.out.println("v" + VERSION);
+			System.out.println("Use 'connect <type>' to connect");
+			System.out.println("\n" + "You can use 'help' at any time to see possible commands");
+			Thread thread = new Thread("Server console handler") {
+				public void run() {
+					BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+					String s4;
 
-				if (connectionType.equalsIgnoreCase("Migrate")) {
-					runMirgration();
+					try {
+						while ((s4 = bufferedreader.readLine()) != null) {
+							ConsoleCommandManager.onCommand(s4);
+						}
+					} catch (IOException ioexception1) {
+						ConsoleUtil.textToConsole((String) "Exception handling console input" + (Throwable) ioexception1);
+					}
 				}
-			} while (!connectionType.equalsIgnoreCase("Database") && !connectionType.equalsIgnoreCase("Manual"));
+			};
+			thread.setDaemon(true);
+			thread.start();
+			while (true) {
+			}
+		}
+	}
 
-			String fileSystemType = "";
-			do {
-				if (developmentStorageDatabaseMode)
-					fileSystemType = "Database";
-				else if (developmentStorageFileMode)
-					fileSystemType = "File";
-				else
-					fileSystemType = console.readLine("Storage Type: File or Database?");
-			} while (!fileSystemType.equalsIgnoreCase("File") && !fileSystemType.equalsIgnoreCase("Database"));
-
-			if (fileSystemType.equalsIgnoreCase("File"))
-				useFileSystem = true;
+	public static void connectBot(ConnectionType type) {
+		try {
+			ConfigMain.load();
+			bot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
+			if (MJRBot.connectionType == ConnectionType.Database)
+				bot.setupEvents();
 			else
-				useFileSystem = false;
+				ConsoleUtil.textToConsole("Discord Crosslink is disabled, as it is currently not supported on the file based storage type!");
+			Thread.sleep(2000);
 
-			if (connectionType.equalsIgnoreCase("Manual")) {
+			if (type == ConnectionType.Manual) {
 				runManualMode();
-			} else if (connectionType.equalsIgnoreCase("Database")) {
+			} else if (type == ConnectionType.Database) {
 				runDatabaseMode();
 			}
 			CommandManager.loadCommands();
+		} catch (Exception e) {
+			MJRBot.logErrorMessage(e);
 		}
 	}
 
-	public static void runMirgration() {
-		String channelName = "";
-		String type = "";
-		channelName = console.readLine("Channel Name?");
-		useFileSystem = true;
-		MySQLConnection.connect();
-		type = console.readLine("What would you like to migrate? 1 - All, 2 - Config, 3 - Points, 4 - Ranks, 5 - Quotes");
-
-		if (type.equalsIgnoreCase("1")) {
+	public static void runMirgration(String channelName, MirgrationType type) {
+		if (type == MirgrationType.All) {
 			Config.migrateFile(channelName);
 			PointsSystem.migrateFile(channelName);
 			RankSystem.migrateFile(channelName);
 			QuoteSystem.migrateFile(channelName);
-		} else if (type.equalsIgnoreCase("2")) {
+		} else if (type == MirgrationType.Config) {
 			Config.migrateFile(channelName);
 		}
-		if (type.equalsIgnoreCase("3")) {
+		if (type == MirgrationType.Points) {
 			PointsSystem.migrateFile(channelName);
 		}
-		if (type.equalsIgnoreCase("4")) {
+		if (type == MirgrationType.Ranks) {
 			RankSystem.migrateFile(channelName);
 		}
-		if (type.equalsIgnoreCase("5")) {
+		if (type == MirgrationType.Quotes) {
 			QuoteSystem.migrateFile(channelName);
 		}
-		useFileSystem = false;
-		// Thread.sleep(100000);
 	}
 
 	public static void runManualMode() {
-		ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
-		do {
-			String botType;
-			if (developmentModeManual) {
-				botType = developmentPlatform;
-				channel = developmentChannel;
-				id = developmentID;
-			} else {
-				botType = console.readLine("Connection Type: Twitch or Mixer?");
-				channel = console.readLine("Channel Name?");
-				id = console.readLine("Channel ID?");
-			}
-			useManualMode = true;
-			userCooldownTickThread = new UserCooldownTickThread();
-			userCooldownTickThread.start();
-			createBot(channel, botType);
-
-		} while (twitchBots.isEmpty() && mixerBots.isEmpty());
+		// ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!"); TODO
+		// do {
+		// String botType;
+		// if (developmentModeManual) {
+		// botType = developmentPlatform;
+		// channel = developmentChannel;
+		// id = developmentID;
+		// } else {
+		// botType = console.readLine("Connection Type: Twitch or Mixer?");
+		// channel = console.readLine("Channel Name?");
+		// id = console.readLine("Channel ID?");
+		// }
+		// connectionType = true;
+		// userCooldownTickThread = new UserCooldownTickThread();
+		// userCooldownTickThread.start();
+		// createBot(channel, botType);
+		//
+		// } while (twitchBots.isEmpty() && mixerBots.isEmpty());
 	}
 
 	public static void runDatabaseMode() {
@@ -192,11 +208,10 @@ public class MJRBot {
 		ConsoleUtil.textToConsole("Getting list of Channels from Database server");
 		userCooldownTickThread = new UserCooldownTickThread();
 		userCooldownTickThread.start();
-		if (!useFileSystem) {
+		if (storageType == StorageType.Database) {
 			updateAnalyticsThread = new UpdateAnalyticsThread();
 			updateAnalyticsThread.start();
-		}
-		else {
+		} else {
 			ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
 		}
 		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
@@ -217,7 +232,7 @@ public class MJRBot {
 		channel = channel.toLowerCase(Locale.ENGLISH);
 		if (botType.equalsIgnoreCase("twitch") && channel != "") {
 			try {
-				if (useFileSystem) {
+				if (storageType == StorageType.File) {
 					Config.loadDefaults(channel);
 				} else {
 					Config.loadDefaultsDatabase(channel);
@@ -230,7 +245,7 @@ public class MJRBot {
 			bot.init(channel);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
-				if (useFileSystem) {
+				if (storageType == StorageType.File) {
 					Config.loadDefaults(channel);
 				} else
 					Config.loadDefaultsDatabase(channel);
@@ -248,10 +263,6 @@ public class MJRBot {
 			ConsoleUtil.textToConsole("Unknown Type of Connection!");
 		else
 			ConsoleUtil.textToConsole("Invalid entry for Channel Name!!");
-	}
-
-	public static Console getConsole() {
-		return console;
 	}
 
 	public static HashMap<String, TwitchBot> getTwitchBots() {
@@ -329,30 +340,30 @@ public class MJRBot {
 	public static void setLogger(Logger logger) {
 		MJRBot.logger = logger;
 	}
-	
+
 	public static void logErrorMessage(String error, final Throwable throwable) {
 		String stackTrace = Utilities.getStackTraceString(throwable);
 		logErrorMessage(error + " - " + stackTrace);
 	}
-	
+
 	public static void logErrorMessage(final Throwable throwable, String channelName) {
 		String stackTrace = Utilities.getStackTraceString(throwable);
 		logErrorMessage(channelName + " - " + stackTrace);
 	}
-	
+
 	public static void logErrorMessage(final Throwable throwable, BotType type, String channelName) {
 		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(type.getTypeName() +": " + channelName + " - " + stackTrace);
+		logErrorMessage(type.getTypeName() + ": " + channelName + " - " + stackTrace);
 	}
-	
+
 	public static void logErrorMessage(final Throwable throwable) {
 		String stackTrace = Utilities.getStackTraceString(throwable);
 		logErrorMessage(stackTrace);
 	}
-	
+
 	public static void logErrorMessage(String stackTrace) {
 		getLogger().info(stackTrace);
-		if(MJRBot.bot != null)
-			bot.sendErrorMessage((developmentModeDatabase || developmentModeManual ? "**Dev:** " : "")+ stackTrace);
+		if (MJRBot.bot != null)
+			bot.sendErrorMessage((developmentModeDatabase || developmentModeManual ? "**Dev:** " : "") + stackTrace);
 	}
 }

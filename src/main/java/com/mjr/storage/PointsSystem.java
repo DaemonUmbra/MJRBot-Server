@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import com.mjr.AnalyticsData;
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.util.ConsoleUtil;
@@ -22,7 +23,7 @@ public class PointsSystem extends FileBase {
 		if (!isOnList(user, channelName))
 			return 0;
 		String value = null;
-		if (MJRBot.useFileSystem)
+		if (MJRBot.storageType == StorageType.File)
 			value = load(channelName, fileName).getProperty(user);
 		else {
 			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT amount FROM points WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
@@ -45,7 +46,7 @@ public class PointsSystem extends FileBase {
 
 	public static void setPoints(String user, int points, String channelName, boolean outputEvent, boolean outputConsole) {
 		user = user.toLowerCase();
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			Properties properties = load(channelName, fileName);
 			properties.setProperty(user, Integer.toString(points));
 			try {
@@ -67,7 +68,7 @@ public class PointsSystem extends FileBase {
 
 	public static Boolean isOnList(String user, String channelName) {
 		user = user.toLowerCase();
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			if (load(channelName, fileName).getProperty(user) != null)
 				return true;
 			else

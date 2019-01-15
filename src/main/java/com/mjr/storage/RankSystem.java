@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import com.mjr.MJRBot;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.util.ConsoleUtil;
@@ -27,7 +28,7 @@ public class RankSystem extends FileBase {
 		user = user.toLowerCase();
 		String value = "";
 		user = user.toLowerCase();
-		if (MJRBot.useFileSystem)
+		if (MJRBot.storageType == StorageType.File)
 			value = load(channelName, fileName).getProperty(user, value);
 		else {
 			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT rank FROM ranks WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
@@ -53,7 +54,7 @@ public class RankSystem extends FileBase {
 		user = user.toLowerCase();
 		rank = rank.toLowerCase();
 		if (getRank(user, channelName) != rank) {
-			if (MJRBot.useFileSystem) {
+			if (MJRBot.storageType == StorageType.File) {
 				Properties properties = load(channelName, fileName);
 				properties.setProperty(user.toLowerCase(), rank);
 				try {
@@ -94,7 +95,7 @@ public class RankSystem extends FileBase {
 
 	public static Boolean isOnList(String user, String channelName) {
 		user = user.toLowerCase();
-		if (MJRBot.useFileSystem) {
+		if (MJRBot.storageType == StorageType.File) {
 			if (load(channelName, fileName).getProperty(user) != null)
 				return true;
 			else

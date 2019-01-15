@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
+import com.mjr.MJRBot.StorageType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.Command;
 import com.mjr.sql.MySQLConnection;
@@ -14,7 +15,7 @@ public class PointsLeaderboardCommands extends Command {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (MJRBot.useFileSystem)
+		if (MJRBot.storageType == StorageType.File)
 			Utilities.sendMessage(type, channel, "This feature is not currently available, when the bot is using a file based system");
 		else {
 			ResultSet result = MySQLConnection.executeQuery("SELECT * FROM points WHERE channel ='" + channel + "' ORDER BY amount DESC LIMIT 10");
