@@ -65,8 +65,8 @@ public class Config extends FileBase {
 				setSetting("AutoPointsWhenOffline", "false", channelName);
 				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
 				if (set == null || !set.next()) {
-					String[] badwords = {"Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga"};
-					for(int i = 0; i < badwords.length; i++) {
+					String[] badwords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
+					for (int i = 0; i < badwords.length; i++) {
 						MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + badwords[i] + "\"" + ")");
 					}
 				}
@@ -126,7 +126,7 @@ public class Config extends FileBase {
 			setSetting("AutoPointsWhenOffline", "false", channelName);
 		}
 	}
-	
+
 	public static String getSetting(String setting, String channelName) {
 		return getSetting(setting, channelName, false);
 	}

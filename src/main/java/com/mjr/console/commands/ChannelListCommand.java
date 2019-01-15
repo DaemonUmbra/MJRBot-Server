@@ -9,7 +9,7 @@ public class ChannelListCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if(ChatBotManager.getTwitchBots().size() == 0 && ChatBotManager.getMixerBots().size() == 0)
+		if (ChatBotManager.getTwitchBots().size() == 0 && ChatBotManager.getMixerBots().size() == 0)
 			System.out.println("No connected bots!");
 		else {
 			System.out.println("Platform | Channel Name | Status");

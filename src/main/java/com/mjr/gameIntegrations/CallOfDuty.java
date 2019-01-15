@@ -17,9 +17,9 @@ public class CallOfDuty {
 	 * Stats Per GameType: %cod_STAT(game:pathform:user:type)%
 	 * 
 	 */
-	
+
 	public static String replaceVariablesWithData(String variable) {
-		if(variable.startsWith("%cod_STATNAMEHERE") || variable.startsWith("%cod_("))
+		if (variable.startsWith("%cod_STATNAMEHERE") || variable.startsWith("%cod_("))
 			throw new IndexOutOfBoundsException("Invalid stat name!");
 		String stat = variable.substring(variable.indexOf("%cod_") + 5);
 		stat = stat.substring(0, stat.indexOf("("));
@@ -40,8 +40,7 @@ public class CallOfDuty {
 
 		if (codParts.length == 3) {
 			variable = getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
-		}
-		else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
+		} else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
 			if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
 				throw new IndexOutOfBoundsException("Invalid game mode type!");
 			return getGameTypeAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"), codParts[3]);
@@ -63,7 +62,7 @@ public class CallOfDuty {
 				result += line;
 			}
 			reader.close();
-			result = result.substring(result.indexOf("\""+stat + "\""));
+			result = result.substring(result.indexOf("\"" + stat + "\""));
 			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);
@@ -85,7 +84,7 @@ public class CallOfDuty {
 				result += line;
 			}
 			reader.close();
-			result = result.substring(result.indexOf("\""+stat + "\""));
+			result = result.substring(result.indexOf("\"" + stat + "\""));
 			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);

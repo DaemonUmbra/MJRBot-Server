@@ -12,7 +12,7 @@ public class SQLUtilities {
 	public static void createDatabaseStructure() {
 		MySQLConnection.executeUpdate("CREATE DATABASE mjrbot");
 		MySQLConnection.executeUpdate("CREATE TABLE mjrbot.channels (id int(50) not null auto_increment primary key,name varchar(35), bot_type varchar(12))");
-		if(MJRBot.storageType == StorageType.Database) {
+		if (MJRBot.storageType == StorageType.Database) {
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.points (id int(50) not null auto_increment primary key, name varchar(35), channel varchar(35), amount int(50))");
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.ranks (id int(50) not null auto_increment primary key, name varchar(35), channel varchar(35), rank varchar(12))");
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.config (id int(50) not null auto_increment primary key, channel varchar(35), setting varchar(35), value varchar(128))");

@@ -39,7 +39,7 @@ public class AccountLifeCommand extends Command {
 			reader.close();
 			if (result.contains("created_at") || result.contains("createdAt")) {
 				String time = result.substring(result.contains("created_at") ? (result.indexOf("created_at") + 13) : (result.indexOf("createdAt") + 12));
-				
+
 				if (type == BotType.Twitch)
 					time = time.substring(0, 20);
 				else
@@ -67,7 +67,8 @@ public class AccountLifeCommand extends Command {
 				long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 				long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-				Utilities.sendMessage(type, channel, "@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
+				Utilities.sendMessage(type, channel,
+						"@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 			}
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);

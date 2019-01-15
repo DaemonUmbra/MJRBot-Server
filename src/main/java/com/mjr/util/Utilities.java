@@ -29,7 +29,7 @@ public class Utilities {
 	}
 
 	public static void sendMessage(BotType type, String channelName, String endMessage) {
-		if(MJRBot.developmentDisableSendMessage)
+		if (MJRBot.developmentDisableSendMessage)
 			return;
 		if (type == BotType.Twitch) {
 			TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(channelName);
@@ -58,11 +58,11 @@ public class Utilities {
 
 		return new java.util.Date(date.getTime() + (toTZOffset - fromTZOffset));
 	}
-	
+
 	public static String getStackTraceString(final Throwable throwable) {
 		final StringWriter sw = new StringWriter();
-	     final PrintWriter pw = new PrintWriter(sw, true);
-	     throwable.printStackTrace(pw);
-	     return sw.getBuffer().toString();
+		final PrintWriter pw = new PrintWriter(sw, true);
+		throwable.printStackTrace(pw);
+		return sw.getBuffer().toString();
 	}
 }

@@ -101,6 +101,7 @@ public class MJRBot {
 			System.out.println("Use 'connect <type>' to connect");
 			System.out.println("\n" + "You can use 'help' at any time to see possible commands");
 			Thread thread = new Thread("Server console handler") {
+				@Override
 				public void run() {
 					BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
 					String s4;
@@ -110,7 +111,7 @@ public class MJRBot {
 							ConsoleCommandManager.onCommand(s4);
 						}
 					} catch (IOException ioexception1) {
-						ConsoleUtil.textToConsole((String) "Exception handling console input" + (Throwable) ioexception1);
+						ConsoleUtil.textToConsole("Exception handling console input" + ioexception1);
 					}
 				}
 			};

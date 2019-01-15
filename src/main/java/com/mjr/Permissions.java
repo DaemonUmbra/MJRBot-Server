@@ -68,8 +68,8 @@ public class Permissions {
 				return PermissionLevel.KnownBot.getName();
 			else if (user.equalsIgnoreCase("mjrlegends"))
 				return PermissionLevel.BotOwner.getName();
-			else if (!ChatBotManager.getMixerBotByChannelName(channelName).getModerators().isEmpty() && ChatBotManager.getMixerBotByChannelName(channelName).getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName))
-					|| user.equalsIgnoreCase(channelName))
+			else if (!ChatBotManager.getMixerBotByChannelName(channelName).getModerators().isEmpty() && ChatBotManager.getMixerBotByChannelName(channelName).getModerators().contains(user)
+					|| user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
 			else if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
 				return PermissionLevel.Subscriber.getName();

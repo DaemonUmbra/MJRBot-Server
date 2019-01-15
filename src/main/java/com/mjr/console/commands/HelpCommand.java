@@ -20,7 +20,7 @@ public class HelpCommand extends ConsoleCommand {
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry) it.next();
 			ConsoleCommand command = ((ConsoleCommand) pair.getValue());
-			System.out.println(pair.getKey().toString() + " "  + command.getParametersDescription() + " - " + command.getDescription());
+			System.out.println(pair.getKey().toString() + " " + command.getParametersDescription() + " - " + command.getDescription());
 		}
 	}
 

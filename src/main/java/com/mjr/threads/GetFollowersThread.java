@@ -72,7 +72,7 @@ public class GetFollowersThread extends Thread {
 						newfollower = newresult.substring(newresult.indexOf("display_name") + 15);
 						newfollower = newfollower.substring(0, newfollower.indexOf("\""));
 						result = result.substring(result.indexOf(newfollower));
-						if(!newfollower.equalsIgnoreCase("bio"))
+						if (!newfollower.equalsIgnoreCase("bio"))
 							bot.followers.add(newfollower.toLowerCase());
 						if (current % 100 != 0) {
 							if (result.indexOf("type\":\"") != -1)

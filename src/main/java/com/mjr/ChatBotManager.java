@@ -11,7 +11,7 @@ import com.mjr.storage.ConfigMain;
 import com.mjr.util.ConsoleUtil;
 
 public class ChatBotManager {
-	
+
 	public enum BotType {
 		Twitch("Twitch"), Mixer("Mixer"), Discord("Discord");
 
@@ -24,7 +24,7 @@ public class ChatBotManager {
 		public String getTypeName() {
 			return typeName;
 		}
-		
+
 		public static BotType getTypeByName(String permission) {
 			for (BotType type : BotType.values())
 				if (type.getTypeName().equalsIgnoreCase(permission))

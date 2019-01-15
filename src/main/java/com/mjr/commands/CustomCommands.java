@@ -128,7 +128,7 @@ public class CustomCommands {
 	}
 
 	public static void addCommand(BotType type, String channelName, String command, String response, String permission) throws FileNotFoundException, IOException {
-		if (permission.equalsIgnoreCase("Moderator") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Followers")|| permission.equalsIgnoreCase("User")) {
+		if (permission.equalsIgnoreCase("Moderator") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Streamer") || permission.equalsIgnoreCase("Followers") || permission.equalsIgnoreCase("User")) {
 			if (MJRBot.storageType == StorageType.File) {
 				String filelocation = MJRBot.filePath + channelName + File.separator;
 				String filename = command.toLowerCase() + "Command" + ".properties";

@@ -69,7 +69,7 @@ public class MixerBot extends MJR_MixerBot {
 	@Override
 	protected void onMessage(String sender, int userId, List<Role> userRoles, String message) {
 		checkFollower(sender, userId);
-		if(userRoles.contains(Role.SUBSCRIBER)) {
+		if (userRoles.contains(Role.SUBSCRIBER)) {
 			if (!this.subscribers.contains(sender.toLowerCase()))
 				this.subscribers.add(sender.toLowerCase());
 		} else {

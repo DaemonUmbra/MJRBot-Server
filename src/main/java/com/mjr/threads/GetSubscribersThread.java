@@ -103,8 +103,7 @@ public class GetSubscribersThread extends Thread {
 				else if (e.getMessage().contains("400")) {
 					skip = true;
 					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.Bot, null);
-				}
-				else
+				} else
 					MJRBot.logErrorMessage(e, type, bot.channelName);
 			}
 		} while (result.equals("") && skip == false);

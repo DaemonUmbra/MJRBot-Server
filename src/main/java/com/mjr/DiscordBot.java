@@ -7,7 +7,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.util.Snowflake;
 
 public class DiscordBot extends Discord_Bot {
-	
+
 	public static Snowflake mjrlegends_guild_id = Snowflake.of(304416423147601921L);
 	public static Snowflake error_channel_id = Snowflake.of(510208195629809704L);
 	public static Snowflake admin_event_log_channel_id = Snowflake.of(512734468029808651L);
@@ -19,7 +19,8 @@ public class DiscordBot extends Discord_Bot {
 
 	@Override
 	public void setupEvents() {
-		this.getDispatcher().on(MessageCreateEvent.class).doOnError(error -> MJRBot.logErrorMessage("Please restart MJRBot via console: Error", error)).subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
+		this.getDispatcher().on(MessageCreateEvent.class).doOnError(error -> MJRBot.logErrorMessage("Please restart MJRBot via console: Error", error))
+				.subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
 	}
 
 	public void sendErrorMessage(String message) {
@@ -36,7 +37,7 @@ public class DiscordBot extends Discord_Bot {
 
 	@Override
 	public void onOutputMessage(MessageType type, String message) {
-		if(type.equals(MessageType.Error))
+		if (type.equals(MessageType.Error))
 			MJRBot.logErrorMessage(message);
 		else
 			ConsoleUtil.textToConsole(message);
