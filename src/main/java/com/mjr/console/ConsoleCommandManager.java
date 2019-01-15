@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 import com.mjr.console.commands.ChannelListCommand;
 import com.mjr.console.commands.ConnectCommand;
+import com.mjr.console.commands.DisconnectChannelCommand;
 import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
 import com.mjr.console.commands.HelpCommand;
 import com.mjr.console.commands.MirgrateCommand;
+import com.mjr.console.commands.ReconnectChannelCommand;
 import com.mjr.console.commands.SetStorageTypeCommand;
 import com.mjr.console.commands.VersionCommand;
 
@@ -26,6 +28,8 @@ public class ConsoleCommandManager {
 		commands.put("gmsgupdate", new GlobalUpdateBotCommand());
 		commands.put("version", new VersionCommand());
 		commands.put("channels", new ChannelListCommand());
+		commands.put("disconnectChannel", new DisconnectChannelCommand());
+		commands.put("reconnectChannel", new ReconnectChannelCommand());
 	}
 
 	public static void onCommand(String message) {
