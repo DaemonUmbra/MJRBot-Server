@@ -90,12 +90,12 @@ public class MJRBot {
 
 		if (filePath != null) {
 			ConsoleCommandManager.loadCommands();
-			System.out.println("  __  __       _   ____    ____            _   \r\n" + 
-					" |  \\/  |     | | |  _ \\  | __ )    ___   | |_ \r\n" + 
-					" | |\\/| |  _  | | | |_) | |  _ \\   / _ \\  | __|\r\n" + 
-					" | |  | | | |_| | |  _ <  | |_) | | (_) | | |_ \r\n" + 
-					" |_|  |_|  \\___/  |_| \\_\\ |____/   \\___/   \\__|\r\n" + 
-					"                                               ");
+            System.out.println("  __  __       _   ____    ____            _   \r\n" + 
+                    " |  \\/  |     | | |  _ \\  | __ )    ___   | |_ \r\n" + 
+                    " | |\\/| |  _  | | | |_) | |  _ \\   / _ \\  | __|\r\n" + 
+                    " | |  | | | |_| | |  _ <  | |_) | | (_) | | |_ \r\n" + 
+                    " |_|  |_|  \\___/  |_| \\_\\ |____/   \\___/   \\__|\r\n" + 
+                    "                                               ");
 			System.out.println("Welcome to MJRBot!");
 			System.out.println("v" + VERSION);
 			System.out.println("Use 'connect <type>' to connect");
@@ -122,6 +122,10 @@ public class MJRBot {
 	}
 
 	public static void connectBot(ConnectionType type) {
+		connectBot(type, null, null, 0);
+	}
+
+	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
 		try {
 			ConfigMain.load();
 			bot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
@@ -132,7 +136,7 @@ public class MJRBot {
 			Thread.sleep(2000);
 
 			if (type == ConnectionType.Manual) {
-				runManualMode();
+				runManualMode(botType, channelName, channelId);
 			} else if (type == ConnectionType.Database) {
 				runDatabaseMode();
 			}
@@ -162,25 +166,18 @@ public class MJRBot {
 		}
 	}
 
-	public static void runManualMode() {
-		// ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!"); TODO
-		// do {
-		// String botType;
-		// if (developmentModeManual) {
-		// botType = developmentPlatform;
-		// channel = developmentChannel;
-		// id = developmentID;
-		// } else {
-		// botType = console.readLine("Connection Type: Twitch or Mixer?");
-		// channel = console.readLine("Channel Name?");
-		// id = console.readLine("Channel ID?");
-		// }
-		// connectionType = true;
-		// userCooldownTickThread = new UserCooldownTickThread();
-		// userCooldownTickThread.start();
-		// createBot(channel, botType);
-		//
-		// } while (twitchBots.isEmpty() && mixerBots.isEmpty());
+	public static void runManualMode(BotType type, String channelName, int channelId) {
+		ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
+		if (developmentModeManual) {
+			channel = developmentChannel;
+			id = developmentID;
+		} else {
+			channel = channelName;
+			id = "" + channelId;
+		}
+		userCooldownTickThread = new UserCooldownTickThread();
+		userCooldownTickThread.start();
+		ChatBotManager.createBot(channel, developmentModeManual == true ? developmentPlatform : type.getTypeName());
 	}
 
 	public static void runDatabaseMode() {

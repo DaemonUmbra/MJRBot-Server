@@ -24,6 +24,13 @@ public class ChatBotManager {
 		public String getTypeName() {
 			return typeName;
 		}
+		
+		public static BotType getTypeByName(String permission) {
+			for (BotType type : BotType.values())
+				if (type.getTypeName().equalsIgnoreCase(permission))
+					return type;
+			return null;
+		}
 	}
 
 	private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
