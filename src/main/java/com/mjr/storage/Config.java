@@ -62,6 +62,13 @@ public class Config extends FileBase {
 				setSetting("DiscordEnabled", "false", channelName);
 				setSetting("DiscordChatLink", "false", channelName);
 				setSetting("AutoPointsWhenOffline", "false", channelName);
+				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
+				if (set == null || !set.next()) {
+					String[] badwords = {"Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga"};
+					for(int i = 0; i < badwords.length; i++) {
+						MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + badwords[i] + "\"" + ")");
+					}
+				}
 			}
 		} catch (SQLException e) {
 			MJRBot.logErrorMessage(e);

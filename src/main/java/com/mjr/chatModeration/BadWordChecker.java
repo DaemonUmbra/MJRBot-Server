@@ -1,21 +1,43 @@
 package com.mjr.chatModeration;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.mjr.MJRBot;
 import com.mjr.MJRBot.BotType;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
+import com.mjr.sql.MySQLConnection;
 
 public class BadWordChecker {
-	public static String[] badWords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
+	public static List<String> badWords = new ArrayList<String>();
 
 	public static boolean isBadWord(Object bot, BotType type, String channelName, String message, String sender) {
-		for (int i = 0; i < badWords.length; i++) {
-			if (message.toLowerCase().contains(badWords[i].toLowerCase())) {
-				if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
-					return false;
-				} else {
-					return true;
+		try {
+			if (!MJRBot.useFileSystem) {
+				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
+				if (set != null) {
+					while (set.next()) {
+						badWords.add(set.getString("word"));
+					}
+				}
+			} else {
+				badWords = Arrays.asList("Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga");
+			}
+
+			for (int i = 0; i < badWords.size(); i++) {
+				if (message.toLowerCase().contains(badWords.get(i).toLowerCase())) {
+					if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
+						return false;
+					} else {
+						return true;
+					}
 				}
 			}
+		} catch (Exception e) {
+			MJRBot.logErrorMessage(e);
 		}
 		return false;
 	}
