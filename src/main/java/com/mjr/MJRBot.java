@@ -144,6 +144,12 @@ public class MJRBot {
 	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
 		try {
 			ConfigMain.load();
+			if (MJRBot.connectionType == ConnectionType.Database) {
+				do {
+					MySQLConnection.connect();
+					Thread.sleep(5000);
+				} while (MySQLConnection.connected == false);
+			}
 			discordConnect();
 			Thread.sleep(2000);
 
@@ -193,9 +199,6 @@ public class MJRBot {
 	}
 
 	public static void runDatabaseMode() {
-		do {
-			MySQLConnection.connect();
-		} while (MySQLConnection.connected == false);
 		ConsoleUtil.textToConsole("Getting list of Channels from Database server");
 		userCooldownTickThread = new UserCooldownTickThread();
 		userCooldownTickThread.start();
