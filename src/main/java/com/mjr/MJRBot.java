@@ -108,7 +108,10 @@ public class MJRBot {
 
 					try {
 						while ((s4 = bufferedreader.readLine()) != null) {
-							ConsoleCommandManager.onCommand(s4);
+							if(s4.length()!= 0)
+								ConsoleCommandManager.onCommand(s4);
+							else
+								System.out.println("Invalid command, You can use 'help' at any time to see possible commands");
 						}
 					} catch (IOException ioexception1) {
 						ConsoleUtil.textToConsole("Exception handling console input" + ioexception1);
