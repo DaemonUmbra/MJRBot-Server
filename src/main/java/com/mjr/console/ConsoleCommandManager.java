@@ -53,7 +53,7 @@ public class ConsoleCommandManager {
 		List<String> list = new ArrayList<String>(Arrays.asList(args));
 
 		// Check if known default command
-		if (commands.containsKey(args[0].toLowerCase()) || commands.containsKey(args[0].toLowerCase() + " " + args[1].toLowerCase())) {
+		if (commands.containsKey(args[0].toLowerCase()) || (args.length == 2 && commands.containsKey(args[0].toLowerCase() + " " + args[1].toLowerCase()))) {
 			ConsoleCommand command = commands.get(args[0].toLowerCase());
 			if (command == null) {
 				command = commands.get(args[0].toLowerCase() + " " + args[1].toLowerCase());
