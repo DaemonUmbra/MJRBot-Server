@@ -17,6 +17,7 @@ import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
 import com.mjr.console.commands.HelpCommand;
 import com.mjr.console.commands.MirgrateCommand;
+import com.mjr.console.commands.OutputDependencyMessagesCommand;
 import com.mjr.console.commands.OutputMessagesCommand;
 import com.mjr.console.commands.ReconnectAllChannelsCommand;
 import com.mjr.console.commands.ReconnectChannelCommand;
@@ -47,6 +48,7 @@ public class ConsoleCommandManager {
 		commands.put("discord connect", new DiscordBotConnectCommand());
 		commands.put("discord info", new DiscordBotInfoCommand());
 		commands.put("toggleoutput", new OutputMessagesCommand());
+		commands.put("toggledepoutput", new OutputDependencyMessagesCommand());
 	}
 
 	public static void onCommand(String message) {

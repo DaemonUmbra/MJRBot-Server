@@ -77,8 +77,6 @@ public class MJRBot {
 		for (ch.qos.logback.classic.Logger l : lc.getLoggerList()) {
 			l.setLevel(Level.OFF);
 		}
-		System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
-
 		if (OSUtilities.isUnix())
 			filePath = "/home/" + File.separator + "MJRBot" + File.separator;
 		else if (OSUtilities.isWindows())
