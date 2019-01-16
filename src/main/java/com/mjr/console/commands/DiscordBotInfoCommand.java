@@ -28,14 +28,12 @@ public class DiscordBotInfoCommand extends ConsoleCommand {
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Display all guilds the discord bot is connected too";
 	}
 
 	@Override
 	public String getParametersDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 }
