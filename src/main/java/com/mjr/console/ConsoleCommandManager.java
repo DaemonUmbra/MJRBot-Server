@@ -2,8 +2,8 @@ package com.mjr.console;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import com.mjr.console.commands.ChannelListCommand;
 import com.mjr.console.commands.ConnectCommand;
@@ -27,7 +27,7 @@ import com.mjr.console.commands.VersionCommand;
 public class ConsoleCommandManager {
 	public static String[] args;
 
-	public static HashMap<String, ConsoleCommand> commands = new HashMap<String, ConsoleCommand>();
+	public static TreeMap<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
 
 	public static void loadCommands() {
 		commands.clear();
