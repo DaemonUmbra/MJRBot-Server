@@ -10,6 +10,7 @@ import com.mjr.console.commands.ConnectCommand;
 import com.mjr.console.commands.DisconnectChannelCommand;
 import com.mjr.console.commands.DiscordBotConnectCommand;
 import com.mjr.console.commands.DiscordBotDisconnectCommand;
+import com.mjr.console.commands.DiscordBotInfoCommand;
 import com.mjr.console.commands.DiscordBotReconnectCommand;
 import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
@@ -39,6 +40,7 @@ public class ConsoleCommandManager {
 		commands.put("discord disconnect", new DiscordBotDisconnectCommand());
 		commands.put("discord reconnect", new DiscordBotReconnectCommand());
 		commands.put("discord connect", new DiscordBotConnectCommand());
+		commands.put("discord info", new DiscordBotInfoCommand());
 	}
 
 	public static void onCommand(String message) {
