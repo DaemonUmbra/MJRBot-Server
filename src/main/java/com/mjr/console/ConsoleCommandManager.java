@@ -5,6 +5,9 @@ import java.util.HashMap;
 import com.mjr.console.commands.ChannelListCommand;
 import com.mjr.console.commands.ConnectCommand;
 import com.mjr.console.commands.DisconnectChannelCommand;
+import com.mjr.console.commands.DiscordBotConnectCommand;
+import com.mjr.console.commands.DiscordBotDisconnectCommand;
+import com.mjr.console.commands.DiscordBotReconnectCommand;
 import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
 import com.mjr.console.commands.HelpCommand;
@@ -28,8 +31,11 @@ public class ConsoleCommandManager {
 		commands.put("gmsgupdate", new GlobalUpdateBotCommand());
 		commands.put("version", new VersionCommand());
 		commands.put("channels", new ChannelListCommand());
-		commands.put("disconnectChannel", new DisconnectChannelCommand());
-		commands.put("reconnectChannel", new ReconnectChannelCommand());
+		commands.put("disconnectchannel", new DisconnectChannelCommand());
+		commands.put("reconnectchannel", new ReconnectChannelCommand());
+		commands.put("disconnectdiscord", new DiscordBotDisconnectCommand());
+		commands.put("reconnectdiscord", new DiscordBotReconnectCommand());
+		commands.put("connectdiscord", new DiscordBotConnectCommand());
 	}
 
 	public static void onCommand(String message) {

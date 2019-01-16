@@ -126,14 +126,25 @@ public class MJRBot {
 		connectBot(type, null, null, 0);
 	}
 
-	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
-		try {
-			ConfigMain.load();
+	public static void discordConnect() {
+		if (bot == null) {
+			try {
+				ConfigMain.load();
+			} catch (IOException e) {
+				MJRBot.logErrorMessage(e);
+			}
 			bot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
 			if (MJRBot.connectionType == ConnectionType.Database)
 				bot.setupEvents();
 			else
 				ConsoleUtil.textToConsole("Discord Crosslink is disabled, as it is currently not supported on the file based storage type!");
+		}
+	}
+
+	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
+		try {
+			ConfigMain.load();
+			discordConnect();
 			Thread.sleep(2000);
 
 			if (type == ConnectionType.Manual) {
