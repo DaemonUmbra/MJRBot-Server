@@ -35,7 +35,7 @@ public class OutputMessagesCommand extends ConsoleCommand {
 			} else
 				System.out.println("Invalid type, Use Chat, Chatbot, Bot OR showall, hideall");
 		} else
-			System.out.println("Invalid syntax, Use toggleoutput " + getParametersDescription());
+			System.out.println("Invalid syntax, Use toggle output " + getParametersDescription());
 	}
 
 	@Override

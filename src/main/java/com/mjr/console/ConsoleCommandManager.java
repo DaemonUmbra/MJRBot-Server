@@ -47,8 +47,8 @@ public class ConsoleCommandManager {
 		commands.put("discord reconnect", new DiscordBotReconnectCommand());
 		commands.put("discord connect", new DiscordBotConnectCommand());
 		commands.put("discord info", new DiscordBotInfoCommand());
-		commands.put("toggleoutput", new OutputMessagesCommand());
-		commands.put("toggledepoutput", new OutputDependencyMessagesCommand());
+		commands.put("toggle output", new OutputMessagesCommand());
+		commands.put("toggle depoutput", new OutputDependencyMessagesCommand());
 	}
 
 	public static void onCommand(String message) {
@@ -57,7 +57,7 @@ public class ConsoleCommandManager {
 		List<String> list = new ArrayList<String>(Arrays.asList(args));
 
 		// Check if known default command
-		if (commands.containsKey(args[0].toLowerCase()) || (args.length == 2 && commands.containsKey(args[0].toLowerCase() + " " + args[1].toLowerCase()))) {
+		if (commands.containsKey(args[0].toLowerCase()) || (args.length >= 2 && commands.containsKey(args[0].toLowerCase() + " " + args[1].toLowerCase()))) {
 			ConsoleCommand command = commands.get(args[0].toLowerCase());
 			if (command == null) {
 				command = commands.get(args[0].toLowerCase() + " " + args[1].toLowerCase());

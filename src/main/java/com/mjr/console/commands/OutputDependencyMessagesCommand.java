@@ -3,7 +3,6 @@ package com.mjr.console.commands;
 import org.slf4j.LoggerFactory;
 
 import com.mjr.console.ConsoleCommand;
-import com.mjr.util.ConsoleUtil;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -23,7 +22,7 @@ public class OutputDependencyMessagesCommand extends ConsoleCommand {
 			} else
 				System.out.println("Invalid type, Use OFF, ERROR, WARN, INFO, DEBUG, TRACE, ALL");
 		} else
-			System.out.println("Invalid syntax, Use toggledepoutput " + getParametersDescription());
+			System.out.println("Invalid syntax, Use toggle depoutput " + getParametersDescription());
 	}
 
 	@Override
