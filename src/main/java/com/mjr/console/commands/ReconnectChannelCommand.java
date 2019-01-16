@@ -27,7 +27,7 @@ public class ReconnectChannelCommand extends ConsoleCommand {
 
 	@Override
 	public String getDescription() {
-		return "Reconnect a channel, and remove it from the channel list";
+		return "Reconnect a channel";
 	}
 
 	@Override

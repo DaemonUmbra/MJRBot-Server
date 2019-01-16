@@ -1,7 +1,6 @@
 package com.mjr.console.commands;
 
 import com.mjr.ChatBotManager;
-import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.console.ConsoleCommand;
