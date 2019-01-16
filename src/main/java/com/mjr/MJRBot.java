@@ -32,7 +32,7 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-	public static final String VERSION = "1.8.7, Server Edition";
+	public static final String VERSION = "1.8.8, Server Edition";
 	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
 
 	public static String filePath;
