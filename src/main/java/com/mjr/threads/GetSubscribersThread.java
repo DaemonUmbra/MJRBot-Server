@@ -70,8 +70,8 @@ public class GetSubscribersThread extends Thread {
 						}
 					}
 				}
-				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.Bot, null);
-				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Subscriber list: " + String.join(", ", bot.subscribers), MessageType.Bot, null);
+				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.subscribers.size() + " subscribers", MessageType.ChatBot, null);
+				ConsoleUtil.textToConsole(bot, type, bot.channelName, "Subscriber list: " + String.join(", ", bot.subscribers), MessageType.ChatBot, null);
 			}
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e, type, bot.channelName);
@@ -102,7 +102,7 @@ public class GetSubscribersThread extends Thread {
 					refreshToken = true;
 				else if (e.getMessage().contains("400")) {
 					skip = true;
-					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.ChatBot, null);
 				} else
 					MJRBot.logErrorMessage(e, type, bot.channelName);
 			}
@@ -111,7 +111,7 @@ public class GetSubscribersThread extends Thread {
 	}
 
 	public void refreshToken() {
-		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token!", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token!", MessageType.ChatBot, null);
 		URL url;
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");

@@ -186,7 +186,7 @@ public class MixerBot extends MJR_MixerBot {
 	@Override
 	protected void onDebugMessage() {
 		for (String message : this.getOutputMessages())
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.ChatBot, null);
 		this.clearOutputMessages();
 	}
 
@@ -196,7 +196,7 @@ public class MixerBot extends MJR_MixerBot {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();
-		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Left " + this.channelName + " channel", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Left " + this.channelName + " channel", MessageType.ChatBot, null);
 		this.viewersJoinedTimes.clear();
 	}
 
@@ -210,7 +210,7 @@ public class MixerBot extends MJR_MixerBot {
 			user = user.substring(0, user.indexOf(';'));
 			if (Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " just subscribed to the channel!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just subscribed to the channel!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just subscribed to the channel!", MessageType.ChatBot, null);
 			EventLog.addEvent(this.channelName, user, "Just subscribed to the channel!", EventType.Sub);
 			this.subscribers.add(user);
 		} else if (type.equalsIgnoreCase("resubscribed")) {
@@ -220,7 +220,7 @@ public class MixerBot extends MJR_MixerBot {
 			months = months.substring(0, months.indexOf(';'));
 			if (Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
 			EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
 			this.subscribers.add(user);
 		} else if (type.equalsIgnoreCase("hosted")) {
@@ -228,7 +228,7 @@ public class MixerBot extends MJR_MixerBot {
 			user = user.substring(0, user.indexOf("'"));
 			if (Config.getSetting("HostingAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now hosting you!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now hosting you!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now hosting you!", MessageType.ChatBot, null);
 		} else if (type.equalsIgnoreCase("followed")) {
 			String user = line.substring(line.indexOf("username") + 11);
 			user = user.substring(0, user.indexOf("\""));
@@ -237,13 +237,13 @@ public class MixerBot extends MJR_MixerBot {
 			if (following.trim().equals("true")) {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now following you!");
-				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now following you!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now following you!", MessageType.ChatBot, null);
 				if (!this.followers.contains(user.toLowerCase()))
 					this.followers.add(user.toLowerCase());
 			} else {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now unfollowing you!");
-				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now unfollowing you!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now unfollowing you!", MessageType.ChatBot, null);
 				if (this.followers.contains(user.toLowerCase()))
 					this.followers.remove(user.toLowerCase());
 			}

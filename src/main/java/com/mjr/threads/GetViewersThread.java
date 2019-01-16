@@ -120,7 +120,7 @@ public class GetViewersThread extends Thread {
 								bot.viewers.add(viewer.toLowerCase());
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!", MessageType.ChatBot, null);
 
 				} else {
 					for (String viewer : vips.split(",")) {
@@ -172,7 +172,7 @@ public class GetViewersThread extends Thread {
 
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active viewers!", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
 
 					moderators = moderators.replace(" ", "");
 					moderators = moderators.replace("\"", "");
@@ -182,7 +182,7 @@ public class GetViewersThread extends Thread {
 								bot.moderators.add(mod.toLowerCase());
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active moderators!", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active moderators!", MessageType.ChatBot, null);
 				}
 
 				for (int i = 1; i < bot.viewers.size(); i++) {

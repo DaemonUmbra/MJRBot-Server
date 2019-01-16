@@ -82,8 +82,8 @@ public class GetFollowersThread extends Thread {
 					}
 				}
 			}
-			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.Bot, null);
-			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Follower list: " + String.join(", ", bot.followers), MessageType.Bot, null);
+			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.ChatBot, null);
+			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Follower list: " + String.join(", ", bot.followers), MessageType.ChatBot, null);
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e, type, bot.channelName);
 		}

@@ -61,7 +61,7 @@ public class PointsSystem extends FileBase {
 				MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
 		}
 		if (outputConsole)
-			ConsoleUtil.textToConsole(null, null, channelName, "Set " + user + " point(s) to " + points, MessageType.Bot, null);
+			ConsoleUtil.textToConsole(null, null, channelName, "Set " + user + " point(s) to " + points, MessageType.ChatBot, null);
 		if (outputEvent)
 			EventLog.addEvent(channelName, user, "Set point(s) to " + points, EventType.Points);
 	}
@@ -96,7 +96,7 @@ public class PointsSystem extends FileBase {
 		int currentPoints = getPoints(user, channelName);
 		currentPoints = currentPoints + points;
 		setPoints(user, currentPoints, channelName, false, false);
-		ConsoleUtil.textToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
+		ConsoleUtil.textToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.ChatBot, null);
 		EventLog.addEvent(channelName, user, "Added " + points + " point(s)", EventType.Points);
 		AnalyticsData.addNumOfPointsGained(points);
 	}
@@ -108,7 +108,7 @@ public class PointsSystem extends FileBase {
 		int currentPoints = getPoints(user, channelName);
 		currentPoints = currentPoints + points;
 		setPoints(user, currentPoints, channelName, false, false);
-		ConsoleUtil.textToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.Bot, null);
+		ConsoleUtil.textToConsole(null, null, channelName, "Added " + points + " point(s) to " + user, MessageType.ChatBot, null);
 		AnalyticsData.addNumOfPointsGained(points);
 	}
 
@@ -119,7 +119,7 @@ public class PointsSystem extends FileBase {
 		int currentPoints = getPoints(user, channelName);
 		currentPoints = currentPoints - points;
 		setPoints(user, currentPoints, channelName, false, false);
-		ConsoleUtil.textToConsole(null, null, channelName, "Removed " + points + " point(s) from " + user, MessageType.Bot, null);
+		ConsoleUtil.textToConsole(null, null, channelName, "Removed " + points + " point(s) from " + user, MessageType.ChatBot, null);
 		EventLog.addEvent(channelName, user, "Removed " + points + " point(s)", EventType.Points);
 		AnalyticsData.addNumOfPointsRemoved(points);
 	}

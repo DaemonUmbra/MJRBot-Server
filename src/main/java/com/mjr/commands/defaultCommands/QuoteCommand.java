@@ -39,7 +39,7 @@ public class QuoteCommand extends Command {
 				} else {
 					QuoteSystem.addQuote(channel, file, message);
 					Utilities.sendMessage(type, channel, "@" + sender + " your quote has been added!");
-					ConsoleUtil.textToConsole(bot, type, channel, "A new Quote has been added by " + sender + ". The quote message is " + message, MessageType.Bot, null);
+					ConsoleUtil.textToConsole(bot, type, channel, "A new Quote has been added by " + sender + ". The quote message is " + message, MessageType.ChatBot, null);
 					EventLog.addEvent(channel, sender, "Added a new quote", EventType.Quote);
 				}
 			} else if (args.length == 2 && args[1].equalsIgnoreCase("help")) {

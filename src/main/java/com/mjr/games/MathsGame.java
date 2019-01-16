@@ -33,7 +33,7 @@ public class MathsGame {
 			Answer = rannum1 * rannum2;
 			break;
 		}
-		ConsoleUtil.textToConsole(null, type, channelName, "Maths Game Answer is: " + Answer, MessageType.Bot, null);
+		ConsoleUtil.textToConsole(null, type, channelName, "Maths Game Answer is: " + Answer, MessageType.ChatBot, null);
 		return "The question is " + new Integer(rannum1).toString() + sign + new Integer(rannum2).toString();
 	}
 }

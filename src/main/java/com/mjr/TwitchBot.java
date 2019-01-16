@@ -81,7 +81,7 @@ public class TwitchBot extends PircBot {
 		this.channelName = channelName.toLowerCase();
 		this.setChannel("#" + channelName.toLowerCase());
 		this.joinChannel(this.getChannel());
-		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Joined " + this.channelName.substring(this.channelName.indexOf("#") + 1) + " channel", MessageType.ChatBot, null);
 		if (ConfigMain.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
 			this.setVerbose(true);
 	}
@@ -149,7 +149,7 @@ public class TwitchBot extends PircBot {
 			bitsAmount = bitsAmount.substring(0, bitsAmount.indexOf(";"));
 			if (Config.getSetting("BitsAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Twitch, this.channelName, sender + " just gave " + bitsAmount + " bit(s) to the channel!");
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " just gave " + bitsAmount + " bit(s) to the channel!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " just gave " + bitsAmount + " bit(s) to the channel!", MessageType.ChatBot, null);
 			EventLog.addEvent(this.channelName, sender, "Just gave " + bitsAmount + " bit(s) to the channel!", EventType.Bits);
 		}
 	}
@@ -157,10 +157,10 @@ public class TwitchBot extends PircBot {
 	@Override
 	protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
 		if (notice.contains("Now hosting")) {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, notice.substring(notice.indexOf("Now hosting")), MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, notice.substring(notice.indexOf("Now hosting")), MessageType.ChatBot, null);
 		}
 		if (notice.contains("Exited host mode")) {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "No longer hosting a channel!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "No longer hosting a channel!", MessageType.ChatBot, null);
 		}
 		if (notice.contains("The moderators of this channel are:")) {
 			try {
@@ -172,16 +172,16 @@ public class TwitchBot extends PircBot {
 					}
 				}
 			} catch (Exception e) {
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", MessageType.ChatBot, null);
 			}
 			if (moderators == null) {
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "There was a problem getting the moderators of this channel!", MessageType.ChatBot, null);
 				return;
 			}
 			if (moderators.size() > 1)
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Bot has the list of current moderators!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Bot has the list of current moderators!", MessageType.ChatBot, null);
 		} else if (notice.contains("There are no moderators of this channel"))
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "This channel has no moderators!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "This channel has no moderators!", MessageType.ChatBot, null);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class TwitchBot extends PircBot {
 		if (channel.equalsIgnoreCase(this.channelName)) {
 			if (message.contains("is now hosting you.")) {
 				Utilities.sendMessage(BotType.Twitch, channel, message);
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, message, MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, message, MessageType.ChatBot, null);
 			}
 		}
 	}
@@ -206,13 +206,13 @@ public class TwitchBot extends PircBot {
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just subscribed to the channel using Twitch Prime!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel using Twitch Prime!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel using Twitch Prime!", MessageType.ChatBot, null);
 				EventLog.addEvent(this.channelName, user, "Just subscribed to the channel using Twitch Prime!", EventType.Sub);
 				this.subscribers.add(user);
 			} else {
 				if (Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just subscribed to the channel!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just subscribed to the channel!", MessageType.ChatBot, null);
 				EventLog.addEvent(this.channelName, user, "Just subscribed to the channel!", EventType.Sub);
 				this.subscribers.add(user);
 			}
@@ -224,13 +224,13 @@ public class TwitchBot extends PircBot {
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", MessageType.ChatBot, null);
 				EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", EventType.Sub);
 				this.subscribers.add(user);
 			} else {
 				if (Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Twitch, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
 				EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
 				this.subscribers.add(user);
 			}
@@ -241,7 +241,7 @@ public class TwitchBot extends PircBot {
 			user = user.substring(0, user.indexOf(';'));
 			if (Config.getSetting("GiftSubAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Twitch, this.channelName, gifter + " has gifted a sub to " + user);
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, gifter + " has gifted a sub to " + user, MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
 			EventLog.addEvent(this.channelName, gifter, "Has gifted a sub to " + user, EventType.Sub);
 			this.subscribers.add(user);
 		}
@@ -275,7 +275,7 @@ public class TwitchBot extends PircBot {
 				ConsoleUtil.textToConsole("Getting Subscribers Thread for Twtich has been disabled, as it is currently not supported on the file based storage type or/and when manual mode is used!");
 		}
 
-		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " has joined!", MessageType.ChatBot, null);
 		if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
 			if (!PointsSystem.isOnList(sender, this.channelName)) {
 				PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), this.channelName, false, false);
@@ -296,7 +296,7 @@ public class TwitchBot extends PircBot {
 
 	@Override
 	protected void onPart(String channel, String sender, String login, String hostname) {
-		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, sender + " has left!", MessageType.ChatBot, null);
 		if (this.viewers.contains(sender.toLowerCase())) {
 			this.viewers.remove(sender.toLowerCase());
 			EventLog.addEvent(this.channelName, sender, "Left the channel (Twitch)", EventType.User);
@@ -321,7 +321,7 @@ public class TwitchBot extends PircBot {
 				}
 				this.setName(ConfigMain.getSetting("TwitchUsername"));
 				try {
-					ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connecting to Twitch!", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connecting to Twitch!", MessageType.ChatBot, null);
 					String pass = ConfigMain.getSetting("TwitchPassword");
 					this.connect("irc.chat.twitch.tv", 6667, pass);
 					this.sendRawLine("CAP REQ :twitch.tv/commands");
@@ -329,23 +329,23 @@ public class TwitchBot extends PircBot {
 					this.sendRawLine("CAP REQ :twitch.tv/tags");
 				} catch (Exception e) {
 					MJRBot.logErrorMessage(e);
-					ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Failed to connect to Twitch! Check your internet connection!", MessageType.Bot, null);
+					ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Failed to connect to Twitch! Check your internet connection!", MessageType.ChatBot, null);
 					return;
 				}
 
 			} else {
-				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Your already connected using these login details!", MessageType.Bot, null);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Your already connected using these login details!", MessageType.ChatBot, null);
 				return;
 			}
 
 		} else {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", MessageType.ChatBot, null);
 			return;
 		}
 		if (this.isConnected()) {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connected to Twitch!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connected to Twitch!", MessageType.ChatBot, null);
 		} else
-			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", MessageType.Bot, null);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Connection to Twitch failed, check your login details!", MessageType.ChatBot, null);
 	}
 
 	public void sendMessage(String message) {
@@ -379,7 +379,7 @@ public class TwitchBot extends PircBot {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();
-		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.Bot, null);
+		ConsoleUtil.textToConsole(this, BotType.Twitch, this.channelName, "Left " + this.getChannel() + " channel", MessageType.ChatBot, null);
 		this.viewers.clear();
 		this.viewersJoinedTimes.clear();
 		this.ConnectedToChannel = false;
