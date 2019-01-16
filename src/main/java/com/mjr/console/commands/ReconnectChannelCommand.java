@@ -9,13 +9,13 @@ public class ReconnectChannelCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (args.length == 3) {
-			if (args[2].equalsIgnoreCase("Twitch")) {
-				TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(args[1]);
+		if (args.length == 2) {
+			if (args[1].equalsIgnoreCase("Twitch")) {
+				TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(args[0]);
 				twitchBot.disconnectTwitch();
 				ChatBotManager.removeTwitchBot(twitchBot);
-			} else if (args[2].equalsIgnoreCase("Mixer")) {
-				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[1]);
+			} else if (args[1].equalsIgnoreCase("Mixer")) {
+				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				mixerBot.disconnectMixer();
 				ChatBotManager.removeMixerBot(mixerBot);
 			}

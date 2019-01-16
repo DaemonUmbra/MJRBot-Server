@@ -9,9 +9,9 @@ public class GlobalMessageCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (args.length > 2) {
+		if (args.length > 1) {
 			String msg = "";
-			for (int i = 1; i < args.length; i++)
+			for (int i = 0; i < args.length; i++)
 				msg = msg + " " + args[i];
 			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 				bot.sendMessage(msg);

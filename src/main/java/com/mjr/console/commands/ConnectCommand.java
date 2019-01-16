@@ -10,14 +10,14 @@ public class ConnectCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (args.length > 1) {
-			if (args[1].equalsIgnoreCase("database"))
+		if (args.length >= 1) {
+			if (args[0].equalsIgnoreCase("database"))
 				MJRBot.connectBot(ConnectionType.Database);
-			else if (args[1].equalsIgnoreCase("manual"))
-				if (args.length == 5) {
+			else if (args[0].equalsIgnoreCase("manual"))
+				if (args.length == 4) {
 					MJRBot.storageType = StorageType.File;
 					MJRBot.connectionType = ConnectionType.Manual;
-					MJRBot.connectBot(ConnectionType.Manual, BotType.getTypeByName(args[2]), args[3], Integer.parseInt(args[4]));
+					MJRBot.connectBot(ConnectionType.Manual, BotType.getTypeByName(args[1]), args[2], Integer.parseInt(args[3]));
 				} else
 					System.out.println("Invalid syntax, Use connect " + getParametersDescription().replace("[", "<").replace("]", ">"));
 			else
