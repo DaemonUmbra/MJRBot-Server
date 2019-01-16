@@ -18,7 +18,7 @@ public class BadWordChecker {
 	public static boolean isBadWord(Object bot, BotType type, String channelName, String message, String sender) {
 		try {
 			if (MJRBot.storageType == StorageType.Database) {
-				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
+				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
 				if (set != null) {
 					while (set.next()) {
 						badWords.add(set.getString("word"));

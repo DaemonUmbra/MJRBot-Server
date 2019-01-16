@@ -12,6 +12,7 @@ import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.defaultCommands.AccountLifeCommand;
+import com.mjr.commands.defaultCommands.AddBadwordCommand;
 import com.mjr.commands.defaultCommands.AddCommand;
 import com.mjr.commands.defaultCommands.AddPointsCommand;
 import com.mjr.commands.defaultCommands.AnswerCommand;
@@ -103,6 +104,9 @@ public class CommandManager {
 		commands.put("!followtime", new FollowTimeCommand());
 		commands.put("!ping", new PingCommand());
 		commands.put("!stopbot", new StopBotCommand());
+		
+		//Chat Moderation Commands
+		commands.put("!addbadword", new AddBadwordCommand());
 	}
 
 	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message) throws FileNotFoundException, IOException {
