@@ -40,7 +40,7 @@ public class OutputMessagesCommand extends ConsoleCommand {
 
 	@Override
 	public String getDescription() {
-		return "Disable " + MessageType.Chat + ", " + MessageType.ChatBot + ", " + MessageType.Bot + " outputs to the console!";
+		return "Disable/Enable " + MessageType.Chat + ", " + MessageType.ChatBot + ", " + MessageType.Bot + " outputs to the console!";
 	}
 
 	@Override
