@@ -29,7 +29,7 @@ public class ConnectCommand extends ConsoleCommand {
 
 	@Override
 	public String getDescription() {
-		return "To start MJRBot";
+		return "Setup/Connect twitch/mixer bots";
 	}
 
 	@Override
