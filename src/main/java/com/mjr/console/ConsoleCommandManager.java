@@ -13,6 +13,7 @@ import com.mjr.console.commands.DiscordBotConnectCommand;
 import com.mjr.console.commands.DiscordBotDisconnectCommand;
 import com.mjr.console.commands.DiscordBotInfoCommand;
 import com.mjr.console.commands.DiscordBotReconnectCommand;
+import com.mjr.console.commands.ExitProcessCommand;
 import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
 import com.mjr.console.commands.HelpCommand;
@@ -22,6 +23,7 @@ import com.mjr.console.commands.OutputMessagesCommand;
 import com.mjr.console.commands.ReconnectAllChannelsCommand;
 import com.mjr.console.commands.ReconnectChannelCommand;
 import com.mjr.console.commands.SetStorageTypeCommand;
+import com.mjr.console.commands.SyncAnalyticsCommand;
 import com.mjr.console.commands.VersionCommand;
 
 public class ConsoleCommandManager {
@@ -49,6 +51,8 @@ public class ConsoleCommandManager {
 		commands.put("discord info", new DiscordBotInfoCommand());
 		commands.put("toggle output", new OutputMessagesCommand());
 		commands.put("toggle depoutput", new OutputDependencyMessagesCommand());
+		commands.put("sync analytics", new SyncAnalyticsCommand());
+		commands.put("exit", new ExitProcessCommand());
 	}
 
 	public static void onCommand(String message) {
