@@ -7,6 +7,7 @@ import com.mjr.MJRBot.StorageType;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 import com.mjr.console.ConsoleCommand;
+import com.mjr.sql.MySQLConnection;
 
 public class ExitProcessCommand extends ConsoleCommand {
 
@@ -18,7 +19,7 @@ public class ExitProcessCommand extends ConsoleCommand {
 		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 			bot.disconnectMixer();
 		}
-		if (MJRBot.storageType == StorageType.Database)
+		if (MJRBot.storageType == StorageType.Database && MySQLConnection.connected)
 			AnalyticsData.sendData();
 		System.exit(0);
 	}
