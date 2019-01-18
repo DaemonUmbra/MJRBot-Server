@@ -1,4 +1,4 @@
-package com.mjr.threads;
+package com.mjr.threads.twitch;
 
 import java.io.BufferedReader;
 import java.io.IOException;

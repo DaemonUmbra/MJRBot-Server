@@ -4,7 +4,7 @@ import com.mjr.ChatBotManager.BotType;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.TwitchBot;
 import com.mjr.commands.Command;
-import com.mjr.threads.GetFollowTimeThread;
+import com.mjr.threads.twitch.GetFollowTimeThread;
 import com.mjr.util.Utilities;
 
 public class FollowTimeCommand extends Command {
