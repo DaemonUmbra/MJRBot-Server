@@ -244,6 +244,6 @@ public class Config extends FileBase {
 		MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelName) + "\"" + ")");
 		MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelName) + "\"" + ")");
 		MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelName) + "\"" + ")");
+		MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelName) + "\"" + ")");
 	}
-
 }
