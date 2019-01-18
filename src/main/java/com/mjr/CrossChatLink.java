@@ -37,7 +37,7 @@ public class CrossChatLink {
 				if (MJRBot.connectionType == ConnectionType.Database) {
 					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
 					if (channel_id.next()) {
-						if (channel_id.getString("cross_link_channel_id") != null) {
+						if (!channel_id.getString("cross_link_channel_id").equals("")) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("cross_link_channel_id")));
 							MJRBot.bot.sendMessage(MJRBot.bot.getClient().getChannelById(channel), platformPrefex + senderPrefex + message);
 						}
