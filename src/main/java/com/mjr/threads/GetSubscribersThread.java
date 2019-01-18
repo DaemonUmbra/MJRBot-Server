@@ -32,7 +32,7 @@ public class GetSubscribersThread extends Thread {
 			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
 			if (set != null && set.next()) {
 				String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token") + "&limit=25");
-				if (!result.contains("does not have a subscription program")) {
+				if (result != null && !result.contains("does not have a subscription program")) {
 					String copyresult = result;
 					String total = result.substring(result.indexOf("_total") + 8);
 					int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
@@ -82,10 +82,11 @@ public class GetSubscribersThread extends Thread {
 		String result = "";
 		boolean refreshToken = false;
 		boolean skip = false;
+		int tries = 0;
 		do {
 			try {
 				if (refreshToken)
-					refreshToken();
+					refreshToken(tries);
 				URL url = new URL(urlLink);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
@@ -98,20 +99,32 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 				return result;
 			} catch (IOException e) {
-				if (e.getMessage().contains("401") || e.getMessage().contains("403"))
+				if (e.getMessage().contains("401") || e.getMessage().contains("403")) {
 					refreshToken = true;
-				else if (e.getMessage().contains("400")) {
+					if(refreshToken)
+						tries++;
+				} else if (e.getMessage().contains("400")) {
 					skip = true;
 					ConsoleUtil.textToConsole(bot, type, bot.channelName, "No subscribers due to does not have a subscription program", MessageType.ChatBot, null);
 				} else
 					MJRBot.logErrorMessage(e, type, bot.channelName);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e1) {
+					MJRBot.logErrorMessage(e, type, bot.channelName);
+				}
 			}
-		} while (result.equals("") && skip == false);
+		} while (result.equals("") && skip == false && tries < 6);
+		if(tries == 6) {
+			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Unable to refresh token after 5 Attempts!", MessageType.ChatBot, null);
+			MJRBot.bot.sendAdminEventMessage("[" + type.getTypeName() + "] **" + bot.channelName + " ** Unable to refresh token after 5 Attempts!");
+		}
 		return null;
 	}
 
-	public void refreshToken() {
-		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token!", MessageType.ChatBot, null);
+	public void refreshToken(int tries) {
+		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token! Attempt " + tries + " out of 5", MessageType.ChatBot, null);
+		MJRBot.bot.sendAdminEventMessage("[" + type.getTypeName() + "] **" + bot.channelName + " ** Refreshing access_token! Attempt " + tries + " out of 5");
 		URL url;
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
@@ -135,7 +148,8 @@ public class GetSubscribersThread extends Thread {
 				connection.disconnect();
 			}
 		} catch (SQLException | IOException e) {
-			MJRBot.logErrorMessage(e, type, bot.channelName);
+			if (!e.getMessage().contains("400"))
+				MJRBot.logErrorMessage(e, type, bot.channelName);
 		}
 	}
 }
