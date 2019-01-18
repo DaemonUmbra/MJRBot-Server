@@ -42,9 +42,9 @@ public class ConsoleCommandManager {
 		commands.put("version", new VersionCommand());
 		commands.put("channels", new ChannelListCommand());
 		commands.put("channel disconnect", new DisconnectChannelCommand());
-		commands.put("channel disconnectAll", new DisconnectAllChannelsCommand());
+		commands.put("channel disconnectall", new DisconnectAllChannelsCommand());
 		commands.put("channel reconnect", new ReconnectChannelCommand());
-		commands.put("channel reconnectAll", new ReconnectAllChannelsCommand());
+		commands.put("channel reconnectall", new ReconnectAllChannelsCommand());
 		commands.put("discord disconnect", new DiscordBotDisconnectCommand());
 		commands.put("discord reconnect", new DiscordBotReconnectCommand());
 		commands.put("discord connect", new DiscordBotConnectCommand());
