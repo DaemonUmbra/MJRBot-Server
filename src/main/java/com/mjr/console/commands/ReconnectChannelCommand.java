@@ -22,7 +22,7 @@ public class ReconnectChannelCommand extends ConsoleCommand {
 			else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
-			System.out.println("Invalid syntax, Use reconnectChannel " + getParametersDescription());
+			System.out.println("Invalid syntax, Use channel reconnect " + getParametersDescription());
 	}
 
 	@Override

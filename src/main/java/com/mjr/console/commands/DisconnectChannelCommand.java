@@ -14,7 +14,7 @@ public class DisconnectChannelCommand extends ConsoleCommand {
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		}
 		else
-			System.out.println("Invalid syntax, Use disconnectChannel " + getParametersDescription());
+			System.out.println("Invalid syntax, Use channel disconnect " + getParametersDescription());
 	}
 
 	@Override
