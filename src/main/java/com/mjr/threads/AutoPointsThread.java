@@ -34,7 +34,7 @@ public class AutoPointsThread extends Thread {
 						if (type == BotType.Twitch) {
 							TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channelName);
 							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
-								String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+								String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
 								if (result.contains("created_at"))
 									streaming = true;
 								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {

@@ -1,5 +1,6 @@
 package com.mjr.commands.defaultCommands;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
@@ -20,7 +21,12 @@ public class UptimeCommand extends Command {
 	@Override
 	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
-			String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
+			String result = null;
+			try {
+				result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
+			} catch (IOException e) {
+				MJRBot.logErrorMessage(e, channel);
+			}
 			if (result.contains("created_at")) {
 				String upTime = result.substring(result.indexOf("created_at") + 13);
 				upTime = upTime.substring(0, 20);

@@ -1,15 +1,12 @@
 package com.mjr.threads.twitch;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
+import com.mjr.util.HTTPConnect;
 
 public class CheckForNewFollowersThread extends Thread {
 	private BotType type;
@@ -52,18 +49,8 @@ public class CheckForNewFollowersThread extends Thread {
 		boolean isfollower = false;
 		String currentfollowers = Arrays.asList(bot.followers).toString();
 		if (!currentfollowers.contains(user)) {
-			URL url;
 			try {
-				url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=" + (currentfollowers.length() - (currentfollowers.length() - 3)));
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					result += line;
-				}
-				reader.close();
-
+				result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=" + (currentfollowers.length() - (currentfollowers.length() - 3)));
 				for (int i = 0; i < (currentfollowers.length() - (currentfollowers.length() - 3)); i++) {
 					String newresult = "";
 					if (i >= 1)

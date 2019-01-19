@@ -1,10 +1,5 @@
 package com.mjr.threads.twitch;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
@@ -15,6 +10,7 @@ import com.mjr.storage.PointsSystem;
 import com.mjr.storage.RankSystem;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
+import com.mjr.util.HTTPConnect;
 
 public class GetViewersThread extends Thread {
 
@@ -36,15 +32,7 @@ public class GetViewersThread extends Thread {
 				String staff = "";
 				String admins = "";
 				String global_moderators = "";
-				URL url = new URL("https://tmi.twitch.tv/group/user/" + bot.channelName + "/chatters");
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					result += line;
-				}
-				reader.close();
+				result = HTTPConnect.getRequest("https://tmi.twitch.tv/group/user/" + bot.channelName + "/chatters");
 				if (result.contains("vips" + "\"" + ": [") && !result.contains("vips" + "\"" + ": [],")) {
 					vips = result.substring(result.indexOf("moderators") + 8);
 					result = vips;

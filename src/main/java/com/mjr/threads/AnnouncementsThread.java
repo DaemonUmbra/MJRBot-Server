@@ -25,7 +25,7 @@ public class AnnouncementsThread extends Thread {
 				if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {
-						String result = HTTPConnect.GetResponsefrom("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+						String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
 						if (result.contains("created_at"))
 							streaming = true;
 					} else {

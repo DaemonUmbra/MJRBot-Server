@@ -1,10 +1,6 @@
 package com.mjr.threads.twitch;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -15,6 +11,7 @@ import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.ConfigMain;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
+import com.mjr.util.HTTPConnect;
 
 public class GetSubscribersThread extends Thread {
 	private BotType type;
@@ -87,16 +84,7 @@ public class GetSubscribersThread extends Thread {
 			try {
 				if (refreshToken)
 					refreshToken(tries);
-				URL url = new URL(urlLink);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					result += line;
-				}
-				reader.close();
-				connection.disconnect();
+				result = HTTPConnect.getRequest(urlLink);
 				return result;
 			} catch (IOException e) {
 				if (e.getMessage().contains("401") || e.getMessage().contains("403")) {
@@ -125,27 +113,15 @@ public class GetSubscribersThread extends Thread {
 	public void refreshToken(int tries) {
 		ConsoleUtil.textToConsole(bot, type, bot.channelName, "Refreshing access_token! Attempt " + tries + " out of 5", MessageType.ChatBot, null);
 		MJRBot.bot.sendAdminEventMessage("[" + type.getTypeName() + "] **" + bot.channelName + " ** Refreshing access_token! Attempt " + tries + " out of 5");
-		URL url;
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
 			if (tokenSet.next()) {
-				url = new URL("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("POST");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line = "";
-				String result = "";
-				while ((line = reader.readLine()) != null) {
-					result += line;
-				}
+				String result = HTTPConnect.postRequest("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
 				String access_token = result.substring(result.indexOf("access_token") + 16);
 				access_token = access_token.substring(0, access_token.indexOf(",") - 2);
 				String refresh_token = result.substring(result.indexOf("refresh_token") + 16);
 				refresh_token = refresh_token.substring(0, refresh_token.indexOf(",") - 2);
 				MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "'WHERE channel='" + bot.channelName + "';");
-
-				reader.close();
-				connection.disconnect();
 			}
 		} catch (SQLException | IOException e) {
 			if (!e.getMessage().contains("400"))

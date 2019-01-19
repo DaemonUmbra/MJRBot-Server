@@ -1,11 +1,7 @@
 package com.mjr;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,6 +32,7 @@ import com.mjr.threads.twitch.GetSubscribersThread;
 import com.mjr.threads.twitch.GetViewersThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
+import com.mjr.util.HTTPConnect;
 import com.mjr.util.Utilities;
 
 public class TwitchBot extends PircBot {
@@ -118,17 +115,8 @@ public class TwitchBot extends PircBot {
 
 	public void checkFollower(final String sender) {
 		String result = "";
-		URL url;
 		try {
-			url = new URL("https://api.twitch.tv/kraken/users/" + sender + "/follows/channels/" + this.channelName + "?client_id=" + MJRBot.CLIENT_ID);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				result += line;
-			}
-			reader.close();
+			result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/users/" + sender + "/follows/channels/" + this.channelName + "?client_id=" + MJRBot.CLIENT_ID);
 			if (result.contains("created_at"))
 				if (!this.followers.contains(sender.toLowerCase()))
 					this.followers.add(sender.toLowerCase());

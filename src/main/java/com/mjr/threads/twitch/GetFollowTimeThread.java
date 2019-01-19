@@ -1,9 +1,5 @@
 package com.mjr.threads.twitch;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
@@ -15,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
+import com.mjr.util.HTTPConnect;
 import com.mjr.util.Utilities;
 
 public class GetFollowTimeThread extends Thread {
@@ -65,20 +62,9 @@ public class GetFollowTimeThread extends Thread {
 	}
 
 	public static String checkFollowTime(TwitchBot bot, String userTest) {
-		URL url;
 		try {
 			String result = "";
-			url = new URL("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=25");
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				result += line;
-			}
-			reader.close();
-			connection.disconnect();
-
+			result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=25");
 			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
@@ -96,16 +82,7 @@ public class GetFollowTimeThread extends Thread {
 					String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
 					newurl = newurl.substring(0, newurl.indexOf("},") - 1);
 					newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
-					url = new URL(newurl);
-					connection = (HttpURLConnection) url.openConnection();
-					connection.setRequestMethod("GET");
-					reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-					line = "";
-					while ((line = reader.readLine()) != null) {
-						result += line;
-					}
-					reader.close();
-					connection.disconnect();
+					result = HTTPConnect.getRequest(newurl);
 					copyresult = result;
 					newresult = result;
 				}

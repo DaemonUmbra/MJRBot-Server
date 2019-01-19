@@ -1,10 +1,6 @@
 package com.mjr;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,6 +31,7 @@ import com.mjr.threads.RaceStartThread;
 import com.mjr.threads.twitch.GetFollowersThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
+import com.mjr.util.HTTPConnect;
 import com.mjr.util.Utilities;
 
 public class MixerBot extends MJR_MixerBot {
@@ -88,22 +85,13 @@ public class MixerBot extends MJR_MixerBot {
 
 	public void checkFollower(final String sender, int userId) {
 		String result = "";
-		URL url;
 		int channel_id = 0;
 		try {
 			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + this.channelName + "' AND platform = 'Mixer'");
 			if (set != null && set.next()) {
 				channel_id = set.getInt("channel_id");
 			}
-			url = new URL("https://mixer.com/api/v1/channels/" + channel_id + "/relationship?user=" + userId);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				result += line;
-			}
-			reader.close();
+			result = HTTPConnect.getRequest("https://mixer.com/api/v1/channels/" + channel_id + "/relationship?user=" + userId);
 			if (!result.contains("null")) {
 				if (!this.followers.contains(sender.toLowerCase()))
 					this.followers.add(sender.toLowerCase());

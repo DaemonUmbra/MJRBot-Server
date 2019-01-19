@@ -44,7 +44,7 @@ public class PUBG {
 	}
 
 	public static String getPlayerID(String user) {
-		try {
+		try { // TODO Create/Change to a HTTPConnectMethod
 			String result = "";
 			URL url;
 			url = new URL("https://api.pubg.com/shards/steam/players?filter[playerNames]=" + user);
@@ -73,7 +73,7 @@ public class PUBG {
 			return "ERROR";
 		try {
 			String result = "";
-			URL url;
+			URL url; // TODO Create/Change to a HTTPConnectMethod
 			url = new URL("https://api.pubg.com/shards/" + pathform + "/players/" + user + "/seasons/lifetime");
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();

@@ -1,15 +1,12 @@
 package com.mjr.chatModeration;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.storage.Config;
+import com.mjr.util.HTTPConnect;
 
 public class EmoteChecker {
 	private static List<String> emotes = new ArrayList<String>();
@@ -17,17 +14,7 @@ public class EmoteChecker {
 	public static void getEmotes(BotType type, String channel) {
 		if (type == BotType.Twitch) {
 			try {
-				URL url = new URL("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=" + MJRBot.CLIENT_ID);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line = "";
-				String result = "";
-				while ((line = reader.readLine()) != null) {
-					result += line + "\n";
-				}
-				reader.close();
-
+				String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=" + MJRBot.CLIENT_ID);
 				int index = result.indexOf("regex");
 				while (index > -1) {
 					result = result.substring(index + 8);
