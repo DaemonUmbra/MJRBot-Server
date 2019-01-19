@@ -12,9 +12,9 @@ public class PUBG {
 
 	/*
 	 * Format for variables
-	 * 
+	 *
 	 * Stats: %pubg_STAT(pathform:user:type)%
-	 * 
+	 *
 	 */
 
 	public static String replaceVariablesWithData(String variable) {

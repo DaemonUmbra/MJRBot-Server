@@ -25,7 +25,7 @@ public class Config extends FileBase {
 			MJRBot.logErrorMessage(e);
 		}
 	}
-	
+
 	public static void loadDefaultsDatabase(String channelName) throws IOException {
 		createSettingIfDoesntExist("LinkWarning", "you are not allowed to post links with out permission!", channelName);
 		createSettingIfDoesntExist("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
@@ -73,7 +73,7 @@ public class Config extends FileBase {
 		createSettingIfDoesntExist("DiscordChatLink", "false", channelName);
 		createSettingIfDoesntExist("AutoPointsWhenOffline", "false", channelName);
 		try {
-		ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
+			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
 			if (set == null || !set.next()) {
 				String[] badwords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
 				for (int i = 0; i < badwords.length; i++) {

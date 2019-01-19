@@ -104,8 +104,8 @@ public class CommandManager {
 		commands.put("!followtime", new FollowTimeCommand());
 		commands.put("!ping", new PingCommand());
 		commands.put("!stopbot", new StopBotCommand());
-		
-		//Chat Moderation Commands
+
+		// Chat Moderation Commands
 		commands.put("!addbadword", new AddBadwordCommand());
 	}
 

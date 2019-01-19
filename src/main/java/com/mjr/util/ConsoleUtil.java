@@ -10,7 +10,7 @@ import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 
 public class ConsoleUtil {
-	
+
 	private static boolean showChatMessages = true;
 	private static boolean showChatBotMessages = true;
 	private static boolean showBotMessages = true;

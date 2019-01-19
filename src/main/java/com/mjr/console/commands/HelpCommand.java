@@ -18,7 +18,7 @@ public class HelpCommand extends ConsoleCommand {
 		System.out.println("");
 		Iterator<Entry<String, ConsoleCommand>> it = ConsoleCommandManager.commands.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
+			Map.Entry pair = it.next();
 			ConsoleCommand command = ((ConsoleCommand) pair.getValue());
 			System.out.println(pair.getKey().toString() + " " + command.getParametersDescription() + " - " + command.getDescription());
 		}

@@ -89,7 +89,7 @@ public class GetSubscribersThread extends Thread {
 			} catch (IOException e) {
 				if (e.getMessage().contains("401") || e.getMessage().contains("403")) {
 					refreshToken = true;
-					if(refreshToken)
+					if (refreshToken)
 						tries++;
 				} else if (e.getMessage().contains("400")) {
 					skip = true;
@@ -103,7 +103,7 @@ public class GetSubscribersThread extends Thread {
 				}
 			}
 		} while (result.equals("") && skip == false && tries < 6);
-		if(tries == 6) {
+		if (tries == 6) {
 			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Unable to refresh token after 5 Attempts!", MessageType.ChatBot, null);
 			MJRBot.bot.sendAdminEventMessage("[" + type.getTypeName() + "] **" + bot.channelName + " ** Unable to refresh token after 5 Attempts!");
 		}
@@ -116,7 +116,8 @@ public class GetSubscribersThread extends Thread {
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
 			if (tokenSet.next()) {
-				String result = HTTPConnect.postRequest("https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
+				String result = HTTPConnect.postRequest(
+						"https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
 				String access_token = result.substring(result.indexOf("access_token") + 16);
 				access_token = access_token.substring(0, access_token.indexOf(",") - 2);
 				String refresh_token = result.substring(result.indexOf("refresh_token") + 16);

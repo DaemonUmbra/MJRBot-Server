@@ -106,7 +106,7 @@ public class MJRBot {
 
 					try {
 						while ((s4 = bufferedreader.readLine()) != null) {
-							if(s4.length()!= 0)
+							if (s4.length() != 0)
 								ConsoleCommandManager.onCommand(s4);
 							else
 								System.out.println("Invalid command, You can use 'help' at any time to see possible commands");

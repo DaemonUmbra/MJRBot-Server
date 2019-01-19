@@ -7,11 +7,11 @@ public class CallOfDuty {
 
 	/*
 	 * Format for variables
-	 * 
+	 *
 	 * Stats: %cod_STAT(game:pathform:user)%
-	 * 
+	 *
 	 * Stats Per GameType: %cod_STAT(game:pathform:user:type)%
-	 * 
+	 *
 	 */
 
 	public static String replaceVariablesWithData(String variable) {

@@ -18,8 +18,7 @@ public class ReconnectChannelCommand extends ConsoleCommand {
 				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				mixerBot.disconnectMixer();
 				ChatBotManager.removeMixerBot(mixerBot);
-			}
-			else
+			} else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
 			System.out.println("Invalid syntax, Use channel reconnect " + getParametersDescription());

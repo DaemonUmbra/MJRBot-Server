@@ -24,9 +24,7 @@ public class ChannelListCommand extends ConsoleCommand {
 				System.out.println();
 			}
 			System.out.println("\n-------------------------------------------------------");
-			
-			
-			
+
 		}
 	}
 

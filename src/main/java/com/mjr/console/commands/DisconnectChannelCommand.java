@@ -8,12 +8,11 @@ public class DisconnectChannelCommand extends ConsoleCommand {
 	@Override
 	public void onCommand(String message, String[] args) {
 		if (args.length == 2) {
-			if(args[1].equalsIgnoreCase("Twitch") || args[1].equalsIgnoreCase("Mixer"))
+			if (args[1].equalsIgnoreCase("Twitch") || args[1].equalsIgnoreCase("Mixer"))
 				MySQLConnection.executeUpdate("DELETE from channels where name = " + "\"" + args[0].toLowerCase() + "\"" + " AND bot_type = " + "\"" + args[1].toLowerCase() + "\"");
 			else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
-		}
-		else
+		} else
 			System.out.println("Invalid syntax, Use channel disconnect " + getParametersDescription());
 	}
 

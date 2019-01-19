@@ -56,7 +56,7 @@ public class MySQLConnection {
 					System.out.println("MySQL Connection Failed! Error: " + ex.getMessage());
 				}
 			} else {
-				if(!e.getMessage().contains("Communications link failure"))
+				if (!e.getMessage().contains("Communications link failure"))
 					MJRBot.logErrorMessage(e);
 				System.out.println("MySQL Connection Failed! Error: " + e.getMessage().substring(0, e.getMessage().indexOf("\n")));
 			}

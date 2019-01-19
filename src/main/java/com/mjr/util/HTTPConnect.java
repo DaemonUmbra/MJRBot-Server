@@ -21,7 +21,7 @@ public class HTTPConnect {
 		reader.close();
 		return result;
 	}
-	
+
 	public static String postRequest(String urlString) throws IOException {
 		String result = "";
 		URL url = new URL(urlString);

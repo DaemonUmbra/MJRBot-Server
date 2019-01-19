@@ -59,7 +59,7 @@ public class Permissions {
 				return PermissionLevel.Follower.getName();
 			else
 				return PermissionLevel.User.getName();
-		} else if (type == BotType.Mixer){
+		} else if (type == BotType.Mixer) {
 			if (user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Streamer.getName();
 			else if (user.equalsIgnoreCase(ChatBotManager.getMixerBotByChannelName(channelName).getBotName()))
