@@ -35,7 +35,7 @@ public class AnswerCommand extends Command {
 				} else {
 					Utilities.sendMessage(type, channel, "@" + sender + " The maths game is currently not active!");
 				}
-			} else {
+			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.mathsGame.isGameActive == true) {
 					if (args.length == 2) {

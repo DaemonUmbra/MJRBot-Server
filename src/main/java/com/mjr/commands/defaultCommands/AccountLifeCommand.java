@@ -22,12 +22,12 @@ public class AccountLifeCommand extends Command {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		URL url;
+		URL url = null;
 		try {
 			String result = "";
 			if (type == BotType.Twitch)
 				url = new URL("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=" + MJRBot.CLIENT_ID);
-			else
+			else if (type == BotType.Mixer)
 				url = new URL("https://mixer.com/api/v1/channels/" + sender.toLowerCase());
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
@@ -42,12 +42,12 @@ public class AccountLifeCommand extends Command {
 
 				if (type == BotType.Twitch)
 					time = time.substring(0, 20);
-				else
+				else if (type == BotType.Mixer)
 					time = time.substring(0, 19);
-				SimpleDateFormat format;
+				SimpleDateFormat format = null;
 				if (type == BotType.Twitch)
 					format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-				else
+				else if (type == BotType.Mixer)
 					format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 				format.setTimeZone(TimeZone.getTimeZone("UTC"));
 				Date parse = null;

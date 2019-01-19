@@ -17,7 +17,7 @@ public class EnterCommand extends Command {
 			if (twitchBot.giveAwayActive)
 				if (!twitchBot.giveawayEnteredUsers.contains(sender.toLowerCase()))
 					twitchBot.giveawayEnteredUsers.add(sender.toLowerCase());
-		} else {
+		} else if (type == BotType.Mixer){
 			MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channel);
 			if (mixerBot.giveAwayActive)
 				if (!mixerBot.giveawayEnteredUsers.contains(sender.toLowerCase()))

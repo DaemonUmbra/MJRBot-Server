@@ -22,7 +22,7 @@ public class GiveAwayCommand extends Command {
 			} else {
 				Utilities.sendMessage(type, channel, "Giveaway has already started!");
 			}
-		} else {
+		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channel);
 			if (mixerBot.giveAwayActive == false) {
 				GiveAwayThread thread = new GiveAwayThread(type, channel);

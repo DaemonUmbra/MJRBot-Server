@@ -22,7 +22,7 @@ public class RaceCommand extends Command {
 					twitchBot.racingThread.start();
 					twitchBot.racingGame.isGameActive = true;
 				}
-			} else {
+			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.racingGame.isGameActive == false) {
 					Utilities.sendMessage(type, channel, "The race will start in 1 minute! Use !placebet CAR TYPE POINTS(Cars 1-8)(Types Top3, 1st) E.g !placebet 5 Top3 10");

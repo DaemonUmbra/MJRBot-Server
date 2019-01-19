@@ -38,7 +38,7 @@ public class UptimeCommand extends Command {
 			} else {
 				Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
 			}
-		} else {
+		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = ((MixerBot) bot);
 			if (mixerBot.isStreaming())
 				runCommand(type, channel, sender, mixerBot.getUpdatedAt());

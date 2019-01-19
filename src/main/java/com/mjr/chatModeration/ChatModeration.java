@@ -33,14 +33,14 @@ public class ChatModeration {
 					if (type == BotType.Twitch) {
 						Utilities.sendMessage(type, channel, "/timeout " + sender);
 						Utilities.sendMessage(type, channel, "/unban " + sender);
-					} else {
+					} else if (type == BotType.Mixer) {
 						((MixerBot) bot).deleteLastMessageForUser(sender);
 					}
 					return;
 				}
 				if (type == BotType.Twitch)
 					((TwitchBot) bot).linkPermitedUsers.remove(sender);
-				else
+				else if (type == BotType.Mixer)
 					((MixerBot) bot).linkPermitedUsers.remove(sender);
 			}
 			if (Config.getSetting("Badwords", channel).equalsIgnoreCase("true")) {
@@ -54,7 +54,7 @@ public class ChatModeration {
 						if (type == BotType.Twitch) {
 							Utilities.sendMessage(type, channel, "/timeout " + sender);
 							Utilities.sendMessage(type, channel, "/unban " + sender);
-						} else {
+						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
 						return;
@@ -75,7 +75,7 @@ public class ChatModeration {
 						if (type == BotType.Twitch) {
 							Utilities.sendMessage(type, channel, "/timeout " + sender);
 							Utilities.sendMessage(type, channel, "/unban " + sender);
-						} else {
+						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
 						return;
@@ -99,7 +99,7 @@ public class ChatModeration {
 						if (type == BotType.Twitch) {
 							Utilities.sendMessage(type, channel, "/timeout " + sender);
 							Utilities.sendMessage(type, channel, "/unban " + sender);
-						} else {
+						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
 						return;

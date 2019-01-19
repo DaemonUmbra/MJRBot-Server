@@ -31,7 +31,7 @@ public class BankHeistCommand extends Command {
 						else
 							Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					}
-				} else {
+				} else if (type == BotType.Mixer) {
 					MixerBot mixerBot = ((MixerBot) bot);
 					if (mixerBot.bankHeistThread == null || mixerBot.bankHeistThread.gameActive == false || mixerBot.bankHeistThread.isAlive() == false) {
 						if (Utilities.isNumeric(args[1])) {

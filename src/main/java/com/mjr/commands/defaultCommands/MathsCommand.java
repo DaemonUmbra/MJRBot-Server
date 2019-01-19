@@ -21,7 +21,7 @@ public class MathsCommand extends Command {
 				} else {
 					Utilities.sendMessage(type, channel, "@" + sender + " Game Already started!");
 				}
-			} else {
+			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.mathsGame.isGameActive == false) {
 					Utilities.sendMessage(type, channel, mixerBot.mathsGame.CreateQuestion(type, channel));

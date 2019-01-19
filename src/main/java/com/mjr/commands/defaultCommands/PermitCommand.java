@@ -17,7 +17,7 @@ public class PermitCommand extends Command {
 			Utilities.sendMessage(type, channel, "@" + user + " is now permited to post a link in their next message!");
 			if (type == BotType.Twitch)
 				((TwitchBot) bot).linkPermitedUsers.add(user.toLowerCase());
-			else
+			else if (type == BotType.Mixer)
 				((MixerBot) bot).linkPermitedUsers.add(user.toLowerCase());
 			EventLog.addEvent(channel, sender, "Permitted the user " + user + " to post a link", EventType.Commands);
 		} else {

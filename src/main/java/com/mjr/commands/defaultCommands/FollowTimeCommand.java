@@ -14,7 +14,7 @@ public class FollowTimeCommand extends Command {
 		if (type == BotType.Twitch) {
 			GetFollowTimeThread thread = new GetFollowTimeThread((TwitchBot) bot, type, sender);
 			thread.start();
-		} else
+		} else if (type == BotType.Mixer)
 			Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
 	}
 

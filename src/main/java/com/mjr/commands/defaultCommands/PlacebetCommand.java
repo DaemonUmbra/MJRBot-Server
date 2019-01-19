@@ -38,7 +38,7 @@ public class PlacebetCommand extends Command {
 				} else {
 					Utilities.sendMessage(type, channel, "@" + sender + " Racing game hasnt been started yet!");
 				}
-			} else {
+			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.racingGame.isGameActive) {
 					if (args.length == 4) {

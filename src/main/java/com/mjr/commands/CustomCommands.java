@@ -83,15 +83,15 @@ public class CustomCommands {
 		response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%subcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).subscribers.size());
-		else
+		else if (type == BotType.Mixer)
 			response = response.replaceAll("%subcount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).subscribers.size());
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%viewercount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).viewers.size());
-		else
+		else if (type == BotType.Mixer)
 			response = response.replaceAll("%viewercount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).getViewers().size());
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%moderatorcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).moderators.size());
-		else
+		else if (type == BotType.Mixer)
 			response = response.replaceAll("%moderatorcount%", "" + ChatBotManager.getMixerBotByChannelName(channelName).getModerators().size());
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%vipcount%", "" + ChatBotManager.getTwitchBotByChannelName(channelName).vips.size());
