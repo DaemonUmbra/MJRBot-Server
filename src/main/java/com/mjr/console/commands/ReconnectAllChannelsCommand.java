@@ -1,5 +1,7 @@
 package com.mjr.console.commands;
 
+import java.util.Collection;
+
 import com.mjr.ChatBotManager;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
@@ -9,11 +11,13 @@ public class ReconnectAllChannelsCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
+		Collection<TwitchBot> botsTwitch = ChatBotManager.getTwitchBots().values();
+		Collection<MixerBot> botsMixer = ChatBotManager.getMixerBots().values();
+		for (TwitchBot bot : botsTwitch) {
 			bot.disconnectTwitch();
 			ChatBotManager.removeTwitchBot(bot);
 		}
-		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
+		for (MixerBot bot : botsMixer) {
 			bot.disconnectMixer();
 			ChatBotManager.removeMixerBot(bot);
 		}
