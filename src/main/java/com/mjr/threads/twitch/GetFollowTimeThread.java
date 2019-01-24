@@ -66,7 +66,6 @@ public class GetFollowTimeThread extends Thread {
 		try {
 			String result = "";
 			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25));
-			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
 			int current = 1;
@@ -79,12 +78,7 @@ public class GetFollowTimeThread extends Thread {
 			int amount = (int) Math.ceil(((float) times / 25));
 			for (int i = 0; i < amount; i++) {
 				if (i != 0) {
-					result = "";
-					String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
-					newurl = newurl.substring(0, newurl.indexOf("},") - 1);
-					newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&offset=" + (current + 1);
-					result = HTTPConnect.getRequest(newurl);
-					copyresult = result;
+					result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25, current + 1));
 					newresult = result;
 				}
 				for (int j = 0; j < 25; j++) {
