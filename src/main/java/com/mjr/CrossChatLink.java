@@ -30,9 +30,9 @@ public class CrossChatLink {
 			String senderPrefex = " " + sender + ": ";
 
 			if (twitch && Config.getSetting("TwitchChatLink", type, bot).equalsIgnoreCase("true"))
-				Utilities.sendMessage(type, bot, platformPrefex + senderPrefex + message);
+				Utilities.sendMessage(BotType.Twitch, bot, platformPrefex + senderPrefex + message);
 			if (mixer && Config.getSetting("MixerChatLink", type, bot).equalsIgnoreCase("true"))
-				Utilities.sendMessage(type, bot, platformPrefex + senderPrefex + message);
+				Utilities.sendMessage(BotType.Mixer, bot, platformPrefex + senderPrefex + message);
 			if (discord && Config.getSetting("DiscordChatLink", type, bot).equalsIgnoreCase("true") && type != BotType.Discord) {
 				if (MJRBot.connectionType == ConnectionType.Database) {
 					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
