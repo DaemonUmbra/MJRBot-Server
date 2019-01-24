@@ -16,7 +16,7 @@ public class ChannelListCommand extends ConsoleCommand {
 			System.out.format("|%10s|%20s|%20s|", "Platform", "Channel Name", "Status");
 			System.out.println("\n-------------------------------------------------------");
 			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
-				System.out.format("|%10s|%20s|%20s|", "Twitch", bot.channelName, (bot.isConnected() ? "Connected" : "Disconnected"));
+				System.out.format("|%10s|%20s|%20s|", "Twitch", TwitchBot.getChannelNameFromChannelID(bot.channelID), (bot.isConnected() ? "Connected" : "Disconnected"));
 				System.out.println();
 			}
 			for (MixerBot bot : ChatBotManager.getMixerBots().values()) {

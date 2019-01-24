@@ -10,25 +10,25 @@ import com.mjr.util.Utilities;
 
 public class MathsCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = ((TwitchBot) bot);
 				if (twitchBot.mathsGame.isGameActive == false) {
-					Utilities.sendMessage(type, channel, twitchBot.mathsGame.CreateQuestion(type, channel));
-					Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+					Utilities.sendMessage(type, bot, twitchBot.mathsGame.CreateQuestion(type, bot));
+					Utilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 					twitchBot.mathsGame.isGameActive = true;
 				} else {
-					Utilities.sendMessage(type, channel, "@" + sender + " Game Already started!");
+					Utilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
 				}
 			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.mathsGame.isGameActive == false) {
-					Utilities.sendMessage(type, channel, mixerBot.mathsGame.CreateQuestion(type, channel));
-					Utilities.sendMessage(type, channel, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+					Utilities.sendMessage(type, bot, mixerBot.mathsGame.CreateQuestion(type, bot));
+					Utilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 					mixerBot.mathsGame.isGameActive = true;
 				} else {
-					Utilities.sendMessage(type, channel, "@" + sender + " Game Already started!");
+					Utilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
 				}
 			}
 		}

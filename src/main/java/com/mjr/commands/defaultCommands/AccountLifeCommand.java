@@ -19,7 +19,7 @@ import com.mjr.util.Utilities;
 public class AccountLifeCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		try {
 			String result = "";
 			if (type == BotType.Twitch)
@@ -56,7 +56,7 @@ public class AccountLifeCommand extends Command {
 				long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 				long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-				Utilities.sendMessage(type, channel,
+				Utilities.sendMessage(type, bot,
 						"@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 			}
 		} catch (Exception e) {

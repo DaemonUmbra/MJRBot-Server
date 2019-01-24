@@ -30,31 +30,33 @@ public class ConsoleUtil {
 	}
 
 	public static void textToConsole(String message) {
-		textToConsole(null, null, "", message, MessageType.Bot, null);
+		textToConsole(null, null, message, MessageType.Bot, null);
 	}
 
-	public static void textToConsole(Object bot, BotType type, String channel, String message, MessageType messageType, String sender) {
+	public static void textToConsole(Object bot, BotType type, String message, MessageType messageType, String sender) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		if (messageType == MessageType.Chat && showChatMessages) {
 			if (sender != null) {
-				if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.BotOwner.getName())) {
+				String channel = Utilities.getChannelNameFromBotType(type, bot);
+				if (Permissions.hasPermission(bot, type, sender, PermissionLevel.BotOwner.getName())) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.Bot.getName())) {
+				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Bot.getName())) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.KnownBot.getName())) {
+				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.KnownBot.getName())) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 				} else if (type == BotType.Twitch && sender.endsWith(channel)) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 				} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.Moderator.getName())) {
+				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, channel, sender, PermissionLevel.User.getName())) {
+				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.User.getName())) {
 					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
 				}
 			}
 		} else if (messageType == MessageType.ChatBot && showChatBotMessages) {
+			String channel = Utilities.getChannelNameFromBotType(type, bot);
 			MJRBot.getLogger().info(dateFormat.format(date) + " [MJRBot Info] " + "[Bot Type] " + (type == null ? "Unknown" : type.getTypeName()) + " [Channel] " + (channel == "" ? "Unknown" : channel) + " - " + message);
 		} else if (messageType == MessageType.Bot && showBotMessages) {
 			MJRBot.getLogger().info(dateFormat.format(date) + " [MJRBot Info]" + " - " + message);

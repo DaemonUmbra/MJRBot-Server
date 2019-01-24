@@ -9,6 +9,7 @@ import com.mjr.MJRBot.StorageType;
 import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
 import com.mjr.util.ConsoleUtil;
+import com.mjr.util.Utilities;
 
 public class ChatBotManager {
 
@@ -33,33 +34,34 @@ public class ChatBotManager {
 		}
 	}
 
-	private static HashMap<String, TwitchBot> twitchBots = new HashMap<String, TwitchBot>();
+	private static HashMap<Integer, TwitchBot> twitchBots = new HashMap<Integer, TwitchBot>();
 	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
 
-	public static void createBot(String channel, String botType) {
-		channel = channel.toLowerCase(Locale.ENGLISH);
-		if (botType.equalsIgnoreCase("twitch") && channel != "") {
-			try {
-				if (MJRBot.storageType == StorageType.File) {
-					Config.loadDefaults(channel);
-				} else {
-					Config.loadDefaultsDatabase(channel);
-				}
-			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
-			}
+	public static void createBot(String channel, int channelID, String botType) {
+		if(channel != null)
+			channel = channel.toLowerCase(Locale.ENGLISH);
+		if (botType.equalsIgnoreCase("twitch") && channelID != 0) {
+//			try {
+//				if (MJRBot.storageType == StorageType.File) {
+//					Config.loadDefaults(channel);
+//				} else {
+//					Config.loadDefaultsDatabase(channel);
+//				}
+//			} catch (IOException e) {
+//				MJRBot.logErrorMessage(e);
+//			}
 			TwitchBot bot = new TwitchBot();
-			ChatBotManager.addTwitchBot(channel, bot);
-			bot.init(channel);
+			ChatBotManager.addTwitchBot(channelID, bot);
+			bot.init(TwitchBot.getChannelNameFromChannelID(channelID), channelID);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-			try {
-				if (MJRBot.storageType == StorageType.File) {
-					Config.loadDefaults(channel);
-				} else
-					Config.loadDefaultsDatabase(channel);
-			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
-			}
+//			try {
+//				if (MJRBot.storageType == StorageType.File) {
+//					Config.loadDefaults(channel);
+//				} else
+//					Config.loadDefaultsDatabase(channel);
+//			} catch (IOException e) {
+//				MJRBot.logErrorMessage(e);
+//			}
 			MixerBot bot = new MixerBot(channel);
 			ChatBotManager.addMixerBot(channel, bot);
 			try {
@@ -73,30 +75,30 @@ public class ChatBotManager {
 			ConsoleUtil.textToConsole("Invalid entry for Channel Name!!");
 	}
 
-	public static HashMap<String, TwitchBot> getTwitchBots() {
+	public static HashMap<Integer, TwitchBot> getTwitchBots() {
 		return twitchBots;
 	}
 
-	public static void setTwitchBots(HashMap<String, TwitchBot> bots) {
+	public static void setTwitchBots(HashMap<Integer, TwitchBot> bots) {
 		twitchBots = bots;
 	}
 
-	public static void addTwitchBot(String channelName, TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + channelName);
-		twitchBots.put(channelName, bot);
+	public static void addTwitchBot(int channelID, TwitchBot bot) {
+		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		twitchBots.put(channelID, bot);
 	}
 
 	public static void removeTwitchBot(TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + bot.channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + bot.channelName);
-		twitchBots.remove(bot.channelName, bot);
+		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + Utilities.getChannelNameFromBotType(BotType.Twitch, bot));
+		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + Utilities.getChannelNameFromBotType(BotType.Twitch, bot));
+		twitchBots.remove(bot.channelID, bot);
 	}
 
-	public static void removeTwitchBot(String channelName) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + channelName);
-		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + channelName);
-		twitchBots.remove(channelName, getTwitchBotByChannelName(channelName));
+	public static void removeTwitchBot(int channelID) {
+		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		MJRBot.bot.sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		twitchBots.remove(channelID, getTwitchBotByChannelID(channelID));
 	}
 
 	public static HashMap<String, MixerBot> getMixerBots() {
@@ -125,9 +127,9 @@ public class ChatBotManager {
 		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
 	}
 
-	public static TwitchBot getTwitchBotByChannelName(String channelName) {
-		for (String bot : twitchBots.keySet()) {
-			if (bot.equalsIgnoreCase(channelName))
+	public static TwitchBot getTwitchBotByChannelID(int channelID) {
+		for (Integer bot : twitchBots.keySet()) {
+			if (bot == channelID)
 				return twitchBots.get(bot);
 		}
 		return null;

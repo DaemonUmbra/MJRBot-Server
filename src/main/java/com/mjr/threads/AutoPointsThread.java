@@ -1,6 +1,5 @@
 package com.mjr.threads;
 
-import com.mjr.ChatBotManager;
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.MixerBot;
@@ -14,36 +13,36 @@ import com.mjr.util.TwitchMixerAPICalls;
 
 public class AutoPointsThread extends Thread {
 	private BotType type;
-	private String channelName;
+	private Object bot;
 
-	public AutoPointsThread(BotType type, String channelName) {
+	public AutoPointsThread(BotType type, Object bot) {
 		super();
 		this.type = type;
-		this.channelName = channelName;
+		this.bot = bot;
 	}
 
 	@Override
 	public void run() {
 		try {
-			while (type == BotType.Twitch ? ChatBotManager.getTwitchBotByChannelName(channelName).ConnectedToChannel : ChatBotManager.getMixerBotByChannelName(channelName).isConnected()) {
-				if (Config.getSetting("Points", channelName).equalsIgnoreCase("true")) {
-					int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", channelName));
+			while (type == BotType.Twitch ? ((TwitchBot) bot).ConnectedToChannel : ((MixerBot) bot).isConnected()) {
+				if (Config.getSetting("Points", type, bot).equalsIgnoreCase("true")) {
+					int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", type, bot));
 					if (delay != 0) {
 						long TimeDuration = (delay * 60) * 1000;
 						long timenow = System.currentTimeMillis();
 						boolean streaming = false;
 						if (type == BotType.Twitch) {
-							TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channelName);
+							TwitchBot twitchBot = (TwitchBot) bot;
 							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
-								String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(channelName));
+								String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(((TwitchBot) bot).channelID));
 								if (result.contains("created_at"))
 									streaming = true;
-								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
+								if (Config.getSetting("AutoPointsWhenOffline", type, bot).equalsIgnoreCase("true") || streaming) {
 									for (int i = 0; i < twitchBot.viewers.size(); i++) {
 										if (twitchBot.viewersJoinedTimes.containsKey(twitchBot.viewers.get(i))) {
 											long oldtime = twitchBot.viewersJoinedTimes.get(twitchBot.viewers.get(i));
 											if ((timenow - oldtime) >= TimeDuration) {
-												PointsSystem.AddPoints(twitchBot.viewers.get(i), 1, channelName);
+												PointsSystem.AddPoints(twitchBot.viewers.get(i), 1, type, bot);
 												twitchBot.viewersJoinedTimes.put(twitchBot.viewers.get(i), System.currentTimeMillis());
 											}
 										}
@@ -51,15 +50,15 @@ public class AutoPointsThread extends Thread {
 								}
 							}
 						} else if (type == BotType.Mixer) {
-							MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(channelName);
+							MixerBot mixerBot = (MixerBot) bot;
 							if (mixerBot.isConnected() && !mixerBot.getViewers().isEmpty() && !mixerBot.viewersJoinedTimes.isEmpty()) {
 								streaming = mixerBot.isStreaming();
-								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {
+								if (Config.getSetting("AutoPointsWhenOffline", type, bot).equalsIgnoreCase("true") || streaming) {
 									for (int i = 0; i < mixerBot.getViewers().size(); i++) {
 										if (mixerBot.viewersJoinedTimes.containsKey(mixerBot.getViewers().get(i))) {
 											long oldtime = mixerBot.viewersJoinedTimes.get(mixerBot.getViewers().get(i));
 											if ((timenow - oldtime) >= TimeDuration) {
-												PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, channelName);
+												PointsSystem.AddPoints(mixerBot.getViewers().get(i), 1, type, bot);
 												mixerBot.viewersJoinedTimes.put(mixerBot.getViewers().get(i), System.currentTimeMillis());
 											}
 										}
@@ -67,24 +66,24 @@ public class AutoPointsThread extends Thread {
 								}
 							}
 						}
-						if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming)
-							EventLog.addEvent(channelName, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
+						if (Config.getSetting("AutoPointsWhenOffline", type, bot).equalsIgnoreCase("true") || streaming)
+							EventLog.addEvent(type, bot, "Current Viewers", "Added 1 Point to all current viewers (" + delay + " minutes Auto Points System)", EventType.Points);
 
 						try {
 							Thread.sleep(TimeDuration);
 						} catch (InterruptedException e) {
-							MJRBot.logErrorMessage(e, type, channelName);
+							MJRBot.logErrorMessage(e, type, bot);
 						}
 					}
 				}
 				try {
 					Thread.sleep(60000);
 				} catch (InterruptedException e) {
-					MJRBot.logErrorMessage(e, type, channelName);
+					MJRBot.logErrorMessage(e, type, bot);
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, channelName);
+			MJRBot.logErrorMessage(e, type, bot);
 		}
 	}
 }

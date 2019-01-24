@@ -33,7 +33,7 @@ public class GetViewersThread extends Thread {
 				String staff = "";
 				String admins = "";
 				String global_moderators = "";
-				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserChattersAPI(bot.channelName));
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserChattersAPI(TwitchBot.getChannelNameFromChannelID(bot.channelID)));
 				if (result.contains("vips" + "\"" + ": [") && !result.contains("vips" + "\"" + ": [],")) {
 					vips = result.substring(result.indexOf("moderators") + 8);
 					result = vips;
@@ -109,14 +109,14 @@ public class GetViewersThread extends Thread {
 								bot.viewers.add(viewer.toLowerCase());
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has the list of current active viewers!", MessageType.ChatBot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has the list of current active viewers!", MessageType.ChatBot, null);
 
 				} else {
 					for (String viewer : vips.split(",")) {
 						if (!bot.vips.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.vips.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 						}
 					}
@@ -124,7 +124,7 @@ public class GetViewersThread extends Thread {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 						}
 					}
@@ -132,7 +132,7 @@ public class GetViewersThread extends Thread {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 						}
 					}
@@ -140,7 +140,7 @@ public class GetViewersThread extends Thread {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 						}
 					}
@@ -148,7 +148,7 @@ public class GetViewersThread extends Thread {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 						}
 					}
@@ -156,12 +156,12 @@ public class GetViewersThread extends Thread {
 						if (!bot.viewers.contains(viewer.toLowerCase())) {
 							if (!viewer.equals("")) {
 								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(bot.channelName, viewer, "Joined the channel (Twitch)", EventType.User);
+								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 							}
 
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
 
 					moderators = moderators.replace(" ", "");
 					moderators = moderators.replace("\"", "");
@@ -171,30 +171,30 @@ public class GetViewersThread extends Thread {
 								bot.moderators.add(mod.toLowerCase());
 						}
 					}
-					ConsoleUtil.textToConsole(bot, BotType.Twitch, bot.channelName, "Bot has updated the list of current active moderators!", MessageType.ChatBot, null);
+					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active moderators!", MessageType.ChatBot, null);
 				}
 
 				for (int i = 1; i < bot.viewers.size(); i++) {
-					if (Config.getSetting("Points", bot.channelName).equalsIgnoreCase("true")) {
-						if (!PointsSystem.isOnList(bot.viewers.get(i), bot.channelName)) {
-							PointsSystem.setPoints(bot.viewers.get(i), Integer.parseInt(Config.getSetting("StartingPoints", bot.channelName)), bot.channelName, false, false);
+					if (Config.getSetting("Points", BotType.Twitch, bot).equalsIgnoreCase("true")) {
+						if (!PointsSystem.isOnList(bot.viewers.get(i), BotType.Twitch, bot)) {
+							PointsSystem.setPoints(bot.viewers.get(i), Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, bot)), BotType.Twitch, bot, false, false);
 						}
 					}
-					if (Config.getSetting("Ranks", bot.channelName).equalsIgnoreCase("true")) {
-						if (!RankSystem.isOnList(bot.viewers.get(i), bot.channelName)) {
-							RankSystem.setRank(bot.viewers.get(i), "None", bot.channelName);
+					if (Config.getSetting("Ranks", BotType.Twitch, bot).equalsIgnoreCase("true")) {
+						if (!RankSystem.isOnList(bot.viewers.get(i), BotType.Twitch, bot)) {
+							RankSystem.setRank(bot.viewers.get(i), "None", BotType.Twitch, bot);
 						}
 					}
 					if (!bot.viewersJoinedTimes.containsKey(bot.viewers.get(i).toLowerCase().toLowerCase()))
 						bot.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e, bot.channelName);
+				MJRBot.logErrorMessage(e, BotType.Twitch, bot);
 			}
 			try {
 				Thread.sleep(60000 * 2);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e, bot.channelName);
+				MJRBot.logErrorMessage(e, BotType.Twitch, bot);
 			}
 		}
 	}

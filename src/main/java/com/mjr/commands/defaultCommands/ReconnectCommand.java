@@ -10,7 +10,7 @@ import com.mjr.commands.Command;
 public class ReconnectCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
 			TwitchBot twitchBot = (TwitchBot) bot;
 			twitchBot.disconnectTwitch();

@@ -17,23 +17,23 @@ public class ChannelListUpdateThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				HashMap<String, String> channelListTwitch = SQLUtilities.getChannelsTwitch();
+				HashMap<Integer, String> channelListTwitch = SQLUtilities.getChannelsTwitch();
 				HashMap<String, String> channelListMixer = SQLUtilities.getChannelsMixer();
-				HashMap<String, TwitchBot> currentChannelListTwitch = ChatBotManager.getTwitchBots();
+				HashMap<Integer, TwitchBot> currentChannelListTwitch = ChatBotManager.getTwitchBots();
 				HashMap<String, MixerBot> currentChannelListMixer = ChatBotManager.getMixerBots();
 
 				// Check for new channels
 				ConsoleUtil.textToConsole("Update Channels List");
 				boolean found = false;
-				for (String channelName : channelListTwitch.keySet()) {
+				for (Integer channelID : channelListTwitch.keySet()) {
 					found = false;
-					for (String channelNameMain : currentChannelListTwitch.keySet()) {
-						if (channelNameMain.equalsIgnoreCase(channelName)) {
+					for (Integer channelIDMain : currentChannelListTwitch.keySet()) {
+						if (channelIDMain.equals(channelID)) {
 							found = true;
 						}
 					}
 					if (found == false) {
-						ChatBotManager.createBot(channelName, channelListTwitch.get(channelName));
+						ChatBotManager.createBot(null, channelID, channelListTwitch.get(channelID));
 					}
 				}
 
@@ -45,34 +45,35 @@ public class ChannelListUpdateThread extends Thread {
 						}
 					}
 					if (found == false) {
-						ChatBotManager.createBot(channelName, channelListMixer.get(channelName));
+						ChatBotManager.createBot(channelName, 0, channelListMixer.get(channelName));
 					}
 				}
 
 				// Check for removed channels
-				HashMap<String, String> channelsToDisconnect = new HashMap<String, String>();
-				for (String channelNameMain : currentChannelListTwitch.keySet()) {
+				HashMap<Integer, String> channelsToDisconnectTwitch = new HashMap<Integer, String>();
+				HashMap<String, String> channelsToDisconnectMixer = new HashMap<String, String>();
+				for (Integer channelNameMain : currentChannelListTwitch.keySet()) {
 					if (!channelListTwitch.containsKey(channelNameMain)) {
-						channelsToDisconnect.put(channelNameMain, BotType.Twitch.getTypeName());
+						channelsToDisconnectTwitch.put(channelNameMain, BotType.Twitch.getTypeName());
 					}
 				}
 				for (String channelNameMain : currentChannelListMixer.keySet()) {
 					if (!channelListMixer.containsKey(channelNameMain)) {
-						channelsToDisconnect.put(channelNameMain, BotType.Mixer.getTypeName());
+						channelsToDisconnectMixer.put(channelNameMain, BotType.Mixer.getTypeName());
 					}
 				}
 
-				for (String removeChannel : channelsToDisconnect.keySet()) {
-					if (channelsToDisconnect.get(removeChannel).equalsIgnoreCase(BotType.Twitch.getTypeName())) {
-						TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(removeChannel);
-						bot.disconnectTwitch();
-						ChatBotManager.removeTwitchBot(removeChannel);
-					} else if (channelsToDisconnect.get(removeChannel).equalsIgnoreCase(BotType.Mixer.getTypeName())) {
-						MixerBot bot = ChatBotManager.getMixerBotByChannelName(removeChannel);
-						bot.disconnectMixer();
-						ChatBotManager.removeMixerBot(removeChannel);
-					}
+				for (Integer removeChannel : channelsToDisconnectTwitch.keySet()) {
+					TwitchBot bot = ChatBotManager.getTwitchBotByChannelID(removeChannel);
+					bot.disconnectTwitch();
+					ChatBotManager.removeTwitchBot(removeChannel);
 				}
+				for (String removeChannel : channelsToDisconnectMixer.keySet()) {
+					MixerBot bot = ChatBotManager.getMixerBotByChannelName(removeChannel);
+					bot.disconnectMixer();
+					ChatBotManager.removeMixerBot(removeChannel);
+				}
+
 				try {
 					Thread.sleep(Integer.parseInt(ConfigMain.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
 				} catch (InterruptedException e) {

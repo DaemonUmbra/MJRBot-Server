@@ -14,12 +14,12 @@ import com.mjr.util.Utilities;
 public class StopBotCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		Utilities.sendMessage(type, channel, "Bot is shutting down!");
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		Utilities.sendMessage(type, bot, "Bot is shutting down!");
 		ConsoleUtil.textToConsole("Stop Bot command has been triggered, Bot is shutting down!");
 		MJRBot.updateThread.stop();
-		for (String channelNameMain : ChatBotManager.getTwitchBots().keySet()) {
-			TwitchBot tempBot = ChatBotManager.getTwitchBotByChannelName(channelNameMain);
+		for (Integer channelIDMain : ChatBotManager.getTwitchBots().keySet()) {
+			TwitchBot tempBot = ChatBotManager.getTwitchBotByChannelID(channelIDMain);
 			tempBot.disconnectTwitch();
 		}
 		for (String channelNameMain : ChatBotManager.getMixerBots().keySet()) {

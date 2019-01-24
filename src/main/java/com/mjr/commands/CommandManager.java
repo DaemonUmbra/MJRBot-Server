@@ -109,13 +109,13 @@ public class CommandManager {
 		commands.put("!addbadword", new AddBadwordCommand());
 	}
 
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message) throws FileNotFoundException, IOException {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message) throws FileNotFoundException, IOException {
 		args = message.split(" ");
 
 		// Check if known default command
 		if (commands.containsKey(args[0].toLowerCase())) {
 			Command command = commands.get(args[0].toLowerCase());
-			if (Permissions.hasPermission(bot, type, channel, sender, command.getPermissionLevel())) {
+			if (Permissions.hasPermission(bot, type, sender, command.getPermissionLevel())) {
 				if (type == BotType.Twitch) {
 					TwitchBot twitchBot = ((TwitchBot) bot);
 
@@ -136,12 +136,12 @@ public class CommandManager {
 					if (type == BotType.Twitch) {
 						TwitchBot twitchBot = ((TwitchBot) bot);
 						if (twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, channel, sender.toLowerCase())) > 1) {
+							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 1) {
 								allowed = true;
 							} else if (twitchBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
 								allowed = true;
 								twitchBot.usersCooldowns.remove(sender.toLowerCase());
-								twitchBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
+								twitchBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
 								if (MJRBot.userCooldownTickThread.isAlive() == false)
 									MJRBot.userCooldownTickThread.start();
 
@@ -151,12 +151,12 @@ public class CommandManager {
 					} else if (type == BotType.Mixer) {
 						MixerBot mixerBot = ((MixerBot) bot);
 						if (mixerBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, channel, sender.toLowerCase())) > 0) {
+							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 0) {
 								allowed = true;
 							} else if (mixerBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
 								allowed = true;
 								mixerBot.usersCooldowns.remove(sender.toLowerCase());
-								mixerBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", channel)));
+								mixerBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
 								if (MJRBot.userCooldownTickThread.isAlive() == false)
 									MJRBot.userCooldownTickThread.start();
 
@@ -167,13 +167,13 @@ public class CommandManager {
 				} else
 					allowed = true;
 				if (allowed) {
-					command.onCommand(type, bot, channel, sender, login, hostname, message, args);
-					EventLog.addEvent(channel, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
+					command.onCommand(type, bot, sender, login, hostname, message, args);
+					EventLog.addEvent(type, bot, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
 					AnalyticsData.addNumOfCommandsUsed(1);
 				}
 			}
 		} else if (args[0].startsWith("!")) { // Check for known custom command
-			CustomCommands.getCommand(bot, type, channel, args[0], sender);
+			CustomCommands.getCommand(type, bot, args[0], sender);
 		}
 	}
 }

@@ -11,8 +11,8 @@ import com.mjr.util.Utilities;
 
 public class BankHeistCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (args.length == 2) {
 				if (type == BotType.Twitch) {
 					TwitchBot twitchBot = ((TwitchBot) bot);
@@ -20,16 +20,16 @@ public class BankHeistCommand extends Command {
 						if (Utilities.isNumeric(args[1])) {
 							twitchBot.bankHeistEnteredUsers.clear();
 							twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
-							twitchBot.bankHeistThread = new BankHeistThread(type, channel);
+							twitchBot.bankHeistThread = new BankHeistThread(type, bot);
 							twitchBot.bankHeistThread.start();
-							Utilities.sendMessage(type, channel, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+							Utilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else
-							Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					} else {
 						if (Utilities.isNumeric(args[1]))
 							twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 						else
-							Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					}
 				} else if (type == BotType.Mixer) {
 					MixerBot mixerBot = ((MixerBot) bot);
@@ -37,20 +37,20 @@ public class BankHeistCommand extends Command {
 						if (Utilities.isNumeric(args[1])) {
 							mixerBot.bankHeistEnteredUsers.clear();
 							mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
-							mixerBot.bankHeistThread = new BankHeistThread(type, channel);
+							mixerBot.bankHeistThread = new BankHeistThread(type, bot);
 							mixerBot.bankHeistThread.start();
-							Utilities.sendMessage(type, channel, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+							Utilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else
-							Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					} else {
 						if (Utilities.isNumeric(args[1]))
 							mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 						else
-							Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					}
 				}
 			} else
-				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		}
 	}
 

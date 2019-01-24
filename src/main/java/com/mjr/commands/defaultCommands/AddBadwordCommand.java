@@ -11,16 +11,19 @@ import com.mjr.util.Utilities;
 public class AddBadwordCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (args.length == 2) {
 			if (MJRBot.storageType == StorageType.Database) {
-				MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + channel + "\"" + "," + "\"" + args[1] + "\"" + ")");
-				Utilities.sendMessage(type, channel, "@" + sender + " badword has been added!");
+				if(type == BotType.Twitch)
+					MySQLConnection.executeUpdate("INSERT INTO badwords(twitch_channel_id, word) VALUES (" + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
+				if(type == BotType.Mixer)
+					MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
+				Utilities.sendMessage(type, bot, "@" + sender + " badword has been added!");
 			} else {
-				Utilities.sendMessage(type, channel, "This command isnt available for a file storage based bot!");
+				Utilities.sendMessage(type, bot, "This command isnt available for a file storage based bot!");
 			}
 		} else
-			Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !addbadword WORD");
+			Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addbadword WORD");
 	}
 
 	@Override

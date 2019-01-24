@@ -36,4 +36,32 @@ public class FileBase {
 		}
 		return null;
 	}
+	
+	public static Properties load(int channelID, String fileName) {
+		try {
+			FileReader reader;
+			reader = new FileReader(loadFile(channelID, fileName));
+
+			Properties properties = new Properties();
+			properties.load(reader);
+			return properties;
+		} catch (IOException e) {
+			MJRBot.logErrorMessage(e);
+		}
+		return null;
+	}
+
+	public static File loadFile(int channelID, String fileName) {
+		try {
+			File file = new File(MJRBot.filePath + channelID + File.separator + fileName);
+			if (!file.exists()) {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			}
+			return file;
+		} catch (IOException e) {
+			MJRBot.logErrorMessage(e);
+		}
+		return null;
+	}
 }

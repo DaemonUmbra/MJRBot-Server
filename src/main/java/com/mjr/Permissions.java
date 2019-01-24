@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.storage.Config;
+import com.mjr.util.Utilities;
 
 public class Permissions {
 
@@ -38,12 +39,13 @@ public class Permissions {
 		}
 	}
 
-	public static String getPermissionLevel(Object bot, BotType type, String channelName, String user) {
+	public static String getPermissionLevel(Object bot, BotType type, String user) {
+		String channelName = Utilities.getChannelNameFromBotType(type, bot);
 		user = user.toLowerCase();
 		if (type == BotType.Twitch) {
 			if (user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Streamer.getName();
-			else if (user.equalsIgnoreCase(ChatBotManager.getTwitchBotByChannelName(channelName).getBotName()))
+			else if (user.equalsIgnoreCase(((TwitchBot) bot).getBotName()))
 				return PermissionLevel.Bot.getName();
 			else if (knownBots.contains(user.toLowerCase()))
 				return PermissionLevel.KnownBot.getName();
@@ -81,9 +83,9 @@ public class Permissions {
 		return PermissionLevel.User.getName();
 	}
 
-	public static boolean hasPermission(Object bot, BotType type, String channelName, String user, String permission) {
-		String userPermissionLevel = getPermissionLevel(bot, type, channelName, user);
-		if (getPermissionLevel(bot, type, channelName, user).equalsIgnoreCase(permission))
+	public static boolean hasPermission(Object bot, BotType type, String user, String permission) {
+		String userPermissionLevel = getPermissionLevel(bot, type, user);
+		if (getPermissionLevel(bot, type, user).equalsIgnoreCase(permission))
 			return true;
 		else if (PermissionLevel.getTierValueByName(userPermissionLevel) >= PermissionLevel.getTierValueByName(permission))
 			return true;

@@ -11,9 +11,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.StorageType;
+import com.mjr.MixerBot;
+import com.mjr.TwitchBot;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 import discord4j.core.object.util.Snowflake;
 
@@ -34,12 +38,16 @@ public class EventLog extends FileBase {
 		}
 	}
 
-	public static void addEvent(String channelName, String user, String eventMessage, EventType type) {
+	public static void addEvent(BotType type, Object bot, String user, String eventMessage, EventType eventType) {
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date = new Date();
 			if (MJRBot.storageType == StorageType.File) {
-				File file = loadFile(channelName, fileName);
+				File file = null;
+				if(type == BotType.Twitch)
+					file = loadFile(((TwitchBot)bot).channelID, fileName);
+				else if(type == BotType.Mixer)
+					file = loadFile(((MixerBot)bot).channelName, fileName);
 				Path filePath = Paths.get(file.getPath());
 				try {
 					Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + eventMessage + ";").getBytes(), StandardOpenOption.APPEND);
@@ -47,14 +55,14 @@ public class EventLog extends FileBase {
 					MJRBot.logErrorMessage(e);
 				}
 			} else {
-				MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + type.getName()
-						+ "\"" + "," + "\"" + eventMessage + "\"" + ")");
-				if (Config.getSetting("DiscordEnabled", channelName).equalsIgnoreCase("true")) {
-					ResultSet channel_id = MySQLConnection.executeQuery("SELECT event_log_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
+				MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message, platform) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + eventType.getName()
+						+ "\"" + "," + "\"" + eventMessage + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
+				if (Config.getSetting("DiscordEnabled", type, bot).equalsIgnoreCase("true")) {
+					ResultSet channel_id = MySQLConnection.executeQuery("SELECT event_log_channel_id FROM discord_info WHERE channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
 					if (channel_id.next()) {
 						if (!channel_id.getString("event_log_channel_id").equals("")) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("event_log_channel_id")));
-							MJRBot.bot.sendMessage(MJRBot.bot.getChannelByID(channel), "[" + type.getName() + "]" + " **" + user + "** : " + eventMessage);
+							MJRBot.bot.sendMessage(MJRBot.bot.getChannelByID(channel), "[" + eventType.getName() + "]" + " **" + user + "** : " + eventMessage);
 						}
 					}
 

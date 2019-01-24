@@ -45,12 +45,12 @@ public class SQLUtilities {
 		return false;
 	}
 
-	public static HashMap<String, String> getChannelsTwitch() {
-		HashMap<String, String> channels = new HashMap<String, String>();
-		ResultSet result = MySQLConnection.executeQuery("SELECT name, bot_type FROM channels WHERE bot_type = 'Twitch'");
+	public static HashMap<Integer, String> getChannelsTwitch() {
+		HashMap<Integer, String> channels = new HashMap<Integer, String>();
+		ResultSet result = MySQLConnection.executeQuery("SELECT twitch_channel_id, bot_type FROM channels WHERE bot_type = 'Twitch'");
 		try {
 			while (result.next()) {
-				channels.put(result.getString("name"), result.getString("bot_type"));
+				channels.put(result.getInt("twitch_channel_id"), result.getString("bot_type"));
 			}
 		} catch (SQLException e) {
 			MJRBot.logErrorMessage(e);

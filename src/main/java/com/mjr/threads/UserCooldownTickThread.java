@@ -13,10 +13,10 @@ public class UserCooldownTickThread extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				HashMap<String, TwitchBot> channelListTwitch = ChatBotManager.getTwitchBots();
+				HashMap<Integer, TwitchBot> channelListTwitch = ChatBotManager.getTwitchBots();
 				HashMap<String, MixerBot> channelListMixer = ChatBotManager.getMixerBots();
 
-				for (String channelNameMain : channelListTwitch.keySet()) {
+				for (Integer channelNameMain : channelListTwitch.keySet()) {
 					TwitchBot twitchBot = channelListTwitch.get(channelNameMain);
 					Iterator<String> iter = twitchBot.usersCooldowns.keySet().iterator();
 					while (iter.hasNext()) {

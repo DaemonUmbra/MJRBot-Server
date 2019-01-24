@@ -14,14 +14,14 @@ import discord4j.core.object.util.Snowflake;
 
 public class CrossChatLink {
 
-	public static void sendMessageAcrossPlatforms(BotType type, String channelName, String sender, String message) {
+	public static void sendMessageAcrossPlatforms(BotType type, Object bot, String sender, String message) {
 		try {
 			// Exclude commands & bots messages
 			if (message.startsWith("!") || sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername")) || sender.equalsIgnoreCase(ConfigMain.getSetting("MixerUsername/BotName")))
 				return;
 			boolean twitch = type == BotType.Twitch ? false : true;
 			boolean mixer = type == BotType.Mixer ? false : true;
-			boolean discord = Config.getSetting("DiscordEnabled", channelName).equalsIgnoreCase("true") ? true : false;
+			boolean discord = Config.getSetting("DiscordEnabled", type, bot).equalsIgnoreCase("true") ? true : false;
 			String platformPrefex = null;
 			if (type == BotType.Discord)
 				platformPrefex = "[Discord]";
@@ -29,13 +29,13 @@ public class CrossChatLink {
 				platformPrefex = type == BotType.Twitch ? "[Twitch]" : "[Mixer]";
 			String senderPrefex = " " + sender + ": ";
 
-			if (twitch && Config.getSetting("TwitchChatLink", channelName).equalsIgnoreCase("true"))
-				Utilities.sendMessage(BotType.Twitch, channelName, platformPrefex + senderPrefex + message);
-			if (mixer && Config.getSetting("MixerChatLink", channelName).equalsIgnoreCase("true"))
-				Utilities.sendMessage(BotType.Mixer, channelName, platformPrefex + senderPrefex + message);
-			if (discord && Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && type != BotType.Discord) {
+			if (twitch && Config.getSetting("TwitchChatLink", type, bot).equalsIgnoreCase("true"))
+				Utilities.sendMessage(type, bot, platformPrefex + senderPrefex + message);
+			if (mixer && Config.getSetting("MixerChatLink", type, bot).equalsIgnoreCase("true"))
+				Utilities.sendMessage(type, bot, platformPrefex + senderPrefex + message);
+			if (discord && Config.getSetting("DiscordChatLink", type, bot).equalsIgnoreCase("true") && type != BotType.Discord) {
 				if (MJRBot.connectionType == ConnectionType.Database) {
-					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + channelName + "'");
+					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
 					if (channel_id.next()) {
 						if (!channel_id.getString("cross_link_channel_id").equals("")) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("cross_link_channel_id")));

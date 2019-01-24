@@ -12,8 +12,8 @@ import com.mjr.util.Utilities;
 
 public class PlacebetCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = ((TwitchBot) bot);
 				if (twitchBot.racingGame.isGameActive) {
@@ -24,19 +24,19 @@ public class PlacebetCommand extends Command {
 							String points = args[3];
 							if (betType.equalsIgnoreCase("1st") || betType.equalsIgnoreCase("Top3")) {
 								twitchBot.racingGame.placeBet(sender, bet, betType, points);
-								PointsSystem.RemovePoints(sender, Integer.parseInt(points), channel);
+								PointsSystem.RemovePoints(sender, Integer.parseInt(points), type, bot);
 							} else {
-								Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+								Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 							}
 						} else {
-							Utilities.sendMessage(type, channel, "@" + sender + " you have already made a bet!");
+							Utilities.sendMessage(type, bot, "@" + sender + " you have already made a bet!");
 						}
 
 					} else {
-						Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+						Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 					}
 				} else {
-					Utilities.sendMessage(type, channel, "@" + sender + " Racing game hasnt been started yet!");
+					Utilities.sendMessage(type, bot, "@" + sender + " Racing game hasnt been started yet!");
 				}
 			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
@@ -48,19 +48,19 @@ public class PlacebetCommand extends Command {
 							String points = args[3];
 							if (betType.equalsIgnoreCase("1st") || betType.equalsIgnoreCase("Top3")) {
 								mixerBot.racingGame.placeBet(sender, bet, betType, points);
-								PointsSystem.RemovePoints(sender, Integer.parseInt(points), channel);
+								PointsSystem.RemovePoints(sender, Integer.parseInt(points), type, bot);
 							} else {
-								Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+								Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 							}
 						} else {
-							Utilities.sendMessage(type, channel, sender + " you have already made a bet!");
+							Utilities.sendMessage(type, bot, sender + " you have already made a bet!");
 						}
 
 					} else {
-						Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
+						Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 					}
 				} else {
-					Utilities.sendMessage(type, channel, "@" + sender + " Racing game hasnt been started yet!");
+					Utilities.sendMessage(type, bot, "@" + sender + " Racing game hasnt been started yet!");
 				}
 			}
 		}

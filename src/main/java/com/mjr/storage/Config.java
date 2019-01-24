@@ -7,10 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.StorageType;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.util.ConsoleUtil;
+import com.mjr.util.Utilities;
 
 public class Config extends FileBase {
 	public static String fileName = "Config.properties";
@@ -136,6 +138,40 @@ public class Config extends FileBase {
 		}
 	}
 
+	public static String getSetting(String setting, BotType type, Object bot) {
+		if(type == BotType.Twitch)
+			return getSetting(setting, Utilities.getChannelIDFromBotType(type, bot), false);
+		else if(type == BotType.Mixer)
+			return getSetting(setting, Utilities.getChannelNameFromBotType(type, bot), false);
+		return null;
+	}
+	
+	public static String getSetting(String setting, int channelID) {
+		return getSetting(setting, channelID, false);
+	}
+
+	public static String getSetting(String setting, int channelID, boolean overrideStorageType) {
+		if (MJRBot.storageType == StorageType.File || overrideStorageType) {
+			return load(channelID, fileName).getProperty(setting);
+		} else {
+			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"");
+			try {
+				if (result == null)
+					return null;
+				else if (!result.next())
+					return null;
+				else {
+					result.beforeFirst();
+					result.next();
+					return result.getString(1);
+				}
+			} catch (SQLException e) {
+				MJRBot.logErrorMessage(e);
+			}
+		}
+		return null;
+	}
+	
 	public static String getSetting(String setting, String channelName) {
 		return getSetting(setting, channelName, false);
 	}

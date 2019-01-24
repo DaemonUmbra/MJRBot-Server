@@ -13,23 +13,23 @@ import com.mjr.util.Utilities;
 
 public class ChangeCommandResponse extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (args.length >= 3) {
 			if (!args[1].contains("!")) {
 				String command = args[1];
 				String response = message.substring(message.indexOf(command));
 				response = response.substring(response.indexOf(' ') + 1);
 				try {
-					CustomCommands.changeCommandResponse(type, channel, command, response);
-					EventLog.addEvent(channel, sender, "Edited the Custom Command response for " + command, EventType.CustomCommands);
+					CustomCommands.changeCommandResponse(type, bot, command, response);
+					EventLog.addEvent(type, bot, sender, "Edited the Custom Command response for " + command, EventType.CustomCommands);
 				} catch (IOException e) {
 					MJRBot.logErrorMessage(e);
 				}
 			} else {
-				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
+				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 			}
 		} else {
-			Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !commandresponse COMMANDNAME RESPONSE");
+			Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !commandresponse COMMANDNAME RESPONSE");
 		}
 	}
 

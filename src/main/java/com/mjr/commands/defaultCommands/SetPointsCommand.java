@@ -9,19 +9,19 @@ import com.mjr.util.Utilities;
 
 public class SetPointsCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Points", type, bot).equalsIgnoreCase("true")) {
 			if (args.length == 3) {
 				String points = args[1];
 				String user = args[2];
-				if (PointsSystem.isOnList(user, channel)) {
-					PointsSystem.setPoints(user.toLowerCase(), Integer.parseInt(points), channel, true, true);
-					Utilities.sendMessage(type, channel, "@" + sender + " Set " + points + " points" + " to " + user);
+				if (PointsSystem.isOnList(user, type, bot)) {
+					PointsSystem.setPoints(user.toLowerCase(), Integer.parseInt(points), type, bot, true, true);
+					Utilities.sendMessage(type, bot, "@" + sender + " Set " + points + " points" + " to " + user);
 				} else {
-					Utilities.sendMessage(type, channel, "@" + sender + " Unable to set " + user + " points" + " to " + points);
+					Utilities.sendMessage(type, bot, "@" + sender + " Unable to set " + user + " points" + " to " + points);
 				}
 			} else {
-				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !setpoints POINTS USER");
+				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !setpoints POINTS USER");
 			}
 		}
 	}

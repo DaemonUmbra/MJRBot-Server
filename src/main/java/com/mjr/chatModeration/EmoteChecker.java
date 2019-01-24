@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mjr.ChatBotManager.BotType;
+import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
 import com.mjr.util.HTTPConnect;
 import com.mjr.util.TwitchMixerAPICalls;
@@ -11,10 +12,10 @@ import com.mjr.util.TwitchMixerAPICalls;
 public class EmoteChecker {
 	private static List<String> emotes = new ArrayList<String>();
 
-	public static void getEmotes(BotType type, String channel) {
+	public static void getEmotes(BotType type, Object bot) {
 		if (type == BotType.Twitch) {
 			try {
-				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChatEmoticonsAPI(channel));
+				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChatEmoticonsAPI(((TwitchBot) bot).channelID));
 				int index = result.indexOf("regex");
 				while (index > -1) {
 					result = result.substring(index + 8);
@@ -41,7 +42,7 @@ public class EmoteChecker {
 
 	}
 
-	public static boolean isSpammingEmotes(String message, String user, String channelName) {
+	public static boolean isSpammingEmotes(String message, String user, BotType type, Object bot) {
 		int number = 0;
 		String[] temp;
 		temp = message.split(" ");
@@ -50,7 +51,7 @@ public class EmoteChecker {
 				number++;
 			}
 		}
-		if (number >= Integer.parseInt(Config.getSetting("MaxEmotes", channelName)))
+		if (number >= Integer.parseInt(Config.getSetting("MaxEmotes", type, bot)))
 			return true;
 		else
 			return false;

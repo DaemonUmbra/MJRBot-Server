@@ -1,5 +1,6 @@
 package com.mjr.storage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.ResultSet;
@@ -7,12 +8,16 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.MJRBot.StorageType;
+import com.mjr.MixerBot;
+import com.mjr.TwitchBot;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
+import com.mjr.util.Utilities;
 
 public class RankSystem extends FileBase {
 
@@ -24,14 +29,21 @@ public class RankSystem extends FileBase {
 
 	public static String fileName = "UserRanks.properties";
 
-	public static String getRank(String user, String channelName) {
+	public static String getRank(String user, BotType type, Object bot) {
 		user = user.toLowerCase();
 		String value = "";
 		user = user.toLowerCase();
-		if (MJRBot.storageType == StorageType.File)
-			value = load(channelName, fileName).getProperty(user, value);
-		else {
-			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT rank FROM ranks WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
+		if (MJRBot.storageType == StorageType.File) {
+			if (type == BotType.Twitch)
+				value = load(((TwitchBot) bot).channelID, fileName).getProperty(user, value);
+			else if (type == BotType.Mixer)
+				value = load(((MixerBot) bot).channelName, fileName).getProperty(user, value);
+		} else {
+			ResultSet result = null;
+			if (type == BotType.Twitch)
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+			else if (type == BotType.Mixer)
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return null;
@@ -50,35 +62,51 @@ public class RankSystem extends FileBase {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void setRank(String user, String rank, String channelName) {
+	public static void setRank(String user, String rank, BotType type, Object bot) {
 		user = user.toLowerCase();
 		rank = rank.toLowerCase();
-		if (getRank(user, channelName) != rank) {
+		if (getRank(user, type, bot) != rank) {
 			if (MJRBot.storageType == StorageType.File) {
-				Properties properties = load(channelName, fileName);
+				Properties properties = null;
+				if (type == BotType.Twitch)
+					properties = load(((TwitchBot) bot).channelID, fileName);
+				else if (type == BotType.Mixer)
+					properties = load(((MixerBot) bot).channelName, fileName);
 				properties.setProperty(user.toLowerCase(), rank);
 				try {
-					properties.save(new FileOutputStream(loadFile(channelName, fileName)), null);
+					File file = null;
+					if (type == BotType.Twitch)
+						file = loadFile(((TwitchBot) bot).channelID, fileName);
+					else if (type == BotType.Mixer)
+						file = loadFile(((MixerBot) bot).channelName, fileName);
+					properties.save(new FileOutputStream(file), null);
 				} catch (FileNotFoundException e) {
 					MJRBot.logErrorMessage(e);
 				}
 			} else {
-				if (isOnList(user, channelName) == false)
-					MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + channelName + "\"" + "," + "\"" + rank + "\"" + ")");
-				else
-					MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
+				if (isOnList(user, type, bot) == false) {
+					if (type == BotType.Twitch)
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+					else if (type == BotType.Mixer)
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+				} else {
+					if (type == BotType.Twitch)
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+					else if (type == BotType.Mixer)
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				}
 			}
-			ConsoleUtil.textToConsole(null, null, channelName, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
-			EventLog.addEvent(channelName, user, "Set rank to " + rank, EventType.Rank);
+			ConsoleUtil.textToConsole(bot, type, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
+			EventLog.addEvent(type, bot, user, "Set rank to " + rank, EventType.Rank);
 		}
 	}
 
-	public static void removeRank(String user, String channelName) {
+	public static void removeRank(String user, BotType type, Object bot) {
 		user = user.toLowerCase();
-		if (getRank(user, channelName) != "None") {
-			ConsoleUtil.textToConsole(null, null, channelName, "Removed rank from " + user, MessageType.ChatBot, null);
-			EventLog.addEvent(channelName, user, "Removed rank", EventType.Rank);
-			setRank(user, "None", channelName);
+		if (getRank(user, type, bot) != "None") {
+			ConsoleUtil.textToConsole(bot, type, "Removed rank from " + user, MessageType.ChatBot, null);
+			EventLog.addEvent(type, bot, user, "Removed rank", EventType.Rank);
+			setRank(user, "None", type, bot);
 		}
 	}
 
@@ -93,15 +121,24 @@ public class RankSystem extends FileBase {
 		return 0;
 	}
 
-	public static Boolean isOnList(String user, String channelName) {
+	public static Boolean isOnList(String user, BotType type, Object bot) {
 		user = user.toLowerCase();
 		if (MJRBot.storageType == StorageType.File) {
-			if (load(channelName, fileName).getProperty(user) != null)
+			Properties properties = null;
+			if (type == BotType.Twitch)
+				properties = load(((TwitchBot) bot).channelID, fileName);
+			else if (type == BotType.Mixer)
+				properties = load(((MixerBot) bot).channelName, fileName);
+			if (properties.getProperty(user) != null)
 				return true;
 			else
 				return false;
 		} else {
-			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT * FROM ranks WHERE channel = " + "\"" + channelName + "\"" + " AND name = " + "\"" + user + "\"");
+			ResultSet result = null;
+			if (type == BotType.Twitch)
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+			else if (type == BotType.Mixer)
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return false;
@@ -116,10 +153,10 @@ public class RankSystem extends FileBase {
 		return null;
 	}
 
-	public static Boolean hasRank(String user, String rank, String channelName) {
+	public static Boolean hasRank(String user, String rank, BotType type, Object bot) {
 		user = user.toLowerCase();
 		rank = rank.toLowerCase();
-		if (getRank(user, channelName).equalsIgnoreCase(rank))
+		if (getRank(user, type, bot).equalsIgnoreCase(rank))
 			return true;
 		else
 			return false;
@@ -133,10 +170,19 @@ public class RankSystem extends FileBase {
 			return false;
 	}
 
-	public static void migrateFile(String channelName) {
-		Properties file = load(channelName, fileName);
-		for (Object user : file.keySet()) {
-			MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + channelName + "\"" + "," + "\"" + file.getProperty((String) user) + "\"" + ")");
+	public static void migrateFile(BotType type, Object bot) {
+		Properties properties = null;
+		if (type == BotType.Twitch)
+			properties = load(((TwitchBot) bot).channelID, fileName);
+		else if (type == BotType.Mixer)
+			properties = load(((MixerBot) bot).channelName, fileName);
+		for (Object user : properties.keySet()) {
+			if (type == BotType.Twitch)
+				MySQLConnection.executeUpdate(
+						"INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+			else if (type == BotType.Mixer)
+				MySQLConnection.executeUpdate(
+						"INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class GetFollowersThread extends Thread {
 	public void run() {
 		try {
 			String result = "";
-			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsAPI(bot.channelName.toLowerCase(), 25));
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25));
 			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
@@ -59,10 +59,10 @@ public class GetFollowersThread extends Thread {
 					}
 				}
 			}
-			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Bot got " + bot.followers.size() + " followers", MessageType.ChatBot, null);
-			ConsoleUtil.textToConsole(bot, type, bot.channelName, "Follower list: " + String.join(", ", bot.followers), MessageType.ChatBot, null);
+			ConsoleUtil.textToConsole(bot, type, "Bot got " + bot.followers.size() + " followers", MessageType.ChatBot, null);
+			ConsoleUtil.textToConsole(bot, type, "Follower list: " + String.join(", ", bot.followers), MessageType.ChatBot, null);
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, bot.channelName);
+			MJRBot.logErrorMessage(e, type, bot);
 		}
 
 	}

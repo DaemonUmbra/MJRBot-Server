@@ -11,14 +11,19 @@ import com.mjr.MJRBot.StorageType;
 import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.sql.MySQLConnection;
+import com.mjr.util.Utilities;
 
 public class BadWordChecker {
 	public static List<String> badWords = new ArrayList<String>();
 
-	public static boolean isBadWord(Object bot, BotType type, String channelName, String message, String sender) {
+	public static boolean isBadWord(Object bot, BotType type, String message, String sender) {
 		try {
 			if (MJRBot.storageType == StorageType.Database) {
-				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
+				ResultSet set = null;
+				if(type == BotType.Twitch)
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + Utilities.getChannelIDFromBotType(type, bot) + "'");
+				else if(type == BotType.Mixer)
+						set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
 				if (set != null) {
 					while (set.next()) {
 						badWords.add(set.getString("word"));
@@ -32,7 +37,7 @@ public class BadWordChecker {
 
 			for (int i = 0; i < badWords.size(); i++) {
 				if (message.toLowerCase().contains(badWords.get(i).toLowerCase())) {
-					if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName())) {
+					if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
 						return false;
 					} else {
 						return true;

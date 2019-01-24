@@ -20,13 +20,13 @@ import com.mjr.util.Utilities;
 
 public class UptimeCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
 			String result = null;
 			try {
-				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(channel));
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(Utilities.getChannelIDFromBotType(type, bot)));
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e, channel);
+				MJRBot.logErrorMessage(e, Utilities.getChannelNameFromBotType(type, bot));
 			}
 			if (result.contains("created_at")) {
 				String upTime = result.substring(result.indexOf("created_at") + 13);
@@ -41,20 +41,20 @@ public class UptimeCommand extends Command {
 					MJRBot.logErrorMessage(e);
 				}
 
-				runCommand(type, channel, sender, parse);
+				runCommand(type, bot, sender, parse);
 			} else {
-				Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
+				Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
 			}
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = ((MixerBot) bot);
 			if (mixerBot.isStreaming())
-				runCommand(type, channel, sender, mixerBot.getUpdatedAt());
+				runCommand(type, bot, sender, mixerBot.getUpdatedAt());
 			else
-				Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " is currently not streaming!");
+				Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
 		}
 	}
 
-	public void runCommand(BotType type, String channel, String sender, Date date2) {
+	public void runCommand(BotType type, Object bot, String sender, Date date2) {
 		OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
 		Date date = Date.from(utc.toInstant());
 		long diffInMilliSec = date.getTime() - date2.getTime();
@@ -62,7 +62,7 @@ public class UptimeCommand extends Command {
 		long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
 		long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 
-		Utilities.sendMessage(type, channel, "@" + sender + " " + channel + " has been live for " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+		Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " has been live for " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	}
 
 	@Override

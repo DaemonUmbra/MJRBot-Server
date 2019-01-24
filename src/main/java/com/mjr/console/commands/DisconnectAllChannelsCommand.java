@@ -12,7 +12,7 @@ public class DisconnectAllChannelsCommand extends ConsoleCommand {
 	public void onCommand(String message, String[] args) {
 		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 			bot.disconnectTwitch();
-			MySQLConnection.executeUpdate("DELETE from channels where name = " + "\"" + bot.channelName.toLowerCase() + "\"" + " AND bot_type = " + "\"" + "Twitch" + "\"");
+			MySQLConnection.executeUpdate("DELETE from channels where twitch_channel_id = " + "\"" + bot.channelID + "\"" + " AND bot_type = " + "\"" + "Twitch" + "\"");
 		}
 		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 			bot.disconnectMixer();

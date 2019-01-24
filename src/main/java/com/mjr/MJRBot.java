@@ -15,11 +15,7 @@ import com.mjr.commands.CommandManager;
 import com.mjr.console.ConsoleCommandManager;
 import com.mjr.sql.MySQLConnection;
 import com.mjr.sql.SQLUtilities;
-import com.mjr.storage.Config;
 import com.mjr.storage.ConfigMain;
-import com.mjr.storage.PointsSystem;
-import com.mjr.storage.QuoteSystem;
-import com.mjr.storage.RankSystem;
 import com.mjr.threads.ChannelListUpdateThread;
 import com.mjr.threads.UpdateAnalyticsThread;
 import com.mjr.threads.UserCooldownTickThread;
@@ -47,17 +43,7 @@ public class MJRBot {
 
 	// Manual Mode
 	private static String channel = "";
-	public static String id = "";
-
-	// Development
-	public static boolean developmentModeDatabase = false;
-	public static boolean developmentModeManual = false;
-	public static boolean developmentStorageFileMode = false;
-	public static boolean developmentStorageDatabaseMode = false;
-	public static boolean developmentDisableSendMessage = false;
-	public static String developmentChannel = "MJRBotTest";
-	public static String developmentPlatform = "Mixer";
-	public static String developmentID = "57804636";
+	public static int id = 0;
 
 	public enum ConnectionType {
 		Database(), Manual();
@@ -166,37 +152,32 @@ public class MJRBot {
 	}
 
 	public static void runMirgration(String channelName, MirgrationType type) {
-		if (type == MirgrationType.All) {
-			Config.migrateFile(channelName);
-			PointsSystem.migrateFile(channelName);
-			RankSystem.migrateFile(channelName);
-			QuoteSystem.migrateFile(channelName);
-		} else if (type == MirgrationType.Config) {
-			Config.migrateFile(channelName);
-		}
-		if (type == MirgrationType.Points) {
-			PointsSystem.migrateFile(channelName);
-		}
-		if (type == MirgrationType.Ranks) {
-			RankSystem.migrateFile(channelName);
-		}
-		if (type == MirgrationType.Quotes) {
-			QuoteSystem.migrateFile(channelName);
-		}
+//		if (type == MirgrationType.All) { TODO Fix
+//			Config.migrateFile(channelName);
+//			PointsSystem.migrateFile(channelName);
+//			RankSystem.migrateFile(channelName);
+//			QuoteSystem.migrateFile(channelName);
+//		} else if (type == MirgrationType.Config) {
+//			Config.migrateFile(channelName);
+//		}
+//		if (type == MirgrationType.Points) {
+//			PointsSystem.migrateFile(channelName);
+//		}
+//		if (type == MirgrationType.Ranks) {
+//			RankSystem.migrateFile(channelName);
+//		}
+//		if (type == MirgrationType.Quotes) {
+//			QuoteSystem.migrateFile(channelName);
+//		}
 	}
 
 	public static void runManualMode(BotType type, String channelName, int channelId) {
 		ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
-		if (developmentModeManual) {
-			channel = developmentChannel;
-			id = developmentID;
-		} else {
-			channel = channelName;
-			id = "" + channelId;
-		}
+		channel = channelName;
+		id = channelId;
 		userCooldownTickThread = new UserCooldownTickThread();
 		userCooldownTickThread.start();
-		ChatBotManager.createBot(channel, developmentModeManual == true ? developmentPlatform : type.getTypeName());
+		ChatBotManager.createBot(channel, id, type.getTypeName());
 	}
 
 	public static void runDatabaseMode() {
@@ -209,14 +190,14 @@ public class MJRBot {
 		} else {
 			ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
 		}
-		HashMap<String, String> channelList = SQLUtilities.getChannelsTwitch();
-		for (String channelName : channelList.keySet()) {
-			ChatBotManager.createBot(channelName, channelList.get(channelName));
+		HashMap<Integer, String> channelList = SQLUtilities.getChannelsTwitch();
+		for (Integer channelID : channelList.keySet()) {
+			ChatBotManager.createBot(null, channelID, channelList.get(channelID));
 		}
 
-		channelList = SQLUtilities.getChannelsMixer();
-		for (String channelName : channelList.keySet()) {
-			ChatBotManager.createBot(channelName, channelList.get(channelName));
+		HashMap<String, String> channelListMixer = SQLUtilities.getChannelsMixer();
+		for (String channelName : channelListMixer.keySet()) {
+			ChatBotManager.createBot(channelName, 0, channelListMixer.get(channelName));
 		}
 
 		updateThread = new ChannelListUpdateThread();
@@ -241,9 +222,9 @@ public class MJRBot {
 		logErrorMessage(channelName + " - " + stackTrace);
 	}
 
-	public static void logErrorMessage(final Throwable throwable, BotType type, String channelName) {
+	public static void logErrorMessage(final Throwable throwable, BotType type, Object bot) {
 		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(type.getTypeName() + ": " + channelName + " - " + stackTrace);
+		logErrorMessage(type.getTypeName() + ": " + Utilities.getChannelNameFromBotType(type, bot) + " - " + stackTrace);
 	}
 
 	public static void logErrorMessage(final Throwable throwable) {
@@ -254,6 +235,6 @@ public class MJRBot {
 	public static void logErrorMessage(String stackTrace) {
 		getLogger().info(stackTrace);
 		if (MJRBot.bot != null)
-			bot.sendErrorMessage((developmentModeDatabase || developmentModeManual ? "**Dev:** " : "") + stackTrace);
+			bot.sendErrorMessage(stackTrace);
 	}
 }

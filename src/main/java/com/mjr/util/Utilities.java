@@ -6,7 +6,6 @@ import java.util.TimeZone;
 
 import com.mjr.ChatBotManager;
 import com.mjr.ChatBotManager.BotType;
-import com.mjr.MJRBot;
 import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 
@@ -28,17 +27,15 @@ public class Utilities {
 		return true;
 	}
 
-	public static void sendMessage(BotType type, String channelName, String endMessage) {
-		if (MJRBot.developmentDisableSendMessage)
-			return;
+	public static void sendMessage(BotType type, Object bot, String endMessage) {
 		if (type == BotType.Twitch) {
-			TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(channelName);
-			if (bot != null)
-				bot.sendMessage(endMessage);
+			TwitchBot botTemp = ChatBotManager.getTwitchBotByChannelID(getChannelIDFromBotType(type, bot));
+			if (botTemp != null)
+				botTemp.sendMessage(endMessage);
 		} else {
-			MixerBot bot = ChatBotManager.getMixerBotByChannelName(channelName);
-			if (bot != null)
-				bot.sendMessage(endMessage);
+			MixerBot botTemp = ChatBotManager.getMixerBotByChannelName(getChannelNameFromBotType(type, bot));
+			if (botTemp != null)
+				botTemp.sendMessage(endMessage);
 		}
 	}
 
@@ -64,5 +61,19 @@ public class Utilities {
 		final PrintWriter pw = new PrintWriter(sw, true);
 		throwable.printStackTrace(pw);
 		return sw.getBuffer().toString();
+	}
+	
+	public static int getChannelIDFromBotType(BotType type, Object bot) {
+		if(type.equals(BotType.Twitch))
+			return ((TwitchBot)bot).channelID;
+		return 0;
+	}
+	
+	public static String getChannelNameFromBotType(BotType type, Object bot) {
+		if(type.equals(BotType.Mixer))
+			return ((MixerBot)bot).channelName;
+		if(type.equals(BotType.Twitch))
+			return ((TwitchBot)bot).channelName;
+		return "";
 	}
 }

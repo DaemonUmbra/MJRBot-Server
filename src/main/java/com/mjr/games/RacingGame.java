@@ -29,7 +29,7 @@ public class RacingGame {
 		numberOfBets++;
 	}
 
-	public void start(BotType type, String channelName) {
+	public void start(BotType type, Object bot) {
 		boolean exists = false;
 
 		// Only work out 3 Cars since we don't give winnings for anything lower than the third car
@@ -54,16 +54,16 @@ public class RacingGame {
 		}
 
 		// Check for Winning Users
-		checkForWinners(type, channelName);
+		checkForWinners(type, bot);
 		isGameActive = false;
 	}
 
-	public void checkForWinners(BotType type, String channelName) {
+	public void checkForWinners(BotType type, Object bot) {
 		if (numberOfBets == 0) {
-			Utilities.sendMessage(type, channelName, "No one made any bets! So race got canceled!");
+			Utilities.sendMessage(type, bot, "No one made any bets! So race got canceled!");
 			return;
 		}
-		Utilities.sendMessage(type, channelName, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
+		Utilities.sendMessage(type, bot, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
 
 		// Check who got the bet correct
 		for (int k = 0; k < numberOfBets; k++) {
@@ -86,7 +86,7 @@ public class RacingGame {
 			String message = "Top 3 winners are " + Arrays.asList(top3Users) + " and 1st place winners are " + Arrays.asList(firstUsers);
 			message.replace("[", "[ ");
 			message.replace("]", "] ");
-			Utilities.sendMessage(type, channelName, message);
+			Utilities.sendMessage(type, bot, message);
 			float randomOds = nextFloat(1, 2);
 			for (int l = 0; l < top3Users.size(); l++) {
 				int points = 0;
@@ -100,8 +100,8 @@ public class RacingGame {
 					}
 				}
 				pointsMessage = pointsMessage + "@" + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
-				PointsSystem.AddPointsWithEventMsg(top3Users.get(l), points, channelName);
-				EventLog.addEvent(channelName, top3Users.get(l), "Won the Racing Game", EventType.Games);
+				PointsSystem.AddPointsWithEventMsg(top3Users.get(l), points, type, bot);
+				EventLog.addEvent(type, bot, top3Users.get(l), "Won the Racing Game", EventType.Games);
 			}
 			randomOds = nextFloat(1, 2);
 			for (int m = 0; m < firstUsers.size(); m++) {
@@ -112,10 +112,10 @@ public class RacingGame {
 					}
 				}
 				pointsMessage = pointsMessage + "@" + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
-				PointsSystem.AddPointsWithEventMsg(firstUsers.get(m), points, channelName);
-				EventLog.addEvent(channelName, firstUsers.get(m), "Won the Racing Game", EventType.Games);
+				PointsSystem.AddPointsWithEventMsg(firstUsers.get(m), points, type, bot);
+				EventLog.addEvent(type, bot, firstUsers.get(m), "Won the Racing Game", EventType.Games);
 			}
-			Utilities.sendMessage(type, channelName, pointsMessage);
+			Utilities.sendMessage(type, bot, pointsMessage);
 		}
 
 		// Clean up

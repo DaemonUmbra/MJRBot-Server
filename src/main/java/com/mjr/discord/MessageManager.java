@@ -21,7 +21,7 @@ public class MessageManager {
 				if (channel_id.next()) {
 					if (!channel_id.getString("cross_link_channel_id").equals("")) {
 						if (Config.getSetting("DiscordChatLink", channelName).equalsIgnoreCase("true") && event.getMessage().getChannelId().asLong() == Long.parseLong(channel_id.getString("cross_link_channel_id"))) {
-							CrossChatLink.sendMessageAcrossPlatforms(BotType.Discord, channelName, event.getMember().get().getDisplayName(), event.getMessage().getContent().get().toString());
+							CrossChatLink.sendMessageAcrossPlatforms(BotType.Discord, null, event.getMember().get().getDisplayName(), event.getMessage().getContent().get().toString());
 						}
 					}
 				}

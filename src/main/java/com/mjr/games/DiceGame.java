@@ -14,10 +14,10 @@ public class DiceGame {
 		return ((int) ((100 - DEFAULT_MULTIIPLER) / multi)) / 2;
 	}
 
-	public static void procressTurn(BotType type, String channelName, String sender, int wager, double multi) {
-		if (PointsSystem.hasPoints(sender, wager, channelName)) {
+	public static void procressTurn(BotType type, Object bot, String sender, int wager, double multi) {
+		if (PointsSystem.hasPoints(sender, wager, type, bot)) {
 			int randomNum = Utilities.getRandom(1, 100);
-			PointsSystem.RemovePoints(sender, wager, channelName);
+			PointsSystem.RemovePoints(sender, wager, type, bot);
 
 			try {
 				Thread.sleep(2000);
@@ -27,14 +27,14 @@ public class DiceGame {
 			}
 			if (randomNum < getWinPercent(multi)) {
 				int profit = (int) (wager * multi);
-				PointsSystem.AddPointsWithEventMsg(sender, profit, channelName);
-				Utilities.sendMessage(type, channelName, "@" + sender + " Well Done, you have made a profit of " + (profit - wager) + " points! Your current points is: " + PointsSystem.getPoints(sender, channelName));
-				EventLog.addEvent(channelName, sender, "Won the Dice Game", EventType.Games);
+				PointsSystem.AddPointsWithEventMsg(sender, profit, type, bot);
+				Utilities.sendMessage(type, bot, "@" + sender + " Well Done, you have made a profit of " + (profit - wager) + " points! Your current points is: " + PointsSystem.getPoints(sender, type, bot));
+				EventLog.addEvent(type, bot, sender, "Won the Dice Game", EventType.Games);
 			} else {
-				Utilities.sendMessage(type, channelName, "@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender, channelName));
-				EventLog.addEvent(channelName, sender, "Lost the Dice Game", EventType.Games);
+				Utilities.sendMessage(type, bot, "@" + sender + " lost the wager! Your current points is: " + PointsSystem.getPoints(sender, type, bot));
+				EventLog.addEvent(type, bot, sender, "Lost the Dice Game", EventType.Games);
 			}
 		} else
-			Utilities.sendMessage(type, channelName, "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, channelName));
+			Utilities.sendMessage(type, bot, "@" + sender + " you currently have insufficient points! You only have " + PointsSystem.getPoints(sender, type, bot));
 	}
 }

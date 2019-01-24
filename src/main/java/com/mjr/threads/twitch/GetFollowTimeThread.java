@@ -33,7 +33,7 @@ public class GetFollowTimeThread extends Thread {
 			if (type == BotType.Twitch && bot.ConnectedToChannel) {
 				String time = checkFollowTime(bot, user.toLowerCase());
 				if (time == null) {
-					Utilities.sendMessage(type, bot.channelName, "@" + user + " unable to obtain follow details for you!");
+					Utilities.sendMessage(type, bot, "@" + user + " unable to obtain follow details for you!");
 				} else {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					format.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -42,7 +42,7 @@ public class GetFollowTimeThread extends Thread {
 					try {
 						parse = format.parse(time);
 					} catch (ParseException e) {
-						MJRBot.logErrorMessage(e, type, bot.channelName);
+						MJRBot.logErrorMessage(e, type, bot);
 					}
 
 					OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
@@ -54,18 +54,18 @@ public class GetFollowTimeThread extends Thread {
 					long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 					long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-					Utilities.sendMessage(type, bot.channelName, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+					Utilities.sendMessage(type, bot, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, bot.channelName);
+			MJRBot.logErrorMessage(e, type, bot);
 		}
 	}
 
 	public static String checkFollowTime(TwitchBot bot, String userTest) {
 		try {
 			String result = "";
-			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelName.toLowerCase(), 25));
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25));
 			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
@@ -106,7 +106,7 @@ public class GetFollowTimeThread extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, bot.channelName);
+			MJRBot.logErrorMessage(e, BotType.Twitch, bot);
 		}
 		return null;
 	}

@@ -74,11 +74,11 @@ public class MixerBot extends MJR_MixerBot {
 			if (this.subscribers.contains(sender.toLowerCase()))
 				this.subscribers.remove(sender.toLowerCase());
 		}
-		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.Chat, sender);
-		CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this.channelName, sender, message);
-		ChatModeration.onCommand(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(this.channelName), this.channelName, sender, null, null, message);
+		ConsoleUtil.textToConsole(this, BotType.Mixer, message, MessageType.Chat, sender);
+		CrossChatLink.sendMessageAcrossPlatforms(BotType.Mixer, this, sender, message);
+		ChatModeration.onCommand(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(this.channelName), sender, null, null, message);
 		try {
-			commands.onCommand(BotType.Mixer, this, this.channelName, sender, null, null, message);
+			commands.onCommand(BotType.Mixer, this, sender, null, null, message);
 		} catch (IOException e) {
 			MJRBot.logErrorMessage(e);
 		}
@@ -110,23 +110,23 @@ public class MixerBot extends MJR_MixerBot {
 		if (!this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 			this.viewersJoinedTimes.put(sender.toLowerCase(), System.currentTimeMillis());
 		if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
-			if (!PointsSystem.isOnList(sender, this.channelName)) {
-				PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), this.channelName, false, false);
+			if (!PointsSystem.isOnList(sender, BotType.Mixer, this)) {
+				PointsSystem.setPoints(sender, Integer.parseInt(Config.getSetting("StartingPoints", this.channelName)), BotType.Mixer, this, false, false);
 			}
 		}
 		if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
-			if (!RankSystem.isOnList(sender, this.channelName)) {
-				RankSystem.setRank(sender, "None", this.channelName);
+			if (!RankSystem.isOnList(sender, BotType.Mixer, this)) {
+				RankSystem.setRank(sender, "None", BotType.Mixer, this);
 			}
 		}
-		EventLog.addEvent(this.channelName, sender, "Joined the channel (Mixer)", EventType.User);
+		EventLog.addEvent(BotType.Mixer, this, sender, "Joined the channel (Mixer)", EventType.User);
 	}
 
 	@Override
 	protected void onPart(String sender) {
 		if (this.viewersJoinedTimes.containsKey(sender.toLowerCase()))
 			this.viewersJoinedTimes.remove(sender.toLowerCase());
-		EventLog.addEvent(this.channelName, sender, "Left the channel (Mixer)", EventType.User);
+		EventLog.addEvent(BotType.Mixer, this, sender, "Left the channel (Mixer)", EventType.User);
 	}
 
 	public void joinChannel(String channel) throws SQLException {
@@ -134,7 +134,7 @@ public class MixerBot extends MJR_MixerBot {
 			this.setdebug(true);
 			int channel_id = 0;
 			if (MJRBot.connectionType == ConnectionType.Manual) {
-				channel_id = Integer.parseInt(MJRBot.id);
+				channel_id = MJRBot.id;
 			} else {
 				ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + channel + "' AND platform = 'Mixer'");
 				if (set != null && set.next()) {
@@ -151,22 +151,22 @@ public class MixerBot extends MJR_MixerBot {
 				this.joinMixerChannel(channel, events);
 				if (this.isConnected() && this.isAuthenticated()) {
 					// Start Threads
-					pointsThread = new AutoPointsThread(BotType.Mixer, channel);
+					pointsThread = new AutoPointsThread(BotType.Mixer, this);
 					pointsThread.start();
-					announcementsThread = new AnnouncementsThread(BotType.Mixer, channel);
+					announcementsThread = new AnnouncementsThread(BotType.Mixer, this);
 					announcementsThread.start();
 
 					for (String viewer : this.getViewers())
 						if (!this.viewersJoinedTimes.containsKey(viewer.toLowerCase()))
 							this.viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
-					ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "MJRBot is Connected & Authenticated to Mixer!", MessageType.Chat, null);
+					ConsoleUtil.textToConsole(this, BotType.Mixer, "MJRBot is Connected & Authenticated to Mixer!", MessageType.Chat, null);
 					if (Config.getSetting("SilentJoin", channel).equalsIgnoreCase("false"))
 						this.sendMessage(this.getBotName() + " Connected!");
 				} else
-					ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
+					ConsoleUtil.textToConsole(this, BotType.Mixer, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 			}
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			MJRBot.logErrorMessage(e);
 		}
@@ -175,7 +175,7 @@ public class MixerBot extends MJR_MixerBot {
 	@Override
 	protected void onDebugMessage() {
 		for (String message : this.getOutputMessages())
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, message, MessageType.ChatBot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, message, MessageType.ChatBot, null);
 		this.clearOutputMessages();
 	}
 
@@ -185,7 +185,7 @@ public class MixerBot extends MJR_MixerBot {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
 		this.disconnect();
-		ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, "Left " + this.channelName + " channel", MessageType.ChatBot, null);
+		ConsoleUtil.textToConsole(this, BotType.Mixer, "Left " + this.channelName + " channel", MessageType.ChatBot, null);
 		this.viewersJoinedTimes.clear();
 	}
 
@@ -199,8 +199,8 @@ public class MixerBot extends MJR_MixerBot {
 			user = user.substring(0, user.indexOf(';'));
 			if (Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " just subscribed to the channel!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just subscribed to the channel!", MessageType.ChatBot, null);
-			EventLog.addEvent(this.channelName, user, "Just subscribed to the channel!", EventType.Sub);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " just subscribed to the channel!", MessageType.ChatBot, null);
+			EventLog.addEvent(BotType.Mixer, this, user, "Just subscribed to the channel!", EventType.Sub);
 			this.subscribers.add(user);
 		} else if (type.equalsIgnoreCase("resubscribed")) {
 			String user = line.substring(line.indexOf("username") + 12);
@@ -209,15 +209,15 @@ public class MixerBot extends MJR_MixerBot {
 			months = months.substring(0, months.indexOf(';'));
 			if (Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
-			EventLog.addEvent(this.channelName, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
+			EventLog.addEvent(BotType.Mixer, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
 			this.subscribers.add(user);
 		} else if (type.equalsIgnoreCase("hosted")) {
 			String user = line.substring(line.indexOf("name") + 7);
 			user = user.substring(0, user.indexOf("'"));
 			if (Config.getSetting("HostingAlerts", this.channelName).equalsIgnoreCase("true"))
 				Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now hosting you!");
-			ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now hosting you!", MessageType.ChatBot, null);
+			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now hosting you!", MessageType.ChatBot, null);
 		} else if (type.equalsIgnoreCase("followed")) {
 			String user = line.substring(line.indexOf("username") + 11);
 			user = user.substring(0, user.indexOf("\""));
@@ -226,13 +226,13 @@ public class MixerBot extends MJR_MixerBot {
 			if (following.trim().equals("true")) {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now following you!");
-				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now following you!", MessageType.ChatBot, null);
+				ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now following you!", MessageType.ChatBot, null);
 				if (!this.followers.contains(user.toLowerCase()))
 					this.followers.add(user.toLowerCase());
 			} else {
 				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					Utilities.sendMessage(BotType.Mixer, this.channelName, user + " is now unfollowing you!");
-				ConsoleUtil.textToConsole(this, BotType.Mixer, this.channelName, user + " is now unfollowing you!", MessageType.ChatBot, null);
+				ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now unfollowing you!", MessageType.ChatBot, null);
 				if (this.followers.contains(user.toLowerCase()))
 					this.followers.remove(user.toLowerCase());
 			}

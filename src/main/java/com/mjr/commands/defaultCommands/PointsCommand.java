@@ -9,9 +9,9 @@ import com.mjr.util.Utilities;
 
 public class PointsCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Points", channel).equalsIgnoreCase("true")) {
-			Utilities.sendMessage(type, channel, sender + " you currently have " + PointsSystem.getPoints(sender, channel) + " points.");
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Points", type, bot).equalsIgnoreCase("true")) {
+			Utilities.sendMessage(type, bot, sender + " you currently have " + PointsSystem.getPoints(sender, type, bot) + " points.");
 		}
 	}
 

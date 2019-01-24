@@ -8,8 +8,8 @@ import com.mjr.util.Utilities;
 
 public class CommandsListCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		Utilities.sendMessage(type, channel, "You can check out the commands that " + ((TwitchBot) bot).getBotName() + " offers over at https://mjrbot.mjrlegends.com/commands.php");
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		Utilities.sendMessage(type, bot, "You can check out the commands that " + ((TwitchBot) bot).getBotName() + " offers over at https://mjrbot.mjrlegends.com/commands.php");
 	}
 
 	@Override

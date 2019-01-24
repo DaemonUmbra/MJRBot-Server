@@ -14,17 +14,21 @@ import com.mjr.util.Utilities;
 public class PointsLeaderboardCommands extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (MJRBot.storageType == StorageType.File)
-			Utilities.sendMessage(type, channel, "This feature is not currently available, when the bot is using a file based system");
+			Utilities.sendMessage(type, bot, "This feature is not currently available, when the bot is using a file based system");
 		else {
-			ResultSet result = MySQLConnection.executeQuery("SELECT * FROM points WHERE channel ='" + channel + "' ORDER BY amount DESC LIMIT 10");
+			ResultSet result = null;
+			if(type == BotType.Twitch)
+				result = MySQLConnection.executeQuery("SELECT * FROM points WHERE twitch_channel_id ='" + Utilities.getChannelIDFromBotType(type, bot) + "' ORDER BY amount DESC LIMIT 10");
+			else if(type == BotType.Mixer)
+				result = MySQLConnection.executeQuery("SELECT * FROM points WHERE channel ='" + Utilities.getChannelNameFromBotType(type, bot) + "' ORDER BY amount DESC LIMIT 10");
 			String top10Users = "";
 			try {
 				while (result.next()) {
 					top10Users = top10Users + result.getString("name") + ":" + result.getInt("amount") + " point(s), ";
 				}
-				Utilities.sendMessage(type, channel, "The top 10 users in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
+				Utilities.sendMessage(type, bot, "The top 10 users in this channel for points are: " + top10Users.substring(0, top10Users.length() - 1));
 			} catch (SQLException e) {
 				MJRBot.logErrorMessage(e);
 			}

@@ -10,12 +10,12 @@ import com.mjr.util.Utilities;
 public class FollowTimeCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
 			GetFollowTimeThread thread = new GetFollowTimeThread((TwitchBot) bot, type, sender);
 			thread.start();
 		} else if (type == BotType.Mixer)
-			Utilities.sendMessage(type, channel, "This command isnt available for Mixer, right now sorry!");
+			Utilities.sendMessage(type, bot, "This command isnt available for Mixer, right now sorry!");
 	}
 
 	@Override

@@ -10,22 +10,22 @@ import com.mjr.util.Utilities;
 public class DiceCommand extends Command {
 
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (args.length == 3) {
 				if (Utilities.isNumeric(args[1])) {
 					if (Utilities.isNumeric(args[2])) {
 						double multi = Double.parseDouble(args[2]);
 						if (multi > 1 && multi < 100)
-							DiceGame.procressTurn(type, channel, sender, Integer.parseInt(args[1]), multi);
+							DiceGame.procressTurn(type, bot, sender, Integer.parseInt(args[1]), multi);
 						else
-							Utilities.sendMessage(type, channel, "@" + sender + " Multiplier must be between 1.01 & 100!");
+							Utilities.sendMessage(type, bot, "@" + sender + " Multiplier must be between 1.01 & 100!");
 					} else
-						Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+						Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 				} else
-					Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+					Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 			} else
-				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 		}
 	}
 

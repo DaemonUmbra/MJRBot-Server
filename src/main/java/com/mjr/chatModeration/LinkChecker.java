@@ -19,7 +19,7 @@ public class LinkChecker {
 	private static final Pattern urlPattern = Pattern.compile("(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" + "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*" + "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)",
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
-	public static boolean CheckLink(Object bot, BotType type, String channelName, String message, String sender) {
+	public static boolean CheckLink(BotType type, Object bot, String message, String sender) {
 		boolean isLink = false;
 		message = message.replace(" ", "");
 		message = message.replace(",", "");
@@ -41,7 +41,7 @@ public class LinkChecker {
 			}
 		}
 		if (isLink) {
-			if (Permissions.hasPermission(bot, type, channelName, sender, PermissionLevel.Moderator.getName()))
+			if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName()))
 				return true;
 			else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
 				return true;

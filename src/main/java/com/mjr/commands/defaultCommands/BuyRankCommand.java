@@ -10,31 +10,31 @@ import com.mjr.util.Utilities;
 
 public class BuyRankCommand extends Command {
 	@Override
-	public void onCommand(BotType type, Object bot, String channel, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Ranks", channel).equalsIgnoreCase("true")) {
+	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
+		if (Config.getSetting("Ranks", type, bot).equalsIgnoreCase("true")) {
 			if (args.length == 2) {
 				String Rank = args[1];
-				if (RankSystem.isOnList(sender, channel)) {
-					if (!RankSystem.hasRank(sender, Rank, channel)) {
+				if (RankSystem.isOnList(sender, type, bot)) {
+					if (!RankSystem.hasRank(sender, Rank, type, bot)) {
 						if (RankSystem.isValidRank(Rank)) {
-							if (PointsSystem.hasPoints(sender, RankSystem.getRankPrice(Rank), channel)) {
-								PointsSystem.RemovePoints(sender, RankSystem.getRankPrice(Rank), channel);
-								RankSystem.setRank(sender, Rank, channel);
-								Utilities.sendMessage(type, channel, "Added " + Rank + " to " + sender);
+							if (PointsSystem.hasPoints(sender, RankSystem.getRankPrice(Rank), type, bot)) {
+								PointsSystem.RemovePoints(sender, RankSystem.getRankPrice(Rank), type, bot);
+								RankSystem.setRank(sender, Rank, type, bot);
+								Utilities.sendMessage(type, bot, "Added " + Rank + " to " + sender);
 							} else {
-								Utilities.sendMessage(type, channel, " you dont have the right amount of points! Do !points to check how many you got");
+								Utilities.sendMessage(type, bot, " you dont have the right amount of points! Do !points to check how many you got");
 							}
 						} else {
-							Utilities.sendMessage(type, channel, "Rank doesnt exist!");
+							Utilities.sendMessage(type, bot, "Rank doesnt exist!");
 						}
 					} else {
-						Utilities.sendMessage(type, channel, "@" + sender + " you already have this rank!");
+						Utilities.sendMessage(type, bot, "@" + sender + " you already have this rank!");
 					}
 				} else {
-					Utilities.sendMessage(type, channel, "Cant add " + Rank + " to " + sender);
+					Utilities.sendMessage(type, bot, "Cant add " + Rank + " to " + sender);
 				}
 			} else {
-				Utilities.sendMessage(type, channel, "@" + sender + " Invalid arguments! You need to enter !buyrank RANK");
+				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !buyrank RANK");
 			}
 		}
 	}

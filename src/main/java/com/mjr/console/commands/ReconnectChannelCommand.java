@@ -11,7 +11,7 @@ public class ReconnectChannelCommand extends ConsoleCommand {
 	public void onCommand(String message, String[] args) {
 		if (args.length == 2) {
 			if (args[1].equalsIgnoreCase("Twitch")) {
-				TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(args[0]);
+				TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(args[0]));
 				twitchBot.disconnectTwitch();
 				ChatBotManager.removeTwitchBot(twitchBot);
 			} else if (args[1].equalsIgnoreCase("Mixer")) {
