@@ -23,23 +23,22 @@ public class PointsSystem extends FileBase {
 	public static String fileName = "Points.properties";
 
 	public static int getPoints(String user, BotType type, Object bot) {
-		try {
-			user = user.toLowerCase();
-			if (!isOnList(user, type, bot))
-				return 0;
-			String value = null;
-			if (MJRBot.storageType == StorageType.File) {
-				if (type == BotType.Twitch)
-					value = load(((TwitchBot) bot).channelID, fileName).getProperty(user);
-				else if (type == BotType.Mixer)
-					value = load(((MixerBot) bot).channelName, fileName).getProperty(user);
-			} else {
-				ResultSet result = null;
-				if (type == BotType.Twitch)
-					result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
-				else if (type == BotType.Mixer)
-					result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
-
+		user = user.toLowerCase();
+		if (!isOnList(user, type, bot))
+			return 0;
+		String value = null;
+		if (MJRBot.storageType == StorageType.File) {
+			if (type == BotType.Twitch)
+				value = load(((TwitchBot) bot).channelID, fileName).getProperty(user);
+			else if (type == BotType.Mixer)
+				value = load(((MixerBot) bot).channelName, fileName).getProperty(user);
+		} else {
+			ResultSet result = null;
+			if (type == BotType.Twitch)
+				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+			else if (type == BotType.Mixer)
+				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+			try {
 				if (result == null)
 					return 0;
 				else if (!result.next())
@@ -49,13 +48,11 @@ public class PointsSystem extends FileBase {
 					result.next();
 					return Integer.parseInt(result.getString(1));
 				}
-
+			} catch (SQLException e) {
+				MJRBot.logErrorMessage(e);
 			}
-			return Integer.parseInt(value);
-		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
 		}
-		return 0;
+		return Integer.parseInt(value);
 	}
 
 	public static void setPoints(String user, int points, BotType type, Object bot, boolean outputEvent, boolean outputConsole) {
