@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mjr.ChatBotManager.BotType;
-import com.mjr.MJRBot;
 import com.mjr.storage.Config;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class EmoteChecker {
 	private static List<String> emotes = new ArrayList<String>();
@@ -14,7 +14,7 @@ public class EmoteChecker {
 	public static void getEmotes(BotType type, String channel) {
 		if (type == BotType.Twitch) {
 			try {
-				String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/chat/" + channel + "/emoticons?client_id=" + MJRBot.CLIENT_ID);
+				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChatEmoticonsAPI(channel));
 				int index = result.indexOf("regex");
 				while (index > -1) {
 					result = result.substring(index + 8);

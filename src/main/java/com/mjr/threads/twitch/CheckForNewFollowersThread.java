@@ -7,6 +7,7 @@ import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
 import com.mjr.storage.Config;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class CheckForNewFollowersThread extends Thread {
 	private BotType type;
@@ -50,7 +51,7 @@ public class CheckForNewFollowersThread extends Thread {
 		String currentfollowers = Arrays.asList(bot.followers).toString();
 		if (!currentfollowers.contains(user)) {
 			try {
-				result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=" + (currentfollowers.length() - (currentfollowers.length() - 3)));
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelName.toLowerCase(), (currentfollowers.length() - (currentfollowers.length() - 3))));
 				for (int i = 0; i < (currentfollowers.length() - (currentfollowers.length() - 3)); i++) {
 					String newresult = "";
 					if (i >= 1)

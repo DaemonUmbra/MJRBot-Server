@@ -11,6 +11,7 @@ import com.mjr.storage.RankSystem;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class GetViewersThread extends Thread {
 
@@ -32,7 +33,7 @@ public class GetViewersThread extends Thread {
 				String staff = "";
 				String admins = "";
 				String global_moderators = "";
-				result = HTTPConnect.getRequest("https://tmi.twitch.tv/group/user/" + bot.channelName + "/chatters");
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserChattersAPI(bot.channelName));
 				if (result.contains("vips" + "\"" + ": [") && !result.contains("vips" + "\"" + ": [],")) {
 					vips = result.substring(result.indexOf("moderators") + 8);
 					result = vips;

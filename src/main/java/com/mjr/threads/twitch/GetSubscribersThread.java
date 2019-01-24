@@ -12,6 +12,7 @@ import com.mjr.storage.ConfigMain;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class GetSubscribersThread extends Thread {
 	private BotType type;
@@ -28,7 +29,7 @@ public class GetSubscribersThread extends Thread {
 		try {
 			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM tokens WHERE channel = '" + bot.channelName + "' AND platform = 'Twitch'");
 			if (set != null && set.next()) {
-				String result = getList("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token") + "&limit=25");
+				String result = getList(TwitchMixerAPICalls.twitchGetChannelsSubscriptionsAPI(bot.channelName.toLowerCase(), set.getString("access_token"), 25));
 				if (result != null && !result.contains("does not have a subscription program")) {
 					String copyresult = result;
 					String total = result.substring(result.indexOf("_total") + 8);
@@ -116,8 +117,7 @@ public class GetSubscribersThread extends Thread {
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.channelName + "'");
 			if (tokenSet.next()) {
-				String result = HTTPConnect.postRequest(
-						"https://id.twitch.tv/oauth2/token?grant_type=refresh_token&refresh_token=" + tokenSet.getString("refresh_token") + "&client_id=" + MJRBot.CLIENT_ID + "&client_secret=" + ConfigMain.getSetting("TwitchClientSecret"));
+				String result = HTTPConnect.postRequest(TwitchMixerAPICalls.twitchGetoAuth2TokenAPI(tokenSet.getString("refresh_token"), ConfigMain.getSetting("TwitchClientSecret")));
 				String access_token = result.substring(result.indexOf("access_token") + 16);
 				access_token = access_token.substring(0, access_token.indexOf(",") - 2);
 				String refresh_token = result.substring(result.indexOf("refresh_token") + 16);

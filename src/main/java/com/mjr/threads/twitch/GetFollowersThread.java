@@ -6,6 +6,7 @@ import com.mjr.TwitchBot;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class GetFollowersThread extends Thread {
 	private BotType type;
@@ -21,7 +22,7 @@ public class GetFollowersThread extends Thread {
 	public void run() {
 		try {
 			String result = "";
-			result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=25");
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsAPI(bot.channelName.toLowerCase(), 25));
 			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));

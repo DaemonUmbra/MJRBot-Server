@@ -32,6 +32,7 @@ import com.mjr.threads.twitch.GetFollowersThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class MixerBot extends MJR_MixerBot {
@@ -91,7 +92,7 @@ public class MixerBot extends MJR_MixerBot {
 			if (set != null && set.next()) {
 				channel_id = set.getInt("channel_id");
 			}
-			result = HTTPConnect.getRequest("https://mixer.com/api/v1/channels/" + channel_id + "/relationship?user=" + userId);
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.mixerCheckFollow(channel_id, userId));
 			if (!result.contains("null")) {
 				if (!this.followers.contains(sender.toLowerCase()))
 					this.followers.add(sender.toLowerCase());

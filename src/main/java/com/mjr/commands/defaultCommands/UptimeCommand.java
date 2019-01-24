@@ -15,6 +15,7 @@ import com.mjr.MixerBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.Command;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class UptimeCommand extends Command {
@@ -23,7 +24,7 @@ public class UptimeCommand extends Command {
 		if (type == BotType.Twitch) {
 			String result = null;
 			try {
-				result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channel + "?client_id=" + MJRBot.CLIENT_ID);
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(channel));
 			} catch (IOException e) {
 				MJRBot.logErrorMessage(e, channel);
 			}

@@ -5,6 +5,7 @@ import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.storage.Config;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class AnnouncementsThread extends Thread {
@@ -25,7 +26,7 @@ public class AnnouncementsThread extends Thread {
 				if (Config.getSetting("Announcements", channelName).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {
-						String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+						String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(channelName));
 						if (result.contains("created_at"))
 							streaming = true;
 					} else {

@@ -13,6 +13,7 @@ import com.mjr.MJRBot;
 import com.mjr.Permissions.PermissionLevel;
 import com.mjr.commands.Command;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class AccountLifeCommand extends Command {
@@ -22,9 +23,9 @@ public class AccountLifeCommand extends Command {
 		try {
 			String result = "";
 			if (type == BotType.Twitch)
-				result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/users/" + sender.toLowerCase() + "/?client_id=" + MJRBot.CLIENT_ID);
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUsersAPI(sender.toLowerCase()));
 			else if (type == BotType.Mixer)
-				result = HTTPConnect.getRequest("https://mixer.com/api/v1/channels/" + sender.toLowerCase());
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.mixerGetChannelsAPI(sender.toLowerCase()));
 			if (result.contains("created_at") || result.contains("createdAt")) {
 				String time = result.substring(result.contains("created_at") ? (result.indexOf("created_at") + 13) : (result.indexOf("createdAt") + 12));
 

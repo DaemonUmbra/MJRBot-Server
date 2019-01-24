@@ -33,6 +33,7 @@ import com.mjr.threads.twitch.GetViewersThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.ConsoleUtil.MessageType;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class TwitchBot extends PircBot {
@@ -116,7 +117,7 @@ public class TwitchBot extends PircBot {
 	public void checkFollower(final String sender) {
 		String result = "";
 		try {
-			result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/users/" + sender + "/follows/channels/" + this.channelName + "?client_id=" + MJRBot.CLIENT_ID);
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchCheckFollow(this.channelName, sender));
 			if (result.contains("created_at"))
 				if (!this.followers.contains(sender.toLowerCase()))
 					this.followers.add(sender.toLowerCase());

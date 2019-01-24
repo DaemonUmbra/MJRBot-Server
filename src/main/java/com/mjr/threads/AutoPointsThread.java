@@ -10,6 +10,7 @@ import com.mjr.storage.EventLog;
 import com.mjr.storage.EventLog.EventType;
 import com.mjr.storage.PointsSystem;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 
 public class AutoPointsThread extends Thread {
 	private BotType type;
@@ -34,7 +35,7 @@ public class AutoPointsThread extends Thread {
 						if (type == BotType.Twitch) {
 							TwitchBot twitchBot = ChatBotManager.getTwitchBotByChannelName(channelName);
 							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
-								String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/streams/" + channelName + "?client_id=" + MJRBot.CLIENT_ID);
+								String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(channelName));
 								if (result.contains("created_at"))
 									streaming = true;
 								if (Config.getSetting("AutoPointsWhenOffline", channelName).equalsIgnoreCase("true") || streaming) {

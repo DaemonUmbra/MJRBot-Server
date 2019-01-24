@@ -12,6 +12,7 @@ import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
 import com.mjr.TwitchBot;
 import com.mjr.util.HTTPConnect;
+import com.mjr.util.TwitchMixerAPICalls;
 import com.mjr.util.Utilities;
 
 public class GetFollowTimeThread extends Thread {
@@ -64,7 +65,7 @@ public class GetFollowTimeThread extends Thread {
 	public static String checkFollowTime(TwitchBot bot, String userTest) {
 		try {
 			String result = "";
-			result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/channels/" + bot.channelName.toLowerCase() + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=25");
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelName.toLowerCase(), 25));
 			String copyresult = result;
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
