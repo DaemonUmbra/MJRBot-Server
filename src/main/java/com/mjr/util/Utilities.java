@@ -62,18 +62,18 @@ public class Utilities {
 		throwable.printStackTrace(pw);
 		return sw.getBuffer().toString();
 	}
-	
+
 	public static int getChannelIDFromBotType(BotType type, Object bot) {
-		if(type.equals(BotType.Twitch))
-			return ((TwitchBot)bot).channelID;
+		if (type == BotType.Twitch)
+			return ((TwitchBot) bot).channelID;
 		return 0;
 	}
-	
+
 	public static String getChannelNameFromBotType(BotType type, Object bot) {
-		if(type.equals(BotType.Mixer))
-			return ((MixerBot)bot).channelName;
-		if(type.equals(BotType.Twitch))
-			return ((TwitchBot)bot).channelName;
+		if (type == BotType.Mixer)
+			return ((MixerBot) bot).channelName;
+		else if (type == BotType.Twitch)
+			return ((TwitchBot) bot).channelName;
 		return "";
 	}
 }
