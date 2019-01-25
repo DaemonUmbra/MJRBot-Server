@@ -17,69 +17,17 @@ import com.mjr.util.Utilities;
 public class Config extends FileBase {
 	public static String fileName = "Config.properties";
 
-	public static void createSettingIfDoesntExist(String setting, String value, String channelName) {
+	public static void createSettingIfDoesntExist(String setting, String value, BotType type, String channel, int channelID) {
 		try {
-			if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"").next()) {
-				ConsoleUtil.textToConsole("Creating config setting of: " + setting + " with the default value for " + channelName);
-				setSetting(setting, value, channelName);
-			}
-		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
-		}
-	}
-
-	public static void loadDefaultsDatabase(String channelName) throws IOException {
-		createSettingIfDoesntExist("LinkWarning", "you are not allowed to post links with out permission!", channelName);
-		createSettingIfDoesntExist("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
-		createSettingIfDoesntExist("FollowerMessage", "has followed!", channelName);
-		createSettingIfDoesntExist("SymbolWarning", "you are using to many symbols", channelName);
-		createSettingIfDoesntExist("AnnouncementsDelay", "0", channelName);
-		createSettingIfDoesntExist("GiveawayDelay", "0", channelName);
-		createSettingIfDoesntExist("StartingPoints", "0", channelName);
-		createSettingIfDoesntExist("AutoPointsDelay", "0", channelName);
-		createSettingIfDoesntExist("EmoteWarning", "dont spam emotes!", channelName);
-		createSettingIfDoesntExist("Commands", "false", channelName);
-		createSettingIfDoesntExist("Games", "false", channelName);
-		createSettingIfDoesntExist("Ranks", "false", channelName);
-		createSettingIfDoesntExist("Points", "false", channelName);
-		createSettingIfDoesntExist("Announcements", "false", channelName);
-		createSettingIfDoesntExist("Badwords", "false", channelName);
-		createSettingIfDoesntExist("LinkChecker", "false", channelName);
-		createSettingIfDoesntExist("Emote", "false", channelName);
-		createSettingIfDoesntExist("Symbol", "false", channelName);
-		createSettingIfDoesntExist("SilentJoin", "true", channelName);
-		createSettingIfDoesntExist("FollowerCheck", "false", channelName);
-		createSettingIfDoesntExist("Quotes", "false", channelName);
-		createSettingIfDoesntExist("MaxSymbols", "5", channelName);
-		createSettingIfDoesntExist("MaxEmotes", "5", channelName);
-		createSettingIfDoesntExist("MsgWhenCommandDoesntExist", "true", channelName);
-		createSettingIfDoesntExist("MsgWhenCommandCantBeUsed", "false", channelName);
-		createSettingIfDoesntExist("AnnouncementMessage1", "", channelName);
-		createSettingIfDoesntExist("AnnouncementMessage2", "", channelName);
-		createSettingIfDoesntExist("AnnouncementMessage3", "", channelName);
-		createSettingIfDoesntExist("AnnouncementMessage4", "", channelName);
-		createSettingIfDoesntExist("AnnouncementMessage5", "", channelName);
-		createSettingIfDoesntExist("CommandsCooldownAmount", "20", channelName);
-		createSettingIfDoesntExist("SelectedTimeZone", "Europe/London", channelName);
-		createSettingIfDoesntExist("SubAlerts", "true", channelName);
-		createSettingIfDoesntExist("ResubAlerts", "true", channelName);
-		createSettingIfDoesntExist("GiftSubAlerts", "true", channelName);
-		createSettingIfDoesntExist("HostingAlerts", "true", channelName);
-		createSettingIfDoesntExist("RaidAlerts", "true", channelName);
-		createSettingIfDoesntExist("BitsAlerts", "true", channelName);
-		createSettingIfDoesntExist("FollowAlerts", "true", channelName);
-		createSettingIfDoesntExist("AnnouncementsWhenOffline", "false", channelName);
-		createSettingIfDoesntExist("TwitchChatLink", "false", channelName);
-		createSettingIfDoesntExist("MixerChatLink", "false", channelName);
-		createSettingIfDoesntExist("DiscordEnabled", "false", channelName);
-		createSettingIfDoesntExist("DiscordChatLink", "false", channelName);
-		createSettingIfDoesntExist("AutoPointsWhenOffline", "false", channelName);
-		try {
-			ResultSet set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE channel = '" + channelName + "'");
-			if (set == null || !set.next()) {
-				String[] badwords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
-				for (int i = 0; i < badwords.length; i++) {
-					MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + badwords[i] + "\"" + ")");
+			if (type == BotType.Twitch) {
+				if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"").next()) {
+					ConsoleUtil.textToConsole("Creating config setting of: " + setting + " with the default value for " + channelID);
+					setSetting(setting, value, type, channel, channelID);
+				}
+			} else if (type == BotType.Mixer) {
+				if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE mixer_channel = " + "\"" + channel + "\"" + " AND setting = " + "\"" + setting + "\"").next()) {
+					ConsoleUtil.textToConsole("Creating config setting of: " + setting + " with the default value for " + channel);
+					setSetting(setting, value, type, channel, channelID);
 				}
 			}
 		} catch (SQLException e) {
@@ -87,65 +35,135 @@ public class Config extends FileBase {
 		}
 	}
 
-	public static void loadDefaults(String channelName) throws IOException {
-		File file = new File(MJRBot.filePath + channelName + File.separator + fileName);
+	public static void loadDefaultsDatabase(BotType type, String channel, int channelID) throws IOException {
+		createSettingIfDoesntExist("LinkWarning", "you are not allowed to post links with out permission!", type, channel, channelID);
+		createSettingIfDoesntExist("LanguageWarning", "you are not allowed to use that language in the chat!", type, channel, channelID);
+		createSettingIfDoesntExist("FollowerMessage", "has followed!", type, channel, channelID);
+		createSettingIfDoesntExist("SymbolWarning", "you are using to many symbols", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementsDelay", "0", type, channel, channelID);
+		createSettingIfDoesntExist("GiveawayDelay", "0", type, channel, channelID);
+		createSettingIfDoesntExist("StartingPoints", "0", type, channel, channelID);
+		createSettingIfDoesntExist("AutoPointsDelay", "0", type, channel, channelID);
+		createSettingIfDoesntExist("EmoteWarning", "dont spam emotes!", type, channel, channelID);
+		createSettingIfDoesntExist("Commands", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Games", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Ranks", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Points", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Announcements", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Badwords", "false", type, channel, channelID);
+		createSettingIfDoesntExist("LinkChecker", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Emote", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Symbol", "false", type, channel, channelID);
+		createSettingIfDoesntExist("SilentJoin", "true", type, channel, channelID);
+		createSettingIfDoesntExist("FollowerCheck", "false", type, channel, channelID);
+		createSettingIfDoesntExist("Quotes", "false", type, channel, channelID);
+		createSettingIfDoesntExist("MaxSymbols", "5", type, channel, channelID);
+		createSettingIfDoesntExist("MaxEmotes", "5", type, channel, channelID);
+		createSettingIfDoesntExist("MsgWhenCommandDoesntExist", "true", type, channel, channelID);
+		createSettingIfDoesntExist("MsgWhenCommandCantBeUsed", "false", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementMessage1", "", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementMessage2", "", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementMessage3", "", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementMessage4", "", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementMessage5", "", type, channel, channelID);
+		createSettingIfDoesntExist("CommandsCooldownAmount", "20", type, channel, channelID);
+		createSettingIfDoesntExist("SelectedTimeZone", "Europe/London", type, channel, channelID);
+		createSettingIfDoesntExist("SubAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("ResubAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("GiftSubAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("HostingAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("RaidAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("BitsAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("FollowAlerts", "true", type, channel, channelID);
+		createSettingIfDoesntExist("AnnouncementsWhenOffline", "false", type, channel, channelID);
+		createSettingIfDoesntExist("TwitchChatLink", "false", type, channel, channelID);
+		createSettingIfDoesntExist("MixerChatLink", "false", type, channel, channelID);
+		createSettingIfDoesntExist("DiscordEnabled", "false", type, channel, channelID);
+		createSettingIfDoesntExist("DiscordChatLink", "false", type, channel, channelID);
+		createSettingIfDoesntExist("AutoPointsWhenOffline", "false", type, channel, channelID);
+		try {
+			ResultSet set = null;
+			if (type == BotType.Twitch)
+				set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE twitch_channel_id = '" + channelID + "'");
+			else if (type == BotType.Mixer)
+				set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE mixer_channel = '" + channel + "'");
+			if (set == null || !set.next()) {
+				String[] badwords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
+				for (int i = 0; i < badwords.length; i++) {
+					if (type == BotType.Twitch)
+						MySQLConnection.executeUpdate("INSERT INTO badwords(twitch_channel_id, word) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + badwords[i] + "\"" + ")");
+					else if (type == BotType.Mixer)
+						MySQLConnection.executeUpdate("INSERT INTO badwords(mixer_channel, word) VALUES (" + "\"" + channel + "\"" + "," + "\"" + badwords[i] + "\"" + ")");
+				}
+			}
+		} catch (SQLException e) {
+			MJRBot.logErrorMessage(e);
+		}
+	}
+
+	public static void loadDefaults(BotType type, String channel, int channelID) throws IOException {
+		File file = null;
+		if (type == BotType.Twitch)
+			file = new File(MJRBot.filePath + channelID + File.separator + fileName);
+		else if (type == BotType.Mixer)
+			file = new File(MJRBot.filePath + channel + File.separator + fileName);
 		if (!file.exists()) {
-			setSetting("LinkWarning", "you are not allowed to post links with out permission!", channelName);
-			setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", channelName);
-			setSetting("FollowerMessage", "has followed!", channelName);
-			setSetting("SymbolWarning", "you are using to many symbols", channelName);
-			setSetting("AnnouncementsDelay", "0", channelName);
-			setSetting("GiveawayDelay", "0", channelName);
-			setSetting("StartingPoints", "0", channelName);
-			setSetting("AutoPointsDelay", "0", channelName);
-			setSetting("EmoteWarning", "dont spam emotes!", channelName);
-			setSetting("Commands", "false", channelName);
-			setSetting("Games", "false", channelName);
-			setSetting("Ranks", "false", channelName);
-			setSetting("Points", "false", channelName);
-			setSetting("Announcements", "false", channelName);
-			setSetting("Badwords", "false", channelName);
-			setSetting("LinkChecker", "false", channelName);
-			setSetting("Emote", "false", channelName);
-			setSetting("Symbol", "false", channelName);
-			setSetting("SilentJoin", "true", channelName);
-			setSetting("FollowerCheck", "false", channelName);
-			setSetting("Quotes", "false", channelName);
-			setSetting("MaxSymbols", "5", channelName);
-			setSetting("MaxEmotes", "5", channelName);
-			setSetting("MsgWhenCommandDoesntExist", "true", channelName);
-			setSetting("MsgWhenCommandCantBeUsed", "false", channelName);
-			setSetting("AnnouncementMessage1", "", channelName);
-			setSetting("AnnouncementMessage2", "", channelName);
-			setSetting("AnnouncementMessage3", "", channelName);
-			setSetting("AnnouncementMessage4", "", channelName);
-			setSetting("AnnouncementMessage5", "", channelName);
-			setSetting("CommandsCooldownAmount", "20", channelName);
-			setSetting("SelectedTimeZone", "Europe/London", channelName);
-			setSetting("SubAlerts", "true", channelName);
-			setSetting("ResubAlerts", "true", channelName);
-			setSetting("GiftSubAlerts", "true", channelName);
-			setSetting("HostingAlerts", "true", channelName);
-			setSetting("RaidAlerts", "true", channelName);
-			setSetting("BitsAlerts", "true", channelName);
-			setSetting("FollowAlerts", "true", channelName);
-			setSetting("AnnouncementsWhenOffline", "false", channelName);
-			setSetting("TwitchChatLink", "false", channelName);
-			setSetting("MixerChatLink", "false", channelName);
-			setSetting("DiscordEnabled", "false", channelName);
-			setSetting("DiscordChatLink", "false", channelName);
-			setSetting("AutoPointsWhenOffline", "false", channelName);
+			setSetting("LinkWarning", "you are not allowed to post links with out permission!", type, channel, channelID);
+			setSetting("LanguageWarning", "you are not allowed to use that language in the chat!", type, channel, channelID);
+			setSetting("FollowerMessage", "has followed!", type, channel, channelID);
+			setSetting("SymbolWarning", "you are using to many symbols", type, channel, channelID);
+			setSetting("AnnouncementsDelay", "0", type, channel, channelID);
+			setSetting("GiveawayDelay", "0", type, channel, channelID);
+			setSetting("StartingPoints", "0", type, channel, channelID);
+			setSetting("AutoPointsDelay", "0", type, channel, channelID);
+			setSetting("EmoteWarning", "dont spam emotes!", type, channel, channelID);
+			setSetting("Commands", "false", type, channel, channelID);
+			setSetting("Games", "false", type, channel, channelID);
+			setSetting("Ranks", "false", type, channel, channelID);
+			setSetting("Points", "false", type, channel, channelID);
+			setSetting("Announcements", "false", type, channel, channelID);
+			setSetting("Badwords", "false", type, channel, channelID);
+			setSetting("LinkChecker", "false", type, channel, channelID);
+			setSetting("Emote", "false", type, channel, channelID);
+			setSetting("Symbol", "false", type, channel, channelID);
+			setSetting("SilentJoin", "true", type, channel, channelID);
+			setSetting("FollowerCheck", "false", type, channel, channelID);
+			setSetting("Quotes", "false", type, channel, channelID);
+			setSetting("MaxSymbols", "5", type, channel, channelID);
+			setSetting("MaxEmotes", "5", type, channel, channelID);
+			setSetting("MsgWhenCommandDoesntExist", "true", type, channel, channelID);
+			setSetting("MsgWhenCommandCantBeUsed", "false", type, channel, channelID);
+			setSetting("AnnouncementMessage1", "", type, channel, channelID);
+			setSetting("AnnouncementMessage2", "", type, channel, channelID);
+			setSetting("AnnouncementMessage3", "", type, channel, channelID);
+			setSetting("AnnouncementMessage4", "", type, channel, channelID);
+			setSetting("AnnouncementMessage5", "", type, channel, channelID);
+			setSetting("CommandsCooldownAmount", "20", type, channel, channelID);
+			setSetting("SelectedTimeZone", "Europe/London", type, channel, channelID);
+			setSetting("SubAlerts", "true", type, channel, channelID);
+			setSetting("ResubAlerts", "true", type, channel, channelID);
+			setSetting("GiftSubAlerts", "true", type, channel, channelID);
+			setSetting("HostingAlerts", "true", type, channel, channelID);
+			setSetting("RaidAlerts", "true", type, channel, channelID);
+			setSetting("BitsAlerts", "true", type, channel, channelID);
+			setSetting("FollowAlerts", "true", type, channel, channelID);
+			setSetting("AnnouncementsWhenOffline", "false", type, channel, channelID);
+			setSetting("TwitchChatLink", "false", type, channel, channelID);
+			setSetting("MixerChatLink", "false", type, channel, channelID);
+			setSetting("DiscordEnabled", "false", type, channel, channelID);
+			setSetting("DiscordChatLink", "false", type, channel, channelID);
+			setSetting("AutoPointsWhenOffline", "false", type, channel, channelID);
 		}
 	}
 
 	public static String getSetting(String setting, BotType type, Object bot) {
-		if(type == BotType.Twitch)
+		if (type == BotType.Twitch)
 			return getSetting(setting, Utilities.getChannelIDFromBotType(type, bot), false);
-		else if(type == BotType.Mixer)
+		else if (type == BotType.Mixer)
 			return getSetting(setting, Utilities.getChannelNameFromBotType(type, bot), false);
 		return null;
 	}
-	
+
 	public static String getSetting(String setting, int channelID) {
 		return getSetting(setting, channelID, false);
 	}
@@ -171,7 +189,7 @@ public class Config extends FileBase {
 		}
 		return null;
 	}
-	
+
 	public static String getSetting(String setting, String channelName) {
 		return getSetting(setting, channelName, false);
 	}
@@ -180,7 +198,7 @@ public class Config extends FileBase {
 		if (MJRBot.storageType == StorageType.File || overrideStorageType) {
 			return load(channelName, fileName).getProperty(setting);
 		} else {
-			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
+			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE mixer_channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
 			try {
 				if (result == null)
 					return null;
@@ -199,11 +217,18 @@ public class Config extends FileBase {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void setSetting(String setting, String value, String channelName) {
+	public static void setSetting(String setting, String value, BotType type, String channel, int channelID) {
 		if (MJRBot.storageType == StorageType.File) {
-			File file = loadFile(channelName, fileName);
-			Properties properties = load(channelName, fileName);
-			file = loadFile(channelName, fileName);
+			File file = null;
+			if (type == BotType.Twitch)
+				file = loadFile(channelID, fileName);
+			else if (type == BotType.Mixer)
+				file = loadFile(channel, fileName);
+			Properties properties = null;
+			if (type == BotType.Twitch)
+				properties = load(channelID, fileName);
+			else if (type == BotType.Mixer)
+				properties = load(channel, fileName);
 			if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 				if (value == "true")
 					ConsoleUtil.textToConsole(setting + " has been has enabled!");
@@ -225,10 +250,19 @@ public class Config extends FileBase {
 				}
 			}
 		} else {
-			if (getSetting(setting, channelName) == null)
-				MySQLConnection.executeUpdate("INSERT INTO config(channel, setting, value) VALUES (" + "\"" + channelName + "\"" + "," + "\"" + setting + "\"" + "," + "\"" + value + "\"" + ")");
-			else
-				MySQLConnection.executeUpdate("UPDATE config SET setting=" + "\"" + setting + "\"" + ",value=" + "\"" + value + "\"" + " WHERE channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
+			if (type == BotType.Twitch) {
+				if (getSetting(setting, channelID) == null)
+					MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + setting + "\"" + "," + "\"" + value + "\"" + ")");
+				else
+					MySQLConnection.executeUpdate("UPDATE config SET setting=" + "\"" + setting + "\"" + ",value=" + "\"" + value + "\"" + " WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"");
+			}
+			if (type == BotType.Twitch) {
+				if (getSetting(setting, channel) == null)
+					MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channel + "\"" + "," + "\"" + setting + "\"" + "," + "\"" + value + "\"" + ")");
+				else
+					MySQLConnection.executeUpdate("UPDATE config SET setting=" + "\"" + setting + "\"" + ",value=" + "\"" + value + "\"" + " WHERE mixer_channel = " + "\"" + channel + "\"" + " AND setting = " + "\"" + setting + "\"");
+			}
+
 		}
 	}
 

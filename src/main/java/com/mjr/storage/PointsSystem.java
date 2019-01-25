@@ -37,7 +37,7 @@ public class PointsSystem extends FileBase {
 			if (type == BotType.Twitch)
 				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return 0;
@@ -79,12 +79,12 @@ public class PointsSystem extends FileBase {
 				if (type == BotType.Twitch)
 					MySQLConnection.executeUpdate("INSERT INTO points(name, twitch_channel_id, amount) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + points + "\"" + ")");
 				else if (type == BotType.Mixer)
-					MySQLConnection.executeUpdate("INSERT INTO points(name, channel, amount) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + points + "\"" + ")");
+					MySQLConnection.executeUpdate("INSERT INTO points(name, mixer_channel, amount) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + points + "\"" + ")");
 			} else {
 				if (type == BotType.Twitch)
 					MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 				else if (type == BotType.Mixer)
-					MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+					MySQLConnection.executeUpdate("UPDATE points SET amount=" + "\"" + points + "\"" + " WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			}
 		}
 		if (outputConsole)
@@ -110,7 +110,7 @@ public class PointsSystem extends FileBase {
 			if (type == BotType.Twitch)
 				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT amount FROM points WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return false;
@@ -189,10 +189,10 @@ public class PointsSystem extends FileBase {
 		for (Object user : properties.keySet()) {
 			if (type == BotType.Twitch)
 				MySQLConnection.executeUpdate(
-						"INSERT INTO points(name, channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+						"INSERT INTO points(name, twitch_channel_id, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
 			else if (type == BotType.Mixer)
 				MySQLConnection.executeUpdate(
-						"INSERT INTO points(name, channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+						"INSERT INTO points(name, mixer_channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
 		}
 	}
 }

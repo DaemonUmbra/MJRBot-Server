@@ -41,27 +41,27 @@ public class ChatBotManager {
 		if(channel != null)
 			channel = channel.toLowerCase(Locale.ENGLISH);
 		if (botType.equalsIgnoreCase("twitch") && channelID != 0) {
-//			try {
-//				if (MJRBot.storageType == StorageType.File) {
-//					Config.loadDefaults(channel);
-//				} else {
-//					Config.loadDefaultsDatabase(channel);
-//				}
-//			} catch (IOException e) {
-//				MJRBot.logErrorMessage(e);
-//			}
+			try {
+				if (MJRBot.storageType == StorageType.File) {
+					Config.loadDefaults(BotType.Twitch, channel, channelID);
+				} else {
+					Config.loadDefaultsDatabase(BotType.Twitch, channel, channelID);
+				}
+			} catch (IOException e) {
+				MJRBot.logErrorMessage(e);
+			}
 			TwitchBot bot = new TwitchBot();
 			ChatBotManager.addTwitchBot(channelID, bot);
 			bot.init(TwitchBot.getChannelNameFromChannelID(channelID), channelID);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
-//			try {
-//				if (MJRBot.storageType == StorageType.File) {
-//					Config.loadDefaults(channel);
-//				} else
-//					Config.loadDefaultsDatabase(channel);
-//			} catch (IOException e) {
-//				MJRBot.logErrorMessage(e);
-//			}
+			try {
+				if (MJRBot.storageType == StorageType.File) {
+					Config.loadDefaults(BotType.Mixer, channel, channelID);
+				} else
+					Config.loadDefaultsDatabase(BotType.Mixer, channel, channelID);
+			} catch (IOException e) {
+				MJRBot.logErrorMessage(e);
+			}
 			MixerBot bot = new MixerBot(channel);
 			ChatBotManager.addMixerBot(channel, bot);
 			try {

@@ -43,7 +43,7 @@ public class RankSystem extends FileBase {
 			if (type == BotType.Twitch)
 				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return null;
@@ -88,12 +88,12 @@ public class RankSystem extends FileBase {
 					if (type == BotType.Twitch)
 						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 				} else {
 					if (type == BotType.Twitch)
 						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 				}
 			}
 			ConsoleUtil.textToConsole(bot, type, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
@@ -138,7 +138,7 @@ public class RankSystem extends FileBase {
 			if (type == BotType.Twitch)
 				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return false;
@@ -179,10 +179,10 @@ public class RankSystem extends FileBase {
 		for (Object user : properties.keySet()) {
 			if (type == BotType.Twitch)
 				MySQLConnection.executeUpdate(
-						"INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+						"INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
 			else if (type == BotType.Mixer)
 				MySQLConnection.executeUpdate(
-						"INSERT INTO ranks(name, channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+						"INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
 		}
 	}
 }
