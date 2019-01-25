@@ -256,7 +256,7 @@ public class Config extends FileBase {
 				else
 					MySQLConnection.executeUpdate("UPDATE config SET setting=" + "\"" + setting + "\"" + ",value=" + "\"" + value + "\"" + " WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"");
 			}
-			if (type == BotType.Twitch) {
+			if (type == BotType.Mixer) {
 				if (getSetting(setting, channel) == null)
 					MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channel + "\"" + "," + "\"" + setting + "\"" + "," + "\"" + value + "\"" + ")");
 				else
