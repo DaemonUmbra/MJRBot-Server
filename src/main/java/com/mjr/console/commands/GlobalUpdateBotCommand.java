@@ -9,7 +9,7 @@ public class GlobalUpdateBotCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		String msg = "MJRBot is updating, it will be back with your shortly!";
+		String msg = "MJRBot is updating, it will be back with you shortly!";
 		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 			bot.sendMessage(msg);
 		}
