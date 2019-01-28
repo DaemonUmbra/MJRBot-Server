@@ -3,7 +3,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.mjrbot.MJRBot</groupId>
    <artifactId>MJRBot-Server</artifactId>
-   <version>1.8.9</version>
+   <version>1.9.0</version>
    <repositories>
       <!--For anything on github -->
       <repository>
