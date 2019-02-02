@@ -22,6 +22,7 @@ import com.mjr.threads.UserCooldownTickThread;
 import com.mjr.util.ConsoleUtil;
 import com.mjr.util.OSUtilities;
 import com.mjr.util.Utilities;
+import com.mjr.util.ConsoleUtil.MessageType;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -233,7 +234,7 @@ public class MJRBot {
 	}
 
 	public static void logErrorMessage(String stackTrace) {
-		getLogger().info(stackTrace);
+		ConsoleUtil.outputMessage(MessageType.Error, stackTrace);
 		if (MJRBot.bot != null)
 			bot.sendErrorMessage(stackTrace);
 	}

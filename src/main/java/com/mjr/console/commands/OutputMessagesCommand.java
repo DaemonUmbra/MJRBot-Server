@@ -34,6 +34,7 @@ public class OutputMessagesCommand extends ConsoleCommand {
 				System.out.println("Output setting: Bot has been set to " + ConsoleUtil.isShowChatMessages());
 			} else
 				System.out.println("Invalid type, Use Chat, Chatbot, Bot OR showall, hideall");
+			ConsoleUtil.refreshConsoleMessages();
 		} else
 			System.out.println("Invalid syntax, Use toggle output " + getParametersDescription());
 	}

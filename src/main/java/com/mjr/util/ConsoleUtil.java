@@ -2,7 +2,14 @@ package com.mjr.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import com.mjr.ChatBotManager.BotType;
 import com.mjr.MJRBot;
@@ -10,13 +17,18 @@ import com.mjr.Permissions;
 import com.mjr.Permissions.PermissionLevel;
 
 public class ConsoleUtil {
+	private static TreeMap<Date, String> lastChatMessages = new TreeMap<Date, String>();
+	private static TreeMap<Date, String> lastChatBotMessages = new TreeMap<Date, String>();
+	private static TreeMap<Date, String> lastBotMessages = new TreeMap<Date, String>();
+	private static TreeMap<Date, String> lastErrorMessages = new TreeMap<Date, String>();
 
 	private static boolean showChatMessages = true;
 	private static boolean showChatBotMessages = true;
 	private static boolean showBotMessages = true;
+	private static boolean showErrorMessages = true;
 
 	public enum MessageType {
-		Chat("Chat"), ChatBot("ChatBot"), Bot("Bot");
+		Chat("Chat"), ChatBot("ChatBot"), Bot("Bot"), Error("Error");
 
 		private final String name;
 
@@ -33,33 +45,98 @@ public class ConsoleUtil {
 		textToConsole(null, null, message, MessageType.Bot, null);
 	}
 
+	public static void outputMessage(MessageType type, String message) {
+		if (type == MessageType.Chat) {
+			if (lastChatMessages.size() <= 100) {
+				for (int i = 99; i < lastChatMessages.size(); i++)
+					lastChatMessages.remove(lastChatMessages.keySet().toArray()[i]);
+			}
+			lastChatMessages.put(Date.from(Instant.now()), message);
+			if (showChatMessages)
+				System.out.println(message);
+		} else if (type == MessageType.ChatBot) {
+			if (lastChatBotMessages.size() <= 100) {
+				for (int i = 99; i < lastChatBotMessages.size(); i++)
+					lastChatBotMessages.remove(lastChatBotMessages.keySet().toArray()[i]);
+			}
+			lastChatBotMessages.put(Date.from(Instant.now()), message);
+			if (showChatBotMessages)
+				System.out.println(message);
+		} else if (type == MessageType.Bot) {
+			if (lastBotMessages.size() <= 100) {
+				for (int i = 99; i < lastBotMessages.size(); i++)
+					lastBotMessages.remove(lastBotMessages.keySet().toArray()[i]);
+			}
+			lastBotMessages.put(Date.from(Instant.now()), message);
+			if (showBotMessages)
+				System.out.println(message);
+		} else if (type == MessageType.Error) {
+			if (lastErrorMessages.size() <= 100) {
+				for (int i = 99; i < lastErrorMessages.size(); i++)
+					lastErrorMessages.remove(lastErrorMessages.keySet().toArray()[i]);
+			}
+			lastErrorMessages.put(Date.from(Instant.now()), message);
+			if (showErrorMessages)
+				System.out.println(message);
+		}
+		MJRBot.getLogger().info(message);
+	}
+
+	public static SortedSet<Entry<Date, String>> getSortedMap(TreeMap<Date, String> originalMap) {
+		SortedSet<Map.Entry<Date, String>> sortedset = new TreeSet<Map.Entry<Date, String>>(new Comparator<Map.Entry<Date, String>>() {
+			@Override
+			public int compare(Map.Entry<Date, String> e1, Map.Entry<Date, String> e2) {
+				return e1.getValue().compareTo(e2.getValue());
+			}
+		});
+
+		sortedset.addAll(originalMap.entrySet());
+		return sortedset;
+	}
+
+	public static void refreshConsoleMessages() {
+		TreeMap<Date, String> temp = new TreeMap<Date, String>();
+		if (showChatMessages) {
+			temp.putAll(lastChatMessages);
+		}
+		if (showChatBotMessages) {
+			temp.putAll(lastChatBotMessages);
+		}
+		if (showBotMessages) {
+			temp.putAll(lastBotMessages);
+		}
+		SortedSet<Entry<Date, String>> map = getSortedMap(temp);
+		for (int i = 0; i < map.size(); i++)
+			System.out.println(map.toArray()[i].toString().substring(map.toArray()[i].toString().indexOf("=")));
+	}
+
 	public static void textToConsole(Object bot, BotType type, String message, MessageType messageType, String sender) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		if (messageType == MessageType.Chat && showChatMessages) {
+		if (messageType == MessageType.Chat) {
 			if (sender != null) {
 				String channel = Utilities.getChannelNameFromBotType(type, bot);
 				if (Permissions.hasPermission(bot, type, sender, PermissionLevel.BotOwner.getName())) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
 				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Bot.getName())) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
 				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.KnownBot.getName())) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 				} else if (type == BotType.Twitch && sender.endsWith(channel)) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 				} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
 				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.User.getName())) {
-					MJRBot.getLogger().info(dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
+					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
 				}
 			}
-		} else if (messageType == MessageType.ChatBot && showChatBotMessages) {
+		} else if (messageType == MessageType.ChatBot) {
 			String channel = Utilities.getChannelNameFromBotType(type, bot);
-			MJRBot.getLogger().info(dateFormat.format(date) + " [MJRBot Info] " + "[Bot Type] " + (type == null ? "Unknown" : type.getTypeName()) + " [Channel] " + (channel == "" ? "Unknown" : channel) + " - " + message);
-		} else if (messageType == MessageType.Bot && showBotMessages) {
-			MJRBot.getLogger().info(dateFormat.format(date) + " [MJRBot Info]" + " - " + message);
+			outputMessage(MessageType.ChatBot, dateFormat.format(date) + " [MJRBot Info] " + "[Bot Type] " + (type == null ? "Unknown" : type.getTypeName()) + " [Channel] " + (channel == "" ? "Unknown" : channel) + " - " + message);
+		} else if (messageType == MessageType.Bot) {
+			outputMessage(MessageType.Bot, dateFormat.format(date) + " [MJRBot Info]" + " - " + message);
 		}
 	}
 
@@ -85,5 +162,61 @@ public class ConsoleUtil {
 
 	public static void setShowBotMessages(boolean showBotMessages) {
 		ConsoleUtil.showBotMessages = showBotMessages;
+	}
+
+	public static boolean isShowErrorMessages() {
+		return showErrorMessages;
+	}
+
+	public static void setShowErrorMessages(boolean showErrorMessages) {
+		ConsoleUtil.showErrorMessages = showErrorMessages;
+	}
+
+	public static TreeMap<Date, String> getLastChatMessages() {
+		return lastChatMessages;
+	}
+
+	public static void setLastChatMessages(TreeMap<Date, String> lastChatMessages) {
+		ConsoleUtil.lastChatMessages = lastChatMessages;
+	}
+
+	public static void addLastChatMessages(Date date, String message) {
+		lastChatMessages.put(date, message);
+	}
+
+	public static TreeMap<Date, String> getLastChatBotMessages() {
+		return lastChatBotMessages;
+	}
+
+	public static void setLastChatBotMessages(TreeMap<Date, String> lastChatBotMessages) {
+		ConsoleUtil.lastChatBotMessages = lastChatBotMessages;
+	}
+
+	public static void addLastChatBotMessages(Date date, String message) {
+		lastChatBotMessages.put(date, message);
+	}
+
+	public static TreeMap<Date, String> getLastBotMessages() {
+		return lastBotMessages;
+	}
+
+	public static void setLastBotMessages(TreeMap<Date, String> lastBotMessages) {
+		ConsoleUtil.lastBotMessages = lastBotMessages;
+	}
+
+	public static void addLastBotMessages(Date date, String message) {
+		lastBotMessages.put(date, message);
+	}
+
+	public static TreeMap<Date, String> getLastErrorMessages() {
+		return lastErrorMessages;
+	}
+
+	public static void setLastErrorMessages(TreeMap<Date, String> lastErrorMessages) {
+		ConsoleUtil.lastErrorMessages = lastErrorMessages;
+	}
+
+	public static void addLastErrorMessages(Date date, String message) {
+		lastErrorMessages.put(date, message);
 	}
 }
