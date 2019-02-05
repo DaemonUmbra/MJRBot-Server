@@ -211,7 +211,7 @@ public class TwitchBot extends PircBot {
 		} else if (line.contains("msg-id=resub")) {
 			String user = line.substring(line.indexOf("display-name=") + 13);
 			user = user.substring(0, user.indexOf(';'));
-			String months = line.substring(line.indexOf("msg-param-months=") + 17);
+			String months = line.substring(line.indexOf("msg-param-cumulative-months=") + 28);
 			months = months.substring(0, months.indexOf(';'));
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (Config.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
