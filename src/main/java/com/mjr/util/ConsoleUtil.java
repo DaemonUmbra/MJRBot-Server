@@ -1,5 +1,6 @@
 package com.mjr.util;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -47,34 +48,26 @@ public class ConsoleUtil {
 
 	public static void outputMessage(MessageType type, String message) {
 		if (type == MessageType.Chat) {
-			if (lastChatMessages.size() <= 100) {
-				for (int i = 99; i < lastChatMessages.size(); i++)
-					lastChatMessages.remove(lastChatMessages.keySet().toArray()[i]);
-			}
+			if (lastChatMessages.size() != 0)
+				lastChatMessages.remove(lastChatMessages.firstKey());
 			lastChatMessages.put(Date.from(Instant.now()), message);
 			if (showChatMessages)
 				System.out.println(message);
 		} else if (type == MessageType.ChatBot) {
-			if (lastChatBotMessages.size() <= 100) {
-				for (int i = 99; i < lastChatBotMessages.size(); i++)
-					lastChatBotMessages.remove(lastChatBotMessages.keySet().toArray()[i]);
-			}
+			if (lastChatBotMessages.size() != 0)
+				lastChatBotMessages.remove(lastChatBotMessages.firstKey());
 			lastChatBotMessages.put(Date.from(Instant.now()), message);
 			if (showChatBotMessages)
 				System.out.println(message);
 		} else if (type == MessageType.Bot) {
-			if (lastBotMessages.size() <= 100) {
-				for (int i = 99; i < lastBotMessages.size(); i++)
-					lastBotMessages.remove(lastBotMessages.keySet().toArray()[i]);
-			}
+			if (lastBotMessages.size() != 0)
+				lastBotMessages.remove(lastBotMessages.firstKey());
 			lastBotMessages.put(Date.from(Instant.now()), message);
 			if (showBotMessages)
 				System.out.println(message);
 		} else if (type == MessageType.Error) {
-			if (lastErrorMessages.size() <= 100) {
-				for (int i = 99; i < lastErrorMessages.size(); i++)
-					lastErrorMessages.remove(lastErrorMessages.keySet().toArray()[i]);
-			}
+			if (lastErrorMessages.size() != 0)
+				lastErrorMessages.remove(lastErrorMessages.firstKey());
 			lastErrorMessages.put(Date.from(Instant.now()), message);
 			if (showErrorMessages)
 				System.out.println(message);
@@ -82,8 +75,8 @@ public class ConsoleUtil {
 		MJRBot.getLogger().info(message);
 	}
 
-	public static SortedSet<Entry<Date, String>> getSortedMap(TreeMap<Date, String> originalMap) {
-		SortedSet<Map.Entry<Date, String>> sortedset = new TreeSet<Map.Entry<Date, String>>(new Comparator<Map.Entry<Date, String>>() {
+	public static TreeSet<Entry<Date, String>> getSortedMap(TreeMap<Date, String> originalMap) {
+		TreeSet<Map.Entry<Date, String>> sortedset = new TreeSet<Map.Entry<Date, String>>(new Comparator<Map.Entry<Date, String>>() {
 			@Override
 			public int compare(Map.Entry<Date, String> e1, Map.Entry<Date, String> e2) {
 				return e1.getValue().compareTo(e2.getValue());
@@ -95,6 +88,12 @@ public class ConsoleUtil {
 	}
 
 	public static void refreshConsoleMessages() {
+		clearConsole();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			MJRBot.logErrorMessage(e);
+		}
 		TreeMap<Date, String> temp = new TreeMap<Date, String>();
 		if (showChatMessages) {
 			temp.putAll(lastChatMessages);
@@ -107,7 +106,19 @@ public class ConsoleUtil {
 		}
 		SortedSet<Entry<Date, String>> map = getSortedMap(temp);
 		for (int i = 0; i < map.size(); i++)
-			System.out.println(map.toArray()[i].toString().substring(map.toArray()[i].toString().indexOf("=")));
+			System.out.println(map.toArray()[i].toString().substring(map.toArray()[i].toString().indexOf("=") + 1));
+	}
+
+	public static void clearConsole() {
+		try {
+			if (OSUtilities.isWindows()) {
+				Runtime.getRuntime().exec("cls");
+			} else {
+				Runtime.getRuntime().exec("clear");
+			}
+		} catch (IOException e) {
+			MJRBot.logErrorMessage(e);
+		}
 	}
 
 	public static void textToConsole(Object bot, BotType type, String message, MessageType messageType, String sender) {

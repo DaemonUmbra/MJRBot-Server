@@ -32,9 +32,12 @@ public class OutputMessagesCommand extends ConsoleCommand {
 				System.out.println("Output setting: Chat has been set to " + ConsoleUtil.isShowChatMessages());
 				System.out.println("Output setting: ChatBot has been set to " + ConsoleUtil.isShowChatMessages());
 				System.out.println("Output setting: Bot has been set to " + ConsoleUtil.isShowChatMessages());
-			} else
+			} else {
 				System.out.println("Invalid type, Use Chat, Chatbot, Bot OR showall, hideall");
+				return;
+			}
 			ConsoleUtil.refreshConsoleMessages();
+			System.out.println("Showing: " + (ConsoleUtil.isShowChatMessages() ? " Chat " : "")+ (ConsoleUtil.isShowChatBotMessages() ? " ChatBot " : "")+ (ConsoleUtil.isShowBotMessages() ? " Bot " : "")+ (ConsoleUtil.isShowErrorMessages() ? " Error " : "") + " outputs");
 		} else
 			System.out.println("Invalid syntax, Use toggle output " + getParametersDescription());
 	}
