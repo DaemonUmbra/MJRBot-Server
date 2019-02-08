@@ -12,11 +12,11 @@ import com.mjr.mjrbot.storage.ConfigMain;
 import com.mjr.mjrbot.util.ConsoleUtil;
 
 public class ChannelListUpdateThread extends Thread {
-	
+
 	public ChannelListUpdateThread() {
 		super("ChannelListUpdate");
 	}
-	
+
 	@Override
 	public void run() {
 		while (true) {

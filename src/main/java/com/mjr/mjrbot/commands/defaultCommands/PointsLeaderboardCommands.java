@@ -19,9 +19,9 @@ public class PointsLeaderboardCommands extends Command {
 			Utilities.sendMessage(type, bot, "This feature is not currently available, when the bot is using a file based system");
 		else {
 			ResultSet result = null;
-			if(type == BotType.Twitch)
+			if (type == BotType.Twitch)
 				result = MySQLConnection.executeQuery("SELECT * FROM points WHERE twitch_channel_id ='" + Utilities.getChannelIDFromBotType(type, bot) + "' ORDER BY amount DESC LIMIT 10");
-			else if(type == BotType.Mixer)
+			else if (type == BotType.Mixer)
 				result = MySQLConnection.executeQuery("SELECT * FROM points WHERE channel ='" + Utilities.getChannelNameFromBotType(type, bot) + "' ORDER BY amount DESC LIMIT 10");
 			String top10Users = "";
 			try {

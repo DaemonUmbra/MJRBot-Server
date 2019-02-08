@@ -56,8 +56,7 @@ public class AccountLifeCommand extends Command {
 				long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 				long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-				Utilities.sendMessage(type, bot,
-						"@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
+				Utilities.sendMessage(type, bot, "@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 			}
 		} catch (Exception e) {
 			MJRBot.logErrorMessage(e);

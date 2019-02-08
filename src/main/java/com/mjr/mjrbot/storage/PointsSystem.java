@@ -188,11 +188,11 @@ public class PointsSystem extends FileBase {
 			properties = load(((MixerBot) bot).channelName, fileName);
 		for (Object user : properties.keySet()) {
 			if (type == BotType.Twitch)
-				MySQLConnection.executeUpdate(
-						"INSERT INTO points(name, twitch_channel_id, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO points(name, twitch_channel_id, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\""
+						+ properties.getProperty((String) user) + "\"" + ")");
 			else if (type == BotType.Mixer)
-				MySQLConnection.executeUpdate(
-						"INSERT INTO points(name, mixer_channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO points(name, mixer_channel, amount) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\""
+						+ properties.getProperty((String) user) + "\"" + ")");
 		}
 	}
 }

@@ -20,10 +20,10 @@ public class BadWordChecker {
 		try {
 			if (MJRBot.storageType == StorageType.Database) {
 				ResultSet set = null;
-				if(type == BotType.Twitch)
+				if (type == BotType.Twitch)
 					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + Utilities.getChannelIDFromBotType(type, bot) + "'");
-				else if(type == BotType.Mixer)
-						set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
+				else if (type == BotType.Mixer)
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
 				if (set != null) {
 					while (set.next()) {
 						badWords.add(set.getString("word"));

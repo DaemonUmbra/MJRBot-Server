@@ -38,7 +38,7 @@ public class ChatBotManager {
 	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
 
 	public static void createBot(String channel, int channelID, String botType) {
-		if(channel != null)
+		if (channel != null)
 			channel = channel.toLowerCase(Locale.ENGLISH);
 		if (botType.equalsIgnoreCase("twitch") && channelID != 0) {
 			try {

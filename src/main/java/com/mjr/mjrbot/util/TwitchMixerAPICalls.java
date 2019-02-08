@@ -16,7 +16,7 @@ public class TwitchMixerAPICalls {
 	public static String twitchGetChannelsFollowsAPI(int channelID, int limit) {
 		return "https://api.twitch.tv/kraken/channels/" + channelID + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=" + limit + "&api_version=5";
 	}
-	
+
 	public static String twitchGetChannelsFollowsAPI(int channelID, int limit, int offset) {
 		return "https://api.twitch.tv/kraken/channels/" + channelID + "/follows?client_id=" + MJRBot.CLIENT_ID + "&limit=" + limit + "&offset=" + offset + "&api_version=5";
 	}

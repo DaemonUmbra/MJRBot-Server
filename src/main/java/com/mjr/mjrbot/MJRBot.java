@@ -153,23 +153,23 @@ public class MJRBot {
 	}
 
 	public static void runMirgration(String channelName, MirgrationType type) {
-//		if (type == MirgrationType.All) { TODO Fix
-//			Config.migrateFile(channelName);
-//			PointsSystem.migrateFile(channelName);
-//			RankSystem.migrateFile(channelName);
-//			QuoteSystem.migrateFile(channelName);
-//		} else if (type == MirgrationType.Config) {
-//			Config.migrateFile(channelName);
-//		}
-//		if (type == MirgrationType.Points) {
-//			PointsSystem.migrateFile(channelName);
-//		}
-//		if (type == MirgrationType.Ranks) {
-//			RankSystem.migrateFile(channelName);
-//		}
-//		if (type == MirgrationType.Quotes) {
-//			QuoteSystem.migrateFile(channelName);
-//		}
+		// if (type == MirgrationType.All) { TODO Fix
+		// Config.migrateFile(channelName);
+		// PointsSystem.migrateFile(channelName);
+		// RankSystem.migrateFile(channelName);
+		// QuoteSystem.migrateFile(channelName);
+		// } else if (type == MirgrationType.Config) {
+		// Config.migrateFile(channelName);
+		// }
+		// if (type == MirgrationType.Points) {
+		// PointsSystem.migrateFile(channelName);
+		// }
+		// if (type == MirgrationType.Ranks) {
+		// RankSystem.migrateFile(channelName);
+		// }
+		// if (type == MirgrationType.Quotes) {
+		// QuoteSystem.migrateFile(channelName);
+		// }
 	}
 
 	public static void runManualMode(BotType type, String channelName, int channelId) {

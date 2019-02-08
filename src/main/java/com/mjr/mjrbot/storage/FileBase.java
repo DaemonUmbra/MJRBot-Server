@@ -36,7 +36,7 @@ public class FileBase {
 		}
 		return null;
 	}
-	
+
 	public static Properties load(int channelID, String fileName) {
 		try {
 			FileReader reader;

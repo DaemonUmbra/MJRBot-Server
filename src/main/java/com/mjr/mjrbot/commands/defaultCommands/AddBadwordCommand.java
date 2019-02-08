@@ -14,9 +14,9 @@ public class AddBadwordCommand extends Command {
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (args.length == 2) {
 			if (MJRBot.storageType == StorageType.Database) {
-				if(type == BotType.Twitch)
+				if (type == BotType.Twitch)
 					MySQLConnection.executeUpdate("INSERT INTO badwords(twitch_channel_id, word) VALUES (" + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
-				if(type == BotType.Mixer)
+				if (type == BotType.Mixer)
 					MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
 				Utilities.sendMessage(type, bot, "@" + sender + " badword has been added!");
 			} else {

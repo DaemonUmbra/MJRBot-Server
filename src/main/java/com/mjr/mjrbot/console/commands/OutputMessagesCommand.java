@@ -37,7 +37,8 @@ public class OutputMessagesCommand extends ConsoleCommand {
 				return;
 			}
 			ConsoleUtil.refreshConsoleMessages();
-			System.out.println("Showing: " + (ConsoleUtil.isShowChatMessages() ? " Chat " : "")+ (ConsoleUtil.isShowChatBotMessages() ? " ChatBot " : "")+ (ConsoleUtil.isShowBotMessages() ? " Bot " : "")+ (ConsoleUtil.isShowErrorMessages() ? " Error " : "") + " outputs");
+			System.out.println("Showing: " + (ConsoleUtil.isShowChatMessages() ? " Chat " : "") + (ConsoleUtil.isShowChatBotMessages() ? " ChatBot " : "") + (ConsoleUtil.isShowBotMessages() ? " Bot " : "")
+					+ (ConsoleUtil.isShowErrorMessages() ? " Error " : "") + " outputs");
 		} else
 			System.out.println("Invalid syntax, Use toggle output " + getParametersDescription());
 	}

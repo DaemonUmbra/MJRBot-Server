@@ -22,10 +22,10 @@ public class QuoteCommand extends Command {
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (Config.getSetting("Quotes", type, bot).equalsIgnoreCase("true")) {
-			if(type == BotType.Twitch)
+			if (type == BotType.Twitch)
 				file = new File(MJRBot.filePath + Utilities.getChannelIDFromBotType(type, bot) + File.separator + filename);
-			else if(type == BotType.Mixer)
-				file = new File(MJRBot.filePath + Utilities.getChannelNameFromBotType(type, bot)+ File.separator + filename);
+			else if (type == BotType.Mixer)
+				file = new File(MJRBot.filePath + Utilities.getChannelNameFromBotType(type, bot) + File.separator + filename);
 			if (args.length == 1) {
 				Utilities.sendMessage(type, bot, QuoteSystem.getRandomQuote(type, bot, file));
 			} else if (args.length == 3 && args[1].equalsIgnoreCase("get") && Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {

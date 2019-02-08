@@ -26,10 +26,10 @@ public class ModerationActionsLog extends FileBase {
 		Date date = new Date();
 		if (MJRBot.storageType == StorageType.File) {
 			File file = null;
-			if(type == BotType.Twitch)
-				file = loadFile(((TwitchBot)bot).channelID, fileName);
-			else if(type == BotType.Mixer)
-				file = loadFile(((MixerBot)bot).channelName, fileName);
+			if (type == BotType.Twitch)
+				file = loadFile(((TwitchBot) bot).channelID, fileName);
+			else if (type == BotType.Mixer)
+				file = loadFile(((MixerBot) bot).channelName, fileName);
 			Path filePath = Paths.get(file.getPath());
 			try {
 				Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + reason + " Message: " + message + ";").getBytes(), StandardOpenOption.APPEND);
@@ -37,8 +37,8 @@ public class ModerationActionsLog extends FileBase {
 				MJRBot.logErrorMessage(e);
 			}
 		} else {
-			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + "," + "\"" + user + "\"" + "," + "\"" + reason
-					+ "\"" + "," + "\"" + message + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + ","
+					+ "\"" + user + "\"" + "," + "\"" + reason + "\"" + "," + "\"" + message + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
 		}
 	}
 
