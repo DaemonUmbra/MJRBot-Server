@@ -12,7 +12,8 @@ public class HelpCommand extends ConsoleCommand {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void onCommand(String message, String[] args) {
-		System.out.println("-----Help Commands-----");
+		System.out.println("");
+		System.out.println("---------------Help Commands---------------");
 		System.out.println("<> Required Parameters");
 		System.out.println("[] Optional Parameters");
 		System.out.println("");
