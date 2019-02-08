@@ -17,6 +17,8 @@ import com.mjr.console.commands.ExitProcessCommand;
 import com.mjr.console.commands.GlobalMessageCommand;
 import com.mjr.console.commands.GlobalUpdateBotCommand;
 import com.mjr.console.commands.HelpCommand;
+import com.mjr.console.commands.InfoCommand;
+import com.mjr.console.commands.InfoThreadCommand;
 import com.mjr.console.commands.MirgrateCommand;
 import com.mjr.console.commands.OutputDependencyMessagesCommand;
 import com.mjr.console.commands.OutputMessagesCommand;
@@ -53,6 +55,8 @@ public class ConsoleCommandManager {
 		commands.put("toggle depoutput", new OutputDependencyMessagesCommand());
 		commands.put("sync analytics", new SyncAnalyticsCommand());
 		commands.put("exit", new ExitProcessCommand());
+		commands.put("info", new InfoCommand());
+		commands.put("threads", new InfoThreadCommand());
 	}
 
 	public static void onCommand(String message) {
