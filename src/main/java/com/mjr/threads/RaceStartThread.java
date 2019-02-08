@@ -10,8 +10,8 @@ public class RaceStartThread extends Thread {
 	private BotType type;
 	private Object bot;
 
-	public RaceStartThread(BotType type, Object bot) {
-		super();
+	public RaceStartThread(BotType type, Object bot, String channel) {
+		super("RaceStartThread for " + type.getTypeName() + "|" + channel);
 		this.type = type;
 		this.bot = bot;
 	}

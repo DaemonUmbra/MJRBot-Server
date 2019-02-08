@@ -13,8 +13,8 @@ public class GiveAwayThread extends Thread {
 	private BotType type;
 	private Object bot;
 
-	public GiveAwayThread(BotType type, Object bot) {
-		super();
+	public GiveAwayThread(BotType type, Object bot, String channel) {
+		super("GiveAwayThread for " + type.getTypeName() + "|" + channel);
 		this.type = type;
 		this.bot = bot;
 	}

@@ -19,7 +19,7 @@ public class GetSubscribersThread extends Thread {
 	private TwitchBot bot;
 
 	public GetSubscribersThread(TwitchBot bot, BotType type) {
-		super();
+		super("GetSubscribersThread for" + bot.channelName);
 		this.type = type;
 		this.bot = bot;
 	}

@@ -14,8 +14,8 @@ public class AnnouncementsThread extends Thread {
 	private BotType type;
 	private Object bot;
 
-	public AnnouncementsThread(BotType type, Object bot) {
-		super();
+	public AnnouncementsThread(BotType type, Object bot, String channel) {
+		super("AnnouncementsThread for " + type.getTypeName() + "|" + channel);
 		this.type = type;
 		this.bot = bot;
 	}

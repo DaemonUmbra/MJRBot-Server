@@ -151,9 +151,9 @@ public class MixerBot extends MJR_MixerBot {
 				this.joinMixerChannel(channel, events);
 				if (this.isConnected() && this.isAuthenticated()) {
 					// Start Threads
-					pointsThread = new AutoPointsThread(BotType.Mixer, this);
+					pointsThread = new AutoPointsThread(BotType.Mixer, this, channel);
 					pointsThread.start();
-					announcementsThread = new AnnouncementsThread(BotType.Mixer, this);
+					announcementsThread = new AnnouncementsThread(BotType.Mixer, this, channel);
 					announcementsThread.start();
 
 					for (String viewer : this.getViewers())

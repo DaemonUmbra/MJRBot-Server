@@ -15,7 +15,7 @@ public class GiveAwayCommand extends Command {
 		if (type == BotType.Twitch) {
 			TwitchBot twitchBot = (TwitchBot) bot;
 			if (twitchBot.giveAwayActive == false) {
-				GiveAwayThread thread = new GiveAwayThread(type, bot);
+				GiveAwayThread thread = new GiveAwayThread(type, bot, twitchBot.channelName);
 				thread.start();
 				twitchBot.giveAwayActive = true;
 			} else {
@@ -24,7 +24,7 @@ public class GiveAwayCommand extends Command {
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = (MixerBot) bot;
 			if (mixerBot.giveAwayActive == false) {
-				GiveAwayThread thread = new GiveAwayThread(type, bot);
+				GiveAwayThread thread = new GiveAwayThread(type, bot, mixerBot.channelName);
 				thread.start();
 				mixerBot.giveAwayActive = true;
 			} else {

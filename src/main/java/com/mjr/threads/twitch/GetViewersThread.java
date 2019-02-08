@@ -18,7 +18,7 @@ public class GetViewersThread extends Thread {
 	private TwitchBot bot;
 
 	public GetViewersThread(TwitchBot bot) {
-		super();
+		super("GetViewersThread for" + bot.channelName);
 		this.bot = bot;
 	}
 

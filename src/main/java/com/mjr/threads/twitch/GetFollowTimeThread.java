@@ -21,7 +21,7 @@ public class GetFollowTimeThread extends Thread {
 	private String user;
 
 	public GetFollowTimeThread(TwitchBot bot, BotType type, String user) {
-		super();
+		super("GetFollowTimeThread for" + bot.channelName);
 		this.type = type;
 		this.bot = bot;
 		this.user = user;

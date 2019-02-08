@@ -245,9 +245,9 @@ public class TwitchBot extends PircBot {
 			ConnectedToChannel = true;
 
 			// Start Threads
-			pointsThread = new AutoPointsThread(BotType.Twitch, this);
+			pointsThread = new AutoPointsThread(BotType.Twitch, this, channel);
 			pointsThread.start();
-			announcementsThread = new AnnouncementsThread(BotType.Twitch, this);
+			announcementsThread = new AnnouncementsThread(BotType.Twitch, this, channel);
 			announcementsThread.start();
 
 			this.sendMessage(this.stream, "/mods");

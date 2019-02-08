@@ -20,7 +20,7 @@ public class BankHeistCommand extends Command {
 						if (Utilities.isNumeric(args[1])) {
 							twitchBot.bankHeistEnteredUsers.clear();
 							twitchBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
-							twitchBot.bankHeistThread = new BankHeistThread(type, bot);
+							twitchBot.bankHeistThread = new BankHeistThread(type, bot, twitchBot.channelName);
 							twitchBot.bankHeistThread.start();
 							Utilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else
@@ -37,7 +37,7 @@ public class BankHeistCommand extends Command {
 						if (Utilities.isNumeric(args[1])) {
 							mixerBot.bankHeistEnteredUsers.clear();
 							mixerBot.bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
-							mixerBot.bankHeistThread = new BankHeistThread(type, bot);
+							mixerBot.bankHeistThread = new BankHeistThread(type, bot, mixerBot.channelName);
 							mixerBot.bankHeistThread.start();
 							Utilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else

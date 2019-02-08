@@ -5,6 +5,11 @@ import com.mjr.MJRBot;
 import com.mjr.MJRBot.StorageType;
 
 public class UpdateAnalyticsThread extends Thread {
+	
+	public UpdateAnalyticsThread() {
+		super("UpdateAnalyticsThread");
+	}
+	
 	@Override
 	public void run() {
 		while (true) {

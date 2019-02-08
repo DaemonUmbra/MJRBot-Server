@@ -9,6 +9,11 @@ import com.mjr.MixerBot;
 import com.mjr.TwitchBot;
 
 public class UserCooldownTickThread extends Thread {
+
+	public UserCooldownTickThread() {
+		super("UserCooldownTickThread");
+	}
+
 	@Override
 	public void run() {
 		while (true) {

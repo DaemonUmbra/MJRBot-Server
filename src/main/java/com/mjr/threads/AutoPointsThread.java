@@ -15,8 +15,8 @@ public class AutoPointsThread extends Thread {
 	private BotType type;
 	private Object bot;
 
-	public AutoPointsThread(BotType type, Object bot) {
-		super();
+	public AutoPointsThread(BotType type, Object bot, String channel) {
+		super("AutoPointsThread for " + type.getTypeName() + "|" + channel);
 		this.type = type;
 		this.bot = bot;
 	}

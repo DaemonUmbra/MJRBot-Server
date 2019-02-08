@@ -12,8 +12,8 @@ public class BankHeistThread extends Thread {
 	private Object bot;
 	public boolean gameActive;
 
-	public BankHeistThread(BotType type, Object bot) {
-		super();
+	public BankHeistThread(BotType type, Object bot, String channel) {
+		super("BankHeistThread for " + type.getTypeName() + "|" + channel);
 		this.type = type;
 		this.bot = bot;
 	}
