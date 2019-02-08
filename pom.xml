@@ -79,7 +79,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.mjr.MJRBot</mainClass>
+                            <mainClass>com.mjr.mjrbot.MJRBot</mainClass>
                         </manifest>
                     </archive>
                     <encoding>UTF-8</encoding>
