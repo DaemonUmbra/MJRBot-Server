@@ -1,0 +1,31 @@
+package com.mjr.mjrbot.console.commands;
+
+import com.mjr.mjrbot.ChatBotManager;
+import com.mjr.mjrbot.MixerBot;
+import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.console.ConsoleCommand;
+
+public class GlobalUpdateBotCommand extends ConsoleCommand {
+
+	@Override
+	public void onCommand(String message, String[] args) {
+		String msg = "MJRBot is updating, it will be back with you shortly!";
+		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
+			bot.sendMessage(msg);
+		}
+		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
+			bot.sendMessage(msg);
+		}
+	}
+
+	@Override
+	public String getDescription() {
+		return "Send predefined update message to all connected Twitch & Mixer channels";
+	}
+
+	@Override
+	public String getParametersDescription() {
+		return "";
+	}
+
+}

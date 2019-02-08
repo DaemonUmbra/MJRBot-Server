@@ -1,0 +1,30 @@
+package com.mjr.mjrbot.console.commands;
+
+import com.mjr.mjrbot.ChatBotManager;
+import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.console.ConsoleCommand;
+
+public class DiscordBotConnectCommand extends ConsoleCommand {
+
+	@Override
+	public void onCommand(String message, String[] args) {
+		if (MJRBot.bot == null) {
+			if (ChatBotManager.getTwitchBots().size() != 0 && ChatBotManager.getMixerBots().size() != 0) {
+				MJRBot.discordConnect();
+				System.out.println("Discord Bot connected!");
+			} else
+				System.out.println("You need to run the 'connect' command first!");
+		} else
+			System.out.println("Discord Bot already connected!");
+	}
+
+	@Override
+	public String getDescription() {
+		return "Setup/Connect Discord Bot";
+	}
+
+	@Override
+	public String getParametersDescription() {
+		return "";
+	}
+}
