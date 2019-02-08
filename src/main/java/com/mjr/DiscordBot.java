@@ -1,12 +1,13 @@
 package com.mjr;
 
 import com.mjr.discord.MessageManager;
+import com.mjr.discordframework.DiscordBotBase;
 import com.mjr.util.ConsoleUtil;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.util.Snowflake;
 
-public class DiscordBot extends Discord_Bot {
+public class DiscordBot extends DiscordBotBase {
 
 	public static Snowflake mjrlegends_guild_id = Snowflake.of(304416423147601921L);
 	public static Snowflake error_channel_id = Snowflake.of(510208195629809704L);

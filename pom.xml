@@ -45,11 +45,6 @@
          <scope>compile</scope>
       </dependency>
       <dependency>
-		 <groupId>com.discord4j.discord4j</groupId>
-		 <artifactId>discord4j-core</artifactId>
-		 <version>00726fd</version>
-      </dependency>
-      <dependency>
          <groupId>ch.qos.logback</groupId>
          <artifactId>logback-classic</artifactId>
          <version>1.2.3</version>
@@ -63,7 +58,7 @@
       <dependency>
 	    <groupId>com.mjr.discordframework</groupId>
 	    <artifactId>Discord-Framework</artifactId>
-	    <version>1.0.5</version>
+	    <version>1.0.8</version>
 	  </dependency>
       <dependency>
 	      <groupId>org.jibble.pircbot</groupId>
