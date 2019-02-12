@@ -9,7 +9,7 @@ public class InfoCommand extends ConsoleCommand {
 	@Override
 	public void onCommand(String message, String[] args) {
 		System.out.println("");
-		System.out.println("---------------MJRBot Proceess Info---------------");
+		System.out.println("---------------MJRBot Process Info---------------");
 		long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
 		long second = (uptime / 1000) % 60;
 		long minute = (uptime / (1000 * 60)) % 60;
