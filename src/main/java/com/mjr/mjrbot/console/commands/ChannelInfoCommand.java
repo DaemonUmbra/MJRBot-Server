@@ -27,7 +27,7 @@ public class ChannelInfoCommand extends ConsoleCommand {
 			} else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
-			System.out.println("Invalid syntax, Use channel reconnect " + getParametersDescription());
+			System.out.println("Invalid syntax, Use channel info " + getParametersDescription());
 	}
 
 	public void sendInfo(String platform, String channel, int viewerCount, int subsCount, int modsCount, boolean connected) {
