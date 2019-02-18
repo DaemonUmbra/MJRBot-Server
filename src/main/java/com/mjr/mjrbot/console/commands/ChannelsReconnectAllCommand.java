@@ -7,7 +7,7 @@ import com.mjr.mjrbot.MixerBot;
 import com.mjr.mjrbot.TwitchBot;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
-public class ReconnectAllChannelsCommand extends ConsoleCommand {
+public class ChannelsReconnectAllCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

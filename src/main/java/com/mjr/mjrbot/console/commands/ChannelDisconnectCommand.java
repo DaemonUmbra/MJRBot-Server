@@ -3,7 +3,7 @@ package com.mjr.mjrbot.console.commands;
 import com.mjr.mjrbot.console.ConsoleCommand;
 import com.mjr.mjrbot.sql.MySQLConnection;
 
-public class DisconnectChannelCommand extends ConsoleCommand {
+public class ChannelDisconnectCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

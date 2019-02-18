@@ -6,7 +6,7 @@ import com.mjr.mjrbot.TwitchBot;
 import com.mjr.mjrbot.console.ConsoleCommand;
 import com.mjr.mjrbot.sql.MySQLConnection;
 
-public class DisconnectAllChannelsCommand extends ConsoleCommand {
+public class ChannelsDisconnectAllCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
