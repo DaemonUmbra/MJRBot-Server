@@ -386,7 +386,7 @@ public class TwitchBot extends PircBot {
 
 	public static int getChannelIDFromChannelName(String channelName) {
 		try {
-			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "'");
+			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "' AND bot_type = 'Twitch'");
 			if (set != null && set.next()) {
 				return set.getInt("twitch_channel_id");
 			}
