@@ -44,6 +44,7 @@ public class ConsoleCommandManager {
 		commands.put("gmsgupdate", new GlobalUpdateBotCommand());
 		commands.put("version", new VersionCommand());
 		commands.put("channels", new ChannelListCommand());
+		commands.put("channel info", new ChannelInfoCommand());
 		commands.put("channel disconnect", new ChannelDisconnectCommand());
 		commands.put("channel disconnectall", new ChannelsDisconnectAllCommand());
 		commands.put("channel reconnect", new ChannelReconnectCommand());

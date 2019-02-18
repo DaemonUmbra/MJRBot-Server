@@ -24,7 +24,7 @@ public class AutoPointsThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (type == BotType.Twitch ? ((TwitchBot) bot).ConnectedToChannel : ((MixerBot) bot).isConnected()) {
+			while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
 				if (Config.getSetting("Points", type, bot).equalsIgnoreCase("true")) {
 					int delay = Integer.parseInt(Config.getSetting("AutoPointsDelay", type, bot));
 					if (delay != 0) {
@@ -33,7 +33,7 @@ public class AutoPointsThread extends Thread {
 						boolean streaming = false;
 						if (type == BotType.Twitch) {
 							TwitchBot twitchBot = (TwitchBot) bot;
-							if (twitchBot.ConnectedToChannel && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
+							if (twitchBot.isBotConnected() && !twitchBot.viewers.isEmpty() && !twitchBot.viewersJoinedTimes.isEmpty()) {
 								String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(((TwitchBot) bot).channelID));
 								if (result.contains("created_at"))
 									streaming = true;

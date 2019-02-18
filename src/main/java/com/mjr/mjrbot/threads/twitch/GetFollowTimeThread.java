@@ -30,7 +30,7 @@ public class GetFollowTimeThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			if (type == BotType.Twitch && bot.ConnectedToChannel) {
+			if (type == BotType.Twitch && bot.isBotConnected()) {
 				String time = checkFollowTime(bot, user.toLowerCase());
 				if (time == null) {
 					Utilities.sendMessage(type, bot, "@" + user + " unable to obtain follow details for you!");

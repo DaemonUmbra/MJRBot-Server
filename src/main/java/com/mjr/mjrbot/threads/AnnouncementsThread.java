@@ -23,7 +23,7 @@ public class AnnouncementsThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (type == BotType.Twitch ? ((TwitchBot) bot).ConnectedToChannel : ((MixerBot) bot).isConnected()) {
+			while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
 				if (Config.getSetting("Announcements", type, bot).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {

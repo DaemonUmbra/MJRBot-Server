@@ -41,7 +41,7 @@ import com.mjr.mjrbot.util.Utilities;
 public class TwitchBot extends PircBot {
 
 	private String stream = "";
-	public boolean ConnectedToChannel = false;
+	private boolean connected = false;
 
 	public int channelID = 0;
 	public String channelName = "";
@@ -242,7 +242,7 @@ public class TwitchBot extends PircBot {
 	@Override
 	protected void onJoin(String channel, String sender, String login, String hostname) {
 		if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
-			ConnectedToChannel = true;
+			connected = true;
 
 			// Start Threads
 			pointsThread = new AutoPointsThread(BotType.Twitch, this, channel);
@@ -304,9 +304,9 @@ public class TwitchBot extends PircBot {
 
 	public void ConnectToTwitch() throws IOException {
 		if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("") && !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
-			if (!this.ConnectedToChannel) {
+			if (!this.connected) {
 				if (this.isConnected()) {
-					this.ConnectedToChannel = false;
+					this.connected = false;
 					this.disconnect();
 				}
 				this.setName(ConfigMain.getSetting("TwitchUsername"));
@@ -363,6 +363,14 @@ public class TwitchBot extends PircBot {
 		this.stream = stream;
 	}
 
+	public boolean isBotConnected() {
+		return connected;
+	}
+
+	public void setBotConnected(boolean connected) {
+		this.connected = connected;
+	}
+
 	public void disconnectTwitch() {
 		String silentJoin = Config.getSetting("SilentJoin", this.channelID);
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
@@ -372,7 +380,7 @@ public class TwitchBot extends PircBot {
 		ConsoleUtil.textToConsole(this, BotType.Twitch, "Left " + this.getChannel() + " channel", MessageType.ChatBot, null);
 		this.viewers.clear();
 		this.viewersJoinedTimes.clear();
-		this.ConnectedToChannel = false;
+		this.connected = false;
 		this.setChannel("");
 	}
 
