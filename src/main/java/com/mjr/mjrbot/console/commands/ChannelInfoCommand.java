@@ -31,13 +31,15 @@ public class ChannelInfoCommand extends ConsoleCommand {
 	}
 
 	public void sendInfo(String platform, String channel, int viewerCount, int subsCount, int modsCount, boolean connected) {
-		System.out.println("Platform " + platform + " \n");
-		System.out.println("Channel " + channel + " \n");
-		System.out.println("Connected " + connected + " \n" + " \n");
-		System.out.println("Num of Viewers " + viewerCount + " \n");
-		System.out.println("Num of Subs " + subsCount + " \n");
-		System.out.println("Num of Moderators " + modsCount + " \n");
-		System.out.println("Num of Moderators " + modsCount + " \n");
+		System.out.println("");
+		System.out.println("---------------MJRBot Channel Info---------------");
+		System.out.println("Platform " + platform);
+		System.out.println("Channel " + channel);
+		System.out.println("Connected " + connected + " \n");
+		System.out.println("Num of Viewers " + viewerCount);
+		System.out.println("Num of Subs " + subsCount );
+		System.out.println("Num of Moderators " + modsCount);
+		System.out.println("Num of Moderators " + modsCount);
 	}
 
 	@Override
