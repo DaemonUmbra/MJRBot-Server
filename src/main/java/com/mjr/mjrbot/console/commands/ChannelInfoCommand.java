@@ -16,21 +16,21 @@ public class ChannelInfoCommand extends ConsoleCommand {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(), twitchBot.isBotConnected());
+				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(), twitchBot.getTwitchData().getVips().size(), twitchBot.isBotConnected());
 			} else if (args[1].equalsIgnoreCase("Mixer")) {
 				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				if (mixerBot == null) {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Mixer", mixerBot.getChannelName(), mixerBot.getViewers().size(), mixerBot.getMixerData().getSubscribers().size(), mixerBot.getModerators().size(), mixerBot.isConnected());
+				sendInfo("Mixer", mixerBot.getChannelName(), mixerBot.getViewers().size(), mixerBot.getMixerData().getSubscribers().size(), mixerBot.getModerators().size(), 0, mixerBot.isConnected());
 			} else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
 			System.out.println("Invalid syntax, Use channel info " + getParametersDescription());
 	}
 
-	public void sendInfo(String platform, String channel, int viewerCount, int subsCount, int modsCount, boolean connected) {
+	public void sendInfo(String platform, String channel, int viewerCount, int subsCount, int modsCount, int vipsCount, boolean connected) {
 		System.out.println("");
 		System.out.println("---------------MJRBot Channel Info---------------");
 		System.out.println("Platform " + platform);
@@ -39,7 +39,8 @@ public class ChannelInfoCommand extends ConsoleCommand {
 		System.out.println("Num of Viewers " + viewerCount);
 		System.out.println("Num of Subs " + subsCount);
 		System.out.println("Num of Moderators " + modsCount);
-		System.out.println("Num of Moderators " + modsCount);
+		if(platform.equalsIgnoreCase("twitch"))
+			System.out.println("Num of VIPs " + vipsCount);
 	}
 
 	@Override
