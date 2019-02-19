@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.RankSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class RankCheckCommand extends Command {
 	@Override
@@ -14,12 +14,12 @@ public class RankCheckCommand extends Command {
 			if (args.length == 2) {
 				String user = args[1];
 				if (RankSystem.isOnList(user, type, bot)) {
-					Utilities.sendMessage(type, bot, user + " current rank is " + RankSystem.getRank(user, type, bot));
+					MJRBotUtilities.sendMessage(type, bot, user + " current rank is " + RankSystem.getRank(user, type, bot));
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + "Unable to find " + user + " current rank!");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + "Unable to find " + user + " current rank!");
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !getrank USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !getrank USER");
 			}
 		}
 	}

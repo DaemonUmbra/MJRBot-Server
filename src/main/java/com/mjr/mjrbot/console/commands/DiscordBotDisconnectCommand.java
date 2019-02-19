@@ -7,9 +7,9 @@ public class DiscordBotDisconnectCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (MJRBot.bot != null) {
-			MJRBot.bot.getClient().logout();
-			MJRBot.bot = null;
+		if (MJRBot.getDiscordBot() != null) {
+			MJRBot.getDiscordBot().getClient().logout();
+			MJRBot.setDiscordBot(null);
 			System.out.println("Discord Bot disconnected!");
 		} else
 			System.out.println("Discord Bot already disconnected!");

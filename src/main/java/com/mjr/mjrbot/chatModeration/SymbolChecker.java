@@ -1,6 +1,6 @@
 package com.mjr.mjrbot.chatModeration;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.Config;
 
 public class SymbolChecker {

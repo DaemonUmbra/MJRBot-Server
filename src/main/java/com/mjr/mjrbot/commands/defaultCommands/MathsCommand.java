@@ -1,12 +1,12 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class MathsCommand extends Command {
 	@Override
@@ -15,20 +15,20 @@ public class MathsCommand extends Command {
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = ((TwitchBot) bot);
 				if (twitchBot.mathsGame.isGameActive == false) {
-					Utilities.sendMessage(type, bot, twitchBot.mathsGame.CreateQuestion(type, bot));
-					Utilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+					MJRBotUtilities.sendMessage(type, bot, twitchBot.mathsGame.CreateQuestion(type, bot));
+					MJRBotUtilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 					twitchBot.mathsGame.isGameActive = true;
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
 				}
 			} else if (type == BotType.Mixer) {
 				MixerBot mixerBot = ((MixerBot) bot);
 				if (mixerBot.mathsGame.isGameActive == false) {
-					Utilities.sendMessage(type, bot, mixerBot.mathsGame.CreateQuestion(type, bot));
-					Utilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
+					MJRBotUtilities.sendMessage(type, bot, mixerBot.mathsGame.CreateQuestion(type, bot));
+					MJRBotUtilities.sendMessage(type, bot, "Type !answer YOURANSWER (e.g !answer 10) to start guessing!");
 					mixerBot.mathsGame.isGameActive = true;
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Game Already started!");
 				}
 			}
 		}

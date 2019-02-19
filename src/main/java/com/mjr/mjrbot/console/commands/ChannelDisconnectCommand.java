@@ -1,7 +1,7 @@
 package com.mjr.mjrbot.console.commands;
 
 import com.mjr.mjrbot.console.ConsoleCommand;
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
 public class ChannelDisconnectCommand extends ConsoleCommand {
 

@@ -1,9 +1,9 @@
 package com.mjr.mjrbot.games;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class MathsGame {
 	public int rannum1;
@@ -15,9 +15,9 @@ public class MathsGame {
 	public int Answer;
 
 	public String CreateQuestion(BotType type, Object bot) {
-		rannum1 = Utilities.getRandom(0, 100);
-		rannum2 = Utilities.getRandom(0, 100);
-		ransign = Utilities.getRandom(1, 3);
+		rannum1 = MJRBotUtilities.getRandom(0, 100);
+		rannum2 = MJRBotUtilities.getRandom(0, 100);
+		ransign = MJRBotUtilities.getRandom(1, 3);
 
 		switch (ransign) {
 		case 1:

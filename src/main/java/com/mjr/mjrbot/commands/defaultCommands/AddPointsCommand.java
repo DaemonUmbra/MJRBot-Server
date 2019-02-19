@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class AddPointsCommand extends Command {
 	@Override
@@ -17,12 +17,12 @@ public class AddPointsCommand extends Command {
 
 				if (PointsSystem.isOnList(User, type, bot)) {
 					PointsSystem.AddPointsWithEventMsg(User.toLowerCase(), Integer.parseInt(Points), type, bot);
-					Utilities.sendMessage(type, bot, "Added " + Points + " points" + " to " + User);
+					MJRBotUtilities.sendMessage(type, bot, "Added " + Points + " points" + " to " + User);
 				} else {
-					Utilities.sendMessage(type, bot, "Cant add " + Points + " points" + " to " + User);
+					MJRBotUtilities.sendMessage(type, bot, "Cant add " + Points + " points" + " to " + User);
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addpoints POINTS USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addpoints POINTS USER");
 			}
 		}
 	}

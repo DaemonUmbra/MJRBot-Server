@@ -1,10 +1,10 @@
 package com.mjr.mjrbot.threads;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.games.BankHeistGame;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class BankHeistThread extends Thread {
 
@@ -24,7 +24,7 @@ public class BankHeistThread extends Thread {
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 
 		BankHeistGame.stage0(type, bot);
@@ -32,7 +32,7 @@ public class BankHeistThread extends Thread {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 
 		BankHeistGame.stage1(type, bot);
@@ -40,13 +40,13 @@ public class BankHeistThread extends Thread {
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 
 		if (type == BotType.Twitch) {
-			BankHeistGame.stage2(type, bot, ((TwitchBot) bot).bankHeistEnteredUsers);
+			BankHeistGame.stage2(type, bot, ((TwitchBot) bot).getTwitchData().bankHeistEnteredUsers);
 		} else {
-			BankHeistGame.stage2(type, bot, ((MixerBot) bot).bankHeistEnteredUsers);
+			BankHeistGame.stage2(type, bot, ((MixerBot) bot).getMixerData().bankHeistEnteredUsers);
 		}
 		gameActive = false;
 	}

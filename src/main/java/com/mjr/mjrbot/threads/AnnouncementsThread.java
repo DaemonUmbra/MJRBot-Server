@@ -1,13 +1,12 @@
 package com.mjr.mjrbot.threads;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
-import com.mjr.mjrbot.util.Utilities;
 
 public class AnnouncementsThread extends Thread {
 
@@ -27,7 +26,7 @@ public class AnnouncementsThread extends Thread {
 				if (Config.getSetting("Announcements", type, bot).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {
-						String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(((TwitchBot) bot).channelID));
+						String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(((TwitchBot) bot).getChannelID()));
 						if (result.contains("created_at"))
 							streaming = true;
 					} else {
@@ -40,27 +39,27 @@ public class AnnouncementsThread extends Thread {
 							try {
 								Thread.sleep(TimeDuration);
 							} catch (InterruptedException e) {
-								MJRBot.logErrorMessage(e);
+								MJRBotUtilities.logErrorMessage(e);
 							}
 							String message = "";
 							int count = 0;
 							do {
-								message = Config.getSetting("AnnouncementMessage" + Utilities.getRandom(1, 5), type, bot);
+								message = Config.getSetting("AnnouncementMessage" + MJRBotUtilities.getRandom(1, 5), type, bot);
 								count = count++;
 							} while (message == "" && count < 10);
 							if (message != "")
-								Utilities.sendMessage(type, bot, message);
+								MJRBotUtilities.sendMessage(type, bot, message);
 						}
 					}
 				}
 				try {
 					Thread.sleep(60000);
 				} catch (InterruptedException e) {
-					MJRBot.logErrorMessage(e, type, bot);
+					MJRBotUtilities.logErrorMessage(e, type, bot);
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 	}
 }

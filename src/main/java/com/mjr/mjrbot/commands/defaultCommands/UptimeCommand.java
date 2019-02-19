@@ -9,14 +9,13 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
-import com.mjr.mjrbot.util.Utilities;
 
 public class UptimeCommand extends Command {
 	@Override
@@ -24,9 +23,9 @@ public class UptimeCommand extends Command {
 		if (type == BotType.Twitch) {
 			String result = null;
 			try {
-				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(Utilities.getChannelIDFromBotType(type, bot)));
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetStreamsAPI(MJRBotUtilities.getChannelIDFromBotType(type, bot)));
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e, Utilities.getChannelNameFromBotType(type, bot));
+				MJRBotUtilities.logErrorMessage(e, MJRBotUtilities.getChannelNameFromBotType(type, bot));
 			}
 			if (result.contains("created_at")) {
 				String upTime = result.substring(result.indexOf("created_at") + 13);
@@ -38,19 +37,19 @@ public class UptimeCommand extends Command {
 				try {
 					parse = format.parse(upTime);
 				} catch (ParseException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 
 				runCommand(type, bot, sender, parse);
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + MJRBotUtilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
 			}
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = ((MixerBot) bot);
 			if (mixerBot.isStreaming())
 				runCommand(type, bot, sender, mixerBot.getUpdatedAt());
 			else
-				Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + MJRBotUtilities.getChannelNameFromBotType(type, bot) + " is currently not streaming!");
 		}
 	}
 
@@ -62,7 +61,7 @@ public class UptimeCommand extends Command {
 		long diffHours = TimeUnit.MILLISECONDS.toHours(diffInMilliSec) % 24;
 		long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 
-		Utilities.sendMessage(type, bot, "@" + sender + " " + Utilities.getChannelNameFromBotType(type, bot) + " has been live for " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+		MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + MJRBotUtilities.getChannelNameFromBotType(type, bot) + " has been live for " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 	}
 
 	@Override

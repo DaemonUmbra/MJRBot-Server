@@ -1,8 +1,9 @@
-package com.mjr.mjrbot;
+package com.mjr.mjrbot.bots;
 
 import com.mjr.discordframework.DiscordBotBase;
 import com.mjr.mjrbot.discord.MessageManager;
 import com.mjr.mjrbot.util.ConsoleUtil;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.util.Snowflake;
@@ -20,7 +21,7 @@ public class DiscordBot extends DiscordBotBase {
 
 	@Override
 	public void setupEvents() {
-		this.getDispatcher().on(MessageCreateEvent.class).doOnError(error -> MJRBot.logErrorMessage("Please restart MJRBot via console: Error", error))
+		this.getDispatcher().on(MessageCreateEvent.class).doOnError(error -> MJRBotUtilities.logErrorMessage("Please restart MJRBot via console: Error", error))
 				.subscribe(event -> event.getMessage().getContent().ifPresent(c -> MessageManager.onMessageReceivedEvent(event)));
 	}
 
@@ -39,7 +40,7 @@ public class DiscordBot extends DiscordBotBase {
 	@Override
 	public void onOutputMessage(MessageType type, String message) {
 		if (type.equals(MessageType.Error))
-			MJRBot.logErrorMessage(message);
+			MJRBotUtilities.logErrorMessage(message);
 		else
 			ConsoleUtil.textToConsole(message);
 	}

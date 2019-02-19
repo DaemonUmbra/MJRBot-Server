@@ -1,7 +1,7 @@
 package com.mjr.mjrbot.gameIntegrations;
 
-import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class CallOfDuty {
 
@@ -51,7 +51,7 @@ public class CallOfDuty {
 			result = result.substring(result.indexOf("\"" + stat + "\""));
 			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 			return null;
 		}
 	}
@@ -63,7 +63,7 @@ public class CallOfDuty {
 			result = result.substring(result.indexOf("\"" + stat + "\""));
 			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 			return null;
 		}
 	}

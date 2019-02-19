@@ -8,16 +8,16 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.EventLog.EventType;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class RankSystem extends FileBase {
 
@@ -35,15 +35,15 @@ public class RankSystem extends FileBase {
 		user = user.toLowerCase();
 		if (MJRBot.storageType == StorageType.File) {
 			if (type == BotType.Twitch)
-				value = load(((TwitchBot) bot).channelID, fileName).getProperty(user, value);
+				value = load(((TwitchBot) bot).getChannelID(), fileName).getProperty(user, value);
 			else if (type == BotType.Mixer)
-				value = load(((MixerBot) bot).channelName, fileName).getProperty(user, value);
+				value = load(((MixerBot) bot).getChannelName(), fileName).getProperty(user, value);
 		} else {
 			ResultSet result = null;
 			if (type == BotType.Twitch)
-				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return null;
@@ -55,7 +55,7 @@ public class RankSystem extends FileBase {
 					return result.getString(1);
 				}
 			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 		return value;
@@ -69,31 +69,31 @@ public class RankSystem extends FileBase {
 			if (MJRBot.storageType == StorageType.File) {
 				Properties properties = null;
 				if (type == BotType.Twitch)
-					properties = load(((TwitchBot) bot).channelID, fileName);
+					properties = load(((TwitchBot) bot).getChannelID(), fileName);
 				else if (type == BotType.Mixer)
-					properties = load(((MixerBot) bot).channelName, fileName);
+					properties = load(((MixerBot) bot).getChannelName(), fileName);
 				properties.setProperty(user.toLowerCase(), rank);
 				try {
 					File file = null;
 					if (type == BotType.Twitch)
-						file = loadFile(((TwitchBot) bot).channelID, fileName);
+						file = loadFile(((TwitchBot) bot).getChannelID(), fileName);
 					else if (type == BotType.Mixer)
-						file = loadFile(((MixerBot) bot).channelName, fileName);
+						file = loadFile(((MixerBot) bot).getChannelName(), fileName);
 					properties.save(new FileOutputStream(file), null);
 				} catch (FileNotFoundException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			} else {
 				if (isOnList(user, type, bot) == false) {
 					if (type == BotType.Twitch)
-						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 				} else {
 					if (type == BotType.Twitch)
-						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 				}
 			}
 			ConsoleUtil.textToConsole(bot, type, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
@@ -126,9 +126,9 @@ public class RankSystem extends FileBase {
 		if (MJRBot.storageType == StorageType.File) {
 			Properties properties = null;
 			if (type == BotType.Twitch)
-				properties = load(((TwitchBot) bot).channelID, fileName);
+				properties = load(((TwitchBot) bot).getChannelID(), fileName);
 			else if (type == BotType.Mixer)
-				properties = load(((MixerBot) bot).channelName, fileName);
+				properties = load(((MixerBot) bot).getChannelName(), fileName);
 			if (properties.getProperty(user) != null)
 				return true;
 			else
@@ -136,9 +136,9 @@ public class RankSystem extends FileBase {
 		} else {
 			ResultSet result = null;
 			if (type == BotType.Twitch)
-				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return false;
@@ -147,7 +147,7 @@ public class RankSystem extends FileBase {
 				else
 					return true;
 			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 		return null;
@@ -173,16 +173,16 @@ public class RankSystem extends FileBase {
 	public static void migrateFile(BotType type, Object bot) {
 		Properties properties = null;
 		if (type == BotType.Twitch)
-			properties = load(((TwitchBot) bot).channelID, fileName);
+			properties = load(((TwitchBot) bot).getChannelID(), fileName);
 		else if (type == BotType.Mixer)
-			properties = load(((MixerBot) bot).channelName, fileName);
+			properties = load(((MixerBot) bot).getChannelName(), fileName);
 		for (Object user : properties.keySet()) {
 			if (type == BotType.Twitch)
-				MySQLConnection.executeUpdate(
-						"INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\""
+						+ properties.getProperty((String) user) + "\"" + ")");
 			else if (type == BotType.Mixer)
-				MySQLConnection.executeUpdate(
-						"INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\""
+						+ properties.getProperty((String) user) + "\"" + ")");
 		}
 	}
 }

@@ -3,8 +3,9 @@ package com.mjr.mjrbot;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class AnalyticsData {
 	private static int numOfCommandsUsed = 0;
@@ -62,7 +63,7 @@ public class AnalyticsData {
 
 	public static void sendData() {
 		try {
-			if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM analytics").next()) {
+			if (!MySQLConnection.executeQuery("SELECT * FROM analytics", false).next()) {
 				MySQLConnection.executeUpdate("INSERT INTO analytics(name, value) VALUES (" + "\"" + "NumOfCommandsUsed" + "\"" + "," + "\"" + 0 + "\"" + ")");
 				MySQLConnection.executeUpdate("INSERT INTO analytics(name, value) VALUES (" + "\"" + "NumOfMessagedModerated" + "\"" + "," + "\"" + 0 + "\"" + ")");
 				MySQLConnection.executeUpdate("INSERT INTO analytics(name, value) VALUES (" + "\"" + "NumOfPointsGained" + "\"" + "," + "\"" + 0 + "\"" + ")");
@@ -91,7 +92,7 @@ public class AnalyticsData {
 				ConsoleUtil.textToConsole("Sent Analytics Data to Database & reset local Analytics Data!");
 			}
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 }

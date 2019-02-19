@@ -2,11 +2,11 @@ package com.mjr.mjrbot.discord;
 
 import java.sql.ResultSet;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.CrossChatLink;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 
@@ -27,7 +27,7 @@ public class MessageManager {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage("onMessageReceivedEvent Error", e);
+			MJRBotUtilities.logErrorMessage("onMessageReceivedEvent Error", e);
 		}
 	}
 }

@@ -3,8 +3,8 @@ package com.mjr.mjrbot.chatModeration;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
@@ -15,7 +15,7 @@ public class EmoteChecker {
 	public static void getEmotes(BotType type, Object bot) {
 		if (type == BotType.Twitch) {
 			try {
-				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChatEmoticonsAPI(((TwitchBot) bot).channelID));
+				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChatEmoticonsAPI(((TwitchBot) bot).getChannelID()));
 				int index = result.indexOf("regex");
 				while (index > -1) {
 					result = result.substring(index + 8);

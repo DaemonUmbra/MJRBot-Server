@@ -1,9 +1,9 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
 public class ConnectCommand extends ConsoleCommand {

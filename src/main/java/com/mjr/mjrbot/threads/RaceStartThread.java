@@ -1,10 +1,9 @@
 package com.mjr.mjrbot.threads;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class RaceStartThread extends Thread {
 	private BotType type;
@@ -21,21 +20,21 @@ public class RaceStartThread extends Thread {
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 		try {
-			Utilities.sendMessage(type, bot, "Race is about to start! Make sure to get your bets in now!");
+			MJRBotUtilities.sendMessage(type, bot, "Race is about to start! Make sure to get your bets in now!");
 			try {
 				Thread.sleep(30000);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e, type, bot);
+				MJRBotUtilities.logErrorMessage(e, type, bot);
 			}
 			if (type == BotType.Twitch)
 				((TwitchBot) bot).racingGame.start(type, bot);
 			else if (type == BotType.Mixer)
 				((MixerBot) bot).racingGame.start(type, bot);
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 	}
 }

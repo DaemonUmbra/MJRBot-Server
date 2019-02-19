@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class RemovePointsCommand extends Command {
 	@Override
@@ -16,12 +16,12 @@ public class RemovePointsCommand extends Command {
 				String user = args[2];
 				if (PointsSystem.isOnList(user, type, bot)) {
 					PointsSystem.RemovePoints(user.toLowerCase(), Integer.parseInt(points), type, bot);
-					Utilities.sendMessage(type, bot, "@" + sender + " Removed " + points + " points" + " from " + user);
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Removed " + points + " points" + " from " + user);
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + " Unable to remove " + points + " points" + " from " + user);
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Unable to remove " + points + " points" + " from " + user);
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !removepoints POINTS USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !removepoints POINTS USER");
 			}
 		}
 	}

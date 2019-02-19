@@ -8,13 +8,12 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
-import com.mjr.mjrbot.util.Utilities;
 
 public class AccountLifeCommand extends Command {
 
@@ -44,7 +43,7 @@ public class AccountLifeCommand extends Command {
 				try {
 					parse = format.parse(time);
 				} catch (ParseException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 
 				OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
@@ -56,10 +55,11 @@ public class AccountLifeCommand extends Command {
 				long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 				long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-				Utilities.sendMessage(type, bot, "@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
+				MJRBotUtilities.sendMessage(type, bot,
+						"@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 

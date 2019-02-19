@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class ReconnectCommand extends Command {
 

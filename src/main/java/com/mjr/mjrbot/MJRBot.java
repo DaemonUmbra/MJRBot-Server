@@ -10,19 +10,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.DiscordBot;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
-import com.mjr.mjrbot.sql.MySQLConnection;
-import com.mjr.mjrbot.sql.SQLUtilities;
 import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.threads.ChannelListUpdateThread;
 import com.mjr.mjrbot.threads.UpdateAnalyticsThread;
 import com.mjr.mjrbot.threads.UserCooldownTickThread;
 import com.mjr.mjrbot.util.ConsoleUtil;
-import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.OSUtilities;
-import com.mjr.mjrbot.util.Utilities;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
@@ -40,7 +41,7 @@ public class MJRBot {
 	public static UserCooldownTickThread userCooldownTickThread;
 	public static UpdateAnalyticsThread updateAnalyticsThread;
 	public static ChannelListUpdateThread updateThread;
-	public static DiscordBot bot = null;
+	private static DiscordBot discordBot = null;
 
 	// Manual Mode
 	private static String channel = "";
@@ -75,12 +76,8 @@ public class MJRBot {
 
 		if (filePath != null) {
 			ConsoleCommandManager.loadCommands();
-            System.out.println("  __  __       _   ____    ____            _   \r\n" + 
-                    " |  \\/  |     | | |  _ \\  | __ )    ___   | |_ \r\n" + 
-                    " | |\\/| |  _  | | | |_) | |  _ \\   / _ \\  | __|\r\n" + 
-                    " | |  | | | |_| | |  _ <  | |_) | | (_) | | |_ \r\n" + 
-                    " |_|  |_|  \\___/  |_| \\_\\ |____/   \\___/   \\__|\r\n" + 
-                    "                                               ");
+			System.out.println("  __  __       _   ____    ____            _   \r\n" + " |  \\/  |     | | |  _ \\  | __ )    ___   | |_ \r\n" + " | |\\/| |  _  | | | |_) | |  _ \\   / _ \\  | __|\r\n"
+					+ " | |  | | | |_| | |  _ <  | |_) | | (_) | | |_ \r\n" + " |_|  |_|  \\___/  |_| \\_\\ |____/   \\___/   \\__|\r\n" + "                                               ");
 			System.out.println("Welcome to MJRBot!");
 			System.out.println("v" + VERSION);
 			System.out.println("Use 'connect <type>' to connect");
@@ -115,15 +112,15 @@ public class MJRBot {
 	}
 
 	public static void discordConnect() {
-		if (bot == null) {
+		if (discordBot == null) {
 			try {
 				ConfigMain.load();
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
-			bot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
+			discordBot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
 			if (MJRBot.connectionType == ConnectionType.Database)
-				bot.setupEvents();
+				discordBot.setupEvents();
 			else
 				ConsoleUtil.textToConsole("Discord Crosslink is disabled, as it is currently not supported on the file based storage type!");
 		}
@@ -148,7 +145,7 @@ public class MJRBot {
 			}
 			CommandManager.loadCommands();
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -213,29 +210,11 @@ public class MJRBot {
 		MJRBot.logger = logger;
 	}
 
-	public static void logErrorMessage(String error, final Throwable throwable) {
-		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(error + " - " + stackTrace);
+	public static DiscordBot getDiscordBot() {
+		return discordBot;
 	}
 
-	public static void logErrorMessage(final Throwable throwable, String channelName) {
-		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(channelName + " - " + stackTrace);
-	}
-
-	public static void logErrorMessage(final Throwable throwable, BotType type, Object bot) {
-		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(type.getTypeName() + ": " + Utilities.getChannelNameFromBotType(type, bot) + " - " + stackTrace);
-	}
-
-	public static void logErrorMessage(final Throwable throwable) {
-		String stackTrace = Utilities.getStackTraceString(throwable);
-		logErrorMessage(stackTrace);
-	}
-
-	public static void logErrorMessage(String stackTrace) {
-		ConsoleUtil.outputMessage(MessageType.Error, stackTrace);
-		if (MJRBot.bot != null)
-			bot.sendErrorMessage(stackTrace);
+	public static void setDiscordBot(DiscordBot discordBot) {
+		MJRBot.discordBot = discordBot;
 	}
 }

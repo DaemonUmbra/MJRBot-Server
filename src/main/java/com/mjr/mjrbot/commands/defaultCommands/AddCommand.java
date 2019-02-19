@@ -2,14 +2,13 @@ package com.mjr.mjrbot.commands.defaultCommands;
 
 import java.io.IOException;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.commands.CustomCommands;
 import com.mjr.mjrbot.storage.EventLog;
 import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class AddCommand extends Command {
 	@Override
@@ -26,16 +25,16 @@ public class AddCommand extends Command {
 						CustomCommands.addCommand(type, bot, command, response, permissionlevel);
 						EventLog.addEvent(type, bot, sender, "Added a new Custom Command of " + command, EventType.CustomCommands);
 					} catch (IOException e) {
-						MJRBot.logErrorMessage(e);
+						MJRBotUtilities.logErrorMessage(e);
 					}
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! The following Permission values are: User or Follower or VIP or Subscriber or Moderator or Streamer");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! The following Permission values are: User or Follower or VIP or Subscriber or Moderator or Streamer");
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 			}
 		} else {
-			Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addcommand COMMANDNAME PERMISSION RESPONSE");
+			MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addcommand COMMANDNAME PERMISSION RESPONSE");
 		}
 	}
 

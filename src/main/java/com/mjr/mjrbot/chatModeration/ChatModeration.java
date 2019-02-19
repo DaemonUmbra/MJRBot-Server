@@ -1,15 +1,15 @@
 package com.mjr.mjrbot.chatModeration;
 
 import com.mjr.mjrbot.AnalyticsData;
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.ModerationActionsLog;
 import com.mjr.mjrbot.storage.RankSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class ChatModeration {
 
@@ -29,19 +29,19 @@ public class ChatModeration {
 					else if (RankSystem.getRank(sender, type, bot) == "bronze")
 						return;
 					ModerationActionsLog.addEvent(type, bot, sender, " flagged by Link Checker", message);
-					Utilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("LinkWarning", type, bot));
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("LinkWarning", type, bot));
 					if (type == BotType.Twitch) {
-						Utilities.sendMessage(type, bot, "/timeout " + sender);
-						Utilities.sendMessage(type, bot, "/unban " + sender);
+						MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
+						MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
 					} else if (type == BotType.Mixer) {
 						((MixerBot) bot).deleteLastMessageForUser(sender);
 					}
 					return;
 				}
 				if (type == BotType.Twitch)
-					((TwitchBot) bot).linkPermitedUsers.remove(sender);
+					((TwitchBot) bot).getTwitchData().linkPermitedUsers.remove(sender);
 				else if (type == BotType.Mixer)
-					((MixerBot) bot).linkPermitedUsers.remove(sender);
+					((MixerBot) bot).getMixerData().linkPermitedUsers.remove(sender);
 			}
 			if (Config.getSetting("Badwords", type, bot).equalsIgnoreCase("true")) {
 				boolean isBadWord = BadWordChecker.isBadWord(bot, type, message, sender);
@@ -50,10 +50,10 @@ public class ChatModeration {
 						return;
 					else {
 						ModerationActionsLog.addEvent(type, bot, sender, " flagged by Badwords Checker", message);
-						Utilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("LanguageWarning", type, bot));
+						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("LanguageWarning", type, bot));
 						if (type == BotType.Twitch) {
-							Utilities.sendMessage(type, bot, "/timeout " + sender);
-							Utilities.sendMessage(type, bot, "/unban " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
@@ -71,10 +71,10 @@ public class ChatModeration {
 						if (RankSystem.getRank(sender, type, bot) == "sliver")
 							return;
 						ModerationActionsLog.addEvent(type, bot, sender, " flagged by Emote Spam Checker", message);
-						Utilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("EmoteWarning", type, bot));
+						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("EmoteWarning", type, bot));
 						if (type == BotType.Twitch) {
-							Utilities.sendMessage(type, bot, "/timeout " + sender);
-							Utilities.sendMessage(type, bot, "/unban " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
@@ -87,18 +87,18 @@ public class ChatModeration {
 				if (isSpam) {
 					if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName()))
 						return;
-					if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
+					if (type == BotType.Twitch && ((TwitchBot) bot).getTwitchData().linkPermitedUsers.contains(sender))
 						return;
-					if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender))
+					if (type == BotType.Mixer && ((MixerBot) bot).getMixerData().linkPermitedUsers.contains(sender))
 						return;
 					else {
 						if (RankSystem.getRank(sender, type, bot) == "sliver")
 							return;
 						ModerationActionsLog.addEvent(type, bot, sender, " flagged by Symbol Spam Checker", message);
-						Utilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("SymbolWarning", type, bot));
+						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + Config.getSetting("SymbolWarning", type, bot));
 						if (type == BotType.Twitch) {
-							Utilities.sendMessage(type, bot, "/timeout " + sender);
-							Utilities.sendMessage(type, bot, "/unban " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
+							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}

@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.RankSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class RemoveRankCommand extends Command {
 	@Override
@@ -15,12 +15,12 @@ public class RemoveRankCommand extends Command {
 				String user = args[1];
 				if (RankSystem.isOnList(user, type, bot)) {
 					RankSystem.removeRank(user, type, bot);
-					Utilities.sendMessage(type, bot, "@" + sender + " Removed " + user + " rank");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Removed " + user + " rank");
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + " Unable to remove " + user + " rank");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Unable to remove " + user + " rank");
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !removerank USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !removerank USER");
 			}
 		}
 	}

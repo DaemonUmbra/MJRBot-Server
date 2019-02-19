@@ -1,12 +1,12 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.threads.GiveAwayThread;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class GiveAwayCommand extends Command {
 
@@ -14,21 +14,21 @@ public class GiveAwayCommand extends Command {
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
 			TwitchBot twitchBot = (TwitchBot) bot;
-			if (twitchBot.giveAwayActive == false) {
-				GiveAwayThread thread = new GiveAwayThread(type, bot, twitchBot.channelName);
+			if (twitchBot.getTwitchData().giveAwayActive == false) {
+				GiveAwayThread thread = new GiveAwayThread(type, bot, twitchBot.getChannelName());
 				thread.start();
-				twitchBot.giveAwayActive = true;
+				twitchBot.getTwitchData().giveAwayActive = true;
 			} else {
-				Utilities.sendMessage(type, bot, "Giveaway has already started!");
+				MJRBotUtilities.sendMessage(type, bot, "Giveaway has already started!");
 			}
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = (MixerBot) bot;
-			if (mixerBot.giveAwayActive == false) {
-				GiveAwayThread thread = new GiveAwayThread(type, bot, mixerBot.channelName);
+			if (mixerBot.getMixerData().giveAwayActive == false) {
+				GiveAwayThread thread = new GiveAwayThread(type, bot, mixerBot.getChannelName());
 				thread.start();
-				mixerBot.giveAwayActive = true;
+				mixerBot.getMixerData().giveAwayActive = true;
 			} else {
-				Utilities.sendMessage(type, bot, "Giveaway has already started!");
+				MJRBotUtilities.sendMessage(type, bot, "Giveaway has already started!");
 			}
 		}
 	}

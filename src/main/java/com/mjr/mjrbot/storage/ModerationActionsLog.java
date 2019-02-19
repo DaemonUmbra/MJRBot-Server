@@ -10,13 +10,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
-import com.mjr.mjrbot.sql.MySQLConnection;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class ModerationActionsLog extends FileBase {
 	public static String fileName = "Moderation_Actions_Log.txt";
@@ -27,18 +27,18 @@ public class ModerationActionsLog extends FileBase {
 		if (MJRBot.storageType == StorageType.File) {
 			File file = null;
 			if (type == BotType.Twitch)
-				file = loadFile(((TwitchBot) bot).channelID, fileName);
+				file = loadFile(((TwitchBot) bot).getChannelID(), fileName);
 			else if (type == BotType.Mixer)
-				file = loadFile(((MixerBot) bot).channelName, fileName);
+				file = loadFile(((MixerBot) bot).getChannelName(), fileName);
 			Path filePath = Paths.get(file.getPath());
 			try {
 				Files.write(filePath, ("\n" + dateFormat.format(date) + user + ": " + reason + " Message: " + message + ";").getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		} else {
-			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + ","
-					+ "\"" + user + "\"" + "," + "\"" + reason + "\"" + "," + "\"" + message + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\""
+					+ "," + "\"" + user + "\"" + "," + "\"" + reason + "\"" + "," + "\"" + message + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
 		}
 	}
 

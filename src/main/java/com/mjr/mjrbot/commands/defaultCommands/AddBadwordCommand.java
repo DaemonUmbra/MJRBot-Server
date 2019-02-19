@@ -1,12 +1,12 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
-import com.mjr.mjrbot.sql.MySQLConnection;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class AddBadwordCommand extends Command {
 
@@ -15,15 +15,15 @@ public class AddBadwordCommand extends Command {
 		if (args.length == 2) {
 			if (MJRBot.storageType == StorageType.Database) {
 				if (type == BotType.Twitch)
-					MySQLConnection.executeUpdate("INSERT INTO badwords(twitch_channel_id, word) VALUES (" + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
+					MySQLConnection.executeUpdate("INSERT INTO badwords(twitch_channel_id, word) VALUES (" + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
 				if (type == BotType.Mixer)
-					MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
-				Utilities.sendMessage(type, bot, "@" + sender + " badword has been added!");
+					MySQLConnection.executeUpdate("INSERT INTO badwords(channel, word) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + args[1] + "\"" + ")");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " badword has been added!");
 			} else {
-				Utilities.sendMessage(type, bot, "This command isnt available for a file storage based bot!");
+				MJRBotUtilities.sendMessage(type, bot, "This command isnt available for a file storage based bot!");
 			}
 		} else
-			Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addbadword WORD");
+			MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !addbadword WORD");
 	}
 
 	@Override

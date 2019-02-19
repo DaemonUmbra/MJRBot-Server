@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class FileBase {
 
@@ -18,7 +19,7 @@ public class FileBase {
 			properties.load(reader);
 			return properties;
 		} catch (IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return null;
 	}
@@ -32,7 +33,7 @@ public class FileBase {
 			}
 			return file;
 		} catch (IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return null;
 	}
@@ -46,7 +47,7 @@ public class FileBase {
 			properties.load(reader);
 			return properties;
 		} catch (IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return null;
 	}
@@ -60,7 +61,7 @@ public class FileBase {
 			}
 			return file;
 		} catch (IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return null;
 	}

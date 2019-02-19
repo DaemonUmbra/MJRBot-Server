@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.util.ConsoleUtil;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class ConfigMain {
 	public static String filename = "Settings.properties";
@@ -60,14 +61,14 @@ public class ConfigMain {
 			try {
 				properties.save(new FileOutputStream(file), null);
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		} else {
 			properties.setProperty(setting, value);
 			try {
 				properties.store(new FileOutputStream(file), null);
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 

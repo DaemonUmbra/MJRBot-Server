@@ -5,8 +5,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class PUBG {
 
@@ -63,7 +63,7 @@ public class PUBG {
 			result = result.substring(0, result.indexOf(",") - 1);
 			return result;
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 			return null;
 		}
 	}
@@ -90,7 +90,7 @@ public class PUBG {
 			result = result.substring(result.indexOf("\"" + stat + "\""));
 			return result.substring(result.indexOf(':') + 1, result.indexOf(',')).replaceAll("}", "");
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 			return null;
 		}
 	}

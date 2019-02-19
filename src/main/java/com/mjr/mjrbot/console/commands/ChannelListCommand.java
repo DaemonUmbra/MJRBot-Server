@@ -1,8 +1,8 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
 public class ChannelListCommand extends ConsoleCommand {
@@ -16,11 +16,11 @@ public class ChannelListCommand extends ConsoleCommand {
 			System.out.format("|%10s|%20s|%20s|", "Platform", "Channel Name", "Status");
 			System.out.println("\n-------------------------------------------------------");
 			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
-				System.out.format("|%10s|%20s|%20s|", "Twitch", TwitchBot.getChannelNameFromChannelID(bot.channelID), (bot.isConnected() ? "Connected" : "Disconnected"));
+				System.out.format("|%10s|%20s|%20s|", "Twitch", TwitchBot.getChannelNameFromChannelID(bot.getChannelID()), (bot.isConnected() ? "Connected" : "Disconnected"));
 				System.out.println();
 			}
 			for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
-				System.out.format("|%10s|%20s|%20s|", "Mixer", bot.channelName, (bot.isConnected() ? "Connected" : "Disconnected"));
+				System.out.format("|%10s|%20s|%20s|", "Mixer", bot.getChannelName(), (bot.isConnected() ? "Connected" : "Disconnected"));
 				System.out.println();
 			}
 			System.out.println("\n-------------------------------------------------------");

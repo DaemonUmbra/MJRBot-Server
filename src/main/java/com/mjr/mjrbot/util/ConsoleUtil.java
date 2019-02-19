@@ -12,10 +12,9 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.Permissions;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class ConsoleUtil {
 	private static TreeMap<Date, String> lastChatMessages = new TreeMap<Date, String>();
@@ -92,7 +91,7 @@ public class ConsoleUtil {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		TreeMap<Date, String> temp = new TreeMap<Date, String>();
 		if (showChatMessages) {
@@ -117,7 +116,7 @@ public class ConsoleUtil {
 				Runtime.getRuntime().exec("clear");
 			}
 		} catch (IOException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -126,7 +125,7 @@ public class ConsoleUtil {
 		Date date = new Date();
 		if (messageType == MessageType.Chat) {
 			if (sender != null) {
-				String channel = Utilities.getChannelNameFromBotType(type, bot);
+				String channel = MJRBotUtilities.getChannelNameFromBotType(type, bot);
 				if (Permissions.hasPermission(bot, type, sender, PermissionLevel.BotOwner.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
 				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Bot.getName())) {
@@ -144,7 +143,7 @@ public class ConsoleUtil {
 				}
 			}
 		} else if (messageType == MessageType.ChatBot) {
-			String channel = Utilities.getChannelNameFromBotType(type, bot);
+			String channel = MJRBotUtilities.getChannelNameFromBotType(type, bot);
 			outputMessage(MessageType.ChatBot, dateFormat.format(date) + " [MJRBot Info] " + "[Bot Type] " + (type == null ? "Unknown" : type.getTypeName()) + " [Channel] " + (channel == "" ? "Unknown" : channel) + " - " + message);
 		} else if (messageType == MessageType.Bot) {
 			outputMessage(MessageType.Bot, dateFormat.format(date) + " [MJRBot Info]" + " - " + message);

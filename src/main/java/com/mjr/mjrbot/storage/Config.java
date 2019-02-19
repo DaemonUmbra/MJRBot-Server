@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class Config extends FileBase {
 	public static String fileName = "Config.properties";
@@ -20,18 +20,18 @@ public class Config extends FileBase {
 	public static void createSettingIfDoesntExist(String setting, String value, BotType type, String channel, int channelID) {
 		try {
 			if (type == BotType.Twitch) {
-				if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"").next()) {
+				if (!MySQLConnection.executeQuery("SELECT * FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"", false).next()) {
 					ConsoleUtil.textToConsole("Creating config setting of: " + setting + " with the default value for " + channelID);
 					setSetting(setting, value, type, channel, channelID);
 				}
 			} else if (type == BotType.Mixer) {
-				if (!MySQLConnection.executeQueryNoOutput("SELECT * FROM config WHERE mixer_channel = " + "\"" + channel + "\"" + " AND setting = " + "\"" + setting + "\"").next()) {
+				if (!MySQLConnection.executeQuery("SELECT * FROM config WHERE mixer_channel = " + "\"" + channel + "\"" + " AND setting = " + "\"" + setting + "\"", false).next()) {
 					ConsoleUtil.textToConsole("Creating config setting of: " + setting + " with the default value for " + channel);
 					setSetting(setting, value, type, channel, channelID);
 				}
 			}
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -84,9 +84,9 @@ public class Config extends FileBase {
 		try {
 			ResultSet set = null;
 			if (type == BotType.Twitch)
-				set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE twitch_channel_id = '" + channelID + "'");
+				set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + channelID + "'", false);
 			else if (type == BotType.Mixer)
-				set = MySQLConnection.executeQueryNoOutput("SELECT * FROM badwords WHERE mixer_channel = '" + channel + "'");
+				set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + channel + "'", false);
 			if (set == null || !set.next()) {
 				String[] badwords = { "Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga" };
 				for (int i = 0; i < badwords.length; i++) {
@@ -97,7 +97,7 @@ public class Config extends FileBase {
 				}
 			}
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -158,9 +158,9 @@ public class Config extends FileBase {
 
 	public static String getSetting(String setting, BotType type, Object bot) {
 		if (type == BotType.Twitch)
-			return getSetting(setting, Utilities.getChannelIDFromBotType(type, bot), false);
+			return getSetting(setting, MJRBotUtilities.getChannelIDFromBotType(type, bot), false);
 		else if (type == BotType.Mixer)
-			return getSetting(setting, Utilities.getChannelNameFromBotType(type, bot), false);
+			return getSetting(setting, MJRBotUtilities.getChannelNameFromBotType(type, bot), false);
 		return null;
 	}
 
@@ -172,7 +172,7 @@ public class Config extends FileBase {
 		if (MJRBot.storageType == StorageType.File || overrideStorageType) {
 			return load(channelID, fileName).getProperty(setting);
 		} else {
-			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"");
+			ResultSet result = MySQLConnection.executeQuery("SELECT value FROM config WHERE twitch_channel_id = " + "\"" + channelID + "\"" + " AND setting = " + "\"" + setting + "\"", false);
 			try {
 				if (result == null)
 					return null;
@@ -184,7 +184,7 @@ public class Config extends FileBase {
 					return result.getString(1);
 				}
 			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 		return null;
@@ -198,7 +198,7 @@ public class Config extends FileBase {
 		if (MJRBot.storageType == StorageType.File || overrideStorageType) {
 			return load(channelName, fileName).getProperty(setting);
 		} else {
-			ResultSet result = MySQLConnection.executeQueryNoOutput("SELECT value FROM config WHERE mixer_channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"");
+			ResultSet result = MySQLConnection.executeQuery("SELECT value FROM config WHERE mixer_channel = " + "\"" + channelName + "\"" + " AND setting = " + "\"" + setting + "\"", false);
 			try {
 				if (result == null)
 					return null;
@@ -210,7 +210,7 @@ public class Config extends FileBase {
 					return result.getString(1);
 				}
 			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 		return null;
@@ -239,14 +239,14 @@ public class Config extends FileBase {
 				try {
 					properties.save(new FileOutputStream(file), null);
 				} catch (IOException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			} else {
 				properties.setProperty(setting, value);
 				try {
 					properties.store(new FileOutputStream(file), null);
 				} catch (IOException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			}
 		} else {

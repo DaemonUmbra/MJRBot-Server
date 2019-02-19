@@ -1,12 +1,14 @@
-package com.mjr.mjrbot;
+package com.mjr.mjrbot.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.util.Utilities;
 
 public class Permissions {
 
@@ -40,7 +42,7 @@ public class Permissions {
 	}
 
 	public static String getPermissionLevel(Object bot, BotType type, String user) {
-		String channelName = Utilities.getChannelNameFromBotType(type, bot);
+		String channelName = MJRBotUtilities.getChannelNameFromBotType(type, bot);
 		user = user.toLowerCase();
 		if (type == BotType.Twitch) {
 			if (user.equalsIgnoreCase(channelName))
@@ -51,13 +53,14 @@ public class Permissions {
 				return PermissionLevel.KnownBot.getName();
 			else if (user.equalsIgnoreCase("mjrlegends"))
 				return PermissionLevel.BotOwner.getName();
-			else if (((TwitchBot) bot).moderators != null && ((TwitchBot) bot).moderators.contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
+			else if (((TwitchBot) bot).getTwitchData().getModerators() != null && ((TwitchBot) bot).getTwitchData().getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName))
+					|| user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
-			else if (((TwitchBot) bot).subscribers != null && ((TwitchBot) bot).subscribers.contains(user))
+			else if (((TwitchBot) bot).getTwitchData().getSubscribers() != null && ((TwitchBot) bot).getTwitchData().getSubscribers().contains(user))
 				return PermissionLevel.Subscriber.getName();
-			else if (((TwitchBot) bot).vips != null && ((TwitchBot) bot).vips.contains(user))
+			else if (((TwitchBot) bot).getTwitchData().getVips() != null && ((TwitchBot) bot).getTwitchData().getVips().contains(user))
 				return PermissionLevel.VIP.getName();
-			else if (((TwitchBot) bot).followers != null && ((TwitchBot) bot).followers.contains(user))
+			else if (((TwitchBot) bot).getTwitchData().getFollowers() != null && ((TwitchBot) bot).getTwitchData().getFollowers().contains(user))
 				return PermissionLevel.Follower.getName();
 			else
 				return PermissionLevel.User.getName();
@@ -73,9 +76,9 @@ public class Permissions {
 			else if (!ChatBotManager.getMixerBotByChannelName(channelName).getModerators().isEmpty() && ChatBotManager.getMixerBotByChannelName(channelName).getModerators().contains(user)
 					|| user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
-			else if (((MixerBot) bot).subscribers != null && ((MixerBot) bot).subscribers.contains(user))
+			else if (((MixerBot) bot).getMixerData().getSubscribers() != null && ((MixerBot) bot).getMixerData().getSubscribers().contains(user))
 				return PermissionLevel.Subscriber.getName();
-			else if (((MixerBot) bot).followers != null && ((MixerBot) bot).followers.contains(user))
+			else if (((MixerBot) bot).getMixerData().getFollowers() != null && ((MixerBot) bot).getMixerData().getFollowers().contains(user))
 				return PermissionLevel.Follower.getName();
 			else
 				return PermissionLevel.User.getName();

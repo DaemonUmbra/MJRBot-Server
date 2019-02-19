@@ -8,21 +8,18 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
-import com.mjr.mjrbot.util.Utilities;
 
 public class GetFollowTimeThread extends Thread {
-	private BotType type;
 	private TwitchBot bot;
 	private String user;
 
-	public GetFollowTimeThread(TwitchBot bot, BotType type, String user) {
-		super("GetFollowTimeThread for" + bot.channelName);
-		this.type = type;
+	public GetFollowTimeThread(TwitchBot bot, String user) {
+		super("GetFollowTimeThread for" + bot.getChannelName());
 		this.bot = bot;
 		this.user = user;
 	}
@@ -30,10 +27,10 @@ public class GetFollowTimeThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			if (type == BotType.Twitch && bot.isBotConnected()) {
+			if (bot.isBotConnected()) {
 				String time = checkFollowTime(bot, user.toLowerCase());
 				if (time == null) {
-					Utilities.sendMessage(type, bot, "@" + user + " unable to obtain follow details for you!");
+					MJRBotUtilities.sendMessage(BotType.Twitch, bot, "@" + user + " unable to obtain follow details for you!");
 				} else {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					format.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -42,7 +39,7 @@ public class GetFollowTimeThread extends Thread {
 					try {
 						parse = format.parse(time);
 					} catch (ParseException e) {
-						MJRBot.logErrorMessage(e, type, bot);
+						MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 					}
 
 					OffsetDateTime utc = OffsetDateTime.now(ZoneOffset.UTC);
@@ -54,18 +51,18 @@ public class GetFollowTimeThread extends Thread {
 					long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 					long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-					Utilities.sendMessage(type, bot, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+					MJRBotUtilities.sendMessage(BotType.Twitch, bot, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, type, bot);
+			MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 		}
 	}
 
 	public static String checkFollowTime(TwitchBot bot, String userTest) {
 		try {
 			String result = "";
-			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25));
+			result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.getChannelID(), 25));
 			String total = result.substring(result.indexOf("_total") + 8);
 			int times = Integer.parseInt(total.substring(0, total.indexOf(",")));
 			int current = 1;
@@ -78,7 +75,7 @@ public class GetFollowTimeThread extends Thread {
 			int amount = (int) Math.ceil(((float) times / 25));
 			for (int i = 0; i < amount; i++) {
 				if (i != 0) {
-					result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.channelID, 25, current + 1));
+					result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetChannelsFollowsAPI(bot.getChannelID(), 25, current + 1));
 					newresult = result;
 				}
 				for (int j = 0; j < 25; j++) {
@@ -100,7 +97,7 @@ public class GetFollowTimeThread extends Thread {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e, BotType.Twitch, bot);
+			MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 		}
 		return null;
 	}

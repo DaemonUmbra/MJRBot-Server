@@ -12,15 +12,11 @@ public class InfoCommand extends ConsoleCommand {
 		System.out.println("");
 		System.out.println("---------------MJRBot Process Info---------------");
 		long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-		  final long day = TimeUnit.MILLISECONDS.toDays(uptime);
-		  final long hours = TimeUnit.MILLISECONDS.toHours(uptime)
-		    - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(uptime));
-		  final long minutes = TimeUnit.MILLISECONDS.toMinutes(uptime)
-		    - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(uptime));
-		  final long seconds = TimeUnit.MILLISECONDS.toSeconds(uptime)
-		    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(uptime));
-		  final long ms = TimeUnit.MILLISECONDS.toMillis(uptime)
-		    - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(uptime));
+		final long day = TimeUnit.MILLISECONDS.toDays(uptime);
+		final long hours = TimeUnit.MILLISECONDS.toHours(uptime) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(uptime));
+		final long minutes = TimeUnit.MILLISECONDS.toMinutes(uptime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(uptime));
+		final long seconds = TimeUnit.MILLISECONDS.toSeconds(uptime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(uptime));
+		final long ms = TimeUnit.MILLISECONDS.toMillis(uptime) - TimeUnit.SECONDS.toMillis(TimeUnit.MILLISECONDS.toSeconds(uptime));
 		System.out.println("Uptime: " + String.format("%d Days %d Hours %d Minutes %d Seconds %d Milliseconds", day, hours, minutes, seconds, ms));
 		System.out.println("\n");
 		System.out.println("Total Mermory/RAM Assigned: " + "" + (Runtime.getRuntime().totalMemory() / 1048576) + " MB");

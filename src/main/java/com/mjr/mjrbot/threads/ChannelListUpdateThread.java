@@ -2,14 +2,14 @@ package com.mjr.mjrbot.threads;
 
 import java.util.HashMap;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
-import com.mjr.mjrbot.sql.SQLUtilities;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.util.ConsoleUtil;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class ChannelListUpdateThread extends Thread {
 
@@ -81,10 +81,10 @@ public class ChannelListUpdateThread extends Thread {
 				try {
 					Thread.sleep(Integer.parseInt(ConfigMain.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
 				} catch (InterruptedException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 	}

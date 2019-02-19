@@ -3,6 +3,7 @@ package com.mjr.mjrbot.threads;
 import com.mjr.mjrbot.AnalyticsData;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class UpdateAnalyticsThread extends Thread {
 
@@ -19,7 +20,7 @@ public class UpdateAnalyticsThread extends Thread {
 			try {
 				Thread.sleep(300000);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 	}

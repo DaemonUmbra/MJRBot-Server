@@ -4,7 +4,7 @@ import com.mjr.mjrbot.AnalyticsData;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.console.ConsoleCommand;
-import com.mjr.mjrbot.sql.MySQLConnection;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
 public class SyncAnalyticsCommand extends ConsoleCommand {
 

@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.RankSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class SetRankCommand extends Command {
 	@Override
@@ -18,18 +18,18 @@ public class SetRankCommand extends Command {
 					if (!RankSystem.hasRank(sender, rank, type, bot)) {
 						if (RankSystem.isValidRank(rank)) {
 							RankSystem.setRank(user, rank, type, bot);
-							Utilities.sendMessage(type, bot, "@" + sender + " Set " + user + " rank to" + rank);
+							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Set " + user + " rank to" + rank);
 						} else {
-							Utilities.sendMessage(type, bot, "@" + sender + " the rank + " + rank + " doesnt exist!");
+							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " the rank + " + rank + " doesnt exist!");
 						}
 					} else {
-						Utilities.sendMessage(type, bot, "@" + sender + user + " is has already got that rank!");
+						MJRBotUtilities.sendMessage(type, bot, "@" + sender + user + " is has already got that rank!");
 					}
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + "Unable to give the rank of " + rank + " to " + user);
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + "Unable to give the rank of " + rank + " to " + user);
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !setrank RANK USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !setrank RANK USER");
 			}
 		}
 	}

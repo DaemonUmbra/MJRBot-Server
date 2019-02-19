@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.Permissions;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.sql.MySQLConnection;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class BadWordChecker {
 	public static List<String> badWords = new ArrayList<String>();
@@ -21,9 +21,9 @@ public class BadWordChecker {
 			if (MJRBot.storageType == StorageType.Database) {
 				ResultSet set = null;
 				if (type == BotType.Twitch)
-					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + Utilities.getChannelIDFromBotType(type, bot) + "'");
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "'");
 				else if (type == BotType.Mixer)
-					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + Utilities.getChannelNameFromBotType(type, bot) + "'");
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "'");
 				if (set != null) {
 					while (set.next()) {
 						badWords.add(set.getString("word"));
@@ -45,7 +45,7 @@ public class BadWordChecker {
 				}
 			}
 		} catch (Exception e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return false;
 	}

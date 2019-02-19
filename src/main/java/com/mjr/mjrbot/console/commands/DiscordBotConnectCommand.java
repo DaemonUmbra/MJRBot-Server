@@ -1,14 +1,14 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.ChatBotManager;
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
 public class DiscordBotConnectCommand extends ConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		if (MJRBot.bot == null) {
+		if (MJRBot.getDiscordBot() == null) {
 			if (ChatBotManager.getTwitchBots().size() != 0 && ChatBotManager.getMixerBots().size() != 0) {
 				MJRBot.discordConnect();
 				System.out.println("Discord Bot connected!");

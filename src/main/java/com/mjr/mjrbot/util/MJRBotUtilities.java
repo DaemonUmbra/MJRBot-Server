@@ -4,12 +4,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.TimeZone;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 
-public class Utilities {
+public class MJRBotUtilities {
 
 	public static int getRandom(int min, int max) {
 		if (min > max) {
@@ -18,6 +20,7 @@ public class Utilities {
 		return (int) (min + Math.random() * ((long) max - min + 1));
 	}
 
+	@SuppressWarnings("unused")
 	public static boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
@@ -65,15 +68,41 @@ public class Utilities {
 
 	public static int getChannelIDFromBotType(BotType type, Object bot) {
 		if (type == BotType.Twitch)
-			return ((TwitchBot) bot).channelID;
+			return ((TwitchBot) bot).getChannelID();
 		return 0;
 	}
 
 	public static String getChannelNameFromBotType(BotType type, Object bot) {
 		if (type == BotType.Mixer)
-			return ((MixerBot) bot).channelName;
+			return ((MixerBot) bot).getChannelName();
 		else if (type == BotType.Twitch)
-			return ((TwitchBot) bot).channelName;
+			return ((TwitchBot) bot).getChannelName();
 		return "";
+	}
+
+	public static void logErrorMessage(String error, final Throwable throwable) {
+		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
+		logErrorMessage(error + " - " + stackTrace);
+	}
+
+	public static void logErrorMessage(final Throwable throwable, String channelName) {
+		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
+		logErrorMessage(channelName + " - " + stackTrace);
+	}
+
+	public static void logErrorMessage(final Throwable throwable, BotType type, Object bot) {
+		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
+		logErrorMessage(type.getTypeName() + ": " + MJRBotUtilities.getChannelNameFromBotType(type, bot) + " - " + stackTrace);
+	}
+
+	public static void logErrorMessage(final Throwable throwable) {
+		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
+		logErrorMessage(stackTrace);
+	}
+
+	public static void logErrorMessage(String stackTrace) {
+		ConsoleUtil.outputMessage(MessageType.Error, stackTrace);
+		if (MJRBot.getDiscordBot() != null)
+			MJRBot.getDiscordBot().sendErrorMessage(stackTrace);
 	}
 }

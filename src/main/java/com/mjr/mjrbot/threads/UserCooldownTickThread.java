@@ -3,10 +3,10 @@ package com.mjr.mjrbot.threads;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class UserCooldownTickThread extends Thread {
 
@@ -23,14 +23,14 @@ public class UserCooldownTickThread extends Thread {
 
 				for (Integer channelNameMain : channelListTwitch.keySet()) {
 					TwitchBot twitchBot = channelListTwitch.get(channelNameMain);
-					Iterator<String> iter = twitchBot.usersCooldowns.keySet().iterator();
+					Iterator<String> iter = twitchBot.getTwitchData().usersCooldowns.keySet().iterator();
 					while (iter.hasNext()) {
 						String user = iter.next();
-						int oldTime = twitchBot.usersCooldowns.get(user);
+						int oldTime = twitchBot.getTwitchData().usersCooldowns.get(user);
 						if (oldTime > 0) {
 							oldTime = oldTime - 1;
-							if (twitchBot.usersCooldowns.containsKey(user)) {
-								twitchBot.usersCooldowns.put(user, oldTime);
+							if (twitchBot.getTwitchData().usersCooldowns.containsKey(user)) {
+								twitchBot.getTwitchData().usersCooldowns.put(user, oldTime);
 							}
 						}
 						iter.remove();
@@ -39,26 +39,26 @@ public class UserCooldownTickThread extends Thread {
 
 				for (String channelNameMain : channelListMixer.keySet()) {
 					MixerBot mixerBot = channelListMixer.get(channelNameMain);
-					Iterator<String> iter = mixerBot.usersCooldowns.keySet().iterator();
+					Iterator<String> iter = mixerBot.getMixerData().usersCooldowns.keySet().iterator();
 					while (iter.hasNext()) {
 						String user = iter.next();
-						int oldTime = mixerBot.usersCooldowns.get(user);
+						int oldTime = mixerBot.getMixerData().usersCooldowns.get(user);
 						if (oldTime > 0) {
 							oldTime = oldTime - 1;
-							if (mixerBot.usersCooldowns.containsKey(user)) {
-								mixerBot.usersCooldowns.put(user, oldTime);
+							if (mixerBot.getMixerData().usersCooldowns.containsKey(user)) {
+								mixerBot.getMixerData().usersCooldowns.put(user, oldTime);
 							}
 						}
 						iter.remove();
 					}
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
 	}

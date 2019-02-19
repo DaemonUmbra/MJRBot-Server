@@ -1,8 +1,7 @@
 package com.mjr.mjrbot.threads.twitch;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.EventLog;
 import com.mjr.mjrbot.storage.EventLog.EventType;
@@ -11,6 +10,7 @@ import com.mjr.mjrbot.storage.RankSystem;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.HTTPConnect;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
 
 public class GetViewersThread extends Thread {
@@ -18,7 +18,7 @@ public class GetViewersThread extends Thread {
 	private TwitchBot bot;
 
 	public GetViewersThread(TwitchBot bot) {
-		super("GetViewersThread for" + bot.channelName);
+		super("GetViewersThread for" + bot.getChannelName());
 		this.bot = bot;
 	}
 
@@ -33,7 +33,7 @@ public class GetViewersThread extends Thread {
 				String staff = "";
 				String admins = "";
 				String global_moderators = "";
-				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserChattersAPI(TwitchBot.getChannelNameFromChannelID(bot.channelID)));
+				result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserChattersAPI(TwitchBot.getChannelNameFromChannelID(bot.getChannelID())));
 				if (result.contains("vips" + "\"" + ": [") && !result.contains("vips" + "\"" + ": [],")) {
 					vips = result.substring(result.indexOf("moderators") + 8);
 					result = vips;
@@ -72,93 +72,78 @@ public class GetViewersThread extends Thread {
 				global_moderators = global_moderators.replace(" ", "").replace("\"", "");
 				viewers = viewers.replace(" ", "").replace("\"", "");
 
-				if (bot.viewers.isEmpty()) {
+				if (bot.getTwitchData().getViewers().isEmpty()) {
 					for (String viewer : vips.split(",")) {
-						if (!bot.vips.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.vips.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addVip(viewer);
 					}
+
 					for (String viewer : moderators.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.viewers.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addViewer(viewer);
 					}
+
 					for (String viewer : staff.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.viewers.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addViewer(viewer);
 					}
+
 					for (String viewer : admins.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.viewers.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addViewer(viewer);
 					}
+
 					for (String viewer : global_moderators.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.viewers.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addViewer(viewer);
 					}
+
 					for (String viewer : viewers.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals(""))
-								bot.viewers.add(viewer.toLowerCase());
-						}
+						if (!viewer.equals(""))
+							bot.getTwitchData().addViewer(viewer);
 					}
+
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has the list of current active viewers!", MessageType.ChatBot, null);
 
 				} else {
 					for (String viewer : vips.split(",")) {
-						if (!bot.vips.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.vips.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addVip(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
+
 					for (String viewer : moderators.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addViewer(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
+
 					for (String viewer : staff.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addViewer(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
+
 					for (String viewer : admins.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addViewer(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
+
 					for (String viewer : global_moderators.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addViewer(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 					for (String viewer : viewers.split(",")) {
-						if (!bot.viewers.contains(viewer.toLowerCase())) {
-							if (!viewer.equals("")) {
-								bot.viewers.add(viewer.toLowerCase());
-								EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
-							}
-
+						if (!viewer.equals("")) {
+							bot.getTwitchData().addViewer(viewer);
+							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
@@ -166,35 +151,35 @@ public class GetViewersThread extends Thread {
 					moderators = moderators.replace(" ", "");
 					moderators = moderators.replace("\"", "");
 					for (String mod : moderators.split(",")) {
-						if (!bot.moderators.contains(mod.toLowerCase())) {
+						if (!bot.getTwitchData().getModerators().contains(mod.toLowerCase())) {
 							if (!mod.equals(""))
-								bot.moderators.add(mod.toLowerCase());
+								bot.getTwitchData().addModerator(mod);
 						}
 					}
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active moderators!", MessageType.ChatBot, null);
 				}
 
-				for (int i = 1; i < bot.viewers.size(); i++) {
+				for (int i = 1; i < bot.getTwitchData().getViewers().size(); i++) {
 					if (Config.getSetting("Points", BotType.Twitch, bot).equalsIgnoreCase("true")) {
-						if (!PointsSystem.isOnList(bot.viewers.get(i), BotType.Twitch, bot)) {
-							PointsSystem.setPoints(bot.viewers.get(i), Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, bot)), BotType.Twitch, bot, false, false);
+						if (!PointsSystem.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
+							PointsSystem.setPoints(bot.getTwitchData().getViewers().get(i), Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, bot)), BotType.Twitch, bot, false, false);
 						}
 					}
 					if (Config.getSetting("Ranks", BotType.Twitch, bot).equalsIgnoreCase("true")) {
-						if (!RankSystem.isOnList(bot.viewers.get(i), BotType.Twitch, bot)) {
-							RankSystem.setRank(bot.viewers.get(i), "None", BotType.Twitch, bot);
+						if (!RankSystem.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
+							RankSystem.setRank(bot.getTwitchData().getViewers().get(i), "None", BotType.Twitch, bot);
 						}
 					}
-					if (!bot.viewersJoinedTimes.containsKey(bot.viewers.get(i).toLowerCase().toLowerCase()))
-						bot.viewersJoinedTimes.put(bot.viewers.get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
+					if (!bot.getTwitchData().viewersJoinedTimes.containsKey(bot.getTwitchData().getViewers().get(i).toLowerCase().toLowerCase()))
+						bot.getTwitchData().viewersJoinedTimes.put(bot.getTwitchData().getViewers().get(i).toLowerCase().toLowerCase(), System.currentTimeMillis());
 				}
 			} catch (Exception e) {
-				MJRBot.logErrorMessage(e, BotType.Twitch, bot);
+				MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 			}
 			try {
 				Thread.sleep(60000 * 2);
 			} catch (InterruptedException e) {
-				MJRBot.logErrorMessage(e, BotType.Twitch, bot);
+				MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
 public class ChannelInfoCommand extends ConsoleCommand {
@@ -16,14 +16,14 @@ public class ChannelInfoCommand extends ConsoleCommand {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Twitch", twitchBot.channelName, twitchBot.viewers.size(), twitchBot.subscribers.size(), twitchBot.moderators.size(), twitchBot.isBotConnected());
+				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(), twitchBot.isBotConnected());
 			} else if (args[1].equalsIgnoreCase("Mixer")) {
 				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				if (mixerBot == null) {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Mixer", mixerBot.channelName, mixerBot.getViewers().size(), mixerBot.subscribers.size(), mixerBot.getModerators().size(), mixerBot.isConnected());
+				sendInfo("Mixer", mixerBot.getChannelName(), mixerBot.getViewers().size(), mixerBot.getMixerData().getSubscribers().size(), mixerBot.getModerators().size(), mixerBot.isConnected());
 			} else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
@@ -37,7 +37,7 @@ public class ChannelInfoCommand extends ConsoleCommand {
 		System.out.println("Channel " + channel);
 		System.out.println("Connected " + connected + " \n");
 		System.out.println("Num of Viewers " + viewerCount);
-		System.out.println("Num of Subs " + subsCount );
+		System.out.println("Num of Subs " + subsCount);
 		System.out.println("Num of Moderators " + modsCount);
 		System.out.println("Num of Moderators " + modsCount);
 	}

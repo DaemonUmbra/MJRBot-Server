@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.defaultCommands.QuoteCommand;
-import com.mjr.mjrbot.sql.MySQLConnection;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.storage.sql.MySQLConnection;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 @SuppressWarnings("resource")
 public class QuoteSystem {
@@ -47,7 +47,7 @@ public class QuoteSystem {
 			try {
 				inFile1 = new Scanner(file).useDelimiter(";\\s*");
 			} catch (FileNotFoundException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 			List<String> temps = new ArrayList<String>();
 			while (inFile1.hasNext()) {
@@ -60,9 +60,9 @@ public class QuoteSystem {
 			List<String> quotes = new ArrayList<String>();
 			ResultSet result = null;
 			if (type == BotType.Twitch)
-				result = MySQLConnection.executeQuery("SELECT * FROM quotes WHERE twitch_channel_id = " + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM quotes WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT * FROM quotes WHERE mixer_channel = " + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM quotes WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"");
 			try {
 				if (result == null)
 					return new ArrayList<String>();
@@ -76,7 +76,7 @@ public class QuoteSystem {
 					return quotes;
 				}
 			} catch (SQLException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 				return new ArrayList<String>();
 			}
 		}
@@ -94,35 +94,35 @@ public class QuoteSystem {
 				try {
 					Files.createFile(filePath);
 				} catch (IOException e) {
-					MJRBot.logErrorMessage(e);
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			}
 
 			try {
 				Files.write(filePath, ("\n" + quote + ";").getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
-				MJRBot.logErrorMessage(e);
+				MJRBotUtilities.logErrorMessage(e);
 			}
 		} else {
 			if (type == BotType.Twitch)
-				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
 			else if (type == BotType.Mixer)
-				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
 		}
 	}
 
 	public static void migrateFile(BotType type, Object bot) {
 		File file = null;
 		if (type == BotType.Twitch)
-			file = new File(MJRBot.filePath + Utilities.getChannelIDFromBotType(type, bot) + File.separator + QuoteCommand.filename);
+			file = new File(MJRBot.filePath + MJRBotUtilities.getChannelIDFromBotType(type, bot) + File.separator + QuoteCommand.filename);
 		else if (type == BotType.Mixer)
-			file = new File(MJRBot.filePath + Utilities.getChannelNameFromBotType(type, bot) + File.separator + QuoteCommand.filename);
+			file = new File(MJRBot.filePath + MJRBotUtilities.getChannelNameFromBotType(type, bot) + File.separator + QuoteCommand.filename);
 		List<String> quotes = getAllQuotes(type, bot, file);
 		for (String quote : quotes) {
 			if (type == BotType.Twitch)
-				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + Utilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
 			else if (type == BotType.Mixer)
-				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + Utilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
+				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
 		}
 	}
 }

@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.util.Utilities;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class PointsCheckCommand extends Command {
 	@Override
@@ -14,12 +14,12 @@ public class PointsCheckCommand extends Command {
 			if (args.length == 2) {
 				String user = args[1];
 				if (PointsSystem.isOnList(user, type, bot)) {
-					Utilities.sendMessage(type, bot, user + " currently has " + PointsSystem.getPoints(user, type, bot) + " points");
+					MJRBotUtilities.sendMessage(type, bot, user + " currently has " + PointsSystem.getPoints(user, type, bot) + " points");
 				} else {
-					Utilities.sendMessage(type, bot, "@" + sender + "Unable to find " + user + " current points value!");
+					MJRBotUtilities.sendMessage(type, bot, "@" + sender + "Unable to find " + user + " current points value!");
 				}
 			} else {
-				Utilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !pointscheck USER");
+				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !pointscheck USER");
 			}
 		}
 	}

@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import com.mjr.mjrbot.AnalyticsData;
-import com.mjr.mjrbot.ChatBotManager.BotType;
 import com.mjr.mjrbot.MJRBot;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.defaultCommands.AccountLifeCommand;
 import com.mjr.mjrbot.commands.defaultCommands.AddBadwordCommand;
 import com.mjr.mjrbot.commands.defaultCommands.AddCommand;
@@ -50,6 +48,8 @@ import com.mjr.mjrbot.commands.defaultCommands.UptimeCommand;
 import com.mjr.mjrbot.storage.Config;
 import com.mjr.mjrbot.storage.EventLog;
 import com.mjr.mjrbot.storage.EventLog.EventType;
+import com.mjr.mjrbot.util.Permissions;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class CommandManager {
 	public String[] args;
@@ -115,65 +115,49 @@ public class CommandManager {
 		// Check if known default command
 		if (commands.containsKey(args[0].toLowerCase())) {
 			Command command = commands.get(args[0].toLowerCase());
-			if (Permissions.hasPermission(bot, type, sender, command.getPermissionLevel())) {
-				if (type == BotType.Twitch) {
-					TwitchBot twitchBot = ((TwitchBot) bot);
-
-					if (!twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-						twitchBot.usersCooldowns.put(sender.toLowerCase(), 0);
-					}
-				}
-
-				if (type == BotType.Mixer) {
-					MixerBot mixerBot = ((MixerBot) bot);
-
-					if (!mixerBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-						mixerBot.usersCooldowns.put(sender.toLowerCase(), 0);
-					}
-				}
-				boolean allowed = false;
-				if (command.hasCooldown()) {
-					if (type == BotType.Twitch) {
-						TwitchBot twitchBot = ((TwitchBot) bot);
-						if (twitchBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 1) {
-								allowed = true;
-							} else if (twitchBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
-								allowed = true;
-								twitchBot.usersCooldowns.remove(sender.toLowerCase());
-								twitchBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
-								if (MJRBot.userCooldownTickThread.isAlive() == false)
-									MJRBot.userCooldownTickThread.start();
-
-							} else
-								allowed = false;
-						}
-					} else if (type == BotType.Mixer) {
-						MixerBot mixerBot = ((MixerBot) bot);
-						if (mixerBot.usersCooldowns.containsKey(sender.toLowerCase())) {
-							if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 0) {
-								allowed = true;
-							} else if (mixerBot.usersCooldowns.get(sender.toLowerCase()) == 0) {
-								allowed = true;
-								mixerBot.usersCooldowns.remove(sender.toLowerCase());
-								mixerBot.usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
-								if (MJRBot.userCooldownTickThread.isAlive() == false)
-									MJRBot.userCooldownTickThread.start();
-
-							} else
-								allowed = false;
-						}
-					}
-				} else
-					allowed = true;
-				if (allowed) {
-					command.onCommand(type, bot, sender, login, hostname, message, args);
-					EventLog.addEvent(type, bot, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
-					AnalyticsData.addNumOfCommandsUsed(1);
-				}
+			if (canUseCommand(type, bot, sender, command)) {
+				command.onCommand(type, bot, sender, login, hostname, message, args);
+				EventLog.addEvent(type, bot, sender, "Used the command " + args[0].toLowerCase(), EventType.Commands);
+				AnalyticsData.addNumOfCommandsUsed(1);
 			}
 		} else if (args[0].startsWith("!")) { // Check for known custom command
 			CustomCommands.getCommand(type, bot, args[0], sender);
 		}
+	}
+
+	public boolean canUseCommand(BotType type, Object bot, String sender, Command command) {
+		if (!Permissions.hasPermission(bot, type, sender, command.getPermissionLevel()))
+			return false;
+
+		if (command.hasCooldown()) {
+			if (type == BotType.Twitch) {
+				TwitchBot twitchBot = ((TwitchBot) bot);
+				if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 1) {
+					return true;
+				} else if (twitchBot.getTwitchData().usersCooldowns.get(sender.toLowerCase()) == 0) {
+					twitchBot.getTwitchData().usersCooldowns.remove(sender.toLowerCase());
+					twitchBot.getTwitchData().usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
+					if (MJRBot.userCooldownTickThread.isAlive() == false)
+						MJRBot.userCooldownTickThread.start();
+					return true;
+
+				} else
+					return false;
+			} else if (type == BotType.Mixer) {
+				MixerBot mixerBot = ((MixerBot) bot);
+				if (PermissionLevel.getTierValueByName(Permissions.getPermissionLevel(bot, type, sender.toLowerCase())) > 0) {
+					return true;
+				} else if (mixerBot.getMixerData().usersCooldowns.get(sender.toLowerCase()) == 0) {
+					mixerBot.getMixerData().usersCooldowns.remove(sender.toLowerCase());
+					mixerBot.getMixerData().usersCooldowns.put(sender.toLowerCase(), Integer.parseInt(Config.getSetting("CommandsCooldownAmount", type, bot)));
+					if (MJRBot.userCooldownTickThread.isAlive() == false)
+						MJRBot.userCooldownTickThread.start();
+					return true;
+				} else
+					return false;
+			}
+		} else
+			return true;
+		return false;
 	}
 }

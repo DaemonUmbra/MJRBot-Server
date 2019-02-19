@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mjr.mjrbot.ChatBotManager.BotType;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.Permissions;
-import com.mjr.mjrbot.Permissions.PermissionLevel;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.util.Permissions;
+import com.mjr.mjrbot.util.Permissions.PermissionLevel;
 
 public class LinkChecker {
 
@@ -43,9 +43,9 @@ public class LinkChecker {
 		if (isLink) {
 			if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName()))
 				return true;
-			else if (type == BotType.Twitch && ((TwitchBot) bot).linkPermitedUsers.contains(sender))
+			else if (type == BotType.Twitch && ((TwitchBot) bot).getTwitchData().linkPermitedUsers.contains(sender))
 				return true;
-			else if (type == BotType.Mixer && ((MixerBot) bot).linkPermitedUsers.contains(sender))
+			else if (type == BotType.Mixer && ((MixerBot) bot).getMixerData().linkPermitedUsers.contains(sender))
 				return true;
 			else
 				return false;

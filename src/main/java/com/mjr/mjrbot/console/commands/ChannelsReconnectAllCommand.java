@@ -2,9 +2,9 @@ package com.mjr.mjrbot.console.commands;
 
 import java.util.Collection;
 
-import com.mjr.mjrbot.ChatBotManager;
-import com.mjr.mjrbot.MixerBot;
-import com.mjr.mjrbot.TwitchBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.console.ConsoleCommand;
 
 public class ChannelsReconnectAllCommand extends ConsoleCommand {

@@ -1,4 +1,4 @@
-package com.mjr.mjrbot.sql;
+package com.mjr.mjrbot.storage.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class SQLUtilities {
 
@@ -45,7 +46,7 @@ public class SQLUtilities {
 			}
 			resultSet.close();
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 
 		return false;
@@ -59,12 +60,12 @@ public class SQLUtilities {
 				channels.put(result.getInt("twitch_channel_id"), result.getString("bot_type"));
 			}
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		try {
 			result.close();
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return channels;
 	}
@@ -77,12 +78,12 @@ public class SQLUtilities {
 				channels.put(result.getString("name"), result.getString("bot_type"));
 			}
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		try {
 			result.close();
 		} catch (SQLException e) {
-			MJRBot.logErrorMessage(e);
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return channels;
 	}
