@@ -239,7 +239,7 @@ public class TwitchBot extends PircBot {
 	@Override
 	protected void onDisconnect() {
 		MJRBot.getDiscordBot().sendAdminEventMessage(this.getChannelName() + " has triggered a onDisconnect event!");
-		if(this.connected != false) {
+		if (this.connected != false) {
 			disconnectTwitch();
 		}
 		ChatBotManager.removeTwitchBot(this);
@@ -445,7 +445,7 @@ public class TwitchBot extends PircBot {
 		try {
 			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM tokens WHERE channel_id = '" + bot.getChannelID() + "' AND platform = 'Twitch'", false);
 			if (set != null && set.next()) {
-				String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/user?client_id=it37a0q1pxypsijpd94h6rdhiq3j08&oauth_token=" + set.getString("access_token"));
+				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserAPI(set.getString("access_token")));
 				newChannel = result.substring(result.indexOf("name") + 7);
 				newChannel = newChannel.substring(0, newChannel.indexOf(",") - 1).toLowerCase();
 				if (!newChannel.equalsIgnoreCase(bot.channelName))

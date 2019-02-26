@@ -24,6 +24,10 @@ public class TwitchMixerAPICalls {
 	public static String twitchGetChannelsSubscriptionsAPI(int channelID, String oAuthToken, int limit) {
 		return "https://api.twitch.tv/kraken/channels/" + channelID + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + oAuthToken + "&limit=" + limit + "&api_version=5";
 	}
+	
+	public static String twitchGetUserAPI(String oAuthToken) {
+		return "https://api.twitch.tv/kraken/user?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + oAuthToken + "&api_version=5";
+	}
 
 	public static String twitchGetChatAPI(int channelID) {
 		return "https://api.twitch.tv/kraken/chat/" + channelID + "?client_id=" + MJRBot.CLIENT_ID + "&api_version=5";
