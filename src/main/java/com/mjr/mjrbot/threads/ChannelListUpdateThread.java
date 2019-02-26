@@ -8,6 +8,7 @@ import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.ConfigMain;
 import com.mjr.mjrbot.storage.sql.SQLUtilities;
+import com.mjr.mjrbot.util.BoolStringPair;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
@@ -76,6 +77,13 @@ public class ChannelListUpdateThread extends Thread {
 					MixerBot bot = ChatBotManager.getMixerBotByChannelName(removeChannel);
 					bot.disconnectMixer();
 					ChatBotManager.removeMixerBot(removeChannel);
+				}
+				
+				for (Integer channelID : ChatBotManager.getTwitchBots().keySet()) {
+					TwitchBot bot = ChatBotManager.getTwitchBotByChannelID(channelID);
+					BoolStringPair output = TwitchBot.checkforUsernameChange(bot);
+					if (output.getValueBoolean())
+						TwitchBot.performUsernameChange(bot, output.getValueString());
 				}
 
 				try {

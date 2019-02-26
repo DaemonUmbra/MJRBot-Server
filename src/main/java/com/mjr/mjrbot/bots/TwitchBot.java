@@ -30,6 +30,7 @@ import com.mjr.mjrbot.threads.RaceStartThread;
 import com.mjr.mjrbot.threads.twitch.GetFollowersThread;
 import com.mjr.mjrbot.threads.twitch.GetSubscribersThread;
 import com.mjr.mjrbot.threads.twitch.GetViewersThread;
+import com.mjr.mjrbot.util.BoolStringPair;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.HTTPConnect;
@@ -377,30 +378,6 @@ public class TwitchBot extends PircBot {
 			this.getTwitchData().viewersJoinedTimes.remove(user.toLowerCase());
 	}
 
-	public static int getChannelIDFromChannelName(String channelName) {
-		try {
-			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "' AND bot_type = 'Twitch'");
-			if (set != null && set.next()) {
-				return set.getInt("twitch_channel_id");
-			}
-		} catch (SQLException e) {
-			MJRBotUtilities.logErrorMessage(e);
-		}
-		return 0;
-	}
-
-	public static String getChannelNameFromChannelID(int channelID) {
-		try {
-			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE twitch_channel_id = '" + channelID + "'");
-			if (set != null && set.next()) {
-				return set.getString("name");
-			}
-		} catch (SQLException e) {
-			MJRBotUtilities.logErrorMessage(e);
-		}
-		return null;
-	}
-
 	public String getBotName() {
 		return this.getName();
 	}
@@ -431,5 +408,67 @@ public class TwitchBot extends PircBot {
 
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
+	}
+
+	/*
+	 * Static Utilities Methods
+	 */
+
+	public static int getChannelIDFromChannelName(String channelName) {
+		try {
+			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "' AND bot_type = 'Twitch'");
+			if (set != null && set.next()) {
+				return set.getInt("twitch_channel_id");
+			}
+		} catch (SQLException e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
+		return 0;
+	}
+
+	public static String getChannelNameFromChannelID(int channelID) {
+		try {
+			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE twitch_channel_id = '" + channelID + "'");
+			if (set != null && set.next()) {
+				return set.getString("name");
+			}
+		} catch (SQLException e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
+		return null;
+	}
+
+	public static BoolStringPair checkforUsernameChange(TwitchBot bot) {
+		String newChannel = "";
+		try {
+			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM tokens WHERE channel_id = '" + bot.getChannelID() + "' AND platform = 'Twitch'", false);
+			if (set != null && set.next()) {
+				String result = HTTPConnect.getRequest("https://api.twitch.tv/kraken/user?client_id=it37a0q1pxypsijpd94h6rdhiq3j08&oauth_token=" + set.getString("access_token"));
+				newChannel = result.substring(result.indexOf("name") + 7);
+				newChannel = newChannel.substring(0, newChannel.indexOf(",") - 1).toLowerCase();
+				if (!newChannel.equalsIgnoreCase(bot.channelName))
+					return new BoolStringPair(newChannel, true);
+			}
+		} catch (Exception e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
+		return new BoolStringPair(newChannel, false);
+	}
+
+	public static void performUsernameChange(TwitchBot bot, String newChannel) {
+		try {
+			ConsoleUtil.textToConsole("[Twitch] " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
+			MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
+			bot.disconnectTwitch();
+			MySQLConnection.executeUpdate("DELETE from channels where twitch_channel_id = " + "\"" + bot.getChannelID() + "\"" + " AND bot_type = " + "\"" + "Twitch" + "\"");
+			ChatBotManager.removeTwitchBot(bot);
+			MySQLConnection.executeUpdate("UPDATE tokens set channel = '" + newChannel + "' where channel = " + "\"" + bot.channelName + "\"" + " AND platform = " + "\"" + "Twitch" + "\"");
+			MySQLConnection.executeUpdate("UPDATE moderation_actions set channel = '" + newChannel + "' where channel = " + "\"" + bot.channelName + "\"" + " AND platform = " + "\"" + "Twitch" + "\"");
+			MySQLConnection.executeUpdate("UPDATE events set channel = '" + newChannel + "' where channel = " + "\"" + bot.channelName + "\"" + " AND platform = " + "\"" + "Twitch" + "\"");
+			MySQLConnection.executeUpdate("UPDATE discord_info set channel = '" + newChannel + "' where channel = " + "\"" + bot.channelName + "\"");
+			MySQLConnection.executeUpdate("INSERT INTO `channels`(`name`, `twitch_channel_id`, `bot_type`) VALUES ('" + newChannel + "','" + bot.getChannelID() + "','Twitch')");
+		} catch (Exception e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
 	}
 }
