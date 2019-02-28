@@ -131,9 +131,10 @@ public class MJRBot {
 			ConfigMain.load();
 			if (MJRBot.connectionType == ConnectionType.Database) {
 				do {
-					MySQLConnection.connect();
+					MySQLConnection.connect(ConfigMain.getSetting("DatabaseIPAddress"), Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"), ConfigMain.getSetting("DatabaseUsername"),
+							ConfigMain.getSetting("DatabasePassword"));
 					Thread.sleep(5000);
-				} while (MySQLConnection.connected == false);
+				} while (MySQLConnection.isConnected() == false);
 			}
 			discordConnect();
 			Thread.sleep(2000);

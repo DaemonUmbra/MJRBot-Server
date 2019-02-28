@@ -19,7 +19,7 @@ public class ExitProcessCommand extends ConsoleCommand {
 		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 			bot.disconnectMixer();
 		}
-		if (MJRBot.storageType == StorageType.Database && MySQLConnection.connected)
+		if (MJRBot.storageType == StorageType.Database && MySQLConnection.isConnected())
 			AnalyticsData.sendData();
 		System.exit(0);
 	}
