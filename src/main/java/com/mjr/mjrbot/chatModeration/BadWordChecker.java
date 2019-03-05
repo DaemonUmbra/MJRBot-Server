@@ -10,8 +10,8 @@ import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class BadWordChecker {
 	public static List<String> badWords = new ArrayList<String>();
@@ -37,7 +37,7 @@ public class BadWordChecker {
 
 			for (int i = 0; i < badWords.size(); i++) {
 				if (message.toLowerCase().contains(badWords.get(i).toLowerCase())) {
-					if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
+					if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
 						return false;
 					} else {
 						return true;

@@ -32,7 +32,7 @@ import com.mjr.mjrbot.console.commands.VersionCommand;
 public class ConsoleCommandManager {
 	public static String[] args;
 
-	public static TreeMap<String, ConsoleCommand> commands = new TreeMap<String, ConsoleCommand>();
+	public static TreeMap<String, IConsoleCommand> commands = new TreeMap<String, IConsoleCommand>();
 
 	public static void loadCommands() {
 		commands.clear();
@@ -68,7 +68,7 @@ public class ConsoleCommandManager {
 
 		// Check if known default command
 		if (commands.containsKey(args[0].toLowerCase()) || (args.length >= 2 && commands.containsKey(args[0].toLowerCase() + " " + args[1].toLowerCase()))) {
-			ConsoleCommand command = commands.get(args[0].toLowerCase());
+			IConsoleCommand command = commands.get(args[0].toLowerCase());
 			if (command == null) {
 				command = commands.get(args[0].toLowerCase() + " " + args[1].toLowerCase());
 				list.remove(0);

@@ -3,15 +3,15 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.commands.Command;
-import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.commands.ICommand;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class MathsCommand extends Command {
+public class MathsCommand implements ICommand {
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
+		if (ChannelConfigManager.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = ((TwitchBot) bot);
 				if (twitchBot.mathsGame.isGameActive == false) {
@@ -35,8 +35,8 @@ public class MathsCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Moderator.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Moderator;
 	}
 
 	@Override

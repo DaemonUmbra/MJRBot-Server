@@ -1,7 +1,7 @@
 package com.mjr.mjrbot.chatModeration;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 
 public class SymbolChecker {
 
@@ -12,7 +12,7 @@ public class SymbolChecker {
 				number++;
 			}
 		}
-		if (number >= Integer.parseInt(Config.getSetting("MaxSymbols", type, bot)))
+		if (number >= Integer.parseInt(ChannelConfigManager.getSetting("MaxSymbols", type, bot)))
 			return true;
 		else
 			return false;

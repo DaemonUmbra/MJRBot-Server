@@ -4,10 +4,10 @@ import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.commands.Command;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.commands.ICommand;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class ReconnectCommand extends Command {
+public class ReconnectCommand implements ICommand {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
@@ -23,8 +23,8 @@ public class ReconnectCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Streamer.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Streamer;
 	}
 
 	@Override

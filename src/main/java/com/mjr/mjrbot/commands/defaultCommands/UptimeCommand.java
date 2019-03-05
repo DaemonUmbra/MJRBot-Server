@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
 
-public class UptimeCommand extends Command {
+public class UptimeCommand implements ICommand {
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (type == BotType.Twitch) {
@@ -65,8 +65,8 @@ public class UptimeCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.User.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.User;
 	}
 
 	@Override

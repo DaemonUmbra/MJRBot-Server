@@ -5,9 +5,9 @@ import java.util.Collection;
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class ChannelsReconnectAllCommand extends ConsoleCommand {
+public class ChannelsReconnectAllCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

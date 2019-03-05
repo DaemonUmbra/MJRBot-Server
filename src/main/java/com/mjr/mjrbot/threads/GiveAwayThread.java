@@ -5,7 +5,7 @@ import java.util.Random;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class GiveAwayThread extends Thread {
@@ -21,9 +21,9 @@ public class GiveAwayThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			MJRBotUtilities.sendMessage(type, bot, "Giveaway will end in " + Config.getSetting("GiveawayDelay", type, bot) + " minutes. To enter use !enter");
+			MJRBotUtilities.sendMessage(type, bot, "Giveaway will end in " + ChannelConfigManager.getSetting("GiveawayDelay", type, bot) + " minutes. To enter use !enter");
 			try {
-				Thread.sleep((Integer.parseInt(Config.getSetting("GiveawayDelay", type, bot)) * 60) * 1000);
+				Thread.sleep((Integer.parseInt(ChannelConfigManager.getSetting("GiveawayDelay", type, bot)) * 60) * 1000);
 			} catch (InterruptedException e) {
 				MJRBotUtilities.logErrorMessage(e, type, bot);
 			}

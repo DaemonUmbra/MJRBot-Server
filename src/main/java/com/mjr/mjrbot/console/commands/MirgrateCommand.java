@@ -2,9 +2,9 @@ package com.mjr.mjrbot.console.commands;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.MirgrationType;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class MirgrateCommand extends ConsoleCommand {
+public class MirgrateCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

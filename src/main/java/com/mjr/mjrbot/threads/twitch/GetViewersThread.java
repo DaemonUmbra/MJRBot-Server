@@ -2,11 +2,11 @@ package com.mjr.mjrbot.threads.twitch;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.storage.RankSystem;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
+import com.mjr.mjrbot.storage.PointsSystemManager;
+import com.mjr.mjrbot.storage.RankSystemManager;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.HTTPConnect;
@@ -109,41 +109,41 @@ public class GetViewersThread extends Thread {
 					for (String viewer : vips.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addVip(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 
 					for (String viewer : moderators.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 
 					for (String viewer : staff.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 
 					for (String viewer : admins.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 
 					for (String viewer : global_moderators.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 					for (String viewer : viewers.split(",")) {
 						if (!viewer.equals("")) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLog.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
 						}
 					}
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
@@ -160,14 +160,14 @@ public class GetViewersThread extends Thread {
 				}
 
 				for (int i = 1; i < bot.getTwitchData().getViewers().size(); i++) {
-					if (Config.getSetting("Points", BotType.Twitch, bot).equalsIgnoreCase("true")) {
-						if (!PointsSystem.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
-							PointsSystem.setPoints(bot.getTwitchData().getViewers().get(i), Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, bot)), BotType.Twitch, bot, false, false);
+					if (ChannelConfigManager.getSetting("Points", BotType.Twitch, bot).equalsIgnoreCase("true")) {
+						if (!PointsSystemManager.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
+							PointsSystemManager.setPoints(bot.getTwitchData().getViewers().get(i), Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", BotType.Twitch, bot)), BotType.Twitch, bot, false, false);
 						}
 					}
-					if (Config.getSetting("Ranks", BotType.Twitch, bot).equalsIgnoreCase("true")) {
-						if (!RankSystem.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
-							RankSystem.setRank(bot.getTwitchData().getViewers().get(i), "None", BotType.Twitch, bot);
+					if (ChannelConfigManager.getSetting("Ranks", BotType.Twitch, bot).equalsIgnoreCase("true")) {
+						if (!RankSystemManager.isOnList(bot.getTwitchData().getViewers().get(i), BotType.Twitch, bot)) {
+							RankSystemManager.setRank(bot.getTwitchData().getViewers().get(i), "None", BotType.Twitch, bot);
 						}
 					}
 					if (!bot.getTwitchData().viewersJoinedTimes.containsKey(bot.getTwitchData().getViewers().get(i).toLowerCase().toLowerCase()))

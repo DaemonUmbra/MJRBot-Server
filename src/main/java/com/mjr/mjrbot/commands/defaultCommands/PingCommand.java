@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class PingCommand extends Command {
+public class PingCommand implements ICommand {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
@@ -13,8 +13,8 @@ public class PingCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Moderator.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Moderator;
 	}
 
 	@Override

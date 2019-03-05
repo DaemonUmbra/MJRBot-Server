@@ -21,11 +21,11 @@ import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.gameIntegrations.CallOfDuty;
 import com.mjr.mjrbot.gameIntegrations.PUBG;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions;
+import com.mjr.mjrbot.util.PermissionsManager;
 
 public class CustomCommands {
 
@@ -49,7 +49,7 @@ public class CustomCommands {
 				state = properties.getProperty("state");
 				permissionLevel = properties.getProperty("permissionlevel");
 				response = properties.getProperty("response");
-			} else if (Config.getSetting("MsgWhenCommandDoesntExist", type, bot).equalsIgnoreCase("true"))
+			} else if (ChannelConfigManager.getSetting("MsgWhenCommandDoesntExist", type, bot).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " the command " + command + " doesnt exist!");
 		} else {
 			ResultSet result = null;
@@ -76,12 +76,12 @@ public class CustomCommands {
 
 		if (state != null && permissionLevel != null && response != null) {
 			if (state.equalsIgnoreCase("true")) {
-				boolean allowed = Permissions.hasPermission(bot, type, sender, permissionLevel);
+				boolean allowed = PermissionsManager.hasPermission(bot, type, sender, permissionLevel);
 				if (allowed) {
 					response = replaceVariablesWithData(response, type, bot, sender);
 					MJRBotUtilities.sendMessage(type, bot, response);
 				} else {
-					if (Config.getSetting("MsgWhenCommandCantBeUsed", type, bot).equalsIgnoreCase("true"))
+					if (ChannelConfigManager.getSetting("MsgWhenCommandCantBeUsed", type, bot).equalsIgnoreCase("true"))
 						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " the command " + command + " you dont have access to this command!");
 				}
 			}
@@ -91,7 +91,7 @@ public class CustomCommands {
 	public static String replaceVariablesWithData(String response, BotType type, Object bot, String sender) {
 		response = response.replaceAll("%sender%", sender);
 		response = response.replaceAll("%channel%", MJRBotUtilities.getChannelNameFromBotType(type, bot));
-		response = response.replaceAll("%botname%", ConfigMain.getSetting("TwitchUsername"));
+		response = response.replaceAll("%botname%", BotConfigManager.getSetting("TwitchUsername"));
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%subcount%", "" + ((TwitchBot) bot).getTwitchData().getSubscribers().size());
 		else if (type == BotType.Mixer)
@@ -107,9 +107,9 @@ public class CustomCommands {
 		if (type == BotType.Twitch)
 			response = response.replaceAll("%vipcount%", "" + ((TwitchBot) bot).getTwitchData().getVips().size());
 		if (response.contains("%time%")) {
-			ZonedDateTime time = ZonedDateTime.now(ZoneId.of(Config.getSetting("SelectedTimeZone", type, bot)));
+			ZonedDateTime time = ZonedDateTime.now(ZoneId.of(ChannelConfigManager.getSetting("SelectedTimeZone", type, bot)));
 			DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-M-yyyy hh:mm:ss a");
-			response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + Config.getSetting("SelectedTimeZone", type, bot) + ")");
+			response = response.replaceAll("%time%", format.format(time) + " (Timezone: " + ChannelConfigManager.getSetting("SelectedTimeZone", type, bot) + ")");
 		}
 		try {
 			String[] parts = response.split(" ");

@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class PUBG {
@@ -51,7 +51,7 @@ public class PUBG {
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Authorization", "Bearer " + ConfigMain.getSetting("PUBGToken"));
+			conn.setRequestProperty("Authorization", "Bearer " + BotConfigManager.getSetting("PUBGToken"));
 			conn.setRequestProperty("Accept", "application/vnd.api+json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
@@ -78,7 +78,7 @@ public class PUBG {
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Authorization", "Bearer " + ConfigMain.getSetting("PUBGToken"));
+			conn.setRequestProperty("Authorization", "Bearer " + BotConfigManager.getSetting("PUBGToken"));
 			conn.setRequestProperty("Accept", "application/vnd.api+json");
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";

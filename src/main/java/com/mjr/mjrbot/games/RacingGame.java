@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.storage.PointsSystem;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
+import com.mjr.mjrbot.storage.PointsSystemManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class RacingGame {
@@ -100,8 +100,8 @@ public class RacingGame {
 					}
 				}
 				pointsMessage = pointsMessage + "@" + top3Users.get(l) + " has won " + Integer.toString(points) + ", ";
-				PointsSystem.AddPointsWithEventMsg(top3Users.get(l), points, type, bot);
-				EventLog.addEvent(type, bot, top3Users.get(l), "Won the Racing Game", EventType.Games);
+				PointsSystemManager.AddPointsWithEventMsg(top3Users.get(l), points, type, bot);
+				EventLogManager.addEvent(type, bot, top3Users.get(l), "Won the Racing Game", EventType.Games);
 			}
 			randomOds = nextFloat(1, 2);
 			for (int m = 0; m < firstUsers.size(); m++) {
@@ -112,8 +112,8 @@ public class RacingGame {
 					}
 				}
 				pointsMessage = pointsMessage + "@" + firstUsers.get(m) + " has won " + Integer.toString(points) + ", ";
-				PointsSystem.AddPointsWithEventMsg(firstUsers.get(m), points, type, bot);
-				EventLog.addEvent(type, bot, firstUsers.get(m), "Won the Racing Game", EventType.Games);
+				PointsSystemManager.AddPointsWithEventMsg(firstUsers.get(m), points, type, bot);
+				EventLogManager.addEvent(type, bot, firstUsers.get(m), "Won the Racing Game", EventType.Games);
 			}
 			MJRBotUtilities.sendMessage(type, bot, pointsMessage);
 		}

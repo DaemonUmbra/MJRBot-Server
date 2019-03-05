@@ -4,9 +4,9 @@ import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class ConnectCommand extends ConsoleCommand {
+public class ConnectCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

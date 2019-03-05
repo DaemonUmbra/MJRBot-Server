@@ -16,12 +16,12 @@ import com.mjr.mjrbot.chatModeration.ChatModeration;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.games.MathsGame;
 import com.mjr.mjrbot.games.RacingGame;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.ConfigMain;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.storage.RankSystem;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
+import com.mjr.mjrbot.storage.PointsSystemManager;
+import com.mjr.mjrbot.storage.RankSystemManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.threads.AnnouncementsThread;
 import com.mjr.mjrbot.threads.AutoPointsThread;
@@ -85,7 +85,7 @@ public class TwitchBot extends PircBot {
 		this.ircChannelName = "#" + channelName.toLowerCase();
 		this.joinChannel(this.ircChannelName);
 		ConsoleUtil.textToConsole(this, BotType.Twitch, "Joined " + channelName.substring(channelName.indexOf("#") + 1) + " channel", MessageType.ChatBot, null);
-		if (ConfigMain.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
+		if (BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
 			this.setVerbose(true);
 	}
 
@@ -106,7 +106,7 @@ public class TwitchBot extends PircBot {
 		if (this.getTwitchData().getModerators() != null)
 			if (this.getTwitchData().getModerators().contains(this.getBotName().toLowerCase()))
 				ChatModeration.onCommand(BotType.Twitch, this, sender, login, hostname, message);
-		if (Config.getSetting("Commands", this.channelID).equalsIgnoreCase("true")) {
+		if (ChannelConfigManager.getSetting("Commands", this.channelID).equalsIgnoreCase("true")) {
 			try {
 				commands.onCommand(BotType.Twitch, this, sender.toLowerCase(), login, hostname, message);
 			} catch (IOException e) {
@@ -121,10 +121,10 @@ public class TwitchBot extends PircBot {
 		if (line.contains("bits=")) {
 			String bitsAmount = line.substring(line.indexOf("bits=") + 5);
 			bitsAmount = bitsAmount.substring(0, bitsAmount.indexOf(";"));
-			if (Config.getSetting("BitsAlerts", this.channelID).equalsIgnoreCase("true"))
+			if (ChannelConfigManager.getSetting("BitsAlerts", this.channelID).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(BotType.Twitch, this, sender + " just gave " + bitsAmount + " bit(s) to the channel!");
 			ConsoleUtil.textToConsole(this, BotType.Twitch, sender + " just gave " + bitsAmount + " bit(s) to the channel!", MessageType.ChatBot, null);
-			EventLog.addEvent(BotType.Twitch, this, sender, "Just gave " + bitsAmount + " bit(s) to the channel!", EventType.Bits);
+			EventLogManager.addEvent(BotType.Twitch, this, sender, "Just gave " + bitsAmount + " bit(s) to the channel!", EventType.Bits);
 		}
 	}
 
@@ -178,16 +178,16 @@ public class TwitchBot extends PircBot {
 			String user = line.substring(line.indexOf("display-name=") + 13);
 			user = user.substring(0, user.indexOf(';'));
 			if (line.contains("msg-param-sub-plan=Prime")) {
-				if (Config.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel using Twitch Prime!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just subscribed to the channel using Twitch Prime!", MessageType.ChatBot, null);
-				EventLog.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel using Twitch Prime!", EventType.Sub);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel using Twitch Prime!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			} else {
-				if (Config.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just subscribed to the channel!", MessageType.ChatBot, null);
-				EventLog.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel!", EventType.Sub);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			}
 		} else if (line.contains("msg-id=resub")) {
@@ -196,16 +196,16 @@ public class TwitchBot extends PircBot {
 			String months = line.substring(line.indexOf("msg-param-cumulative-months=") + 28);
 			months = months.substring(0, months.indexOf(';'));
 			if (line.contains("msg-param-sub-plan=Prime")) {
-				if (Config.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", MessageType.ChatBot, null);
-				EventLog.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", EventType.Sub);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			} else {
-				if (Config.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel for " + months + " months in a row!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
-				EventLog.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			}
 		} else if (line.contains("msg-param-recipient-display-name=")) {
@@ -213,17 +213,17 @@ public class TwitchBot extends PircBot {
 			gifter = gifter.substring(0, gifter.indexOf(';'));
 			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
 			user = user.substring(0, user.indexOf(';'));
-			if (Config.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
+			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
 			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
-			EventLog.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
+			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
 			this.getTwitchData().addSubscriber(user);
 		}
 	}
 
 	@Override
 	protected void onJoin(String channel, String sender, String login, String hostname) {
-		if (sender.equalsIgnoreCase(ConfigMain.getSetting("TwitchUsername"))) {
+		if (sender.equalsIgnoreCase(BotConfigManager.getSetting("TwitchUsername"))) {
 			setupBot(channel);
 		}
 		ConsoleUtil.textToConsole(this, BotType.Twitch, sender + " has joined!", MessageType.ChatBot, null);
@@ -246,7 +246,7 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void disconnectTwitch() {
-		String silentJoin = Config.getSetting("SilentJoin", this.channelID);
+		String silentJoin = ChannelConfigManager.getSetting("SilentJoin", this.channelID);
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
@@ -258,16 +258,16 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void connectToTwitch() throws IOException {
-		if (!ConfigMain.getSetting("TwitchUsername").equals("") && !ConfigMain.getSetting("TwitchPassword").equals("") && !(ConfigMain.getSetting("TwitchUsername") == null) && !(ConfigMain.getSetting("TwitchPassword") == null)) {
+		if (!BotConfigManager.getSetting("TwitchUsername").equals("") && !BotConfigManager.getSetting("TwitchPassword").equals("") && !(BotConfigManager.getSetting("TwitchUsername") == null) && !(BotConfigManager.getSetting("TwitchPassword") == null)) {
 			if (!this.connected) {
 				if (this.isConnected()) {
 					this.connected = false;
 					this.disconnect();
 				}
-				this.setName(ConfigMain.getSetting("TwitchUsername"));
+				this.setName(BotConfigManager.getSetting("TwitchUsername"));
 				try {
 					ConsoleUtil.textToConsole(this, BotType.Twitch, "Connecting to Twitch!", MessageType.ChatBot, null);
-					String pass = ConfigMain.getSetting("TwitchPassword");
+					String pass = BotConfigManager.getSetting("TwitchPassword");
 					this.connect("irc.chat.twitch.tv", 6667, pass);
 					this.sendRawLine("CAP REQ :twitch.tv/commands");
 					this.sendRawLine("CAP REQ :twitch.tv/membership");
@@ -316,7 +316,7 @@ public class TwitchBot extends PircBot {
 		announcementsThread.start();
 
 		this.sendMessage(this.ircChannelName, "/mods");
-		if (Config.getSetting("SilentJoin", this.channelID).equalsIgnoreCase("false")) {
+		if (ChannelConfigManager.getSetting("SilentJoin", this.channelID).equalsIgnoreCase("false")) {
 			this.sendMessage(this.ircChannelName, this.getNick() + " Connected!");
 		}
 		getViewersThread = new GetViewersThread(this);
@@ -347,14 +347,14 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void checkUserProperties(String user) {
-		if (Config.getSetting("Points", this.channelID).equalsIgnoreCase("true")) {
-			if (!PointsSystem.isOnList(user, BotType.Twitch, this)) {
-				PointsSystem.setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, this)), BotType.Twitch, this, false, false);
+		if (ChannelConfigManager.getSetting("Points", this.channelID).equalsIgnoreCase("true")) {
+			if (!PointsSystemManager.isOnList(user, BotType.Twitch, this)) {
+				PointsSystemManager.setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", BotType.Twitch, this)), BotType.Twitch, this, false, false);
 			}
 		}
-		if (Config.getSetting("Ranks", this.channelID).equalsIgnoreCase("true")) {
-			if (!RankSystem.isOnList(user, BotType.Twitch, this)) {
-				RankSystem.setRank(user, "None", BotType.Twitch, this);
+		if (ChannelConfigManager.getSetting("Ranks", this.channelID).equalsIgnoreCase("true")) {
+			if (!RankSystemManager.isOnList(user, BotType.Twitch, this)) {
+				RankSystemManager.setRank(user, "None", BotType.Twitch, this);
 			}
 		}
 		if (!this.getTwitchData().usersCooldowns.containsKey(user.toLowerCase())) {
@@ -362,7 +362,7 @@ public class TwitchBot extends PircBot {
 		}
 		if (!this.getTwitchData().getViewers().contains(user.toLowerCase())) {
 			this.getTwitchData().addViewer(user);
-			EventLog.addEvent(BotType.Twitch, this, user, "Joined the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Twitch, this, user, "Joined the channel", EventType.User);
 		}
 		if (!this.getTwitchData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getTwitchData().viewersJoinedTimes.put(user.toLowerCase(), System.currentTimeMillis());
@@ -374,7 +374,7 @@ public class TwitchBot extends PircBot {
 		}
 		if (this.getTwitchData().getViewers().contains(user.toLowerCase())) {
 			this.getTwitchData().removeViewer(user);
-			EventLog.addEvent(BotType.Twitch, this, user, "Left the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Twitch, this, user, "Left the channel", EventType.User);
 		}
 		if (this.getTwitchData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getTwitchData().viewersJoinedTimes.remove(user.toLowerCase());

@@ -3,17 +3,17 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.games.RacingGame;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.PointsSystem;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.PointsSystemManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class PlacebetCommand extends Command {
+public class PlacebetCommand implements ICommand {
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
-		if (Config.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
+		if (ChannelConfigManager.getSetting("Games", type, bot).equalsIgnoreCase("true")) {
 			if (type == BotType.Twitch) {
 				TwitchBot twitchBot = ((TwitchBot) bot);
 				if (twitchBot.racingGame.isGameActive) {
@@ -24,7 +24,7 @@ public class PlacebetCommand extends Command {
 							String points = args[3];
 							if (betType.equalsIgnoreCase("1st") || betType.equalsIgnoreCase("Top3")) {
 								twitchBot.racingGame.placeBet(sender, bet, betType, points);
-								PointsSystem.RemovePoints(sender, Integer.parseInt(points), type, bot);
+								PointsSystemManager.RemovePoints(sender, Integer.parseInt(points), type, bot);
 							} else {
 								MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 							}
@@ -48,7 +48,7 @@ public class PlacebetCommand extends Command {
 							String points = args[3];
 							if (betType.equalsIgnoreCase("1st") || betType.equalsIgnoreCase("Top3")) {
 								mixerBot.racingGame.placeBet(sender, bet, betType, points);
-								PointsSystem.RemovePoints(sender, Integer.parseInt(points), type, bot);
+								PointsSystemManager.RemovePoints(sender, Integer.parseInt(points), type, bot);
 							} else {
 								MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !placebet CAR TYPE POINTS(Example !placebet 5 Top3 10) Cars range from 1 to 8, Types = Top3, 1st");
 							}
@@ -76,8 +76,8 @@ public class PlacebetCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.User.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.User;
 	}
 
 	@Override

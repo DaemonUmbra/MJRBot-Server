@@ -3,9 +3,9 @@ package com.mjr.mjrbot.console.commands;
 import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class InfoCommand extends ConsoleCommand {
+public class InfoCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

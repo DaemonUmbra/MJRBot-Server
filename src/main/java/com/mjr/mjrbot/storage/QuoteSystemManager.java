@@ -24,7 +24,7 @@ import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 @SuppressWarnings("resource")
-public class QuoteSystem {
+public class QuoteSystemManager {
 
 	public static String getQuote(BotType type, Object bot, File file, int number) {
 		List<String> quotes = getAllQuotes(type, bot, file);

@@ -2,12 +2,12 @@ package com.mjr.mjrbot.console.commands;
 
 import org.slf4j.LoggerFactory;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
 
-public class OutputDependencyMessagesCommand extends ConsoleCommand {
+public class OutputDependencyMessagesCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

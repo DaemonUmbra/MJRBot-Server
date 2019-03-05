@@ -22,7 +22,7 @@ import com.mjr.mjrbot.util.MJRBotUtilities;
 
 import discord4j.core.object.util.Snowflake;
 
-public class EventLog extends FileBase {
+public class EventLogManager extends FileBase {
 	public static String fileName = "Event_Log.txt";
 
 	public enum EventType {
@@ -58,7 +58,7 @@ public class EventLog extends FileBase {
 			} else {
 				MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message, platform) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + ","
 						+ "\"" + user + "\"" + "," + "\"" + eventType.getName() + "\"" + "," + "\"" + eventMessage + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
-				if (Config.getSetting("DiscordEnabled", type, bot).equalsIgnoreCase("true")) {
+				if (ChannelConfigManager.getSetting("DiscordEnabled", type, bot).equalsIgnoreCase("true")) {
 					ResultSet channel_id = MySQLConnection.executeQuery("SELECT event_log_channel_id FROM discord_info WHERE channel = '" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "'");
 					if (channel_id.next()) {
 						if (!channel_id.getString("event_log_channel_id").equals("")) {

@@ -12,7 +12,7 @@ import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
-public class ConfigMain {
+public class BotConfigManager {
 	public static String filename = "Settings.properties";
 	public static File file = new File(MJRBot.filePath + filename);
 	public static Properties properties = new Properties();

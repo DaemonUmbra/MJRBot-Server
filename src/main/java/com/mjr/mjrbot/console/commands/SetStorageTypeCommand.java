@@ -2,9 +2,9 @@ package com.mjr.mjrbot.console.commands;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class SetStorageTypeCommand extends ConsoleCommand {
+public class SetStorageTypeCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

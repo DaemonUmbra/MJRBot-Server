@@ -8,9 +8,9 @@ import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 
-public class Permissions {
+public class PermissionsManager {
 
 	public static List<String> knownBots = new ArrayList<String>(Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
 
@@ -53,7 +53,7 @@ public class Permissions {
 				return PermissionLevel.KnownBot.getName();
 			else if (user.equalsIgnoreCase("mjrlegends"))
 				return PermissionLevel.BotOwner.getName();
-			else if (((TwitchBot) bot).getTwitchData().getModerators() != null && ((TwitchBot) bot).getTwitchData().getModerators().contains(user) || user.equalsIgnoreCase(Config.getSetting("UserName", channelName))
+			else if (((TwitchBot) bot).getTwitchData().getModerators() != null && ((TwitchBot) bot).getTwitchData().getModerators().contains(user) || user.equalsIgnoreCase(ChannelConfigManager.getSetting("UserName", channelName))
 					|| user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
 			else if (((TwitchBot) bot).getTwitchData().getSubscribers() != null && ((TwitchBot) bot).getTwitchData().getSubscribers().contains(user))
@@ -74,7 +74,7 @@ public class Permissions {
 			else if (user.equalsIgnoreCase("mjrlegends"))
 				return PermissionLevel.BotOwner.getName();
 			else if (!ChatBotManager.getMixerBotByChannelName(channelName).getModerators().isEmpty() && ChatBotManager.getMixerBotByChannelName(channelName).getModerators().contains(user)
-					|| user.equalsIgnoreCase(Config.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
+					|| user.equalsIgnoreCase(ChannelConfigManager.getSetting("UserName", channelName)) || user.equalsIgnoreCase(channelName))
 				return PermissionLevel.Moderator.getName();
 			else if (((MixerBot) bot).getMixerData().getSubscribers() != null && ((MixerBot) bot).getMixerData().getSubscribers().contains(user))
 				return PermissionLevel.Subscriber.getName();
@@ -93,5 +93,9 @@ public class Permissions {
 		else if (PermissionLevel.getTierValueByName(userPermissionLevel) >= PermissionLevel.getTierValueByName(permission))
 			return true;
 		return false;
+	}
+	
+	public static boolean hasPermission(Object bot, BotType type, String user, PermissionLevel permission) {
+		return hasPermission(bot, type, user, permission.getName());
 	}
 }

@@ -6,7 +6,7 @@ import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.util.BoolStringPair;
 import com.mjr.mjrbot.util.ConsoleUtil;
@@ -88,7 +88,7 @@ public class ChannelListUpdateThread extends Thread {
 				}
 
 				try {
-					Thread.sleep(Integer.parseInt(ConfigMain.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
+					Thread.sleep(Integer.parseInt(BotConfigManager.getSetting("UpdateChannelFromDatabaseTime(Seconds)")) * 1000);
 				} catch (InterruptedException e) {
 					MJRBotUtilities.logErrorMessage(e);
 				}

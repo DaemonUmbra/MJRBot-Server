@@ -4,9 +4,9 @@ import java.lang.management.ManagementFactory;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
-public class InfoThreadCommand extends ConsoleCommand {
+public class InfoThreadCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

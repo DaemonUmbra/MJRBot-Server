@@ -14,7 +14,7 @@ import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
-public class Config extends FileBase {
+public class ChannelConfigManager extends FileBase {
 	public static String fileName = "Config.properties";
 
 	public static void createSettingIfDoesntExist(String setting, String value, BotType type, String channel, int channelID) {

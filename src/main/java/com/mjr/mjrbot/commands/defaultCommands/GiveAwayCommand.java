@@ -3,12 +3,12 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.threads.GiveAwayThread;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class GiveAwayCommand extends Command {
+public class GiveAwayCommand implements ICommand {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
@@ -34,8 +34,8 @@ public class GiveAwayCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Moderator.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Moderator;
 	}
 
 	@Override

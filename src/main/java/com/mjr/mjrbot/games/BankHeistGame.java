@@ -3,9 +3,9 @@ package com.mjr.mjrbot.games;
 import java.util.HashMap;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.storage.PointsSystem;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
+import com.mjr.mjrbot.storage.PointsSystemManager;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class BankHeistGame {
@@ -55,8 +55,8 @@ public class BankHeistGame {
 			else
 				randPoints = MJRBotUtilities.getRandom(enteredPoints, enteredPoints * 2);
 			MJRBotUtilities.sendMessage(type, bot, user + " got " + randPoints + " points from the heist!");
-			EventLog.addEvent(type, bot, user, "Won the Heist Game", EventType.Games);
-			PointsSystem.AddPointsWithEventMsg(user, randPoints, type, bot);
+			EventLogManager.addEvent(type, bot, user, "Won the Heist Game", EventType.Games);
+			PointsSystemManager.AddPointsWithEventMsg(user, randPoints, type, bot);
 		}
 	}
 }

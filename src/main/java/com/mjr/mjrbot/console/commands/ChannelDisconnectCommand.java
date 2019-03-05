@@ -1,9 +1,9 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
-public class ChannelDisconnectCommand extends ConsoleCommand {
+public class ChannelDisconnectCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

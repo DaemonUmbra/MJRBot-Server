@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
 
-public class HelpCommand extends ConsoleCommand {
+public class HelpCommand implements IConsoleCommand {
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -17,10 +17,10 @@ public class HelpCommand extends ConsoleCommand {
 		System.out.println("<> Required Parameters");
 		System.out.println("[] Optional Parameters");
 		System.out.println("");
-		Iterator<Entry<String, ConsoleCommand>> it = ConsoleCommandManager.commands.entrySet().iterator();
+		Iterator<Entry<String, IConsoleCommand>> it = ConsoleCommandManager.commands.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = it.next();
-			ConsoleCommand command = ((ConsoleCommand) pair.getValue());
+			IConsoleCommand command = ((IConsoleCommand) pair.getValue());
 			System.out.println(pair.getKey().toString() + " " + command.getParametersDescription() + " - " + command.getDescription());
 		}
 	}

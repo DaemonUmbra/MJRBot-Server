@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.util.Permissions;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class LinkChecker {
 
@@ -41,7 +41,7 @@ public class LinkChecker {
 			}
 		}
 		if (isLink) {
-			if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName()))
+			if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName()))
 				return true;
 			else if (type == BotType.Twitch && ((TwitchBot) bot).getTwitchData().linkPermitedUsers.contains(sender))
 				return true;

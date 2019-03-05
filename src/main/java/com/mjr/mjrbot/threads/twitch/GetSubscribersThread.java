@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
@@ -117,7 +117,7 @@ public class GetSubscribersThread extends Thread {
 		try {
 			ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel_id = '" + bot.getChannelID() + "'");
 			if (tokenSet.next() && tokenSet.getString("refresh_token") != null && tokenSet.getString("refresh_token") != "") {
-				String result = HTTPConnect.postRequest(TwitchMixerAPICalls.twitchGetoAuth2TokenAPI(tokenSet.getString("refresh_token"), ConfigMain.getSetting("TwitchClientSecret")));
+				String result = HTTPConnect.postRequest(TwitchMixerAPICalls.twitchGetoAuth2TokenAPI(tokenSet.getString("refresh_token"), BotConfigManager.getSetting("TwitchClientSecret")));
 				String access_token = result.substring(result.indexOf("access_token") + 16);
 				access_token = access_token.substring(0, access_token.indexOf(",") - 2);
 				String refresh_token = result.substring(result.indexOf("refresh_token") + 16);

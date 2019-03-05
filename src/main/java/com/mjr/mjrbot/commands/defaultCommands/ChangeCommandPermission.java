@@ -3,14 +3,14 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import java.io.IOException;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.commands.Command;
 import com.mjr.mjrbot.commands.CustomCommands;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
+import com.mjr.mjrbot.commands.ICommand;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class ChangeCommandPermission extends Command {
+public class ChangeCommandPermission implements ICommand {
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
 		if (args.length == 3) {
@@ -21,7 +21,7 @@ public class ChangeCommandPermission extends Command {
 					String permission = args[2];
 					try {
 						CustomCommands.changeCommandPermission(type, bot, command, permission);
-						EventLog.addEvent(type, bot, sender, "Edited the Custom Command permission for " + command, EventType.CustomCommands);
+						EventLogManager.addEvent(type, bot, sender, "Edited the Custom Command permission for " + command, EventType.CustomCommands);
 					} catch (IOException e) {
 						MJRBotUtilities.logErrorMessage(e);
 					}
@@ -37,8 +37,8 @@ public class ChangeCommandPermission extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Moderator.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Moderator;
 	}
 
 	@Override

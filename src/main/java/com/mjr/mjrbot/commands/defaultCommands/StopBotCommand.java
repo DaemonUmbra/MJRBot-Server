@@ -6,12 +6,12 @@ import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class StopBotCommand extends Command {
+public class StopBotCommand implements ICommand {
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -32,8 +32,8 @@ public class StopBotCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.BotOwner.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.BotOwner;
 	}
 
 	@Override

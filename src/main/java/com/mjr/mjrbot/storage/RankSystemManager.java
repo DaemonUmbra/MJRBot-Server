@@ -13,13 +13,13 @@ import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.EventLog.EventType;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
-public class RankSystem extends FileBase {
+public class RankSystemManager extends FileBase {
 
 	public static String[] ranks = { "gold", "sliver", "bronze", "none" };
 
@@ -97,7 +97,7 @@ public class RankSystem extends FileBase {
 				}
 			}
 			ConsoleUtil.textToConsole(bot, type, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
-			EventLog.addEvent(type, bot, user, "Set rank to " + rank, EventType.Rank);
+			EventLogManager.addEvent(type, bot, user, "Set rank to " + rank, EventType.Rank);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class RankSystem extends FileBase {
 		user = user.toLowerCase();
 		if (getRank(user, type, bot) != "None") {
 			ConsoleUtil.textToConsole(bot, type, "Removed rank from " + user, MessageType.ChatBot, null);
-			EventLog.addEvent(type, bot, user, "Removed rank", EventType.Rank);
+			EventLogManager.addEvent(type, bot, user, "Removed rank", EventType.Rank);
 			setRank(user, "None", type, bot);
 		}
 	}

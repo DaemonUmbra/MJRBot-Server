@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.Config;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
 
@@ -51,7 +51,7 @@ public class EmoteChecker {
 				number++;
 			}
 		}
-		if (number >= Integer.parseInt(Config.getSetting("MaxEmotes", type, bot)))
+		if (number >= Integer.parseInt(ChannelConfigManager.getSetting("MaxEmotes", type, bot)))
 			return true;
 		else
 			return false;

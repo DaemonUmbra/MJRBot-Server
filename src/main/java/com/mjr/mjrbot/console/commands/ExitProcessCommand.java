@@ -6,10 +6,10 @@ import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
-public class ExitProcessCommand extends ConsoleCommand {
+public class ExitProcessCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

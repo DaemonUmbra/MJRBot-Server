@@ -3,10 +3,10 @@ package com.mjr.mjrbot.console.commands;
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
-public class ChannelsDisconnectAllCommand extends ConsoleCommand {
+public class ChannelsDisconnectAllCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

@@ -7,8 +7,8 @@ import java.util.Locale;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
@@ -44,9 +44,9 @@ public class ChatBotManager {
 		if (botType.equalsIgnoreCase("twitch") && channelID != 0) {
 			try {
 				if (MJRBot.storageType == StorageType.File) {
-					Config.loadDefaults(BotType.Twitch, channel, channelID);
+					ChannelConfigManager.loadDefaults(BotType.Twitch, channel, channelID);
 				} else {
-					Config.loadDefaultsDatabase(BotType.Twitch, channel, channelID);
+					ChannelConfigManager.loadDefaultsDatabase(BotType.Twitch, channel, channelID);
 				}
 			} catch (IOException e) {
 				MJRBotUtilities.logErrorMessage(e);
@@ -57,9 +57,9 @@ public class ChatBotManager {
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
 				if (MJRBot.storageType == StorageType.File) {
-					Config.loadDefaults(BotType.Mixer, channel, channelID);
+					ChannelConfigManager.loadDefaults(BotType.Mixer, channel, channelID);
 				} else
-					Config.loadDefaultsDatabase(BotType.Mixer, channel, channelID);
+					ChannelConfigManager.loadDefaultsDatabase(BotType.Mixer, channel, channelID);
 			} catch (IOException e) {
 				MJRBotUtilities.logErrorMessage(e);
 			}
@@ -85,20 +85,20 @@ public class ChatBotManager {
 	}
 
 	public static void addTwitchBot(int channelID, TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		ConsoleUtil.textToConsole("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been added to the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
 		twitchBots.put(channelID, bot);
 	}
 
 	public static void removeTwitchBot(TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
+		ConsoleUtil.textToConsole("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
 		twitchBots.remove(bot.getChannelID(), bot);
 	}
 
 	public static void removeTwitchBot(int channelID) {
-		ConsoleUtil.textToConsole("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + ConfigMain.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		ConsoleUtil.textToConsole("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + TwitchBot.getChannelNameFromChannelID(channelID));
 		twitchBots.remove(channelID, getTwitchBotByChannelID(channelID));
 	}
 
@@ -111,20 +111,20 @@ public class ChatBotManager {
 	}
 
 	public static void addMixerBot(String channelName, MixerBot bot) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
+		ConsoleUtil.textToConsole("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been added to the channel " + channelName);
 		mixerBots.put(channelName, bot);
 	}
 
 	public static void removeMixerBot(MixerBot bot) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.getChannelName());
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.getChannelName());
+		ConsoleUtil.textToConsole("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.getChannelName());
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + bot.getChannelName());
 		mixerBots.remove(bot.getChannelName(), bot);
 	}
 
 	public static void removeMixerBot(String channelName) {
-		ConsoleUtil.textToConsole("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + ConfigMain.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
+		ConsoleUtil.textToConsole("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
 		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
 	}
 

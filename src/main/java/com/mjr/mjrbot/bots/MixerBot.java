@@ -17,12 +17,12 @@ import com.mjr.mjrbot.chatModeration.ChatModeration;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.games.MathsGame;
 import com.mjr.mjrbot.games.RacingGame;
-import com.mjr.mjrbot.storage.Config;
-import com.mjr.mjrbot.storage.ConfigMain;
-import com.mjr.mjrbot.storage.EventLog;
-import com.mjr.mjrbot.storage.EventLog.EventType;
-import com.mjr.mjrbot.storage.PointsSystem;
-import com.mjr.mjrbot.storage.RankSystem;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.EventLogManager;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
+import com.mjr.mjrbot.storage.PointsSystemManager;
+import com.mjr.mjrbot.storage.RankSystemManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.threads.AnnouncementsThread;
 import com.mjr.mjrbot.threads.AutoPointsThread;
@@ -54,7 +54,7 @@ public class MixerBot extends MJR_MixerBot {
 	public RacingGame racingGame;
 
 	public MixerBot(String channelName) {
-		super(ConfigMain.getSetting("MixerClientID"), ConfigMain.getSetting("MixerAuthCode"), ConfigMain.getSetting("MixerUsername/BotName"));
+		super(BotConfigManager.getSetting("MixerClientID"), BotConfigManager.getSetting("MixerAuthCode"), BotConfigManager.getSetting("MixerUsername/BotName"));
 		commands = new CommandManager();
 		data = new MixerData();
 
@@ -108,25 +108,25 @@ public class MixerBot extends MJR_MixerBot {
 		if (type.equalsIgnoreCase("subscribed")) {
 			String user = line.substring(line.indexOf("username") + 12);
 			user = user.substring(0, user.indexOf(';'));
-			if (Config.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
+			if (ChannelConfigManager.getSetting("SubAlerts", this.channelName).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(BotType.Mixer, this.channelName, user + " just subscribed to the channel!");
 			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " just subscribed to the channel!", MessageType.ChatBot, null);
-			EventLog.addEvent(BotType.Mixer, this, user, "Just subscribed to the channel!", EventType.Sub);
+			EventLogManager.addEvent(BotType.Mixer, this, user, "Just subscribed to the channel!", EventType.Sub);
 			this.getMixerData().addSubscriber(user);
 		} else if (type.equalsIgnoreCase("resubscribed")) {
 			String user = line.substring(line.indexOf("username") + 12);
 			user = user.substring(0, user.indexOf(';'));
 			String months = line.substring(line.indexOf("totalMonths") + 15);
 			months = months.substring(0, months.indexOf(';'));
-			if (Config.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
+			if (ChannelConfigManager.getSetting("ResubAlerts", this.channelName).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(BotType.Mixer, this.channelName, user + " just resubscribed to the channel for " + months + " months in a row!");
 			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
-			EventLog.addEvent(BotType.Mixer, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
+			EventLogManager.addEvent(BotType.Mixer, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
 			this.getMixerData().addSubscriber(user);
 		} else if (type.equalsIgnoreCase("hosted")) {
 			String user = line.substring(line.indexOf("name") + 7);
 			user = user.substring(0, user.indexOf("'"));
-			if (Config.getSetting("HostingAlerts", this.channelName).equalsIgnoreCase("true"))
+			if (ChannelConfigManager.getSetting("HostingAlerts", this.channelName).equalsIgnoreCase("true"))
 				MJRBotUtilities.sendMessage(BotType.Mixer, this.channelName, user + " is now hosting you!");
 			ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now hosting you!", MessageType.ChatBot, null);
 		} else if (type.equalsIgnoreCase("followed")) {
@@ -135,12 +135,12 @@ public class MixerBot extends MJR_MixerBot {
 			String following = line.substring(line.indexOf("following") + 11);
 			following = following.substring(0, following.indexOf("}"));
 			if (following.trim().equals("true")) {
-				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Mixer, this.channelName, user + " is now following you!");
 				ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now following you!", MessageType.ChatBot, null);
 				this.getMixerData().addFollower(user);
 			} else {
-				if (Config.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
+				if (ChannelConfigManager.getSetting("FollowAlerts", this.channelName).equalsIgnoreCase("true"))
 					MJRBotUtilities.sendMessage(BotType.Mixer, this.channelName, user + " is now unfollowing you!");
 				ConsoleUtil.textToConsole(this, BotType.Mixer, user + " is now unfollowing you!", MessageType.ChatBot, null);
 				this.getMixerData().removeFollower(user);
@@ -187,7 +187,7 @@ public class MixerBot extends MJR_MixerBot {
 							this.getMixerData().viewersJoinedTimes.put(viewer.toLowerCase(), System.currentTimeMillis());
 
 					ConsoleUtil.textToConsole(this, BotType.Mixer, "MJRBot is Connected & Authenticated to Mixer!", MessageType.Chat, null);
-					if (Config.getSetting("SilentJoin", channel).equalsIgnoreCase("false"))
+					if (ChannelConfigManager.getSetting("SilentJoin", channel).equalsIgnoreCase("false"))
 						this.sendMessage(this.getBotName() + " Connected!");
 				} else
 					ConsoleUtil.textToConsole(this, BotType.Mixer, "Theres been problem, connecting to Mixer, Please check settings are corrrect!", MessageType.Chat, null);
@@ -199,7 +199,7 @@ public class MixerBot extends MJR_MixerBot {
 	}
 
 	public void disconnectMixer() {
-		String silentJoin = Config.getSetting("SilentJoin", this.channelName);
+		String silentJoin = ChannelConfigManager.getSetting("SilentJoin", this.channelName);
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
@@ -228,14 +228,14 @@ public class MixerBot extends MJR_MixerBot {
 	}
 
 	public void checkUserProperties(String user) {
-		if (Config.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
-			if (!PointsSystem.isOnList(user, BotType.Twitch, this)) {
-				PointsSystem.setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", BotType.Twitch, this)), BotType.Twitch, this, false, false);
+		if (ChannelConfigManager.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
+			if (!PointsSystemManager.isOnList(user, BotType.Twitch, this)) {
+				PointsSystemManager.setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", BotType.Twitch, this)), BotType.Twitch, this, false, false);
 			}
 		}
-		if (Config.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
-			if (!RankSystem.isOnList(user, BotType.Twitch, this)) {
-				RankSystem.setRank(user, "None", BotType.Twitch, this);
+		if (ChannelConfigManager.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
+			if (!RankSystemManager.isOnList(user, BotType.Twitch, this)) {
+				RankSystemManager.setRank(user, "None", BotType.Twitch, this);
 			}
 		}
 		if (!this.getMixerData().usersCooldowns.containsKey(user.toLowerCase())) {
@@ -243,7 +243,7 @@ public class MixerBot extends MJR_MixerBot {
 		}
 		if (!this.getViewers().contains(user.toLowerCase())) {
 			this.addViewer(user);
-			EventLog.addEvent(BotType.Twitch, this, user, "Joined the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Twitch, this, user, "Joined the channel", EventType.User);
 		}
 		if (!this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.put(user.toLowerCase(), System.currentTimeMillis());
@@ -255,7 +255,7 @@ public class MixerBot extends MJR_MixerBot {
 		}
 		if (this.getViewers().contains(user.toLowerCase())) {
 			this.removeViewer(user);
-			EventLog.addEvent(BotType.Twitch, this, user, "Left the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Twitch, this, user, "Left the channel", EventType.User);
 		}
 		if (this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.remove(user.toLowerCase());

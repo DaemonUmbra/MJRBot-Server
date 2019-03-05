@@ -18,7 +18,7 @@ import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
-public class ModerationActionsLog extends FileBase {
+public class ModerationActionsLogManager extends FileBase {
 	public static String fileName = "Moderation_Actions_Log.txt";
 
 	public static void addEvent(BotType type, Object bot, String user, String reason, String message) {

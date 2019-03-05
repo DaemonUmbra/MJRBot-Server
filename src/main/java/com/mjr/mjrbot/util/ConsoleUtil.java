@@ -14,7 +14,7 @@ import java.util.TreeSet;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class ConsoleUtil {
 	private static TreeMap<Date, String> lastChatMessages = new TreeMap<Date, String>();
@@ -126,19 +126,19 @@ public class ConsoleUtil {
 		if (messageType == MessageType.Chat) {
 			if (sender != null) {
 				String channel = MJRBotUtilities.getChannelNameFromBotType(type, bot);
-				if (Permissions.hasPermission(bot, type, sender, PermissionLevel.BotOwner.getName())) {
+				if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.BotOwner.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot Owner]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Bot.getName())) {
+				} else if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.Bot.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Bot]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.KnownBot.getName())) {
+				} else if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.KnownBot.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Known Bot]" + sender + ": " + message);
 				} else if (type == BotType.Twitch && sender.endsWith(channel)) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
 				} else if (type == BotType.Mixer && sender.equalsIgnoreCase(channel)) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " [Streamer]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
+				} else if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [Moderator]" + sender + ": " + message);
-				} else if (Permissions.hasPermission(bot, type, sender, PermissionLevel.User.getName())) {
+				} else if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.User.getName())) {
 					outputMessage(MessageType.Chat, dateFormat.format(date) + " [Bot Type]" + type.getTypeName() + " [Channel]" + channel + " - [User]" + sender + ": " + message);
 				}
 			}

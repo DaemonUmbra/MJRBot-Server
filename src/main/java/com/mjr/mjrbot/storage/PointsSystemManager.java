@@ -13,13 +13,13 @@ import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.EventLog.EventType;
+import com.mjr.mjrbot.storage.EventLogManager.EventType;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
-public class PointsSystem extends FileBase {
+public class PointsSystemManager extends FileBase {
 	public static String fileName = "Points.properties";
 
 	public static int getPoints(String user, BotType type, Object bot) {
@@ -90,7 +90,7 @@ public class PointsSystem extends FileBase {
 		if (outputConsole)
 			ConsoleUtil.textToConsole(bot, type, "Set " + user + " point(s) to " + points, MessageType.ChatBot, null);
 		if (outputEvent)
-			EventLog.addEvent(type, bot, user, "Set point(s) to " + points, EventType.Points);
+			EventLogManager.addEvent(type, bot, user, "Set point(s) to " + points, EventType.Points);
 	}
 
 	public static Boolean isOnList(String user, BotType type, Object bot) {
@@ -128,19 +128,19 @@ public class PointsSystem extends FileBase {
 	public static void AddPointsWithEventMsg(String user, int points, BotType type, Object bot) {
 		user = user.toLowerCase();
 		if (!isOnList(user, type, bot))
-			setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", type, bot)), type, bot, false, false);
+			setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", type, bot)), type, bot, false, false);
 		int currentPoints = getPoints(user, type, bot);
 		currentPoints = currentPoints + points;
 		setPoints(user, currentPoints, type, bot, false, false);
 		ConsoleUtil.textToConsole(bot, type, "Added " + points + " point(s) to " + user, MessageType.ChatBot, null);
-		EventLog.addEvent(type, bot, user, "Added " + points + " point(s)", EventType.Points);
+		EventLogManager.addEvent(type, bot, user, "Added " + points + " point(s)", EventType.Points);
 		AnalyticsData.addNumOfPointsGained(points);
 	}
 
 	public static void AddPoints(String user, int points, BotType type, Object bot) {
 		user = user.toLowerCase();
 		if (!isOnList(user, type, bot))
-			setPoints(user, Integer.parseInt(Config.getSetting("StartingPoints", type, bot)), type, bot, false, false);
+			setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", type, bot)), type, bot, false, false);
 		int currentPoints = getPoints(user, type, bot);
 		currentPoints = currentPoints + points;
 		setPoints(user, currentPoints, type, bot, false, false);
@@ -156,7 +156,7 @@ public class PointsSystem extends FileBase {
 		currentPoints = currentPoints - points;
 		setPoints(user, currentPoints, type, bot, false, false);
 		ConsoleUtil.textToConsole(bot, type, "Removed " + points + " point(s) from " + user, MessageType.ChatBot, null);
-		EventLog.addEvent(type, bot, user, "Removed " + points + " point(s)", EventType.Points);
+		EventLogManager.addEvent(type, bot, user, "Removed " + points + " point(s)", EventType.Points);
 		AnalyticsData.addNumOfPointsRemoved(points);
 	}
 

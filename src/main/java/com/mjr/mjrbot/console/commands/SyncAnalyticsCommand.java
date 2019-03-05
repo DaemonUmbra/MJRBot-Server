@@ -3,10 +3,10 @@ package com.mjr.mjrbot.console.commands;
 import com.mjr.mjrbot.AnalyticsData;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 
-public class SyncAnalyticsCommand extends ConsoleCommand {
+public class SyncAnalyticsCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

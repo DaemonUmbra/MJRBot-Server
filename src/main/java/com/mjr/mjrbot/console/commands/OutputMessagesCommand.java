@@ -1,10 +1,10 @@
 package com.mjr.mjrbot.console.commands;
 
-import com.mjr.mjrbot.console.ConsoleCommand;
+import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 
-public class OutputMessagesCommand extends ConsoleCommand {
+public class OutputMessagesCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {

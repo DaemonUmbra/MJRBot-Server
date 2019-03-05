@@ -15,7 +15,7 @@ import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.DiscordBot;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
-import com.mjr.mjrbot.storage.ConfigMain;
+import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.threads.ChannelListUpdateThread;
@@ -114,11 +114,11 @@ public class MJRBot {
 	public static void discordConnect() {
 		if (discordBot == null) {
 			try {
-				ConfigMain.load();
+				BotConfigManager.load();
 			} catch (IOException e) {
 				MJRBotUtilities.logErrorMessage(e);
 			}
-			discordBot = new DiscordBot(ConfigMain.getSetting("DiscordToken"));
+			discordBot = new DiscordBot(BotConfigManager.getSetting("DiscordToken"));
 			if (MJRBot.connectionType == ConnectionType.Database)
 				discordBot.setupEvents();
 			else
@@ -128,11 +128,11 @@ public class MJRBot {
 
 	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
 		try {
-			ConfigMain.load();
+			BotConfigManager.load();
 			if (MJRBot.connectionType == ConnectionType.Database) {
 				do {
-					MySQLConnection.connect(ConfigMain.getSetting("DatabaseIPAddress"), Integer.parseInt(ConfigMain.getSetting("DatabasePort")), ConfigMain.getSetting("DatabaseDatabaseName"), ConfigMain.getSetting("DatabaseUsername"),
-							ConfigMain.getSetting("DatabasePassword"));
+					MySQLConnection.connect(BotConfigManager.getSetting("DatabaseIPAddress"), Integer.parseInt(BotConfigManager.getSetting("DatabasePort")), BotConfigManager.getSetting("DatabaseDatabaseName"), BotConfigManager.getSetting("DatabaseUsername"),
+							BotConfigManager.getSetting("DatabasePassword"));
 					Thread.sleep(5000);
 				} while (MySQLConnection.isConnected() == false);
 			}

@@ -3,12 +3,12 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.commands.Command;
+import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
-import com.mjr.mjrbot.util.Permissions.PermissionLevel;
+import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
-public class AddBadwordCommand extends Command {
+public class AddBadwordCommand implements ICommand {
 
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
@@ -27,8 +27,8 @@ public class AddBadwordCommand extends Command {
 	}
 
 	@Override
-	public String getPermissionLevel() {
-		return PermissionLevel.Moderator.getName();
+	public PermissionLevel getPermissionLevel() {
+		return PermissionLevel.Moderator;
 	}
 
 	@Override
