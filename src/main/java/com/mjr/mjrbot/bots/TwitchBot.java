@@ -16,8 +16,8 @@ import com.mjr.mjrbot.chatModeration.ChatModeration;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.games.MathsGame;
 import com.mjr.mjrbot.games.RacingGame;
-import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.EventLogManager;
 import com.mjr.mjrbot.storage.EventLogManager.EventType;
 import com.mjr.mjrbot.storage.PointsSystemManager;
@@ -174,7 +174,35 @@ public class TwitchBot extends PircBot {
 			MJRBotUtilities.logErrorMessage(TwitchBot.getChannelNameFromChannelID(channelID) + " has triggered a Reconnect event!");
 			this.disconnectTwitch();
 			ChatBotManager.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
-		} else if (line.contains("msg-id=sub") && !line.contains("msg-param-recipient-display-name=")) {
+		}
+
+		// User Gift Sub to User
+		else if (line.contains("msg-id=subgift") && line.contains("msg-param-recipient-display-name=")) {
+			String gifter = line.substring(line.indexOf("display-name=") + 13);
+			gifter = gifter.substring(0, gifter.indexOf(';'));
+			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
+			user = user.substring(0, user.indexOf(';'));
+			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
+				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
+			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
+			this.getTwitchData().addSubscriber(user);
+		}
+
+		// Anonymous Gift Sub to User
+		else if (line.contains("msg-id=anonsubgift") && line.contains("msg-param-recipient-display-name=")) {
+			String gifter = "AnAnonymousGifter";
+			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
+			user = user.substring(0, user.indexOf(';'));
+			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
+				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
+			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
+			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
+			this.getTwitchData().addSubscriber(user);
+		}
+
+		// New Subscriber
+		else if (line.contains("msg-id=sub") && !line.contains("msg-param-recipient-display-name=")) {
 			String user = line.substring(line.indexOf("display-name=") + 13);
 			user = user.substring(0, user.indexOf(';'));
 			if (line.contains("msg-param-sub-plan=Prime")) {
@@ -190,34 +218,42 @@ public class TwitchBot extends PircBot {
 				EventLogManager.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			}
-		} else if (line.contains("msg-id=resub")) {
+		}
+
+		// ReSubscriber
+		else if (line.contains("msg-id=resub")) {
 			String user = line.substring(line.indexOf("display-name=") + 13);
 			user = user.substring(0, user.indexOf(';'));
-			String months = line.substring(line.indexOf("msg-param-cumulative-months=") + 28);
-			months = months.substring(0, months.indexOf(';'));
+			String totalMonths = line.substring(line.indexOf("msg-param-cumulative-months=") + 28);
+			totalMonths = totalMonths.substring(0, totalMonths.indexOf(';'));
+			String currentMonths = line.substring(line.indexOf("msg-param-streak-months=") + 24);
+			currentMonths = currentMonths.substring(0, currentMonths.indexOf(';'));
+			String showCurrentStreak = line.substring(line.indexOf("msg-param-streak-months=") + 30);
+			showCurrentStreak = showCurrentStreak.substring(0, showCurrentStreak.indexOf(';'));
+			String resubMessage = line.substring(line.indexOf("USERNOTICE"));
+			if (resubMessage.contains(":"))
+				resubMessage = resubMessage.substring(resubMessage.indexOf(":"));
+			else
+				resubMessage = null;
+			String endOfMsg = "";
+			if (showCurrentStreak.equals("0"))
+				endOfMsg = "for a Total streak of " + totalMonths + " months!";
+			else
+				endOfMsg = "for " + currentMonths + "in a row, with a Total streak of " + totalMonths + " months!";
+
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", MessageType.ChatBot, null);
-				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel using Twitch Prime for " + months + " months in a row!", EventType.Sub);
+					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel using Twitch Prime " + endOfMsg);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel using Twitch Prime " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), MessageType.ChatBot, null);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel using Twitch Prime " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			} else {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel for " + months + " months in a row!");
-				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel for " + months + " months in a row!", MessageType.ChatBot, null);
-				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel for " + months + " months in a row!", EventType.Sub);
+					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel " + endOfMsg);
+				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), MessageType.ChatBot, null);
+				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			}
-		} else if (line.contains("msg-param-recipient-display-name=")) {
-			String gifter = line.substring(line.indexOf("display-name=") + 13);
-			gifter = gifter.substring(0, gifter.indexOf(';'));
-			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
-			user = user.substring(0, user.indexOf(';'));
-			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
-				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
-			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
-			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
-			this.getTwitchData().addSubscriber(user);
 		}
 	}
 
@@ -258,7 +294,8 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void connectToTwitch() throws IOException {
-		if (!BotConfigManager.getSetting("TwitchUsername").equals("") && !BotConfigManager.getSetting("TwitchPassword").equals("") && !(BotConfigManager.getSetting("TwitchUsername") == null) && !(BotConfigManager.getSetting("TwitchPassword") == null)) {
+		if (!BotConfigManager.getSetting("TwitchUsername").equals("") && !BotConfigManager.getSetting("TwitchPassword").equals("") && !(BotConfigManager.getSetting("TwitchUsername") == null)
+				&& !(BotConfigManager.getSetting("TwitchPassword") == null)) {
 			if (!this.connected) {
 				if (this.isConnected()) {
 					this.connected = false;
