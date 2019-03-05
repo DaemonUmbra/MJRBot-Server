@@ -107,43 +107,43 @@ public class GetViewersThread extends Thread {
 
 				} else {
 					for (String viewer : vips.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getVips().contains(viewer)) {
 							bot.getTwitchData().addVip(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 
 					for (String viewer : moderators.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getModerators().contains(viewer)) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 
 					for (String viewer : staff.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getViewers().contains(viewer)) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 
 					for (String viewer : admins.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getViewers().contains(viewer)) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 
 					for (String viewer : global_moderators.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getViewers().contains(viewer)) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 					for (String viewer : viewers.split(",")) {
-						if (!viewer.equals("")) {
+						if (!viewer.equals("") && !bot.getTwitchData().getViewers().contains(viewer)) {
 							bot.getTwitchData().addViewer(viewer);
-							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel (Twitch)", EventType.User);
+							EventLogManager.addEvent(BotType.Twitch, bot, viewer, "Joined the channel", EventType.User);
 						}
 					}
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "Bot has updated the list of current active viewers!", MessageType.ChatBot, null);
