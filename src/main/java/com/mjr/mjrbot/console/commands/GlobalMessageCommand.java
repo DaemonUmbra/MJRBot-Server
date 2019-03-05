@@ -13,12 +13,14 @@ public class GlobalMessageCommand implements IConsoleCommand {
 			String msg = "";
 			for (int i = 0; i < args.length; i++)
 				msg = msg + " " + args[i];
+			System.out.println("GlobalBotMessage: Sending all Messages!");
 			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 				bot.sendMessage(msg);
 			}
 			for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 				bot.sendMessage(msg);
 			}
+			System.out.println("GlobalBotMessage: All Messages have been sent!");
 		} else {
 			System.out.println("Invalid syntax, Use gmsg " + getParametersDescription());
 		}

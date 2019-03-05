@@ -9,6 +9,7 @@ public class GlobalUpdateBotCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
+		System.out.println("UpdateBotMessage: Sending all Messages!");
 		String msg = "MJRBot is updating, it will be back with you shortly!";
 		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 			bot.sendMessage(msg);
@@ -16,6 +17,7 @@ public class GlobalUpdateBotCommand implements IConsoleCommand {
 		for (MixerBot bot : ChatBotManager.getMixerBots().values()) {
 			bot.sendMessage(msg);
 		}
+		System.out.println("UpdateBotMessage: All Messages have been sent!");
 	}
 
 	@Override
