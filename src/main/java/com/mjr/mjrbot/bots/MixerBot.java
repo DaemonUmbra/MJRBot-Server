@@ -229,13 +229,13 @@ public class MixerBot extends MJR_MixerBot {
 
 	public void checkUserProperties(String user) {
 		if (ChannelConfigManager.getSetting("Points", this.channelName).equalsIgnoreCase("true")) {
-			if (!PointsSystemManager.isOnList(user, BotType.Twitch, this)) {
-				PointsSystemManager.setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", BotType.Twitch, this)), BotType.Twitch, this, false, false);
+			if (!PointsSystemManager.isOnList(user, BotType.Mixer, this)) {
+				PointsSystemManager.setPoints(user, Integer.parseInt(ChannelConfigManager.getSetting("StartingPoints", BotType.Mixer, this)), BotType.Mixer, this, false, false);
 			}
 		}
 		if (ChannelConfigManager.getSetting("Ranks", this.channelName).equalsIgnoreCase("true")) {
-			if (!RankSystemManager.isOnList(user, BotType.Twitch, this)) {
-				RankSystemManager.setRank(user, "None", BotType.Twitch, this);
+			if (!RankSystemManager.isOnList(user, BotType.Mixer, this)) {
+				RankSystemManager.setRank(user, "None", BotType.Mixer, this);
 			}
 		}
 		if (!this.getMixerData().usersCooldowns.containsKey(user.toLowerCase())) {
@@ -243,7 +243,7 @@ public class MixerBot extends MJR_MixerBot {
 		}
 		if (!this.getViewers().contains(user.toLowerCase())) {
 			this.addViewer(user);
-			EventLogManager.addEvent(BotType.Twitch, this, user, "Joined the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Mixer, this, user, "Joined the channel", EventType.User);
 		}
 		if (!this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.put(user.toLowerCase(), System.currentTimeMillis());
@@ -255,7 +255,7 @@ public class MixerBot extends MJR_MixerBot {
 		}
 		if (this.getViewers().contains(user.toLowerCase())) {
 			this.removeViewer(user);
-			EventLogManager.addEvent(BotType.Twitch, this, user, "Left the channel", EventType.User);
+			EventLogManager.addEvent(BotType.Mixer, this, user, "Left the channel", EventType.User);
 		}
 		if (this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.remove(user.toLowerCase());
