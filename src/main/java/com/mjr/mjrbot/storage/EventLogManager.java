@@ -63,7 +63,7 @@ public class EventLogManager extends FileBase {
 					if (channel_id.next()) {
 						if (!channel_id.getString("event_log_channel_id").equals("")) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("event_log_channel_id")));
-							MJRBot.getDiscordBot().sendMessage(DiscordBotUtilities.getChannelByID(MJRBot.getDiscordBot().getClient(), channel), "[" + eventType.getName() + "]" + " **" + user + "** : " + eventMessage);
+							MJRBot.getDiscordBot().sendMessage(DiscordBotUtilities.getChannelByID(MJRBot.getDiscordBot().getClient(), channel), "[" + type.getTypeName() + "]" +"[" + eventType.getName() + "]" + " **" + user + "** : " + eventMessage);
 						}
 					}
 
