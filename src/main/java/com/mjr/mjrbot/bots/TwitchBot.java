@@ -189,6 +189,18 @@ public class TwitchBot extends PircBot {
 			this.getTwitchData().addSubscriber(user);
 		}
 
+		// User Gifting x amount of subs to the channel
+		else if (line.contains("msg-id=submysterygift") && line.contains("msg-param-recipient-display-name=")) {
+			String gifter = line.substring(line.indexOf("system-msg=") + 11);
+			gifter = gifter.substring(0, gifter.indexOf("\\"));
+			String amount = line.substring(line.indexOf("msg-param-mass-gift-count=") + 26);
+			amount = amount.substring(0, amount.indexOf(';'));
+			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
+				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " Thanks for gifting " + amount + " subs to the community");
+			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + "Gifted " + amount + " subs to the community", MessageType.ChatBot, null);
+			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Gifted " + amount + " subs to the community", EventType.Sub);
+		}
+
 		// Anonymous Gift Sub to User
 		else if (line.contains("msg-id=anonsubgift") && line.contains("msg-param-recipient-display-name=")) {
 			String gifter = "AnAnonymousGifter";
