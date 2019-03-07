@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.util.MJRBotUtilities;
+
 public class MySQLConnection {
 
 	private static Connection connection;
@@ -18,6 +21,11 @@ public class MySQLConnection {
 		} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void reconnect() {
+		connect(BotConfigManager.getSetting("DatabaseIPAddress"), Integer.parseInt(BotConfigManager.getSetting("DatabasePort")), BotConfigManager.getSetting("DatabaseDatabaseName"), BotConfigManager.getSetting("DatabaseUsername"),
+				BotConfigManager.getSetting("DatabasePassword"));
 	}
 
 	private static void initConnection(String ipAddress, int port, String databaseName, String user, String password) throws SQLException, ClassNotFoundException {
@@ -72,7 +80,11 @@ public class MySQLConnection {
 
 	public static ResultSet executeQuery(String statement, boolean logError) {
 		try {
-			if (connected && connection.isValid(30)) {
+			if (!connected || !connection.isValid(30)) {
+				reconnect();
+				MJRBotUtilities.logErrorMessage("MySQL is disconnected! Attempting to reconnect!");
+			}
+			if (connected) {
 				Statement myStmt;
 				try {
 					myStmt = getConnection().createStatement();
@@ -83,7 +95,7 @@ public class MySQLConnection {
 						e.printStackTrace();
 				}
 			} else
-				System.out.println("MySQL is disconnected! Please restart bot!");
+				MJRBotUtilities.logErrorMessage("MySQL is disconnected even after a reconnect attempt! Failed to run query: " + statement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -92,7 +104,11 @@ public class MySQLConnection {
 
 	public static void executeUpdate(String statement) {
 		try {
-			if (connected && connection.isValid(30)) {
+			if (!connected || !connection.isValid(30)) {
+				reconnect();
+				MJRBotUtilities.logErrorMessage("MySQL is disconnected! Attempting to reconnect!");
+			}
+			if (connected) {
 				Statement myStmt;
 				try {
 					myStmt = getConnection().createStatement();
@@ -102,7 +118,7 @@ public class MySQLConnection {
 					e.printStackTrace();
 				}
 			} else
-				System.out.println("MySQL is disconnected! Please restart bot!");
+				MJRBotUtilities.logErrorMessage("MySQL is disconnected even after a reconnect attempt! Failed to run query: " + statement);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
