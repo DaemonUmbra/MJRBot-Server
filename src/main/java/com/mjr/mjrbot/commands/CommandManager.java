@@ -20,6 +20,7 @@ import com.mjr.mjrbot.commands.defaultCommands.ChangeCommandPermission;
 import com.mjr.mjrbot.commands.defaultCommands.ChangeCommandResponse;
 import com.mjr.mjrbot.commands.defaultCommands.ChangeCommandState;
 import com.mjr.mjrbot.commands.defaultCommands.CommandsListCommand;
+import com.mjr.mjrbot.commands.defaultCommands.CustomCommandsList;
 import com.mjr.mjrbot.commands.defaultCommands.DiceCommand;
 import com.mjr.mjrbot.commands.defaultCommands.DisconnectCommand;
 import com.mjr.mjrbot.commands.defaultCommands.EnterCommand;
@@ -79,6 +80,7 @@ public class CommandManager {
 		commands.put("!commandstate", new ChangeCommandState());
 		commands.put("!commandresponse", new ChangeCommandResponse());
 		commands.put("!commandpermission", new ChangeCommandPermission());
+		commands.put("!customcommands", new CustomCommandsList());
 
 		// Games Commands
 		commands.put("!spin", new SpinCommand());

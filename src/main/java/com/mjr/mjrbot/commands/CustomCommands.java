@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import com.mjr.mjrbot.MJRBot;
@@ -21,13 +23,48 @@ import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.gameIntegrations.CallOfDuty;
 import com.mjr.mjrbot.gameIntegrations.PUBG;
-import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager;
 
 public class CustomCommands {
+
+	public static List<String> getAllCommandNames(BotType type, Object bot) throws IOException {
+		List<String> commands = new ArrayList<String>();
+		if (MJRBot.storageType == StorageType.File) {
+			String filelocation = null;
+			if (type == BotType.Twitch)
+				filelocation = MJRBot.filePath + MJRBotUtilities.getChannelIDFromBotType(type, bot) + File.separator;
+			else if (type == BotType.Mixer)
+				filelocation = MJRBot.filePath + MJRBotUtilities.getChannelNameFromBotType(type, bot) + File.separator;
+			File[] files = new File(filelocation).listFiles();
+			for (int i = 0; i < files.length; i++) {
+				String name = files[i].getName();
+				commands.add("!" + name.substring(0, name.indexOf("Command.properties")));
+			}
+		} else {
+			ResultSet result = null;
+			if (type == BotType.Twitch)
+				result = MySQLConnection.executeQuery("SELECT * FROM custom_commands WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"");
+			else if (type == BotType.Mixer)
+				result = MySQLConnection.executeQuery("SELECT * FROM custom_commands WHERE channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"");
+			try {
+				if (result == null) {
+					return commands;
+				} else {
+					while (result.next()) {
+						commands.add("!" + result.getString("command_name"));
+					}
+				}
+			} catch (SQLException e) {
+				MJRBotUtilities.logErrorMessage(e);
+			}
+		}
+
+		return commands;
+	}
 
 	public static void getCommand(BotType type, Object bot, String command, String sender) throws IOException {
 		String state = null;
