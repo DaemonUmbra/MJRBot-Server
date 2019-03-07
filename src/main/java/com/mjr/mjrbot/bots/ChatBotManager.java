@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.MJRBot.ConnectionType;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
@@ -53,7 +54,7 @@ public class ChatBotManager {
 			}
 			TwitchBot bot = new TwitchBot();
 			ChatBotManager.addTwitchBot(channelID, bot);
-			bot.init(TwitchBot.getChannelNameFromChannelID(channelID), channelID);
+			bot.init(MJRBot.connectionType == ConnectionType.Database ? TwitchBot.getChannelNameFromChannelID(channelID) : MJRBot.manualChannelName, channelID);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
 				if (MJRBot.storageType == StorageType.File) {

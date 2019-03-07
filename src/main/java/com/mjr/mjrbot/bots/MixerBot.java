@@ -160,7 +160,7 @@ public class MixerBot extends MJR_MixerBot {
 			this.setdebug(true);
 			int channel_id = 0;
 			if (MJRBot.connectionType == ConnectionType.Manual) {
-				channel_id = MJRBot.id;
+				channel_id = MJRBot.manualChannelID;
 			} else {
 				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM tokens WHERE channel = '" + channel + "' AND platform = 'Mixer'", false);
 				if (set != null && set.next()) {

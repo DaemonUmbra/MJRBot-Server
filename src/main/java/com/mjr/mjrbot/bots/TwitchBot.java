@@ -466,26 +466,32 @@ public class TwitchBot extends PircBot {
 	 */
 
 	public static int getChannelIDFromChannelName(String channelName) {
-		try {
-			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "' AND bot_type = 'Twitch'");
-			if (set != null && set.next()) {
-				return set.getInt("twitch_channel_id");
+		if (MJRBot.connectionType == ConnectionType.Database) {
+			try {
+				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE name = '" + channelName + "' AND bot_type = 'Twitch'");
+				if (set != null && set.next()) {
+					return set.getInt("twitch_channel_id");
+				}
+			} catch (SQLException e) {
+				MJRBotUtilities.logErrorMessage(e);
 			}
-		} catch (SQLException e) {
-			MJRBotUtilities.logErrorMessage(e);
-		}
+		} else
+			return MJRBot.manualChannelID;
 		return 0;
 	}
 
 	public static String getChannelNameFromChannelID(int channelID) {
-		try {
-			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE twitch_channel_id = '" + channelID + "'");
-			if (set != null && set.next()) {
-				return set.getString("name");
+		if (MJRBot.connectionType == ConnectionType.Database) {
+			try {
+				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channels WHERE twitch_channel_id = '" + channelID + "'");
+				if (set != null && set.next()) {
+					return set.getString("name");
+				}
+			} catch (SQLException e) {
+				MJRBotUtilities.logErrorMessage(e);
 			}
-		} catch (SQLException e) {
-			MJRBotUtilities.logErrorMessage(e);
-		}
+		} else
+			return MJRBot.manualChannelName;
 		return null;
 	}
 

@@ -44,8 +44,8 @@ public class MJRBot {
 	private static DiscordBot discordBot = null;
 
 	// Manual Mode
-	private static String channel = "";
-	public static int id = 0;
+	public static String manualChannelName = "";
+	public static int manualChannelID = 0;
 
 	public enum ConnectionType {
 		Database(), Manual();
@@ -172,11 +172,11 @@ public class MJRBot {
 
 	public static void runManualMode(BotType type, String channelName, int channelId) {
 		ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
-		channel = channelName;
-		id = channelId;
+		manualChannelName = channelName;
+		manualChannelID = channelId;
 		userCooldownTickThread = new UserCooldownTickThread();
 		userCooldownTickThread.start();
-		ChatBotManager.createBot(channel, id, type.getTypeName());
+		ChatBotManager.createBot(manualChannelName, manualChannelID, type.getTypeName());
 	}
 
 	public static void runDatabaseMode() {
