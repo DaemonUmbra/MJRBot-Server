@@ -13,6 +13,11 @@ public class ExitProcessCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
+		if (MJRBot.getDiscordBot() != null) {
+			MJRBot.getDiscordBot().getClient().logout();
+			MJRBot.setDiscordBot(null);
+			System.out.println("Discord Bot disconnected!");
+		}
 		for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
 			bot.disconnectTwitch();
 		}
