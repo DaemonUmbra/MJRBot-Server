@@ -7,8 +7,8 @@ import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
-import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
@@ -35,7 +35,7 @@ public class CrossChatLink {
 			else
 				platformPrefex = type == BotType.Twitch ? "[Twitch]" : "[Mixer]";
 			String senderPrefex = " " + sender + ": ";
-			if (twitch && ChannelConfigManager.getSetting("TwitchChatLink", type, bot).equalsIgnoreCase("true")) {
+			if (twitch && ChannelConfigManager.getSetting("TwitchChatLink", BotType.Mixer, type == BotType.Discord ? ChatBotManager.getMixerBotByChannelName(channel) : bot).equalsIgnoreCase("true")) {
 				String channelName = "";
 				if (bot != null)
 					channelName = ((MixerBot) bot).getChannelName();
@@ -47,7 +47,7 @@ public class CrossChatLink {
 					return;
 				MJRBotUtilities.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
 			}
-			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", type, bot).equalsIgnoreCase("true")) {
+			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", BotType.Twitch, type == BotType.Discord ? ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(channel)) :bot).equalsIgnoreCase("true")) {
 				int channelID = 0;
 				if (bot != null)
 					channelID = ((TwitchBot) bot).getChannelID();
