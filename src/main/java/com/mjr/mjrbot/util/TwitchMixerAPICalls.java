@@ -24,7 +24,7 @@ public class TwitchMixerAPICalls {
 	public static String twitchGetChannelsSubscriptionsAPI(int channelID, String oAuthToken, int limit) {
 		return "https://api.twitch.tv/kraken/channels/" + channelID + "/subscriptions?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + oAuthToken + "&limit=" + limit + "&api_version=5";
 	}
-	
+
 	public static String twitchGetUserAPI(String oAuthToken) {
 		return "https://api.twitch.tv/kraken/user?client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + oAuthToken + "&api_version=5";
 	}
@@ -51,6 +51,10 @@ public class TwitchMixerAPICalls {
 
 	public static String twitchGetUserChattersAPI(String channelID) {
 		return "https://tmi.twitch.tv/group/user/" + channelID + "/chatters";
+	}
+
+	public static String twitchGetUserIDFromChannelNameAPI(String channelName) {
+		return "https://api.twitch.tv/kraken/users?login=" + channelName + "&client_id=" + MJRBot.CLIENT_ID + "&api_version=5";
 	}
 
 	// Mixer v1
