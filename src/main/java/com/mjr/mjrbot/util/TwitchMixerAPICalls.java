@@ -45,16 +45,16 @@ public class TwitchMixerAPICalls {
 		return "https://api.twitch.tv/kraken/users/" + user + "/follows/channels" + channelID + "?client_id=" + MJRBot.CLIENT_ID + "&api_version=5";
 	}
 
-	public static String twitchGetUsersAPI(String channelID) {
-		return "https://api.twitch.tv/kraken/users/" + channelID + "?client_id=" + MJRBot.CLIENT_ID;
-	}
-
-	public static String twitchGetUserChattersAPI(String channelID) {
-		return "https://tmi.twitch.tv/group/user/" + channelID + "/chatters";
+	public static String twitchGetUsersAPI(String channelName) {
+		return "https://api.twitch.tv/kraken/users/" + twitchGetUserIDFromChannelNameAPI(channelName) + "?client_id=" + MJRBot.CLIENT_ID + "&api_version=5";
 	}
 
 	public static String twitchGetUserIDFromChannelNameAPI(String channelName) {
 		return "https://api.twitch.tv/kraken/users?login=" + channelName + "&client_id=" + MJRBot.CLIENT_ID + "&api_version=5";
+	}
+	
+	public static String twitchGetUserChattersAPI(String channelID) {
+		return "https://tmi.twitch.tv/group/user/" + channelID + "/chatters";
 	}
 
 	// Mixer v1
