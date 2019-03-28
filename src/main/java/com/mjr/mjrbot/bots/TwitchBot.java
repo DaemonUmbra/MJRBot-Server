@@ -240,18 +240,18 @@ public class TwitchBot extends PircBot {
 			totalMonths = totalMonths.substring(0, totalMonths.indexOf(';'));
 			String currentMonths = line.substring(line.indexOf("msg-param-streak-months=") + 24);
 			currentMonths = currentMonths.substring(0, currentMonths.indexOf(';'));
-			String showCurrentStreak = line.substring(line.indexOf("msg-param-streak-months=") + 30);
+			String showCurrentStreak = line.substring(line.indexOf("msg-param-should-share-streak=") + 30);
 			showCurrentStreak = showCurrentStreak.substring(0, showCurrentStreak.indexOf(';'));
 			String resubMessage = line.substring(line.indexOf("USERNOTICE"));
 			if (resubMessage.contains(":"))
-				resubMessage = resubMessage.substring(resubMessage.indexOf(":"));
+				resubMessage = resubMessage.substring(resubMessage.indexOf(":") + 1);
 			else
 				resubMessage = null;
 			String endOfMsg = "";
 			if (showCurrentStreak.equals("0"))
-				endOfMsg = "for a Total streak of " + totalMonths + " months!";
+				endOfMsg = "for a Total of " + totalMonths + " months!";
 			else
-				endOfMsg = "for " + currentMonths + "in a row, with a Total streak of " + totalMonths + " months!";
+				endOfMsg = "for " + currentMonths + " in a row, with a Total of " + totalMonths + " months!";
 
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
