@@ -87,12 +87,6 @@ public class ConsoleUtil {
 	}
 
 	public static void refreshConsoleMessages() {
-		clearConsole();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			MJRBotUtilities.logErrorMessage(e);
-		}
 		TreeMap<Date, String> temp = new TreeMap<Date, String>();
 		if (showChatMessages) {
 			temp.putAll(lastChatMessages);
