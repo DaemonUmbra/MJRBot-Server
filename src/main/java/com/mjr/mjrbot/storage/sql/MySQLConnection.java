@@ -19,7 +19,7 @@ public class MySQLConnection {
 		try {
 			MySQLConnection.initConnection(ipAddress, port, databaseName, user, password);
 		} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -44,7 +44,7 @@ public class MySQLConnection {
 				createDatabase(ipAddress, port, databaseName, user, password);
 			} else {
 				if (!e.getMessage().contains("Communications link failure"))
-					e.printStackTrace();
+					MJRBotUtilities.logErrorMessage(e);
 				else
 					System.out.println("MySQL Connection Failed! Error: " + e.getMessage().substring(0, e.getMessage().indexOf("\n")));
 			}
@@ -70,7 +70,7 @@ public class MySQLConnection {
 			ex.printStackTrace();
 			System.out.println("MySQL Connection Failed! Error: " + ex.getMessage());
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
@@ -92,12 +92,12 @@ public class MySQLConnection {
 					return myRs;
 				} catch (SQLException e) {
 					if (logError)
-						e.printStackTrace();
+						MJRBotUtilities.logErrorMessage(e);
 				}
 			} else
 				MJRBotUtilities.logErrorMessage("MySQL is disconnected even after a reconnect attempt! Failed to run query: " + statement);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			MJRBotUtilities.logErrorMessage(e);
 		}
 		return null;
 	}
@@ -115,12 +115,12 @@ public class MySQLConnection {
 					myStmt.executeUpdate(statement);
 					myStmt.close();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					MJRBotUtilities.logErrorMessage(e);
 				}
 			} else
 				MJRBotUtilities.logErrorMessage("MySQL is disconnected even after a reconnect attempt! Failed to run query: " + statement);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
