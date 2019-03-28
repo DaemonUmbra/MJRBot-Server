@@ -59,7 +59,7 @@ public class TwitchMixerAPICalls {
 
 	// Mixer v1
 
-	public static String mixerGetChannelsAPI(String channelName) {
+	public static String mixerGetChannelsAPI(String channelName) { // TODO: Change to use channel id
 		return "https://mixer.com/api/v1/channels/" + channelName;
 	}
 
