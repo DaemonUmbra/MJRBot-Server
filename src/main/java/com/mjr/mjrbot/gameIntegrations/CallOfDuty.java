@@ -35,7 +35,7 @@ public class CallOfDuty {
 			throw new IndexOutOfBoundsException("Invalid pathform!");
 
 		if (codParts.length == 3) {
-			variable = getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
+			return getProfileAllStat(stat, codParts[0], codParts[1], codParts[2].replaceAll("#", "%23"));
 		} else if (codParts.length == 4 && codParts[0].equalsIgnoreCase("bo4")) {
 			if (!codParts[3].equalsIgnoreCase("mp") && !codParts[3].equalsIgnoreCase("zombies") && !codParts[3].equalsIgnoreCase("blackout"))
 				throw new IndexOutOfBoundsException("Invalid game mode type!");

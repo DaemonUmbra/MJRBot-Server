@@ -153,19 +153,35 @@ public class CustomCommands {
 			if (parts.length != 0) {
 				for (int i = 0; i < parts.length; i++) {
 					if (parts[i].startsWith("%cod_")) {
-						parts[i] = CallOfDuty.replaceVariablesWithData(parts[i]);
+						String reply = CallOfDuty.replaceVariablesWithData(parts[i]);
+						if(reply == null) {
+							return "Unable to get stats information for Call of Duty, Game API could be having issues, please try again later!";
+						}
+						parts[i] = reply;
 					}
 					if (parts[i].startsWith("%pubg_")) {
-						parts[i] = PUBG.replaceVariablesWithData(parts[i]);
+						String reply = PUBG.replaceVariablesWithData(parts[i]);
+						if(reply == null) {
+							return "Unable to get stats information for PUBG, Game API could be having issues, please try again later!";
+						}
+						parts[i] = reply;
 					}
 				}
 				response = String.join(" ", parts);
 			} else {
 				if (response.startsWith("%cod_")) {
-					response = CallOfDuty.replaceVariablesWithData(response);
+					String reply = CallOfDuty.replaceVariablesWithData(response);
+					if(reply == null) {
+						return "Unable to get stats information for Call of Duty, Game API could be having issues, please try again later!";
+					}
+					response = reply;
 				}
 				if (response.startsWith("%pubg_")) {
-					response = PUBG.replaceVariablesWithData(response);
+					String reply = PUBG.replaceVariablesWithData(response);
+					if(reply == null) {
+						return "Unable to get stats information for PUBG, Game API could be having issues, please try again later!";
+					}
+					response = reply;
 				}
 			}
 		} catch (Exception e) {
