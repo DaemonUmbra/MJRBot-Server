@@ -4,7 +4,7 @@ import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class SlotMachine {
-	public static String[] emotesTwtich = { "MrDestructoid", "PJSugar", "SSSsss", "PJSalt", "KappaPride", "StinkyCheese", "FunRun", "twitchRaid" };
+	public static String[] emotesTwtich = { "MrDestructoid", "PJSugar", "SSSsss", "PJSalt", "KappaPride", "StinkyCheese", "BloodTrail", "twitchRaid" };
 	public static String[] emotesMixer = { ":hamster", ":controller", ":127", ":coke", ":popcorn", ":hug-bot", ":spaceship", ":wrench" };
 
 	public static ResultPair Spin(BotType type) {
