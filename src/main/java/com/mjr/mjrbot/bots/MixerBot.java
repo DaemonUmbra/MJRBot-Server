@@ -241,10 +241,7 @@ public class MixerBot extends MJR_MixerBot {
 		if (!this.getMixerData().usersCooldowns.containsKey(user.toLowerCase())) {
 			this.getMixerData().usersCooldowns.put(user.toLowerCase(), 0);
 		}
-		if (!this.getViewers().contains(user.toLowerCase())) {
-			this.addViewer(user);
-			EventLogManager.addEvent(BotType.Mixer, this, user, "Joined the channel", EventType.User);
-		}
+		EventLogManager.addEvent(BotType.Mixer, this, user, "Joined the channel", EventType.User);
 		if (!this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.put(user.toLowerCase(), System.currentTimeMillis());
 	}
@@ -253,10 +250,7 @@ public class MixerBot extends MJR_MixerBot {
 		if (this.getMixerData().usersCooldowns.containsKey(user.toLowerCase())) {
 			this.getMixerData().usersCooldowns.remove(user.toLowerCase(), 0);
 		}
-		if (this.getViewers().contains(user.toLowerCase())) {
-			this.removeViewer(user);
-			EventLogManager.addEvent(BotType.Mixer, this, user, "Left the channel", EventType.User);
-		}
+		EventLogManager.addEvent(BotType.Mixer, this, user, "Left the channel", EventType.User);
 		if (this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.remove(user.toLowerCase());
 	}
