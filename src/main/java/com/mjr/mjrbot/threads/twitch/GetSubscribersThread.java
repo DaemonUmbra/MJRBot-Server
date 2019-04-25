@@ -46,7 +46,7 @@ public class GetSubscribersThread extends Thread {
 							result = "";
 							String newurl = copyresult.substring(copyresult.indexOf("next") + 7);
 							newurl = newurl.substring(0, newurl.indexOf("}"));
-							newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token");
+							newurl = newurl + "&client_id=" + MJRBot.CLIENT_ID + "&oauth_token=" + set.getString("access_token")+ "&api_version=5";
 							result = getList(newurl);
 							copyresult = result;
 							newresult = result;
