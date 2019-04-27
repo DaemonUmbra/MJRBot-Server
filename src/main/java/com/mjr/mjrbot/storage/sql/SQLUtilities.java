@@ -24,7 +24,7 @@ public class SQLUtilities {
 			MySQLConnection.executeUpdate(
 					"CREATE TABLE mjrbot.custom_commands (id int(50) not null auto_increment primary key, mixer_channel varchar(35), command_name varchar(35), state varchar(6), permission_level varchar(16), response varchar(500), twitch_channel_id int(20))");
 
-			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.tokens (id int(50) not null auto_increment primary key, channel varchar(35), access_token varchar(100), refresh_token varchar(100), platform varchar(10), channel_id int(20))");
+			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.tokens (id int(50) not null auto_increment primary key, channel varchar(35), access_token varchar(100), refresh_token varchar(100), platform varchar(10), channel_id int(20), expires_in int(12), last_login datetime");
 			MySQLConnection
 					.executeUpdate("CREATE TABLE mjrbot.moderation_actions (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), reason varchar(128), message varchar(500), platform varchar(10))");
 			MySQLConnection.executeUpdate("CREATE TABLE mjrbot.events (id int(50) not null auto_increment primary key, channel varchar(35), time varchar(35), user varchar(35), type varchar(35), event_message varchar(128), platform varchar(10))");
