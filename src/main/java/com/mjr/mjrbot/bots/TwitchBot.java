@@ -251,7 +251,7 @@ public class TwitchBot extends PircBot {
 			if (showCurrentStreak.equals("0"))
 				endOfMsg = "for a Total of " + totalMonths + " months!";
 			else
-				endOfMsg = "for " + currentMonths + " in a row, with a Total of " + totalMonths + " months!";
+				endOfMsg = "for " + currentMonths + " months in a row, with a Total of " + totalMonths + " months!";
 
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
