@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.MJRBot.PlatformType;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
@@ -170,19 +171,19 @@ public class RankSystemManager extends FileBase {
 			return false;
 	}
 
-	public static void migrateFile(BotType type, Object bot) {
-		Properties properties = null;
-		if (type == BotType.Twitch)
-			properties = load(((TwitchBot) bot).getChannelID(), fileName);
-		else if (type == BotType.Mixer)
-			properties = load(((MixerBot) bot).getChannelName(), fileName);
-		for (Object user : properties.keySet()) {
-			if (type == BotType.Twitch)
-				MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\""
-						+ properties.getProperty((String) user) + "\"" + ")");
-			else if (type == BotType.Mixer)
-				MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\""
-						+ properties.getProperty((String) user) + "\"" + ")");
+	public static void migrateFile(int channelID, String channelMixer, PlatformType platform) {
+		if (platform == PlatformType.TWITCH) {
+			Properties properties = load(channelID, fileName);
+			for (Object user : properties.keySet()) {
+				MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + channelID + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+
+			}
+		} else if (platform == PlatformType.MIXER) {
+			Properties properties = load(channelMixer, fileName);
+			for (Object user : properties.keySet()) {
+				MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + ((String) user) + "\"" + "," + "\"" + channelMixer + "\"" + "," + "\"" + properties.getProperty((String) user) + "\"" + ")");
+
+			}
 		}
 	}
 }

@@ -17,6 +17,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.MJRBot.PlatformType;
 import com.mjr.mjrbot.MJRBot.StorageType;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.defaultCommands.QuoteCommand;
@@ -38,6 +39,23 @@ public class QuoteSystemManager {
 		Random rand = new Random();
 		List<String> quotes = getAllQuotes(type, bot, file);
 		return quotes.get(rand.nextInt(quotes.size()));
+	}
+
+	public static List<String> getAllQuotesFromFile(File file) {
+		String token1 = "";
+		Scanner inFile1 = null;
+		try {
+			inFile1 = new Scanner(file).useDelimiter(";\\s*");
+		} catch (FileNotFoundException e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
+		List<String> temps = new ArrayList<String>();
+		while (inFile1.hasNext()) {
+			token1 = inFile1.next();
+			temps.add(token1);
+		}
+		inFile1.close();
+		return Arrays.asList(temps.toArray(new String[0]));
 	}
 
 	public static List<String> getAllQuotes(BotType type, Object bot, File file) {
@@ -123,6 +141,22 @@ public class QuoteSystemManager {
 				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
 			else if (type == BotType.Mixer)
 				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + quote + "\"" + ")");
+		}
+	}
+
+	public static void migrateFile(int channelID, String channelMixer, PlatformType platform) {
+		if (platform == PlatformType.TWITCH) {
+			List<String> quotes = getAllQuotesFromFile(new File(MJRBot.filePath + channelMixer + File.separator + QuoteCommand.filename));
+			for (String quote : quotes) {
+				MySQLConnection.executeUpdate("INSERT INTO quotes(twitch_channel_id, quote) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + quote + "\"" + ")");
+
+			}
+		} else if (platform == PlatformType.MIXER) {
+			List<String> quotes = getAllQuotesFromFile(new File(MJRBot.filePath + channelMixer + File.separator + QuoteCommand.filename));
+			for (String quote : quotes) {
+				MySQLConnection.executeUpdate("INSERT INTO quotes(mixer_channel, quote) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + quote + "\"" + ")");
+
+			}
 		}
 	}
 }

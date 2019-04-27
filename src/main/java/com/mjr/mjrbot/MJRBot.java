@@ -16,6 +16,10 @@ import com.mjr.mjrbot.bots.DiscordBot;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
+import com.mjr.mjrbot.storage.PointsSystemManager;
+import com.mjr.mjrbot.storage.QuoteSystemManager;
+import com.mjr.mjrbot.storage.RankSystemManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.threads.ChannelListUpdateThread;
@@ -57,6 +61,29 @@ public class MJRBot {
 
 	public enum MirgrationType {
 		All(), Config(), Points(), Ranks(), Quotes();
+	}
+
+	public enum PlatformType {
+		TWITCH("Twitch"), MIXER("Mixer");
+
+		public String name;
+
+		PlatformType(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public static PlatformType getTypeByString(String type) {
+			for (PlatformType temp : PlatformType.values()) {
+				if (temp.getName().equalsIgnoreCase(type))
+					return temp;
+				return null;
+			}
+			return null;
+		}
 	}
 
 	public static void main(final String[] args) {
@@ -131,8 +158,8 @@ public class MJRBot {
 			BotConfigManager.load();
 			if (MJRBot.connectionType == ConnectionType.Database) {
 				do {
-					MySQLConnection.connect(BotConfigManager.getSetting("DatabaseIPAddress"), Integer.parseInt(BotConfigManager.getSetting("DatabasePort")), BotConfigManager.getSetting("DatabaseDatabaseName"), BotConfigManager.getSetting("DatabaseUsername"),
-							BotConfigManager.getSetting("DatabasePassword"));
+					MySQLConnection.connect(BotConfigManager.getSetting("DatabaseIPAddress"), Integer.parseInt(BotConfigManager.getSetting("DatabasePort")), BotConfigManager.getSetting("DatabaseDatabaseName"),
+							BotConfigManager.getSetting("DatabaseUsername"), BotConfigManager.getSetting("DatabasePassword"));
 					Thread.sleep(5000);
 				} while (MySQLConnection.isConnected() == false);
 			}
@@ -150,24 +177,24 @@ public class MJRBot {
 		}
 	}
 
-	public static void runMirgration(String channelName, MirgrationType type) {
-		// if (type == MirgrationType.All) { TODO Fix
-		// Config.migrateFile(channelName);
-		// PointsSystem.migrateFile(channelName);
-		// RankSystem.migrateFile(channelName);
-		// QuoteSystem.migrateFile(channelName);
-		// } else if (type == MirgrationType.Config) {
-		// Config.migrateFile(channelName);
-		// }
-		// if (type == MirgrationType.Points) {
-		// PointsSystem.migrateFile(channelName);
-		// }
-		// if (type == MirgrationType.Ranks) {
-		// RankSystem.migrateFile(channelName);
-		// }
-		// if (type == MirgrationType.Quotes) {
-		// QuoteSystem.migrateFile(channelName);
-		// }
+	public static void runMirgration(int channelID, String channelMixer, PlatformType platform, MirgrationType type) {
+		if (type == MirgrationType.All) {
+			ChannelConfigManager.migrateFile(channelID, channelMixer, platform);
+			PointsSystemManager.migrateFile(channelID, channelMixer, platform);
+			RankSystemManager.migrateFile(channelID, channelMixer, platform);
+			QuoteSystemManager.migrateFile(channelID, channelMixer, platform);
+		} else if (type == MirgrationType.Config) {
+			ChannelConfigManager.migrateFile(channelID, channelMixer, platform);
+		}
+		if (type == MirgrationType.Points) {
+			PointsSystemManager.migrateFile(channelID, channelMixer, platform);
+		}
+		if (type == MirgrationType.Ranks) {
+			RankSystemManager.migrateFile(channelID, channelMixer, platform);
+		}
+		if (type == MirgrationType.Quotes) {
+			QuoteSystemManager.migrateFile(channelID, channelMixer, platform);
+		}
 	}
 
 	public static void runManualMode(BotType type, String channelName, int channelId) {
