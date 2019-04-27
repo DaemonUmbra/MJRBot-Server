@@ -36,7 +36,7 @@ public class BadWordChecker {
 				badWords = Arrays.asList("Fuck", "Shit", "Cunt", "Wanker", "Tosser", "Slag", "Slut", "Penis", "Cock", "Vagina", "Pussy", "Boobs", "Tits", "Ass", "Bastard", "Twat", "Nigger", "Bitch", "***", "Nigga");
 
 			for (int i = 0; i < badWords.size(); i++) {
-				if (message.toLowerCase().contains(badWords.get(i).toLowerCase())) {
+				if (message.toLowerCase().indexOf(badWords.get(i).toLowerCase()) >= 0) {
 					if (PermissionsManager.hasPermission(bot, type, sender, PermissionLevel.Moderator.getName())) {
 						return false;
 					} else {
