@@ -507,7 +507,10 @@ public class TwitchBot extends PircBot {
 					return new BoolStringPair(newChannel, true);
 			}
 		} catch (Exception e) {
-			MJRBotUtilities.logErrorMessage(e);
+			if (!e.getMessage().contains("401"))
+				MJRBotUtilities.logErrorMessage(e);
+			else
+				MJRBotUtilities.logErrorMessage("Unable to check for new channel username for " + bot.getChannelName() + " due to invalid oauth token!");
 		}
 		return new BoolStringPair(newChannel, false);
 	}
