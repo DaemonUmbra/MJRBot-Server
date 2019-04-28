@@ -79,18 +79,15 @@ public class GetSubscribersThread extends Thread {
 		String result = "";
 		boolean refreshToken = false;
 		boolean skip = false;
-		int tries = 0;
 		do {
 			try {
 				if (refreshToken)
-					OAuthManager.refreshTokenTwitch(tries, bot);
+					OAuthManager.refreshTokenTwitch(5, bot);
 				result = HTTPConnect.getRequest(urlLink);
 				return result;
 			} catch (IOException e) {
 				if (e.getMessage().contains("401") || e.getMessage().contains("403")) {
 					refreshToken = true;
-					if (refreshToken)
-						tries++;
 				} else if (e.getMessage().contains("400")) {
 					skip = true;
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "No subscribers due to does not have a subscription program", MessageType.ChatBot, null);
@@ -102,11 +99,7 @@ public class GetSubscribersThread extends Thread {
 					MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 				}
 			}
-		} while (result.equals("") && skip == false && tries < 6);
-		if (tries == 6) {
-			ConsoleUtil.textToConsole(bot, BotType.Twitch, "Unable to refresh token after 5 Attempts!", MessageType.ChatBot, null);
-			MJRBot.getDiscordBot().sendAdminEventMessage("[" + BotType.Twitch.getTypeName() + "] **" + TwitchBot.getChannelNameFromChannelID(bot.getChannelID()) + " ** Unable to refresh token after 5 Attempts!");
-		}
+		} while (result.equals("") && skip == false);
 		return null;
 	}
 
