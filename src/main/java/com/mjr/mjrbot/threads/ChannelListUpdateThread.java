@@ -78,8 +78,8 @@ public class ChannelListUpdateThread extends Thread {
 					bot.disconnectMixer();
 					ChatBotManager.removeMixerBot(removeChannel);
 				}
-				
-				//Check for channel username changes
+
+				// Check for channel username changes
 				for (Integer channelID : ChatBotManager.getTwitchBots().keySet()) {
 					TwitchBot bot = ChatBotManager.getTwitchBotByChannelID(channelID);
 					BoolStringPair output = TwitchBot.checkforUsernameChange(bot);

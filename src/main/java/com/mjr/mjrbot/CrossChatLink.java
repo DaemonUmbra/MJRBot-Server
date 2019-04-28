@@ -47,7 +47,7 @@ public class CrossChatLink {
 					return;
 				MJRBotUtilities.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
 			}
-			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", BotType.Twitch, type == BotType.Discord ? ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(channel)) :bot).equalsIgnoreCase("true")) {
+			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", BotType.Twitch, type == BotType.Discord ? ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(channel)) : bot).equalsIgnoreCase("true")) {
 				int channelID = 0;
 				if (bot != null)
 					channelID = ((TwitchBot) bot).getChannelID();

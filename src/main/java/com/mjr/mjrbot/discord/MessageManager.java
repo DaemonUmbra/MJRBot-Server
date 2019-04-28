@@ -13,7 +13,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 public class MessageManager {
 
 	public static void onMessageReceivedEvent(MessageCreateEvent event) {
-		if(event.getMessage().getAuthor().get().isBot())
+		if (event.getMessage().getAuthor().get().isBot())
 			return;
 		try {
 			ResultSet channel = MySQLConnection.executeQuery("SELECT channel FROM discord_info WHERE guild_id = '" + event.getGuildId().get().asLong() + "'");

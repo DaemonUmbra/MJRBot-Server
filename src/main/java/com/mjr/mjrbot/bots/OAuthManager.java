@@ -17,8 +17,8 @@ import com.mjr.mjrbot.util.TwitchMixerAPICalls;
 public class OAuthManager {
 	public static void refreshTokenTwitch(int maxTries, TwitchBot bot) {
 		for (int i = 0; i < maxTries; i++) {
-			ConsoleUtil.textToConsole(bot, BotType.Twitch, "Refreshing access_token! Attempt " + i+1 + " out of " + maxTries, MessageType.ChatBot, null);
-			MJRBot.getDiscordBot().sendAdminEventMessage("[" + BotType.Twitch.getTypeName() + "] **" + bot.getChannelName() + " ** Refreshing access_token! Attempt " + i+1 + " out of " + maxTries);
+			ConsoleUtil.textToConsole(bot, BotType.Twitch, "Refreshing access_token! Attempt " + i + 1 + " out of " + maxTries, MessageType.ChatBot, null);
+			MJRBot.getDiscordBot().sendAdminEventMessage("[" + BotType.Twitch.getTypeName() + "] **" + bot.getChannelName() + " ** Refreshing access_token! Attempt " + i + 1 + " out of " + maxTries);
 			try {
 				ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel_id = '" + bot.getChannelID() + "'");
 				if (tokenSet.next() && tokenSet.getString("refresh_token") != null && tokenSet.getString("refresh_token") != "") {
@@ -41,8 +41,8 @@ public class OAuthManager {
 
 	public static void refreshTokenMixer(int maxTries, MixerBot bot) {
 		for (int i = 0; i < maxTries; i++) {
-			ConsoleUtil.textToConsole(bot, BotType.Mixer, "Refreshing access_token! Attempt " + i+1 + " out of " + maxTries, MessageType.ChatBot, null);
-			MJRBot.getDiscordBot().sendAdminEventMessage("[" + BotType.Mixer.getTypeName() + "] **" + bot.getChannelName() + " ** Refreshing access_token! Attempt " + i+1 + " out of " + maxTries);
+			ConsoleUtil.textToConsole(bot, BotType.Mixer, "Refreshing access_token! Attempt " + i + 1 + " out of " + maxTries, MessageType.ChatBot, null);
+			MJRBot.getDiscordBot().sendAdminEventMessage("[" + BotType.Mixer.getTypeName() + "] **" + bot.getChannelName() + " ** Refreshing access_token! Attempt " + i + 1 + " out of " + maxTries);
 			try {
 				ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.getChannelName() + "'");
 				if (tokenSet.next() && tokenSet.getString("refresh_token") != null && tokenSet.getString("refresh_token") != "") {

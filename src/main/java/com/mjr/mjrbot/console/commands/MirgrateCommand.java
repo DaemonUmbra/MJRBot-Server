@@ -29,7 +29,7 @@ public class MirgrateCommand implements IConsoleCommand {
 			if (type != null) {
 				PlatformType platform = PlatformType.getTypeByString(args[1]);
 				String id = "0";
-				if(platform == PlatformType.TWITCH) {
+				if (platform == PlatformType.TWITCH) {
 					String result = null;
 					try {
 						result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserIDFromChannelNameAPI(args[0]));
@@ -40,8 +40,7 @@ public class MirgrateCommand implements IConsoleCommand {
 					id = id.substring(0, id.indexOf(",") - 1);
 				}
 				MJRBot.runMirgration(Integer.parseInt(id), args[0], PlatformType.getTypeByString(args[1]), type);
-			}
-			else
+			} else
 				System.out.println("Invalid Type, Use All or Config or Points or Ranks or Quotes");
 		} else {
 			System.out.println("Invalid syntax, Use mirgrate " + getParametersDescription());

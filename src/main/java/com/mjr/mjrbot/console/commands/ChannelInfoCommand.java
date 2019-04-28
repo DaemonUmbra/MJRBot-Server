@@ -16,7 +16,8 @@ public class ChannelInfoCommand implements IConsoleCommand {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(), twitchBot.getTwitchData().getVips().size(), twitchBot.isBotConnected());
+				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(),
+						twitchBot.getTwitchData().getVips().size(), twitchBot.isBotConnected());
 			} else if (args[1].equalsIgnoreCase("Mixer")) {
 				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				if (mixerBot == null) {
@@ -39,7 +40,7 @@ public class ChannelInfoCommand implements IConsoleCommand {
 		System.out.println("Num of Viewers " + viewerCount);
 		System.out.println("Num of Subs " + subsCount);
 		System.out.println("Num of Moderators " + modsCount);
-		if(platform.equalsIgnoreCase("twitch"))
+		if (platform.equalsIgnoreCase("twitch"))
 			System.out.println("Num of VIPs " + vipsCount);
 	}
 

@@ -268,7 +268,7 @@ public class ChannelConfigManager extends FileBase {
 	}
 
 	public static void migrateFile(int channelID, String channelMixer, PlatformType platform) {
-		if(platform == PlatformType.TWITCH) {
+		if (platform == PlatformType.TWITCH) {
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LinkWarning" + "\"" + "," + "\"" + getSetting("LinkWarning", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LanguageWarning" + "\"" + "," + "\"" + getSetting("LanguageWarning", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowerMessage" + "\"" + "," + "\"" + getSetting("FollowerMessage", channelID) + "\"" + ")");
@@ -292,16 +292,22 @@ public class ChannelConfigManager extends FileBase {
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Quotes" + "\"" + "," + "\"" + getSetting("Quotes", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxSymbols" + "\"" + "," + "\"" + getSetting("MaxSymbols", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxEmotes" + "\"" + "," + "\"" + getSetting("MaxEmotes", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelID) + "\"" + ")");
 			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelID) + "\"" + ")");
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelID) + "\"" + ")");
 			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelID) + "\"" + ")");
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelID) + "\"" + ")");
@@ -310,112 +316,128 @@ public class ChannelConfigManager extends FileBase {
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelID) + "\"" + ")");
-			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelID) + "\"" + ")");
 			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelID) + "\"" + ")");
-		}		if(platform == PlatformType.TWITCH) {
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LinkWarning" + "\"" + "," + "\"" + getSetting("LinkWarning", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LanguageWarning" + "\"" + "," + "\"" + getSetting("LanguageWarning", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowerMessage" + "\"" + "," + "\"" + getSetting("FollowerMessage", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SymbolWarning" + "\"" + "," + "\"" + getSetting("SymbolWarning", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsDelay" + "\"" + "," + "\"" + getSetting("AnnouncementsDelay", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "GiveawayDelay" + "\"" + "," + "\"" + getSetting("GiveawayDelay", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "StartingPoints" + "\"" + "," + "\"" + getSetting("StartingPoints", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsDelay" + "\"" + "," + "\"" + getSetting("AutoPointsDelay", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "EmoteWarning" + "\"" + "," + "\"" + getSetting("EmoteWarning", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Commands" + "\"" + "," + "\"" + getSetting("Commands", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Games" + "\"" + "," + "\"" + getSetting("Games", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Ranks" + "\"" + "," + "\"" + getSetting("Ranks", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Points" + "\"" + "," + "\"" + getSetting("Points", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Announcements" + "\"" + "," + "\"" + getSetting("Announcements", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Badwords" + "\"" + "," + "\"" + getSetting("Badwords", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LinkChecker" + "\"" + "," + "\"" + getSetting("LinkChecker", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Emote" + "\"" + "," + "\"" + getSetting("Emote", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Symbol" + "\"" + "," + "\"" + getSetting("Symbol", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SilentJoin" + "\"" + "," + "\"" + getSetting("SilentJoin", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowerCheck" + "\"" + "," + "\"" + getSetting("FollowerCheck", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Quotes" + "\"" + "," + "\"" + getSetting("Quotes", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxSymbols" + "\"" + "," + "\"" + getSetting("MaxSymbols", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxEmotes" + "\"" + "," + "\"" + getSetting("MaxEmotes", channelID) + "\"" + ")");
 			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelID) + "\"" + ")");
-			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "GiftSubAlerts" + "\"" + "," + "\"" + getSetting("GiftSubAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "HostingAlerts" + "\"" + "," + "\"" + getSetting("HostingAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelID) + "\"" + ")");
-			MySQLConnection
-					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelID) + "\"" + ")");
-			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelID) + "\"" + ")");
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelID) + "\"" + ")");
 		}
-		else if(platform == PlatformType.MIXER) {
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LinkWarning" + "\"" + "," + "\"" + getSetting("LinkWarning", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LanguageWarning" + "\"" + "," + "\"" + getSetting("LanguageWarning", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowerMessage" + "\"" + "," + "\"" + getSetting("FollowerMessage", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SymbolWarning" + "\"" + "," + "\"" + getSetting("SymbolWarning", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementsDelay" + "\"" + "," + "\"" + getSetting("AnnouncementsDelay", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "GiveawayDelay" + "\"" + "," + "\"" + getSetting("GiveawayDelay", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "StartingPoints" + "\"" + "," + "\"" + getSetting("StartingPoints", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AutoPointsDelay" + "\"" + "," + "\"" + getSetting("AutoPointsDelay", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "EmoteWarning" + "\"" + "," + "\"" + getSetting("EmoteWarning", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Commands" + "\"" + "," + "\"" + getSetting("Commands", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Games" + "\"" + "," + "\"" + getSetting("Games", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Ranks" + "\"" + "," + "\"" + getSetting("Ranks", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Points" + "\"" + "," + "\"" + getSetting("Points", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Announcements" + "\"" + "," + "\"" + getSetting("Announcements", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Badwords" + "\"" + "," + "\"" + getSetting("Badwords", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LinkChecker" + "\"" + "," + "\"" + getSetting("LinkChecker", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Emote" + "\"" + "," + "\"" + getSetting("Emote", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Symbol" + "\"" + "," + "\"" + getSetting("Symbol", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SilentJoin" + "\"" + "," + "\"" + getSetting("SilentJoin", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowerCheck" + "\"" + "," + "\"" + getSetting("FollowerCheck", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Quotes" + "\"" + "," + "\"" + getSetting("Quotes", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MaxSymbols" + "\"" + "," + "\"" + getSetting("MaxSymbols", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MaxEmotes" + "\"" + "," + "\"" + getSetting("MaxEmotes", channelMixer) + "\"" + ")");
-				MySQLConnection
-						.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelMixer) + "\"" + ")");
-				MySQLConnection
-						.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "GiftSubAlerts" + "\"" + "," + "\"" + getSetting("GiftSubAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "HostingAlerts" + "\"" + "," + "\"" + getSetting("HostingAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelMixer) + "\"" + ")");
-				MySQLConnection
-						.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelMixer) + "\"" + ")");
-				MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelMixer) + "\"" + ")");
-			}
+		if (platform == PlatformType.TWITCH) {
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LinkWarning" + "\"" + "," + "\"" + getSetting("LinkWarning", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LanguageWarning" + "\"" + "," + "\"" + getSetting("LanguageWarning", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowerMessage" + "\"" + "," + "\"" + getSetting("FollowerMessage", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SymbolWarning" + "\"" + "," + "\"" + getSetting("SymbolWarning", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsDelay" + "\"" + "," + "\"" + getSetting("AnnouncementsDelay", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "GiveawayDelay" + "\"" + "," + "\"" + getSetting("GiveawayDelay", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "StartingPoints" + "\"" + "," + "\"" + getSetting("StartingPoints", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsDelay" + "\"" + "," + "\"" + getSetting("AutoPointsDelay", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "EmoteWarning" + "\"" + "," + "\"" + getSetting("EmoteWarning", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Commands" + "\"" + "," + "\"" + getSetting("Commands", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Games" + "\"" + "," + "\"" + getSetting("Games", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Ranks" + "\"" + "," + "\"" + getSetting("Ranks", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Points" + "\"" + "," + "\"" + getSetting("Points", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Announcements" + "\"" + "," + "\"" + getSetting("Announcements", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Badwords" + "\"" + "," + "\"" + getSetting("Badwords", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "LinkChecker" + "\"" + "," + "\"" + getSetting("LinkChecker", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Emote" + "\"" + "," + "\"" + getSetting("Emote", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Symbol" + "\"" + "," + "\"" + getSetting("Symbol", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SilentJoin" + "\"" + "," + "\"" + getSetting("SilentJoin", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowerCheck" + "\"" + "," + "\"" + getSetting("FollowerCheck", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "Quotes" + "\"" + "," + "\"" + getSetting("Quotes", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxSymbols" + "\"" + "," + "\"" + getSetting("MaxSymbols", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MaxEmotes" + "\"" + "," + "\"" + getSetting("MaxEmotes", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "GiftSubAlerts" + "\"" + "," + "\"" + getSetting("GiftSubAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "HostingAlerts" + "\"" + "," + "\"" + getSetting("HostingAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelID) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelID) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(twitch_channel_id, setting, value) VALUES (" + "\"" + channelID + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelID) + "\"" + ")");
+		} else if (platform == PlatformType.MIXER) {
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LinkWarning" + "\"" + "," + "\"" + getSetting("LinkWarning", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LanguageWarning" + "\"" + "," + "\"" + getSetting("LanguageWarning", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowerMessage" + "\"" + "," + "\"" + getSetting("FollowerMessage", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SymbolWarning" + "\"" + "," + "\"" + getSetting("SymbolWarning", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementsDelay" + "\"" + "," + "\"" + getSetting("AnnouncementsDelay", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "GiveawayDelay" + "\"" + "," + "\"" + getSetting("GiveawayDelay", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "StartingPoints" + "\"" + "," + "\"" + getSetting("StartingPoints", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AutoPointsDelay" + "\"" + "," + "\"" + getSetting("AutoPointsDelay", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "EmoteWarning" + "\"" + "," + "\"" + getSetting("EmoteWarning", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Commands" + "\"" + "," + "\"" + getSetting("Commands", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Games" + "\"" + "," + "\"" + getSetting("Games", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Ranks" + "\"" + "," + "\"" + getSetting("Ranks", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Points" + "\"" + "," + "\"" + getSetting("Points", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Announcements" + "\"" + "," + "\"" + getSetting("Announcements", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Badwords" + "\"" + "," + "\"" + getSetting("Badwords", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "LinkChecker" + "\"" + "," + "\"" + getSetting("LinkChecker", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Emote" + "\"" + "," + "\"" + getSetting("Emote", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Symbol" + "\"" + "," + "\"" + getSetting("Symbol", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SilentJoin" + "\"" + "," + "\"" + getSetting("SilentJoin", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowerCheck" + "\"" + "," + "\"" + getSetting("FollowerCheck", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "Quotes" + "\"" + "," + "\"" + getSetting("Quotes", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MaxSymbols" + "\"" + "," + "\"" + getSetting("MaxSymbols", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MaxEmotes" + "\"" + "," + "\"" + getSetting("MaxEmotes", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MsgWhenCommandDoesntExist" + "\"" + "," + "\"" + getSetting("MsgWhenCommandDoesntExist", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MsgWhenCommandCantBeUsed" + "\"" + "," + "\"" + getSetting("MsgWhenCommandCantBeUsed", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage1" + "\"" + "," + "\"" + getSetting("AnnouncementMessage1", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage2" + "\"" + "," + "\"" + getSetting("AnnouncementMessage2", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage3" + "\"" + "," + "\"" + getSetting("AnnouncementMessage3", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage4" + "\"" + "," + "\"" + getSetting("AnnouncementMessage4", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementMessage5" + "\"" + "," + "\"" + getSetting("AnnouncementMessage5", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "CommandsCooldownAmount" + "\"" + "," + "\"" + getSetting("CommandsCooldownAmount", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SelectedTimeZone" + "\"" + "," + "\"" + getSetting("SelectedTimeZone", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "SubAlerts" + "\"" + "," + "\"" + getSetting("SubAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "ResubAlerts" + "\"" + "," + "\"" + getSetting("ResubAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "GiftSubAlerts" + "\"" + "," + "\"" + getSetting("GiftSubAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "HostingAlerts" + "\"" + "," + "\"" + getSetting("HostingAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "RaidAlerts" + "\"" + "," + "\"" + getSetting("RaidAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "BitsAlerts" + "\"" + "," + "\"" + getSetting("BitsAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "FollowAlerts" + "\"" + "," + "\"" + getSetting("FollowAlerts", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate(
+					"INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AnnouncementsWhenOffline" + "\"" + "," + "\"" + getSetting("AnnouncementsWhenOffline", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "TwitchChatLink" + "\"" + "," + "\"" + getSetting("TwitchChatLink", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "MixerChatLink" + "\"" + "," + "\"" + getSetting("MixerChatLink", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "DiscordEnabled" + "\"" + "," + "\"" + getSetting("DiscordEnabled", channelMixer) + "\"" + ")");
+			MySQLConnection.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "DiscordChatLink" + "\"" + "," + "\"" + getSetting("DiscordChatLink", channelMixer) + "\"" + ")");
+			MySQLConnection
+					.executeUpdate("INSERT INTO config(mixer_channel, setting, value) VALUES (" + "\"" + channelMixer + "\"" + "," + "\"" + "AutoPointsWhenOffline" + "\"" + "," + "\"" + getSetting("AutoPointsWhenOffline", channelMixer) + "\"" + ")");
+		}
 	}
 }

@@ -94,7 +94,7 @@ public class PermissionsManager {
 			return true;
 		return false;
 	}
-	
+
 	public static boolean hasPermission(Object bot, BotType type, String user, PermissionLevel permission) {
 		return hasPermission(bot, type, user, permission.getName());
 	}

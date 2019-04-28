@@ -8,8 +8,8 @@ import java.util.Locale;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
 import com.mjr.mjrbot.MJRBot.StorageType;
-import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 

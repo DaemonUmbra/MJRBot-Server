@@ -45,27 +45,27 @@ public class ConsoleCommandManager {
 		commands.put("gmsg", new GlobalMessageCommand());
 		commands.put("gmsgupdate", new GlobalUpdateBotCommand());
 		commands.put("version", new VersionCommand());
-		
+
 		commands.put("channels", new ChannelListCommand());
 		commands.put("channel info", new ChannelInfoCommand());
 		commands.put("channel disconnect", new ChannelDisconnectCommand());
 		commands.put("channel disconnectall", new ChannelsDisconnectAllCommand());
 		commands.put("channel reconnect", new ChannelReconnectCommand());
 		commands.put("channel reconnectall", new ChannelsReconnectAllCommand());
-		
+
 		commands.put("discord disconnect", new DiscordBotDisconnectCommand());
 		commands.put("discord reconnect", new DiscordBotReconnectCommand());
 		commands.put("discord connect", new DiscordBotConnectCommand());
 		commands.put("discord info", new DiscordBotInfoCommand());
-		
+
 		commands.put("toggle output", new OutputMessagesCommand());
 		commands.put("toggle depoutput", new OutputDependencyMessagesCommand());
 		commands.put("sync analytics", new SyncAnalyticsCommand());
 		commands.put("exit", new ExitProcessCommand());
-		
+
 		commands.put("info", new InfoCommand());
 		commands.put("threads", new InfoThreadCommand());
-		
+
 		commands.put("db info", new DatabaseInfoCommand());
 		commands.put("db reconnect", new DatabaseReconnectCommand());
 	}

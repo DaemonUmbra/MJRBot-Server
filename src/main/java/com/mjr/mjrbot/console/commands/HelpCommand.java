@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.mjr.mjrbot.console.IConsoleCommand;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
+import com.mjr.mjrbot.console.IConsoleCommand;
 
 public class HelpCommand implements IConsoleCommand {
 

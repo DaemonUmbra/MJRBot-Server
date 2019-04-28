@@ -52,7 +52,7 @@ public class TwitchMixerAPICalls {
 	public static String twitchGetUserIDFromChannelNameAPI(String channelName) {
 		return "https://api.twitch.tv/kraken/users?login=" + channelName + "&client_id=" + MJRBot.CLIENT_ID_Twitch + "&api_version=5";
 	}
-	
+
 	public static String twitchGetUserChattersAPI(String channelID) {
 		return "https://tmi.twitch.tv/group/user/" + channelID + "/chatters";
 	}
@@ -62,7 +62,7 @@ public class TwitchMixerAPICalls {
 	public static String mixerGetChannelsAPI(String channelName) { // TODO: Change to use channel id
 		return "https://mixer.com/api/v1/channels/" + channelName;
 	}
-	
+
 	public static String mixerGetUsersAPI() { // TODO: Change to use channel id
 		return "https://mixer.com/api/v1/users/current/";
 	}
@@ -70,7 +70,7 @@ public class TwitchMixerAPICalls {
 	public static String mixerCheckFollow(int channel_id, int userId) {
 		return "https://mixer.com/api/v1/channels/" + channel_id + "/relationship?user=" + userId;
 	}
-	
+
 	public static String mixerGetoAuth2TokenAPI(String refreshToken, String clientSecret) {
 		return "https://mixer.com/api/v1//oauth/token?client_id=" + MJRBot.CLIENT_ID_Mixer + "&grant_type=refresh_token&refresh_token=" + refreshToken + "&client_secret=" + clientSecret;
 	}
