@@ -23,6 +23,7 @@ import com.mjr.mjrbot.storage.RankSystemManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.storage.sql.SQLUtilities;
 import com.mjr.mjrbot.threads.ChannelListUpdateThread;
+import com.mjr.mjrbot.threads.OAuthTokenRefreshThread;
 import com.mjr.mjrbot.threads.UpdateAnalyticsThread;
 import com.mjr.mjrbot.threads.UserCooldownTickThread;
 import com.mjr.mjrbot.util.ConsoleUtil;
@@ -35,7 +36,8 @@ import ch.qos.logback.classic.LoggerContext;
 public class MJRBot {
 
 	public static final String VERSION = "1.9.6, Server Edition";
-	public static final String CLIENT_ID = "it37a0q1pxypsijpd94h6rdhiq3j08";
+	public static final String CLIENT_ID_Twitch = "it37a0q1pxypsijpd94h6rdhiq3j08";
+	public static final String CLIENT_ID_Mixer = "fbf34c710f06d5f83aaa257f537f349ca44e7edeaa4b2111";
 
 	public static String filePath;
 	private static Logger logger = LogManager.getLogger();
@@ -45,6 +47,7 @@ public class MJRBot {
 	public static UserCooldownTickThread userCooldownTickThread;
 	public static UpdateAnalyticsThread updateAnalyticsThread;
 	public static ChannelListUpdateThread updateThread;
+	public static OAuthTokenRefreshThread oauthtokenRefreshThread;
 	private static DiscordBot discordBot = null;
 
 	// Manual Mode
@@ -228,6 +231,9 @@ public class MJRBot {
 
 		updateThread = new ChannelListUpdateThread();
 		updateThread.start();
+
+		oauthtokenRefreshThread = new OAuthTokenRefreshThread();
+		oauthtokenRefreshThread.start();
 	}
 
 	public static Logger getLogger() {
