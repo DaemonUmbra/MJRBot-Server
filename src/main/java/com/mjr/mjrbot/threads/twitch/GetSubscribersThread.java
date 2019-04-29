@@ -77,29 +77,27 @@ public class GetSubscribersThread extends Thread {
 
 	public String getList(String urlLink) {
 		String result = "";
-		boolean refreshToken = false;
-		boolean skip = false;
+		boolean skipDoWhile = false;
 		do {
 			try {
-				if (refreshToken)
-					OAuthManager.refreshTokenTwitch(5, bot);
 				result = HTTPConnect.getRequest(urlLink);
 				return result;
 			} catch (IOException e) {
-				if (e.getMessage().contains("401") || e.getMessage().contains("403")) {
-					refreshToken = true;
-				} else if (e.getMessage().contains("400")) {
-					skip = true;
+				if (e.getMessage().contains("401") || e.getMessage().contains("403")) { // Token invalid/expired
+					OAuthManager.refreshTokenTwitch(5, bot);
+				} else if (e.getMessage().contains("400")) { // Bad Request/No subscribers found
+					skipDoWhile = true;
 					ConsoleUtil.textToConsole(bot, BotType.Twitch, "No subscribers due to does not have a subscription program", MessageType.ChatBot, null);
 				} else
 					MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
+
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e1) {
 					MJRBotUtilities.logErrorMessage(e, BotType.Twitch, bot);
 				}
 			}
-		} while (result.equals("") && skip == false);
+		} while (result.equals("") && skipDoWhile == false);
 		return null;
 	}
 

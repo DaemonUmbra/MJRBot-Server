@@ -499,7 +499,7 @@ public class TwitchBot extends PircBot {
 		String newChannel = "";
 		try {
 			ResultSet set = MySQLConnection.executeQuery("SELECT * FROM tokens WHERE channel_id = '" + bot.getChannelID() + "' AND platform = 'Twitch'", false);
-			if (set != null && set.next()) {
+			if (set.next() && set.getString("access_token") != null && set.getString("access_token") != "") {
 				String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserAPI(set.getString("access_token")));
 				newChannel = result.substring(result.indexOf("name") + 7);
 				newChannel = newChannel.substring(0, newChannel.indexOf(",") - 1).toLowerCase();
@@ -509,8 +509,10 @@ public class TwitchBot extends PircBot {
 		} catch (Exception e) {
 			if (!e.getMessage().contains("401"))
 				MJRBotUtilities.logErrorMessage(e);
-			else
+			else {
 				MJRBotUtilities.logErrorMessage("Unable to check for new channel username for " + bot.getChannelName() + " due to invalid oauth token!");
+				OAuthManager.refreshTokenTwitch(5, bot);
+			}
 		}
 		return new BoolStringPair(newChannel, false);
 	}
