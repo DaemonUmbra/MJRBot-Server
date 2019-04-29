@@ -54,4 +54,22 @@ public class HTTPConnect {
 		reader.close();
 		return result;
 	}
+	
+	public static String postRequestCustomHeaders(String urlString, HashMap<String, String> headers) throws IOException {
+		String result = "";
+		URL url = new URL(urlString);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("POST");
+		for (String key : headers.keySet()) {
+			String value = headers.get(key);
+			connection.setRequestProperty(key, value);
+		}
+		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			result += line;
+		}
+		reader.close();
+		return result;
+	}
 }
