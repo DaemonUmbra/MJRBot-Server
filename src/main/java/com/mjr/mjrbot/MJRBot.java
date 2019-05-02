@@ -35,7 +35,7 @@ import ch.qos.logback.classic.LoggerContext;
 
 public class MJRBot {
 
-	public static final String VERSION = "1.9.6, Server Edition";
+	public static final String VERSION = "1.9.7, Server Edition";
 	public static final String CLIENT_ID_Twitch = "it37a0q1pxypsijpd94h6rdhiq3j08";
 	public static final String CLIENT_ID_Mixer = "fbf34c710f06d5f83aaa257f537f349ca44e7edeaa4b2111";
 
