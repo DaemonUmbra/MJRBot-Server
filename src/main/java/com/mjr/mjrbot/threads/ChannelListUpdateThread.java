@@ -2,6 +2,7 @@ package com.mjr.mjrbot.threads;
 
 import java.util.HashMap;
 
+import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
@@ -85,6 +86,18 @@ public class ChannelListUpdateThread extends Thread {
 					BoolStringPair output = TwitchBot.checkforUsernameChange(bot);
 					if (output.getValueBoolean())
 						TwitchBot.performUsernameChange(bot, output.getValueString());
+				}
+				
+				// Check for disconnected mixer channels that need reconnected
+				for (MixerBot channel : ChatBotManager.getMixerBots().values()) {
+					if(channel.isChatConnectionClosed()) {
+						MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + channel.getChannelName() + " has triggered a onDisconnect event for Chat. Trying to reconnect!");
+						channel.reconnectChat();
+					}
+					if(channel.isConstellationConnectionClosed()) {
+						MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + channel.getChannelName() + " has triggered a onDisconnect event for Constellation. Trying to reconnect!");
+						channel.reconnectConstellation();
+					}
 				}
 
 				try {
