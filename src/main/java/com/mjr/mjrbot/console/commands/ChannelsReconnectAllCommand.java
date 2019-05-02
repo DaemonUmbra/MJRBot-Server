@@ -1,25 +1,32 @@
 package com.mjr.mjrbot.console.commands;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.console.IConsoleCommand;
+import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class ChannelsReconnectAllCommand implements IConsoleCommand {
 
 	@Override
 	public void onCommand(String message, String[] args) {
-		Collection<TwitchBot> botsTwitch = ChatBotManager.getTwitchBots().values();
-		Collection<MixerBot> botsMixer = ChatBotManager.getMixerBots().values();
-		for (TwitchBot bot : botsTwitch) {
+		try {
+		List<TwitchBot> twitchBotRemove = new ArrayList<TwitchBot>();
+		List<MixerBot> mixerBotRemove = new ArrayList<MixerBot>();
+		twitchBotRemove.addAll(ChatBotManager.getTwitchBots().values());
+		mixerBotRemove.addAll(ChatBotManager.getMixerBots().values());
+		for (TwitchBot bot : twitchBotRemove) {
 			bot.disconnectTwitch();
-			ChatBotManager.removeTwitchBot(bot);
 		}
-		for (MixerBot bot : botsMixer) {
+		for (MixerBot bot : mixerBotRemove) {
 			bot.disconnectMixer();
 			ChatBotManager.removeMixerBot(bot);
+		}
+		}catch(Exception e) {
+			MJRBotUtilities.logErrorMessage("Error when trying to reconnect all channels", e);
 		}
 	}
 
