@@ -203,7 +203,7 @@ public class MixerBot extends MJR_MixerBot {
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
-		this.disconnect();
+		this.disconnectAll();
 		ConsoleUtil.textToConsole(this, BotType.Mixer, "Left " + this.channelName + " channel", MessageType.ChatBot, null);
 		data = new MixerData();
 	}
