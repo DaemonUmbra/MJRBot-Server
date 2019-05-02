@@ -286,7 +286,7 @@ public class TwitchBot extends PircBot {
 
 	@Override
 	protected void onDisconnect() {
-		MJRBot.getDiscordBot().sendAdminEventMessage(this.getChannelName() + " has triggered a onDisconnect event!");
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + this.getChannelName() + " has triggered a onDisconnect event. Trying to reconnect!");
 		if (this.connected != false) {
 			disconnectTwitch();
 		}
