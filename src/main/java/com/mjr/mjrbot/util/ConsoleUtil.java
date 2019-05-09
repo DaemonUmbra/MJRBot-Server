@@ -184,43 +184,43 @@ public class ConsoleUtil {
 		ConsoleUtil.lastChatMessages = lastChatMessages;
 	}
 
-	public static void addLastChatMessages(Date date, String message) {
+	private static void addLastChatMessages(Date date, String message) {
 		lastChatMessages.put(date, message);
 	}
 
-	public static TreeMap<Date, String> getLastChatBotMessages() {
+	private static TreeMap<Date, String> getLastChatBotMessages() {
 		return lastChatBotMessages;
 	}
 
-	public static void setLastChatBotMessages(TreeMap<Date, String> lastChatBotMessages) {
+	private static void setLastChatBotMessages(TreeMap<Date, String> lastChatBotMessages) {
 		ConsoleUtil.lastChatBotMessages = lastChatBotMessages;
 	}
 
-	public static void addLastChatBotMessages(Date date, String message) {
+	private static void addLastChatBotMessages(Date date, String message) {
 		lastChatBotMessages.put(date, message);
 	}
 
-	public static TreeMap<Date, String> getLastBotMessages() {
+	private static TreeMap<Date, String> getLastBotMessages() {
 		return lastBotMessages;
 	}
 
-	public static void setLastBotMessages(TreeMap<Date, String> lastBotMessages) {
+	private static void setLastBotMessages(TreeMap<Date, String> lastBotMessages) {
 		ConsoleUtil.lastBotMessages = lastBotMessages;
 	}
 
-	public static void addLastBotMessages(Date date, String message) {
+	private static void addLastBotMessages(Date date, String message) {
 		lastBotMessages.put(date, message);
 	}
 
-	public static TreeMap<Date, String> getLastErrorMessages() {
+	private static TreeMap<Date, String> getLastErrorMessages() {
 		return lastErrorMessages;
 	}
 
-	public static void setLastErrorMessages(TreeMap<Date, String> lastErrorMessages) {
+	private static void setLastErrorMessages(TreeMap<Date, String> lastErrorMessages) {
 		ConsoleUtil.lastErrorMessages = lastErrorMessages;
 	}
 
-	public static void addLastErrorMessages(Date date, String message) {
+	private static void addLastErrorMessages(Date date, String message) {
 		lastErrorMessages.put(date, message);
 	}
 }
