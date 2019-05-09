@@ -241,7 +241,8 @@ public class MixerBot extends MJR_MixerBot {
 		if (!this.getMixerData().usersCooldowns.containsKey(user.toLowerCase())) {
 			this.getMixerData().usersCooldowns.put(user.toLowerCase(), 0);
 		}
-		EventLogManager.addEvent(BotType.Mixer, this, user, "Joined the channel", EventType.User);
+		if (!this.getViewers().contains(user.toLowerCase()))
+			EventLogManager.addEvent(BotType.Mixer, this, user, "Joined the channel", EventType.User);
 		if (!this.getMixerData().viewersJoinedTimes.containsKey(user.toLowerCase()))
 			this.getMixerData().viewersJoinedTimes.put(user.toLowerCase(), System.currentTimeMillis());
 	}
