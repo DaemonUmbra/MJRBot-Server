@@ -27,17 +27,20 @@ public class BotConfigManager {
 			properties.store(new FileOutputStream(file), null);
 			setSetting("TwitchUsername", "");
 			setSetting("TwitchPassword", "");
-			setSetting("MixerClientID", "");
+			setSetting("TwitchVerboseMessages", "false");
+			setSetting("TwitchClientSecret", "");
+			
 			setSetting("MixerUsername/BotName", "");
-			setSetting("MMixerAuthCode", "");
+			setSetting("MixerAuthCode", "");
+
 			setSetting("DatabaseIPAddress", "");
 			setSetting("DatabaseDatabaseName", "");
 			setSetting("DatabasePort", "");
 			setSetting("DatabaseUsername", "");
 			setSetting("DatabasePassword", "");
+			
 			setSetting("UpdateChannelFromDatabaseTime(Seconds)", "30");
-			setSetting("TwitchVerboseMessages", "false");
-			setSetting("TwitchClientSecret", "");
+
 			setSetting("DiscordToken", "");
 			setSetting("PUBGToken", "");
 		}
