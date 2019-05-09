@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mjrbot.MJRBot</groupId>
   <artifactId>MJRBot-Server</artifactId>
-  <version>1.9.1</version>
+  <version>1.9.7</version>
   <build>
     <resources>
       <resource>
@@ -19,7 +19,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>com.mjr.MJRBot</mainClass>
+              <mainClass>com.mjr.mjrbot.MJRBot</mainClass>
             </manifest>
           </archive>
           <encoding>UTF-8</encoding>
