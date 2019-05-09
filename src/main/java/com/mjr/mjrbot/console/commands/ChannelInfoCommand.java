@@ -24,7 +24,7 @@ public class ChannelInfoCommand implements IConsoleCommand {
 					System.out.println("Invalid channel name");
 					return;
 				}
-				sendInfo("Mixer", mixerBot.getChannelName(), mixerBot.getViewers().size(), mixerBot.getMixerData().getSubscribers().size(), mixerBot.getModerators().size(), 0, mixerBot.isChatConnectionClosed(), mixerBot.isConstellationConnectionClosed());
+				sendInfo("Mixer", mixerBot.getChannelName(), mixerBot.getViewers().size(), mixerBot.getMixerData().getSubscribers().size(), mixerBot.getModerators().size(), 0, !mixerBot.isChatConnectionClosed(), !mixerBot.isConstellationConnectionClosed());
 			} else
 				System.out.println("Invalid platform, Use Twitch or Mixer");
 		} else
