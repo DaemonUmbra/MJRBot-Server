@@ -23,11 +23,19 @@ public class OAuthManager {
 				ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel_id = '" + bot.getChannelID() + "'");
 				if (tokenSet.next() && tokenSet.getString("refresh_token") != null && tokenSet.getString("refresh_token") != "") {
 					String result = HTTPConnect.postRequest(TwitchMixerAPICalls.twitchGetoAuth2TokenAPI(tokenSet.getString("refresh_token"), BotConfigManager.getSetting("TwitchClientSecret")));
-					String access_token = result.substring(result.indexOf("access_token") + 16);
+					String access_token = result.substring(result.indexOf("access_token") + 15);
 					access_token = access_token.substring(0, access_token.indexOf(",") - 1);
 					String refresh_token = result.substring(result.indexOf("refresh_token") + 16);
 					refresh_token = refresh_token.substring(0, refresh_token.indexOf(",") - 1);
-					MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "'WHERE channel_id='" + bot.getChannelID() + "';"); // TODO Add expires_in
+					if (access_token.length() == 30) {
+						if (refresh_token.length() == 50) {
+							MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "'WHERE channel_id='" + bot.getChannelID() + "';"); // TODO Add expires_in
+						}
+						else
+							MJRBotUtilities.logErrorMessage("Invalid length for Refresh Token for Twitch channel " + bot.getChannelName());
+					}
+					else
+						MJRBotUtilities.logErrorMessage("Invalid length for Access Token for Twitch channel " + bot.getChannelName());
 					return;
 				}
 			} catch (SQLException | IOException e) {
@@ -47,13 +55,21 @@ public class OAuthManager {
 				ResultSet tokenSet = MySQLConnection.executeQuery("SELECT refresh_token FROM tokens WHERE channel = '" + bot.getChannelName() + "'");
 				if (tokenSet.next() && tokenSet.getString("refresh_token") != null && tokenSet.getString("refresh_token") != "") {
 					String result = HTTPConnect.postRequest(TwitchMixerAPICalls.mixerGetoAuth2TokenAPI(tokenSet.getString("refresh_token"), BotConfigManager.getSetting("TwitchClientSecret")));
-					String access_token = result.substring(result.indexOf("access_token") + 16);
+					String access_token = result.substring(result.indexOf("access_token") + 15);
 					access_token = access_token.substring(0, access_token.indexOf(",") - 1);
 					String refresh_token = result.substring(result.indexOf("refresh_token") + 16);
 					refresh_token = refresh_token.substring(0, refresh_token.indexOf(",") - 1);
 					String expires_in = result.substring(result.indexOf("expires_in") + 13);
-					expires_in = expires_in.substring(0, expires_in.indexOf(",") - 1);
-					MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "', expires_in='" + expires_in + "'WHERE channel='" + bot.getChannelName() + "' AND platform = 'Mixer';");
+					expires_in = expires_in.substring(0, expires_in.indexOf(","));
+					if (access_token.length() == 64) {
+						if (refresh_token.length() == 64) {
+							MySQLConnection.executeUpdate("UPDATE tokens SET access_token='" + access_token + "', refresh_token='" + refresh_token + "', expires_in='" + expires_in + "'WHERE channel='" + bot.getChannelName() + "' AND platform = 'Mixer';");
+						}
+						else
+							MJRBotUtilities.logErrorMessage("Invalid length for Refresh Token for Twitch channel " + bot.getChannelName());
+					}
+					else
+						MJRBotUtilities.logErrorMessage("Invalid length for Access Token for Twitch channel " + bot.getChannelName());
 					return;
 				}
 			} catch (SQLException | IOException e) {
