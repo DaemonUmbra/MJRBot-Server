@@ -21,6 +21,8 @@ import com.mjr.mjrbot.console.commands.DiscordBotInfoCommand;
 import com.mjr.mjrbot.console.commands.DiscordBotReconnectCommand;
 import com.mjr.mjrbot.console.commands.ExitProcessCommand;
 import com.mjr.mjrbot.console.commands.GlobalMessageCommand;
+import com.mjr.mjrbot.console.commands.GlobalOnlineDownBotCommand;
+import com.mjr.mjrbot.console.commands.GlobalTempDownBotCommand;
 import com.mjr.mjrbot.console.commands.GlobalUpdateBotCommand;
 import com.mjr.mjrbot.console.commands.HelpCommand;
 import com.mjr.mjrbot.console.commands.InfoCommand;
@@ -45,6 +47,8 @@ public class ConsoleCommandManager {
 		commands.put("mirgrate", new MirgrateCommand());
 		commands.put("gmsg", new GlobalMessageCommand());
 		commands.put("gmsgupdate", new GlobalUpdateBotCommand());
+		commands.put("gmsgdown", new GlobalTempDownBotCommand());
+		commands.put("gmsgonline", new GlobalOnlineDownBotCommand());
 		commands.put("version", new VersionCommand());
 
 		commands.put("channels", new ChannelListCommand());
