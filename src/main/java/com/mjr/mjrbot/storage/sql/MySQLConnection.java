@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 
 public class MySQLConnection {
 
 	private static Connection connection;
 	private static boolean connected = false;
+	public static boolean showDebug = false;
 
 	public static void connect(String ipAddress, int port, String databaseName, String user, String password) {
 		connected = false;
@@ -88,6 +90,7 @@ public class MySQLConnection {
 				Statement myStmt;
 				try {
 					myStmt = getConnection().createStatement();
+					if(showDebug) ConsoleUtil.textToConsole("Attempting Query: " + statement);
 					ResultSet myRs = myStmt.executeQuery(statement);
 					return myRs;
 				} catch (SQLException e) {
@@ -112,6 +115,7 @@ public class MySQLConnection {
 				Statement myStmt;
 				try {
 					myStmt = getConnection().createStatement();
+					if(showDebug) ConsoleUtil.textToConsole("Attempting Query: " + statement);
 					myStmt.executeUpdate(statement);
 					myStmt.close();
 				} catch (SQLException e) {

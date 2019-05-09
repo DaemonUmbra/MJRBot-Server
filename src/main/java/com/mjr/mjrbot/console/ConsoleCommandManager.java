@@ -12,6 +12,7 @@ import com.mjr.mjrbot.console.commands.ChannelReconnectCommand;
 import com.mjr.mjrbot.console.commands.ChannelsDisconnectAllCommand;
 import com.mjr.mjrbot.console.commands.ChannelsReconnectAllCommand;
 import com.mjr.mjrbot.console.commands.ConnectCommand;
+import com.mjr.mjrbot.console.commands.DatabaseDebugCommand;
 import com.mjr.mjrbot.console.commands.DatabaseInfoCommand;
 import com.mjr.mjrbot.console.commands.DatabaseReconnectCommand;
 import com.mjr.mjrbot.console.commands.DiscordBotConnectCommand;
@@ -68,6 +69,7 @@ public class ConsoleCommandManager {
 
 		commands.put("db info", new DatabaseInfoCommand());
 		commands.put("db reconnect", new DatabaseReconnectCommand());
+		commands.put("db debug", new DatabaseDebugCommand());
 	}
 
 	public static void onCommand(String message) {
