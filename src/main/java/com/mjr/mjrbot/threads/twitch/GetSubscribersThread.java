@@ -18,7 +18,7 @@ public class GetSubscribersThread extends Thread {
 	private TwitchBot bot;
 
 	public GetSubscribersThread(TwitchBot bot) {
-		super("GetSubscribersThread for" + bot.getChannelName());
+		super("GetSubscribersThread for Twitch" + "|" + bot.getChannelName());
 		this.bot = bot;
 	}
 

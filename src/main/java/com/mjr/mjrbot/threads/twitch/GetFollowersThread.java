@@ -12,7 +12,7 @@ public class GetFollowersThread extends Thread {
 	private TwitchBot bot;
 
 	public GetFollowersThread(TwitchBot bot) {
-		super("GetFollowersThread for" + bot.getChannelName());
+		super("GetFollowersThread for Twitch" + "|" + bot.getChannelName());
 		this.bot = bot;
 	}
 

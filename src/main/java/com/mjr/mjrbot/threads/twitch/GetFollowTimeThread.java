@@ -19,7 +19,7 @@ public class GetFollowTimeThread extends Thread {
 	private String user;
 
 	public GetFollowTimeThread(TwitchBot bot, String user) {
-		super("GetFollowTimeThread for" + bot.getChannelName());
+		super("GetFollowTimeThread for Twitch" + "|" + bot.getChannelName());
 		this.bot = bot;
 		this.user = user;
 	}
