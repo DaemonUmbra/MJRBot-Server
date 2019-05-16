@@ -15,7 +15,7 @@ public class PermissionsManager {
 	public static List<String> knownBots = new ArrayList<String>(Arrays.asList("nightbot", "pretzelrocks", "streamelements", "moobot", "xanbot"));
 
 	public enum PermissionLevel {
-		User("User", 0), Follower("Follower", 1), VIP("VIP", 2), Subscriber("Subscriber", 3), Moderator("Moderator", 4), Streamer("Streamer", 5), KnownBot("KnownBot", 6), Bot("Bot", 7), BotOwner("BotOwner", 7);
+		User("User", 0), Follower("Follower", 1), VIP("VIP", 2), Subscriber("Subscriber", 3), Moderator("Moderator", 4), Streamer("Streamer", 5), KnownBot("KnownBot", 6), Bot("Bot", 7), BotOwner("BotOwner", 8);
 
 		private final String permission;
 		private final int tierValue;
