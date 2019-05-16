@@ -43,9 +43,8 @@ public class CrossChatLink {
 					channelName = channel;
 				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channel_cross_link WHERE mixer_channel = '" + channelName + "'");
 				int channelID = set.next() ? set.getInt("twitch_channel_id") : 0;
-				if (channelID == 0)
-					return;
-				MJRBotUtilities.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
+				if (channelID != 0)
+					MJRBotUtilities.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
 			}
 			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", BotType.Twitch, type == BotType.Discord ? ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(channel)) : bot).equalsIgnoreCase("true")) {
 				int channelID = 0;
@@ -55,9 +54,8 @@ public class CrossChatLink {
 					channelID = TwitchBot.getChannelIDFromChannelName(channel);
 				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channel_cross_link WHERE twitch_channel_id = '" + channelID + "'");
 				String targetChannel = set.next() ? set.getString("mixer_channel") : "";
-				if (targetChannel == "")
-					return;
-				MJRBotUtilities.sendMessage(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(targetChannel), platformPrefex + senderPrefex + message);
+				if (targetChannel != "")
+					MJRBotUtilities.sendMessage(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(targetChannel), platformPrefex + senderPrefex + message);
 			}
 			if (discord && ChannelConfigManager.getSetting("DiscordChatLink", type, bot).equalsIgnoreCase("true") && type != BotType.Discord) {
 				if (MJRBot.connectionType == ConnectionType.Database) {
