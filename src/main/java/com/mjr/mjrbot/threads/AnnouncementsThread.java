@@ -1,5 +1,8 @@
 package com.mjr.mjrbot.threads;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -42,13 +45,15 @@ public class AnnouncementsThread extends Thread {
 								MJRBotUtilities.logErrorMessage(e);
 							}
 							String message = "";
-							int count = 0;
-							do {
-								message = ChannelConfigManager.getSetting("AnnouncementMessage" + MJRBotUtilities.getRandom(1, 5), type, bot);
-								count = count++;
-							} while (message == "" && count < 10);
-							if (message != "")
-								MJRBotUtilities.sendMessage(type, bot, message);
+
+							List<String> validMessages = new ArrayList<String>();
+							for (int i = 1; i < 6; i++) {
+								message = ChannelConfigManager.getSetting("AnnouncementMessage" + i, type, bot);
+								if (message != null && message != "")
+									validMessages.add(message);
+							}
+							if (validMessages.size() != 0)
+								MJRBotUtilities.sendMessage(type, bot, validMessages.get(MJRBotUtilities.getRandom(0, validMessages.size())));
 						}
 					}
 				}
