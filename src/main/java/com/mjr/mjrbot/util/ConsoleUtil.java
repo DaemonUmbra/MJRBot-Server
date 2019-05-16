@@ -26,6 +26,8 @@ public class ConsoleUtil {
 	private static boolean showChatBotMessages = true;
 	private static boolean showBotMessages = true;
 	private static boolean showErrorMessages = true;
+	
+	private static final int SORTED_MESSAGES_LIMIT = 10;
 
 	public enum MessageType {
 		Chat("Chat"), ChatBot("ChatBot"), Bot("Bot"), Error("Error");
@@ -47,25 +49,25 @@ public class ConsoleUtil {
 
 	public static void outputMessage(MessageType type, String message) {
 		if (type == MessageType.Chat) {
-			if (lastChatMessages.size() != 0)
+			if (lastChatMessages.size() == SORTED_MESSAGES_LIMIT)
 				lastChatMessages.remove(lastChatMessages.firstKey());
 			lastChatMessages.put(Date.from(Instant.now()), message);
 			if (showChatMessages)
 				System.out.println(message);
 		} else if (type == MessageType.ChatBot) {
-			if (lastChatBotMessages.size() != 0)
+			if (lastChatBotMessages.size() == SORTED_MESSAGES_LIMIT)
 				lastChatBotMessages.remove(lastChatBotMessages.firstKey());
 			lastChatBotMessages.put(Date.from(Instant.now()), message);
 			if (showChatBotMessages)
 				System.out.println(message);
 		} else if (type == MessageType.Bot) {
-			if (lastBotMessages.size() != 0)
+			if (lastBotMessages.size() == SORTED_MESSAGES_LIMIT)
 				lastBotMessages.remove(lastBotMessages.firstKey());
 			lastBotMessages.put(Date.from(Instant.now()), message);
 			if (showBotMessages)
 				System.out.println(message);
 		} else if (type == MessageType.Error) {
-			if (lastErrorMessages.size() != 0)
+			if (lastErrorMessages.size() == SORTED_MESSAGES_LIMIT)
 				lastErrorMessages.remove(lastErrorMessages.firstKey());
 			lastErrorMessages.put(Date.from(Instant.now()), message);
 			if (showErrorMessages)
@@ -87,6 +89,7 @@ public class ConsoleUtil {
 	}
 
 	public static void refreshConsoleMessages() {
+		clearConsole();
 		TreeMap<Date, String> temp = new TreeMap<Date, String>();
 		if (showChatMessages) {
 			temp.putAll(lastChatMessages);
