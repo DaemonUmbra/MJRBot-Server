@@ -23,8 +23,8 @@ public class AutoPointsThread extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
+		while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
+			try {
 				if (ChannelConfigManager.getSetting("Points", type, bot).equalsIgnoreCase("true")) {
 					int delay = Integer.parseInt(ChannelConfigManager.getSetting("AutoPointsDelay", type, bot));
 					if (delay != 0) {
@@ -81,9 +81,9 @@ public class AutoPointsThread extends Thread {
 				} catch (InterruptedException e) {
 					MJRBotUtilities.logErrorMessage(e, type, bot);
 				}
+			} catch (Exception e) {
+				MJRBotUtilities.logErrorMessage(e, type, bot);
 			}
-		} catch (Exception e) {
-			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 	}
 }

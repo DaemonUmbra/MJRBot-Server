@@ -24,8 +24,8 @@ public class AnnouncementsThread extends Thread {
 
 	@Override
 	public void run() {
-		try {
-			while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
+		while (type == BotType.Twitch ? ((TwitchBot) bot).isBotConnected() : ((MixerBot) bot).isConnected()) {
+			try {
 				if (ChannelConfigManager.getSetting("Announcements", type, bot).equalsIgnoreCase("true")) {
 					boolean streaming = false;
 					if (type == BotType.Twitch) {
@@ -62,9 +62,9 @@ public class AnnouncementsThread extends Thread {
 				} catch (InterruptedException e) {
 					MJRBotUtilities.logErrorMessage(e, type, bot);
 				}
+			} catch (Exception e) {
+				MJRBotUtilities.logErrorMessage(e, type, bot);
 			}
-		} catch (Exception e) {
-			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 	}
 }
