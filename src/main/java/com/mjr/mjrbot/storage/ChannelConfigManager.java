@@ -10,6 +10,7 @@ import java.util.Properties;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.PlatformType;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
@@ -159,9 +160,9 @@ public class ChannelConfigManager extends FileBase {
 
 	public static String getSetting(String setting, BotType type, Object bot) {
 		if (type == BotType.Twitch)
-			return getSetting(setting, MJRBotUtilities.getChannelIDFromBotType(type, bot), false);
+			return getSetting(setting, ChatBotManager.getChannelIDFromBotType(type, bot), false);
 		else if (type == BotType.Mixer)
-			return getSetting(setting, MJRBotUtilities.getChannelNameFromBotType(type, bot), false);
+			return getSetting(setting, ChatBotManager.getChannelNameFromBotType(type, bot), false);
 		return null;
 	}
 

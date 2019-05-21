@@ -44,7 +44,7 @@ public class CrossChatLink {
 				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channel_cross_link WHERE mixer_channel = '" + channelName + "'");
 				int channelID = set.next() ? set.getInt("twitch_channel_id") : 0;
 				if (channelID != 0)
-					MJRBotUtilities.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
+					ChatBotManager.sendMessage(BotType.Twitch, ChatBotManager.getTwitchBotByChannelID(channelID), platformPrefex + senderPrefex + message);
 			}
 			if (mixer && ChannelConfigManager.getSetting("MixerChatLink", BotType.Twitch, type == BotType.Discord ? ChatBotManager.getTwitchBotByChannelID(TwitchBot.getChannelIDFromChannelName(channel)) : bot).equalsIgnoreCase("true")) {
 				int channelID = 0;
@@ -55,11 +55,11 @@ public class CrossChatLink {
 				ResultSet set = MySQLConnection.executeQuery("SELECT * FROM channel_cross_link WHERE twitch_channel_id = '" + channelID + "'");
 				String targetChannel = set.next() ? set.getString("mixer_channel") : "";
 				if (targetChannel != "")
-					MJRBotUtilities.sendMessage(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(targetChannel), platformPrefex + senderPrefex + message);
+					ChatBotManager.sendMessage(BotType.Mixer, ChatBotManager.getMixerBotByChannelName(targetChannel), platformPrefex + senderPrefex + message);
 			}
 			if (discord && ChannelConfigManager.getSetting("DiscordChatLink", type, bot).equalsIgnoreCase("true") && type != BotType.Discord) {
 				if (MJRBot.connectionType == ConnectionType.Database) {
-					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "'");
+					ResultSet channel_id = MySQLConnection.executeQuery("SELECT cross_link_channel_id FROM discord_info WHERE channel = '" + ChatBotManager.getChannelNameFromBotType(type, bot) + "'");
 					if (channel_id.next()) {
 						if (!channel_id.getString("cross_link_channel_id").equals("")) {
 							Snowflake targetChannel = Snowflake.of(Long.parseLong(channel_id.getString("cross_link_channel_id")));

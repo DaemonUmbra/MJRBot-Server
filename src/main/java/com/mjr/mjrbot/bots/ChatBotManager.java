@@ -117,8 +117,8 @@ public class ChatBotManager {
 	}
 
 	public static void removeTwitchBot(TwitchBot bot) {
-		ConsoleUtil.textToConsole("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot));
+		ConsoleUtil.textToConsole("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + getChannelNameFromBotType(BotType.Twitch, bot));
+		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + BotConfigManager.getSetting("TwitchUsername") + " has been removed from the channel " + getChannelNameFromBotType(BotType.Twitch, bot));
 		twitchBots.remove(bot.getChannelID(), bot);
 	}
 
@@ -152,6 +152,32 @@ public class ChatBotManager {
 		ConsoleUtil.textToConsole("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
 		MJRBot.getDiscordBot().sendAdminEventMessage("[Mixer] " + BotConfigManager.getSetting("MixerUsername/BotName") + " has been removed from the channel " + channelName);
 		mixerBots.remove(channelName, getMixerBotByChannelName(channelName));
+	}
+
+	public static void sendMessage(BotType type, Object bot, String endMessage) {
+		if (type == BotType.Twitch) {
+			TwitchBot botTemp = ChatBotManager.getTwitchBotByChannelID(getChannelIDFromBotType(type, bot));
+			if (botTemp != null)
+				botTemp.sendMessage(endMessage);
+		} else {
+			MixerBot botTemp = ChatBotManager.getMixerBotByChannelName(getChannelNameFromBotType(type, bot));
+			if (botTemp != null)
+				botTemp.sendMessage(endMessage);
+		}
+	}
+
+	public static int getChannelIDFromBotType(BotType type, Object bot) {
+		if (type == BotType.Twitch)
+			return ((TwitchBot) bot).getChannelID();
+		return 0;
+	}
+
+	public static String getChannelNameFromBotType(BotType type, Object bot) {
+		if (type == BotType.Mixer)
+			return ((MixerBot) bot).getChannelName();
+		else if (type == BotType.Twitch)
+			return ((TwitchBot) bot).getChannelName();
+		return "";
 	}
 
 	public static TwitchBot getTwitchBotByChannelID(int channelID) {

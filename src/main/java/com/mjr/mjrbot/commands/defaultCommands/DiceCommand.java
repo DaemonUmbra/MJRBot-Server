@@ -1,5 +1,6 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.games.DiceGame;
@@ -19,13 +20,13 @@ public class DiceCommand implements ICommand {
 						if (multi > 1 && multi < 100)
 							DiceGame.procressTurn(type, bot, sender, Integer.parseInt(args[1]), multi);
 						else
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Multiplier must be between 1.01 & 100!");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " Multiplier must be between 1.01 & 100!");
 					} else
-						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+						ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 				} else
-					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+					ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 			} else
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !dice wager multiplier");
 		}
 	}
 

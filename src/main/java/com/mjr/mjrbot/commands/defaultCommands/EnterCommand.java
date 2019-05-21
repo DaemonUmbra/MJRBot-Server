@@ -1,10 +1,10 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.ICommand;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class EnterCommand implements ICommand {
@@ -22,7 +22,7 @@ public class EnterCommand implements ICommand {
 				if (!mixerBot.getMixerData().giveawayEnteredUsers.contains(sender.toLowerCase()))
 					mixerBot.getMixerData().giveawayEnteredUsers.add(sender.toLowerCase());
 		}
-		MJRBotUtilities.sendMessage(type, bot, sender + " has now been entered in to the giveaway!");
+		ChatBotManager.sendMessage(type, bot, sender + " has now been entered in to the giveaway!");
 	}
 
 	@Override

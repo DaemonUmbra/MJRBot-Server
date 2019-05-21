@@ -1,10 +1,10 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.threads.twitch.GetFollowTimeThread;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class FollowTimeCommand implements ICommand {
@@ -15,7 +15,7 @@ public class FollowTimeCommand implements ICommand {
 			GetFollowTimeThread thread = new GetFollowTimeThread((TwitchBot) bot, sender);
 			thread.start();
 		} else if (type == BotType.Mixer)
-			MJRBotUtilities.sendMessage(type, bot, "This command isnt available for Mixer, right now sorry!");
+			ChatBotManager.sendMessage(type, bot, "This command isnt available for Mixer, right now sorry!");
 	}
 
 	@Override

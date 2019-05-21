@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.PointsSystemManager;
 import com.mjr.mjrbot.storage.RankSystemManager;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class BuyRankCommand implements ICommand {
@@ -20,21 +20,21 @@ public class BuyRankCommand implements ICommand {
 							if (PointsSystemManager.hasPoints(sender, RankSystemManager.getRankPrice(Rank), type, bot)) {
 								PointsSystemManager.RemovePoints(sender, RankSystemManager.getRankPrice(Rank), type, bot);
 								RankSystemManager.setRank(sender, Rank, type, bot);
-								MJRBotUtilities.sendMessage(type, bot, "Added " + Rank + " to " + sender);
+								ChatBotManager.sendMessage(type, bot, "Added " + Rank + " to " + sender);
 							} else {
-								MJRBotUtilities.sendMessage(type, bot, " you dont have the right amount of points! Do !points to check how many you got");
+								ChatBotManager.sendMessage(type, bot, " you dont have the right amount of points! Do !points to check how many you got");
 							}
 						} else {
-							MJRBotUtilities.sendMessage(type, bot, "Rank doesnt exist!");
+							ChatBotManager.sendMessage(type, bot, "Rank doesnt exist!");
 						}
 					} else {
-						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " you already have this rank!");
+						ChatBotManager.sendMessage(type, bot, "@" + sender + " you already have this rank!");
 					}
 				} else {
-					MJRBotUtilities.sendMessage(type, bot, "Cant add " + Rank + " to " + sender);
+					ChatBotManager.sendMessage(type, bot, "Cant add " + Rank + " to " + sender);
 				}
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !buyrank RANK");
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !buyrank RANK");
 			}
 		}
 	}

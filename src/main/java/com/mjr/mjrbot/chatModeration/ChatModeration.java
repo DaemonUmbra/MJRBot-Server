@@ -1,13 +1,13 @@
 package com.mjr.mjrbot.chatModeration;
 
 import com.mjr.mjrbot.AnalyticsData;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.storage.ModerationActionsLogManager;
 import com.mjr.mjrbot.storage.RankSystemManager;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
@@ -29,10 +29,10 @@ public class ChatModeration {
 					else if (RankSystemManager.getRank(sender, type, bot) == "bronze")
 						return;
 					ModerationActionsLogManager.addEvent(type, bot, sender, " flagged by Link Checker", message);
-					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("LinkWarning", type, bot));
+					ChatBotManager.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("LinkWarning", type, bot));
 					if (type == BotType.Twitch) {
-						MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
-						MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
+						ChatBotManager.sendMessage(type, bot, "/timeout " + sender);
+						ChatBotManager.sendMessage(type, bot, "/unban " + sender);
 					} else if (type == BotType.Mixer) {
 						((MixerBot) bot).deleteLastMessageForUser(sender);
 					}
@@ -50,10 +50,10 @@ public class ChatModeration {
 						return;
 					else {
 						ModerationActionsLogManager.addEvent(type, bot, sender, " flagged by Badwords Checker", message);
-						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("LanguageWarning", type, bot));
+						ChatBotManager.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("LanguageWarning", type, bot));
 						if (type == BotType.Twitch) {
-							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
-							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
+							ChatBotManager.sendMessage(type, bot, "/timeout " + sender);
+							ChatBotManager.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
@@ -71,10 +71,10 @@ public class ChatModeration {
 						if (RankSystemManager.getRank(sender, type, bot) == "sliver")
 							return;
 						ModerationActionsLogManager.addEvent(type, bot, sender, " flagged by Emote Spam Checker", message);
-						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("EmoteWarning", type, bot));
+						ChatBotManager.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("EmoteWarning", type, bot));
 						if (type == BotType.Twitch) {
-							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
-							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
+							ChatBotManager.sendMessage(type, bot, "/timeout " + sender);
+							ChatBotManager.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}
@@ -95,10 +95,10 @@ public class ChatModeration {
 						if (RankSystemManager.getRank(sender, type, bot) == "sliver")
 							return;
 						ModerationActionsLogManager.addEvent(type, bot, sender, " flagged by Symbol Spam Checker", message);
-						MJRBotUtilities.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("SymbolWarning", type, bot));
+						ChatBotManager.sendMessage(type, bot, "@" + sender + " " + ChannelConfigManager.getSetting("SymbolWarning", type, bot));
 						if (type == BotType.Twitch) {
-							MJRBotUtilities.sendMessage(type, bot, "/timeout " + sender);
-							MJRBotUtilities.sendMessage(type, bot, "/unban " + sender);
+							ChatBotManager.sendMessage(type, bot, "/timeout " + sender);
+							ChatBotManager.sendMessage(type, bot, "/unban " + sender);
 						} else if (type == BotType.Mixer) {
 							((MixerBot) bot).deleteLastMessageForUser(sender);
 						}

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.HTTPConnect;
@@ -55,7 +56,7 @@ public class AccountLifeCommand implements ICommand {
 				long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 				long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-				MJRBotUtilities.sendMessage(type, bot,
+				ChatBotManager.sendMessage(type, bot,
 						"@" + sender + " your " + (type == BotType.Twitch ? "twitch" : "mixer") + " account is " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s) old");
 			}
 		} catch (Exception e) {

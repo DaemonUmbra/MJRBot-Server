@@ -42,7 +42,7 @@ public class PermissionsManager {
 	}
 
 	public static String getPermissionLevel(Object bot, BotType type, String user) {
-		String channelName = MJRBotUtilities.getChannelNameFromBotType(type, bot);
+		String channelName = ChatBotManager.getChannelNameFromBotType(type, bot);
 		user = user.toLowerCase();
 		if (type == BotType.Twitch) {
 			if (user.equalsIgnoreCase(channelName))

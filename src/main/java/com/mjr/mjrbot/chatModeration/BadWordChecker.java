@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.MJRBotUtilities;
@@ -21,9 +22,9 @@ public class BadWordChecker {
 			if (MJRBot.storageType == StorageType.Database) {
 				ResultSet set = null;
 				if (type == BotType.Twitch)
-					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "'");
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE twitch_channel_id = '" + ChatBotManager.getChannelIDFromBotType(type, bot) + "'");
 				else if (type == BotType.Mixer)
-					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "'");
+					set = MySQLConnection.executeQuery("SELECT * FROM badwords WHERE mixer_channel = '" + ChatBotManager.getChannelNameFromBotType(type, bot) + "'");
 				if (set != null) {
 					while (set.next()) {
 						badWords.add(set.getString("word"));

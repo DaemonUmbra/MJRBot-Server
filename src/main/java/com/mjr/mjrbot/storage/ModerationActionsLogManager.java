@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -37,7 +38,7 @@ public class ModerationActionsLogManager extends FileBase {
 				MJRBotUtilities.logErrorMessage(e);
 			}
 		} else {
-			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\""
+			MySQLConnection.executeUpdate("INSERT INTO moderation_actions(channel, time, user, reason, message, platform) VALUES (" + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\""
 					+ "," + "\"" + user + "\"" + "," + "\"" + reason + "\"" + "," + "\"" + message + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
 		}
 	}

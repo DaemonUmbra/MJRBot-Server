@@ -3,6 +3,7 @@ package com.mjr.mjrbot.threads;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -53,7 +54,7 @@ public class AnnouncementsThread extends Thread {
 									validMessages.add(message);
 							}
 							if (validMessages.size() != 0)
-								MJRBotUtilities.sendMessage(type, bot, validMessages.get(MJRBotUtilities.getRandom(0, validMessages.size() - 1)));
+								ChatBotManager.sendMessage(type, bot, validMessages.get(MJRBotUtilities.getRandom(0, validMessages.size() - 1)));
 						}
 					}
 				}

@@ -1,6 +1,7 @@
 package com.mjr.mjrbot.games;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.EventLogManager;
 import com.mjr.mjrbot.storage.EventLogManager.EventType;
@@ -28,13 +29,13 @@ public class DiceGame {
 			if (randomNum < getWinPercent(multi)) {
 				int profit = (int) (wager * multi);
 				PointsSystemManager.AddPointsWithEventMsg(sender, profit, type, bot);
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Well Done, you have made a profit of " + (profit - wager) + " points! Your current points is: " + PointsSystemManager.getPoints(sender, type, bot));
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " Well Done, you have made a profit of " + (profit - wager) + " points! Your current points is: " + PointsSystemManager.getPoints(sender, type, bot));
 				EventLogManager.addEvent(type, bot, sender, "Won the Dice Game", EventType.Games);
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " lost the wager! Your current points is: " + PointsSystemManager.getPoints(sender, type, bot));
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " lost the wager! Your current points is: " + PointsSystemManager.getPoints(sender, type, bot));
 				EventLogManager.addEvent(type, bot, sender, "Lost the Dice Game", EventType.Games);
 			}
 		} else
-			MJRBotUtilities.sendMessage(type, bot, "@" + sender + " you currently have insufficient points! You only have " + PointsSystemManager.getPoints(sender, type, bot));
+			ChatBotManager.sendMessage(type, bot, "@" + sender + " you currently have insufficient points! You only have " + PointsSystemManager.getPoints(sender, type, bot));
 	}
 }

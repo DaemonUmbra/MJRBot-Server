@@ -7,8 +7,6 @@ import java.util.TimeZone;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.MixerBot;
-import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 
 public class MJRBotUtilities {
@@ -28,18 +26,6 @@ public class MJRBotUtilities {
 			return false;
 		}
 		return true;
-	}
-
-	public static void sendMessage(BotType type, Object bot, String endMessage) {
-		if (type == BotType.Twitch) {
-			TwitchBot botTemp = ChatBotManager.getTwitchBotByChannelID(getChannelIDFromBotType(type, bot));
-			if (botTemp != null)
-				botTemp.sendMessage(endMessage);
-		} else {
-			MixerBot botTemp = ChatBotManager.getMixerBotByChannelName(getChannelNameFromBotType(type, bot));
-			if (botTemp != null)
-				botTemp.sendMessage(endMessage);
-		}
 	}
 
 	public static java.util.Date convertTimeZone(java.util.Date date, TimeZone fromTZ, TimeZone toTZ) {
@@ -66,20 +52,6 @@ public class MJRBotUtilities {
 		return sw.getBuffer().toString();
 	}
 
-	public static int getChannelIDFromBotType(BotType type, Object bot) {
-		if (type == BotType.Twitch)
-			return ((TwitchBot) bot).getChannelID();
-		return 0;
-	}
-
-	public static String getChannelNameFromBotType(BotType type, Object bot) {
-		if (type == BotType.Mixer)
-			return ((MixerBot) bot).getChannelName();
-		else if (type == BotType.Twitch)
-			return ((TwitchBot) bot).getChannelName();
-		return "";
-	}
-
 	public static void logErrorMessage(String error, final Throwable throwable) {
 		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
 		logErrorMessage(error + " - " + stackTrace);
@@ -92,7 +64,7 @@ public class MJRBotUtilities {
 
 	public static void logErrorMessage(final Throwable throwable, BotType type, Object bot) {
 		String stackTrace = MJRBotUtilities.getStackTraceString(throwable);
-		logErrorMessage(type.getTypeName() + ": " + MJRBotUtilities.getChannelNameFromBotType(type, bot) + " - " + stackTrace);
+		logErrorMessage(type.getTypeName() + ": " + ChatBotManager.getChannelNameFromBotType(type, bot) + " - " + stackTrace);
 	}
 
 	public static void logErrorMessage(final Throwable throwable) {

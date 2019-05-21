@@ -3,6 +3,7 @@ package com.mjr.mjrbot.commands.defaultCommands;
 import java.io.IOException;
 import java.util.List;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.CustomCommands;
 import com.mjr.mjrbot.commands.ICommand;
@@ -16,9 +17,9 @@ public class CustomCommandsList implements ICommand {
 		try {
 			List<String> names = CustomCommands.getAllCommandNames(type, bot);
 			if (names.size() == 0) {
-				MJRBotUtilities.sendMessage(type, bot, "No custom commnands found!");
+				ChatBotManager.sendMessage(type, bot, "No custom commnands found!");
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "Custom Commands: " + String.join(", ", names));
+				ChatBotManager.sendMessage(type, bot, "Custom Commands: " + String.join(", ", names));
 			}
 		} catch (IOException e) {
 			MJRBotUtilities.logErrorMessage(e);

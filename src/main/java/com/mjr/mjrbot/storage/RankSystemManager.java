@@ -11,6 +11,7 @@ import java.util.Properties;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.PlatformType;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -42,9 +43,9 @@ public class RankSystemManager extends FileBase {
 		} else {
 			ResultSet result = null;
 			if (type == BotType.Twitch)
-				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE twitch_channel_id = " + "\"" + ChatBotManager.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT rank FROM ranks WHERE mixer_channel = " + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return null;
@@ -87,14 +88,14 @@ public class RankSystemManager extends FileBase {
 			} else {
 				if (isOnList(user, type, bot) == false) {
 					if (type == BotType.Twitch)
-						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, twitch_channel_id, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + ChatBotManager.getChannelIDFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
+						MySQLConnection.executeUpdate("INSERT INTO ranks(name, mixer_channel, rank) VALUES (" + "\"" + user + "\"" + "," + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + rank + "\"" + ")");
 				} else {
 					if (type == BotType.Twitch)
-						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE twitch_channel_id = " + "\"" + ChatBotManager.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 					else if (type == BotType.Mixer)
-						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+						MySQLConnection.executeUpdate("UPDATE ranks SET rank=" + "\"" + rank + "\"" + " WHERE mixer_channel = " + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 				}
 			}
 			ConsoleUtil.textToConsole(bot, type, "Set " + user + " rank to " + rank, MessageType.ChatBot, null);
@@ -137,9 +138,9 @@ public class RankSystemManager extends FileBase {
 		} else {
 			ResultSet result = null;
 			if (type == BotType.Twitch)
-				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + MJRBotUtilities.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE twitch_channel_id = " + "\"" + ChatBotManager.getChannelIDFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			else if (type == BotType.Mixer)
-				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE mixer_channel = " + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
+				result = MySQLConnection.executeQuery("SELECT * FROM ranks WHERE mixer_channel = " + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + " AND name = " + "\"" + user + "\"");
 			try {
 				if (result == null)
 					return false;

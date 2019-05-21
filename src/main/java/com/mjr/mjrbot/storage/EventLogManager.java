@@ -14,6 +14,7 @@ import java.util.Date;
 import com.mjr.discordframework.DiscordBotUtilities;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -56,10 +57,10 @@ public class EventLogManager extends FileBase {
 					MJRBotUtilities.logErrorMessage(e);
 				}
 			} else {
-				MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message, platform) VALUES (" + "\"" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + ","
+				MySQLConnection.executeUpdate("INSERT INTO events(channel, time, user, type, event_message, platform) VALUES (" + "\"" + ChatBotManager.getChannelNameFromBotType(type, bot) + "\"" + "," + "\"" + dateFormat.format(date) + "\"" + ","
 						+ "\"" + user + "\"" + "," + "\"" + eventType.getName() + "\"" + "," + "\"" + eventMessage + "\"" + "," + "\"" + type.getTypeName() + "\"" + ")");
 				if (ChannelConfigManager.getSetting("DiscordEnabled", type, bot).equalsIgnoreCase("true")) {
-					ResultSet channel_id = MySQLConnection.executeQuery("SELECT event_log_channel_id FROM discord_info WHERE channel = '" + MJRBotUtilities.getChannelNameFromBotType(type, bot) + "'");
+					ResultSet channel_id = MySQLConnection.executeQuery("SELECT event_log_channel_id FROM discord_info WHERE channel = '" + ChatBotManager.getChannelNameFromBotType(type, bot) + "'");
 					if (channel_id.next()) {
 						if (!channel_id.getString("event_log_channel_id").equals("")) {
 							Snowflake channel = Snowflake.of(Long.parseLong(channel_id.getString("event_log_channel_id")));

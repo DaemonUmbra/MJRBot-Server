@@ -1,5 +1,6 @@
 package com.mjr.mjrbot.threads;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -23,7 +24,7 @@ public class RaceStartThread extends Thread {
 			MJRBotUtilities.logErrorMessage(e, type, bot);
 		}
 		try {
-			MJRBotUtilities.sendMessage(type, bot, "Race is about to start! Make sure to get your bets in now!");
+			ChatBotManager.sendMessage(type, bot, "Race is about to start! Make sure to get your bets in now!");
 			try {
 				Thread.sleep(30000);
 			} catch (InterruptedException e) {

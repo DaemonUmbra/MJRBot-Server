@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.util.HTTPConnect;
@@ -30,7 +31,7 @@ public class GetFollowTimeThread extends Thread {
 			if (bot.isBotSetupCompleted()) {
 				String time = checkFollowTime(bot, user.toLowerCase());
 				if (time == null) {
-					MJRBotUtilities.sendMessage(BotType.Twitch, bot, "@" + user + " unable to obtain follow details for you!");
+					ChatBotManager.sendMessage(BotType.Twitch, bot, "@" + user + " unable to obtain follow details for you!");
 				} else {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 					format.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -51,7 +52,7 @@ public class GetFollowTimeThread extends Thread {
 					long diffDays = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) % 365;
 					long diffYears = TimeUnit.MILLISECONDS.toDays(diffInMilliSec) / 365l;
 
-					MJRBotUtilities.sendMessage(BotType.Twitch, bot, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
+					ChatBotManager.sendMessage(BotType.Twitch, bot, user + " you've been following this channel for " + diffYears + " year(s) " + diffDays + " day(s) " + diffHours + " hour(s) " + diffMinutes + " minute(s)");
 				}
 			}
 		} catch (Exception e) {

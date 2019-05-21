@@ -8,7 +8,6 @@ import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.ConsoleUtil;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class StopBotCommand implements ICommand {
@@ -16,7 +15,7 @@ public class StopBotCommand implements ICommand {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCommand(BotType type, Object bot, String sender, String login, String hostname, String message, String[] args) {
-		MJRBotUtilities.sendMessage(type, bot, "Bot is shutting down!");
+		ChatBotManager.sendMessage(type, bot, "Bot is shutting down!");
 		ConsoleUtil.textToConsole("Stop Bot command has been triggered, Bot is shutting down!");
 		MJRBot.updateThread.stop();
 		for (Integer channelIDMain : ChatBotManager.getTwitchBots().keySet()) {

@@ -1,11 +1,11 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.threads.GiveAwayThread;
-import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 
 public class GiveAwayCommand implements ICommand {
@@ -19,7 +19,7 @@ public class GiveAwayCommand implements ICommand {
 				thread.start();
 				twitchBot.getTwitchData().giveAwayActive = true;
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "Giveaway has already started!");
+				ChatBotManager.sendMessage(type, bot, "Giveaway has already started!");
 			}
 		} else if (type == BotType.Mixer) {
 			MixerBot mixerBot = (MixerBot) bot;
@@ -28,7 +28,7 @@ public class GiveAwayCommand implements ICommand {
 				thread.start();
 				mixerBot.getMixerData().giveAwayActive = true;
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "Giveaway has already started!");
+				ChatBotManager.sendMessage(type, bot, "Giveaway has already started!");
 			}
 		}
 	}

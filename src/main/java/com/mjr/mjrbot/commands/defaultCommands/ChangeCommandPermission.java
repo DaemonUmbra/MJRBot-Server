@@ -2,6 +2,7 @@ package com.mjr.mjrbot.commands.defaultCommands;
 
 import java.io.IOException;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.commands.CustomCommands;
 import com.mjr.mjrbot.commands.ICommand;
@@ -26,13 +27,13 @@ public class ChangeCommandPermission implements ICommand {
 						MJRBotUtilities.logErrorMessage(e);
 					}
 				} else {
-					MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! The following Permission values are: User or Follower or VIP or Subscriber or Moderator or Streamer");
+					ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! The following Permission values are: User or Follower or VIP or Subscriber or Moderator or Streamer");
 				}
 			} else {
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! Please dont include an ! in the Command Name");
 			}
 		} else {
-			MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !commandpermission COMMANDNAME PERMISSIONLEVEL");
+			ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !commandpermission COMMANDNAME PERMISSIONLEVEL");
 		}
 	}
 

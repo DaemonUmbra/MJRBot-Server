@@ -113,7 +113,7 @@ public class TwitchBot extends TwitchBotBase {
 			String bitsAmount = line.substring(line.indexOf("bits=") + 5);
 			bitsAmount = bitsAmount.substring(0, bitsAmount.indexOf(";"));
 			if (ChannelConfigManager.getSetting("BitsAlerts", this.channelID).equalsIgnoreCase("true"))
-				MJRBotUtilities.sendMessage(BotType.Twitch, this, sender + " just gave " + bitsAmount + " bit(s) to the channel!");
+				ChatBotManager.sendMessage(BotType.Twitch, this, sender + " just gave " + bitsAmount + " bit(s) to the channel!");
 			ConsoleUtil.textToConsole(this, BotType.Twitch, sender + " just gave " + bitsAmount + " bit(s) to the channel!", MessageType.ChatBot, null);
 			EventLogManager.addEvent(BotType.Twitch, this, sender, "Just gave " + bitsAmount + " bit(s) to the channel!", EventType.Bits);
 		}
@@ -153,7 +153,7 @@ public class TwitchBot extends TwitchBotBase {
 	public void onPrivateMessage(String sender, String login, String hostname, String channel, String message) {
 		if (channel.equalsIgnoreCase(this.channelName)) {
 			if (message.contains("is now hosting you.")) {
-				MJRBotUtilities.sendMessage(BotType.Twitch, channel, message);
+				ChatBotManager.sendMessage(BotType.Twitch, channel, message);
 				ConsoleUtil.textToConsole(this, BotType.Twitch, message, MessageType.ChatBot, null);
 			}
 		}
@@ -167,7 +167,7 @@ public class TwitchBot extends TwitchBotBase {
 			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
 			user = user.substring(0, user.indexOf(';'));
 			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
-				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
+				ChatBotManager.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
 			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
 			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
 			this.getTwitchData().addSubscriber(user);
@@ -180,7 +180,7 @@ public class TwitchBot extends TwitchBotBase {
 			String amount = line.substring(line.indexOf("msg-param-mass-gift-count=") + 26);
 			amount = amount.substring(0, amount.indexOf(';'));
 			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
-				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " Thanks for gifting " + amount + " subs to the community");
+				ChatBotManager.sendMessage(BotType.Twitch, this, gifter + " Thanks for gifting " + amount + " subs to the community");
 			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + "Gifted " + amount + " subs to the community", MessageType.ChatBot, null);
 			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Gifted " + amount + " subs to the community", EventType.Sub);
 		}
@@ -191,7 +191,7 @@ public class TwitchBot extends TwitchBotBase {
 			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
 			user = user.substring(0, user.indexOf(';'));
 			if (ChannelConfigManager.getSetting("GiftSubAlerts", this.channelID).equalsIgnoreCase("true"))
-				MJRBotUtilities.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
+				ChatBotManager.sendMessage(BotType.Twitch, this, gifter + " has gifted a sub to " + user);
 			ConsoleUtil.textToConsole(this, BotType.Twitch, gifter + " has gifted a sub to " + user, MessageType.ChatBot, null);
 			EventLogManager.addEvent(BotType.Twitch, this, gifter, "Has gifted a sub to " + user, EventType.Sub);
 			this.getTwitchData().addSubscriber(user);
@@ -203,13 +203,13 @@ public class TwitchBot extends TwitchBotBase {
 			user = user.substring(0, user.indexOf(';'));
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (ChannelConfigManager.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel using Twitch Prime!");
+					ChatBotManager.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel using Twitch Prime!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just subscribed to the channel using Twitch Prime!", MessageType.ChatBot, null);
 				EventLogManager.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel using Twitch Prime!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			} else {
 				if (ChannelConfigManager.getSetting("SubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel!");
+					ChatBotManager.sendMessage(BotType.Twitch, this, user + " just subscribed to the channel!");
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just subscribed to the channel!", MessageType.ChatBot, null);
 				EventLogManager.addEvent(BotType.Twitch, this, user, "Just subscribed to the channel!", EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
@@ -239,13 +239,13 @@ public class TwitchBot extends TwitchBotBase {
 
 			if (line.contains("msg-param-sub-plan=Prime")) {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel using Twitch Prime " + endOfMsg);
+					ChatBotManager.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel using Twitch Prime " + endOfMsg);
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel using Twitch Prime " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), MessageType.ChatBot, null);
 				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel using Twitch Prime " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
 			} else {
 				if (ChannelConfigManager.getSetting("ResubAlerts", this.channelID).equalsIgnoreCase("true"))
-					MJRBotUtilities.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel " + endOfMsg);
+					ChatBotManager.sendMessage(BotType.Twitch, this, user + " just resubscribed to the channel " + endOfMsg);
 				ConsoleUtil.textToConsole(this, BotType.Twitch, user + " just resubscribed to the channel " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), MessageType.ChatBot, null);
 				EventLogManager.addEvent(BotType.Twitch, this, user, "Just resubscribed to the channel " + endOfMsg + (resubMessage != null ? " Message: " + resubMessage : ""), EventType.Sub);
 				this.getTwitchData().addSubscriber(user);
@@ -457,8 +457,8 @@ public class TwitchBot extends TwitchBotBase {
 
 	public static void performUsernameChange(TwitchBot bot, String newChannel) {
 		try {
-			ConsoleUtil.textToConsole("[Twitch] " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
-			MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + MJRBotUtilities.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
+			ConsoleUtil.textToConsole("[Twitch] " + ChatBotManager.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
+			MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + ChatBotManager.getChannelNameFromBotType(BotType.Twitch, bot) + " has changed their username to " + newChannel);
 			bot.disconnectTwitch();
 			MySQLConnection.executeUpdate("DELETE from channels where twitch_channel_id = " + "\"" + bot.getChannelID() + "\"" + " AND bot_type = " + "\"" + "Twitch" + "\"");
 			ChatBotManager.removeTwitchBot(bot);

@@ -1,5 +1,6 @@
 package com.mjr.mjrbot.commands.defaultCommands;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.TwitchBot;
@@ -22,14 +23,14 @@ public class BankHeistCommand implements ICommand {
 							twitchBot.getTwitchData().bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 							twitchBot.bankHeistThread = new BankHeistThread(type, bot, twitchBot.getChannelName());
 							twitchBot.bankHeistThread.start();
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					} else {
 						if (MJRBotUtilities.isNumeric(args[1]))
 							twitchBot.getTwitchData().bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 						else
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					}
 				} else if (type == BotType.Mixer) {
 					MixerBot mixerBot = ((MixerBot) bot);
@@ -39,18 +40,18 @@ public class BankHeistCommand implements ICommand {
 							mixerBot.getMixerData().bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 							mixerBot.bankHeistThread = new BankHeistThread(type, bot, mixerBot.getChannelName());
 							mixerBot.bankHeistThread.start();
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " has started planning a heist!" + " To join the crew enter !heist <points> you only have 1 minute!");
 						} else
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					} else {
 						if (MJRBotUtilities.isNumeric(args[1]))
 							mixerBot.getMixerData().bankHeistEnteredUsers.put(sender, Integer.parseInt(args[1]));
 						else
-							MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+							ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 					}
 				}
 			} else
-				MJRBotUtilities.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
+				ChatBotManager.sendMessage(type, bot, "@" + sender + " Invalid arguments! You need to enter !heist <points>");
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
 import com.mjr.mjrbot.storage.EventLogManager;
 import com.mjr.mjrbot.storage.EventLogManager.EventType;
@@ -60,10 +61,10 @@ public class RacingGame {
 
 	public void checkForWinners(BotType type, Object bot) {
 		if (numberOfBets == 0) {
-			MJRBotUtilities.sendMessage(type, bot, "No one made any bets! So race got canceled!");
+			ChatBotManager.sendMessage(type, bot, "No one made any bets! So race got canceled!");
 			return;
 		}
-		MJRBotUtilities.sendMessage(type, bot, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
+		ChatBotManager.sendMessage(type, bot, "First Place was Car " + cars[0] + ", Second Place was Car " + cars[1] + ", Third Place was Car " + cars[2]);
 
 		// Check who got the bet correct
 		for (int k = 0; k < numberOfBets; k++) {
@@ -86,7 +87,7 @@ public class RacingGame {
 			String message = "Top 3 winners are " + Arrays.asList(top3Users) + " and 1st place winners are " + Arrays.asList(firstUsers);
 			message.replace("[", "[ ");
 			message.replace("]", "] ");
-			MJRBotUtilities.sendMessage(type, bot, message);
+			ChatBotManager.sendMessage(type, bot, message);
 			float randomOds = nextFloat(1, 2);
 			for (int l = 0; l < top3Users.size(); l++) {
 				int points = 0;
@@ -115,7 +116,7 @@ public class RacingGame {
 				PointsSystemManager.AddPointsWithEventMsg(firstUsers.get(m), points, type, bot);
 				EventLogManager.addEvent(type, bot, firstUsers.get(m), "Won the Racing Game", EventType.Games);
 			}
-			MJRBotUtilities.sendMessage(type, bot, pointsMessage);
+			ChatBotManager.sendMessage(type, bot, pointsMessage);
 		}
 
 		// Clean up
