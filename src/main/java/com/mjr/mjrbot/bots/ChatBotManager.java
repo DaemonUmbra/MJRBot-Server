@@ -2,7 +2,9 @@ package com.mjr.mjrbot.bots;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import com.mjr.mjrbot.MJRBot;
@@ -38,6 +40,27 @@ public class ChatBotManager {
 
 	private static HashMap<Integer, TwitchBot> twitchBots = new HashMap<Integer, TwitchBot>();
 	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
+
+	public static void setupBots(HashMap<Integer, String> twitchBots, HashMap<String, String> mixerBots) {
+		for (Integer channelID : twitchBots.keySet()) {
+			ChatBotManager.createBot(null, channelID, twitchBots.get(channelID));
+		}
+
+		for (String channelName : mixerBots.keySet()) {
+			ChatBotManager.createBot(channelName, 0, mixerBots.get(channelName));
+		}
+
+		List<String> channels = new ArrayList<String>();
+		for (TwitchBot bot : ChatBotManager.getTwitchBots().values())
+			channels.add(bot.getChannelName());
+
+		try {
+			TwitchIRCManager.setupClients(channels, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), 50, BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
+			TwitchBotEventManager.initEvents();
+		} catch (IOException e) {
+			MJRBotUtilities.logErrorMessage(e);
+		}
+	}
 
 	public static void createBot(String channel, int channelID, String botType) {
 		if (channel != null)

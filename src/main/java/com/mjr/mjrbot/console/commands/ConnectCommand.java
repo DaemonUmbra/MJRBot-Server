@@ -16,7 +16,7 @@ public class ConnectCommand implements IConsoleCommand {
 		try {
 			if (args.length >= 1) {
 				if (args[0].equalsIgnoreCase("database"))
-					MJRBot.connectBot(ConnectionType.Database);
+					MJRBot.initConnection(ConnectionType.Database);
 				else if (args[0].equalsIgnoreCase("manual"))
 					if (args.length == 3) {
 						String result = HTTPConnect.getRequest(TwitchMixerAPICalls.twitchGetUserIDFromChannelNameAPI(args[2]));
@@ -24,7 +24,7 @@ public class ConnectCommand implements IConsoleCommand {
 						id = id.substring(0, id.indexOf(",") - 1);
 						MJRBot.storageType = StorageType.File;
 						MJRBot.connectionType = ConnectionType.Manual;
-						MJRBot.connectBot(ConnectionType.Manual, BotType.getTypeByName(args[1]), args[2], Integer.parseInt(id));
+						MJRBot.initConnection(ConnectionType.Manual, BotType.getTypeByName(args[1]), args[2], Integer.parseInt(id));
 					} else
 						System.out.println("Invalid syntax, Use connect " + getParametersDescription().replace("[", "<").replace("]", ">"));
 				else

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -137,10 +136,6 @@ public class MJRBot {
 		}
 	}
 
-	public static void connectBot(ConnectionType type) {
-		connectBot(type, null, null, 0);
-	}
-
 	public static void discordConnect() {
 		if (discordBot == null) {
 			try {
@@ -156,7 +151,11 @@ public class MJRBot {
 		}
 	}
 
-	public static void connectBot(ConnectionType type, BotType botType, String channelName, int channelId) {
+	public static void initConnection(ConnectionType type) {
+		initConnection(type, null, null, 0);
+	}
+
+	public static void initConnection(ConnectionType type, BotType botType, String channelName, int channelId) {
 		try {
 			BotConfigManager.load();
 			if (MJRBot.connectionType == ConnectionType.Database) {
@@ -219,16 +218,8 @@ public class MJRBot {
 		} else {
 			ConsoleUtil.textToConsole("Analytics Recording has been disabled, as it is currently not supported on the file based storage type!");
 		}
-		HashMap<Integer, String> channelList = SQLUtilities.getChannelsTwitch();
-		for (Integer channelID : channelList.keySet()) {
-			ChatBotManager.createBot(null, channelID, channelList.get(channelID));
-		}
 
-		HashMap<String, String> channelListMixer = SQLUtilities.getChannelsMixer();
-		for (String channelName : channelListMixer.keySet()) {
-			ChatBotManager.createBot(channelName, 0, channelListMixer.get(channelName));
-		}
-
+		ChatBotManager.setupBots(SQLUtilities.getChannelsTwitch(), SQLUtilities.getChannelsMixer());
 		updateThread = new ChannelListUpdateThread();
 		updateThread.start();
 
