@@ -17,7 +17,7 @@ public class ChannelInfoCommand implements IConsoleCommand {
 					return;
 				}
 				sendInfo("Twitch", twitchBot.getChannelName(), twitchBot.getTwitchData().getViewers().size(), twitchBot.getTwitchData().getSubscribers().size(), twitchBot.getTwitchData().getModerators().size(),
-						twitchBot.getTwitchData().getVips().size(), twitchBot.isBotConnected(), false);
+						twitchBot.getTwitchData().getVips().size(), twitchBot.isBotSetupCompleted(), false);
 			} else if (args[1].equalsIgnoreCase("Mixer")) {
 				MixerBot mixerBot = ChatBotManager.getMixerBotByChannelName(args[0]);
 				if (mixerBot == null) {

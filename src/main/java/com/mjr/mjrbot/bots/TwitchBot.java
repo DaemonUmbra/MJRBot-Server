@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.jibble.pircbot.PircBot;
-
 import com.mjr.mjrbot.CrossChatLink;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
@@ -36,11 +34,13 @@ import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;
+import com.mjr.twitchframework.irc.TwitchBotBase;
+import com.mjr.twitchframework.irc.TwitchIRCManager;
 
-public class TwitchBot extends PircBot {
+public class TwitchBot extends TwitchBotBase {
 
 	private String ircChannelName;
-	private boolean connected;
+	private boolean setupComplete;
 
 	private int channelID;
 	private String channelName;
@@ -61,7 +61,7 @@ public class TwitchBot extends PircBot {
 
 	public TwitchBot() {
 		ircChannelName = "";
-		connected = false;
+		setupComplete = false;
 
 		channelID = 0;
 		channelName = "";
@@ -74,19 +74,10 @@ public class TwitchBot extends PircBot {
 	}
 
 	public void init(String channelName, int channelID) {
-		try {
-			this.connectToTwitch();
-		} catch (IOException e) {
-			MJRBot.getLogger().info(e.getMessage() + " " + e.getCause());
-			e.printStackTrace();
-		}
 		this.channelName = channelName.toLowerCase();
 		this.channelID = channelID;
 		this.ircChannelName = "#" + channelName.toLowerCase();
-		this.joinChannel(this.ircChannelName);
 		ConsoleUtil.textToConsole(this, BotType.Twitch, "Joined " + channelName.substring(channelName.indexOf("#") + 1) + " channel", MessageType.ChatBot, null);
-		if (BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
-			this.setVerbose(true);
 	}
 
 	@Override
@@ -170,14 +161,7 @@ public class TwitchBot extends PircBot {
 
 	@Override
 	protected void onUnknown(String line) {
-		if (line.contains("tmi.twitch.tv RECONNECT")) { // When Twitch tells the bot instance to reconnect
-			MJRBotUtilities.logErrorMessage(TwitchBot.getChannelNameFromChannelID(channelID) + " has triggered a Reconnect event!");
-			this.disconnectTwitch();
-			ChatBotManager.removeTwitchBot(this); // ChannelListUpdateThread will add it back as a new bot instance
-		}
-
-		// User Gift Sub to User
-		else if (line.contains("msg-id=subgift") && line.contains("msg-param-recipient-display-name=")) {
+		if (line.contains("msg-id=subgift") && line.contains("msg-param-recipient-display-name=")) {
 			String gifter = line.substring(line.indexOf("display-name=") + 13);
 			gifter = gifter.substring(0, gifter.indexOf(';'));
 			String user = line.substring(line.indexOf("msg-param-recipient-display-name=") + 33);
@@ -284,62 +268,16 @@ public class TwitchBot extends PircBot {
 		this.removeUserProperties(sender);
 	}
 
-	@Override
-	protected void onDisconnect() {
-		MJRBot.getDiscordBot().sendAdminEventMessage("[Twitch] " + this.getChannelName() + " has triggered a onDisconnect event. Trying to reconnect!");
-		if (this.connected != false) {
-			disconnectTwitch();
-		}
-		ChatBotManager.removeTwitchBot(this);
-	}
-
 	public void disconnectTwitch() {
+		TwitchIRCManager.removeChannel(getChannelName(), 50);
 		String silentJoin = ChannelConfigManager.getSetting("SilentJoin", this.channelID);
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");
 		}
-		this.disconnect();
 		ConsoleUtil.textToConsole(this, BotType.Twitch, "Left " + this.channelName + " channel", MessageType.ChatBot, null);
 		data = new TwitchData();
-		this.connected = false;
+		this.setupComplete = false;
 		this.ircChannelName = "";
-	}
-
-	public void connectToTwitch() throws IOException {
-		if (!BotConfigManager.getSetting("TwitchUsername").equals("") && !BotConfigManager.getSetting("TwitchPassword").equals("") && !(BotConfigManager.getSetting("TwitchUsername") == null)
-				&& !(BotConfigManager.getSetting("TwitchPassword") == null)) {
-			if (!this.connected) {
-				if (this.isConnected()) {
-					this.connected = false;
-					this.disconnect();
-				}
-				this.setName(BotConfigManager.getSetting("TwitchUsername"));
-				try {
-					ConsoleUtil.textToConsole(this, BotType.Twitch, "Connecting to Twitch!", MessageType.ChatBot, null);
-					String pass = BotConfigManager.getSetting("TwitchPassword");
-					this.connect("irc.chat.twitch.tv", 6667, pass);
-					this.sendRawLine("CAP REQ :twitch.tv/commands");
-					this.sendRawLine("CAP REQ :twitch.tv/membership");
-					this.sendRawLine("CAP REQ :twitch.tv/tags");
-				} catch (Exception e) {
-					MJRBotUtilities.logErrorMessage(e);
-					ConsoleUtil.textToConsole(this, BotType.Twitch, "Failed to connect to Twitch! Check your internet connection!", MessageType.ChatBot, null);
-					return;
-				}
-
-			} else {
-				ConsoleUtil.textToConsole(this, BotType.Twitch, "Your already connected using these login details!", MessageType.ChatBot, null);
-				return;
-			}
-
-		} else {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, "Error! No Login details were set! Go to settings to enter them! \n Use the Reconnect button when done!", MessageType.ChatBot, null);
-			return;
-		}
-		if (this.isConnected()) {
-			ConsoleUtil.textToConsole(this, BotType.Twitch, "Connected to Twitch!", MessageType.ChatBot, null);
-		} else
-			ConsoleUtil.textToConsole(this, BotType.Twitch, "Connection to Twitch failed, check your login details!", MessageType.ChatBot, null);
 	}
 
 	public void sendMessage(String message) {
@@ -351,12 +289,12 @@ public class TwitchBot extends PircBot {
 				MJRBotUtilities.logErrorMessage(e);
 			}
 		}
-		this.sendMessage(this.ircChannelName, message);
-		ConsoleUtil.textToConsole(this, BotType.Twitch, message, MessageType.Chat, this.getName());
+		TwitchIRCManager.sendMessageByChannelName(this.channelName, message);
+		// ConsoleUtil.textToConsole(this, BotType.Twitch, message, MessageType.Chat, this.getName()); TODO Fix Twitch FrameworkPort
 	}
 
 	public void setupBot(String channel) {
-		connected = true;
+		setupComplete = true;
 
 		// Start Threads
 		pointsThread = new AutoPointsThread(BotType.Twitch, this, channel);
@@ -364,9 +302,9 @@ public class TwitchBot extends PircBot {
 		announcementsThread = new AnnouncementsThread(BotType.Twitch, this, channel);
 		announcementsThread.start();
 
-		this.sendMessage(this.ircChannelName, "/mods");
+		TwitchIRCManager.sendMessageByChannelName(this.channelName, "/mods");
 		if (ChannelConfigManager.getSetting("SilentJoin", this.channelID).equalsIgnoreCase("false")) {
-			this.sendMessage(this.ircChannelName, this.getNick() + " Connected!");
+			TwitchIRCManager.sendMessageByChannelName(this.channelName, BotConfigManager.getSetting("TwitchUsername") + " Connected!");
 		}
 		getViewersThread = new GetViewersThread(this);
 		getViewersThread.start();
@@ -430,15 +368,15 @@ public class TwitchBot extends PircBot {
 	}
 
 	public String getBotName() {
-		return this.getName();
+		return "MJRBot";// this.getName(); TODO Fix Twitch FrameworkPort
 	}
 
-	public boolean isBotConnected() {
-		return connected;
+	public boolean isBotSetupCompleted() {
+		return setupComplete;
 	}
 
-	public void setBotConnected(boolean connected) {
-		this.connected = connected;
+	public void setBotSetupCompleted(boolean setupComplete) {
+		this.setupComplete = setupComplete;
 	}
 
 	public TwitchData getTwitchData() {

@@ -15,8 +15,8 @@ public class ChannelListCommand implements IConsoleCommand {
 			System.out.println("-------------------------------------------------------");
 			System.out.format("|%10s|%20s|%20s|", "Platform", "Channel Name", "Status");
 			System.out.println("\n-------------------------------------------------------");
-			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) {
-				System.out.format("|%10s|%20s|%20s|", "Twitch", TwitchBot.getChannelNameFromChannelID(bot.getChannelID()), (bot.isConnected() ? "Connected" : "Disconnected"));
+			for (TwitchBot bot : ChatBotManager.getTwitchBots().values()) { 
+				System.out.format("|%10s|%20s|%20s|", "Twitch", TwitchBot.getChannelNameFromChannelID(bot.getChannelID()), (bot.isBotSetupCompleted() ? "Setup Completed" : "Setup Failed"));
 				System.out.println();
 			}
 			for (MixerBot bot : ChatBotManager.getMixerBots().values()) {

@@ -14,6 +14,7 @@ import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.MJRBotUtilities;
+import com.mjr.twitchframework.irc.TwitchIRCManager;
 
 public class ChatBotManager {
 
@@ -78,6 +79,7 @@ public class ChatBotManager {
 			TwitchBot bot = new TwitchBot();
 			ChatBotManager.addTwitchBot(channelID, bot);
 			bot.init(MJRBot.connectionType == ConnectionType.Database ? TwitchBot.getChannelNameFromChannelID(channelID) : MJRBot.manualChannelName, channelID);
+			TwitchIRCManager.addChannel(bot.getChannelName(), 50);
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
 				if (MJRBot.storageType == StorageType.File) {
@@ -156,6 +158,14 @@ public class ChatBotManager {
 		for (Integer bot : twitchBots.keySet()) {
 			if (bot == channelID)
 				return twitchBots.get(bot);
+		}
+		return null;
+	}
+
+	public static TwitchBot getTwitchBotByChannelName(String channelName) {
+		for (TwitchBot bot : twitchBots.values()) {
+			if (bot.getChannelName().equalsIgnoreCase(channelName))
+				return bot;
 		}
 		return null;
 	}

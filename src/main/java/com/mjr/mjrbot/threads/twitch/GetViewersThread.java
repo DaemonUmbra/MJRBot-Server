@@ -24,7 +24,7 @@ public class GetViewersThread extends Thread {
 
 	@Override
 	public void run() {
-		while (bot.isBotConnected()) {
+		while (bot.isBotSetupCompleted()) {
 			try {
 				String result = "";
 				String viewers = "";

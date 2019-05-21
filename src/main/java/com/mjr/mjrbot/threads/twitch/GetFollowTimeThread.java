@@ -27,7 +27,7 @@ public class GetFollowTimeThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			if (bot.isBotConnected()) {
+			if (bot.isBotSetupCompleted()) {
 				String time = checkFollowTime(bot, user.toLowerCase());
 				if (time == null) {
 					MJRBotUtilities.sendMessage(BotType.Twitch, bot, "@" + user + " unable to obtain follow details for you!");
