@@ -7,8 +7,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.MixerBot;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.MixerBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.util.PermissionsManager;
 import com.mjr.mjrbot.util.PermissionsManager.PermissionLevel;
 

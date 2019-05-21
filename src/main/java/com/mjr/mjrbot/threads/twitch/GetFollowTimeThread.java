@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.MJRBotUtilities;
 import com.mjr.mjrbot.util.TwitchMixerAPICalls;

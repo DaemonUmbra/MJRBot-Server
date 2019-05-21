@@ -1,4 +1,4 @@
-package com.mjr.mjrbot.bots;
+package com.mjr.mjrbot.bots.bases;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +9,10 @@ import com.mjr.mjrbot.CrossChatLink;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
 import com.mjr.mjrbot.MJRBot.StorageType;
+import com.mjr.mjrbot.bots.ChatBotManager;
+import com.mjr.mjrbot.bots.OAuthManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.bases.dataStorage.TwitchData;
 import com.mjr.mjrbot.chatModeration.ChatModeration;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.games.MathsGame;
@@ -120,7 +123,7 @@ public class TwitchBot extends TwitchBotBase {
 	}
 
 	@Override
-	protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
+	public void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
 		if (notice.contains("Now hosting")) {
 			ConsoleUtil.textToConsole(this, BotType.Twitch, notice.substring(notice.indexOf("Now hosting")), MessageType.ChatBot, null);
 		}
@@ -160,7 +163,7 @@ public class TwitchBot extends TwitchBotBase {
 	}
 
 	@Override
-	protected void onUnknown(String line) {
+	public void onUnknown(String line) {
 		if (line.contains("msg-id=subgift") && line.contains("msg-param-recipient-display-name=")) {
 			String gifter = line.substring(line.indexOf("display-name=") + 13);
 			gifter = gifter.substring(0, gifter.indexOf(';'));
@@ -254,7 +257,7 @@ public class TwitchBot extends TwitchBotBase {
 	}
 
 	@Override
-	protected void onJoin(String channel, String sender, String login, String hostname) {
+	public void onJoin(String channel, String sender, String login, String hostname) {
 		if (sender.equalsIgnoreCase(BotConfigManager.getSetting("TwitchUsername"))) {
 			setupBot(channel);
 		}
@@ -263,7 +266,7 @@ public class TwitchBot extends TwitchBotBase {
 	}
 
 	@Override
-	protected void onPart(String channel, String sender, String login, String hostname) {
+	public void onPart(String channel, String sender, String login, String hostname) {
 		ConsoleUtil.textToConsole(this, BotType.Twitch, sender + " has left!", MessageType.ChatBot, null);
 		this.removeUserProperties(sender);
 	}

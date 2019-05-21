@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.MixerBot;
+import com.mjr.mjrbot.bots.bases.MixerBot;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.MJRBotUtilities;

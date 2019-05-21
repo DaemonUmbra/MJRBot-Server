@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.bases.MixerBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.storage.BotConfigManager;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;

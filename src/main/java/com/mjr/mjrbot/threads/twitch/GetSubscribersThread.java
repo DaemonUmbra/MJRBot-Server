@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.bots.OAuthManager;
-import com.mjr.mjrbot.bots.TwitchBot;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;

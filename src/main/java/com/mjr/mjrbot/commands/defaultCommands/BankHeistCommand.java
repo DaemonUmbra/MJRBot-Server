@@ -2,8 +2,8 @@ package com.mjr.mjrbot.commands.defaultCommands;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.MixerBot;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.MixerBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.commands.ICommand;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.threads.BankHeistThread;

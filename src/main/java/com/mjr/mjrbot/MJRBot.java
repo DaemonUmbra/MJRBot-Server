@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.DiscordBot;
+import com.mjr.mjrbot.bots.bases.DiscordBot;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.console.ConsoleCommandManager;
 import com.mjr.mjrbot.storage.BotConfigManager;

@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.MixerBot;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.MixerBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.storage.ChannelConfigManager;
 import com.mjr.mjrbot.util.HTTPConnect;
 import com.mjr.mjrbot.util.MJRBotUtilities;

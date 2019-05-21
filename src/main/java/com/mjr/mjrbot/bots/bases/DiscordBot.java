@@ -1,4 +1,4 @@
-package com.mjr.mjrbot.bots;
+package com.mjr.mjrbot.bots.bases;
 
 import com.mjr.discordframework.DiscordBotBase;
 import com.mjr.mjrbot.discord.MessageManager;

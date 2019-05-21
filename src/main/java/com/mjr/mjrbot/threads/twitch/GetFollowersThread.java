@@ -1,7 +1,7 @@
 package com.mjr.mjrbot.threads.twitch;
 
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.mjrbot.util.HTTPConnect;

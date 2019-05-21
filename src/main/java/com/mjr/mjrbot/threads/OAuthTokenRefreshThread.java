@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 
 import com.mjr.mjrbot.bots.ChatBotManager;
-import com.mjr.mjrbot.bots.MixerBot;
 import com.mjr.mjrbot.bots.OAuthManager;
-import com.mjr.mjrbot.bots.TwitchBot;
+import com.mjr.mjrbot.bots.bases.MixerBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
 import com.mjr.mjrbot.storage.sql.MySQLConnection;
 import com.mjr.mjrbot.util.ConsoleUtil;
 import com.mjr.mjrbot.util.HTTPConnect;

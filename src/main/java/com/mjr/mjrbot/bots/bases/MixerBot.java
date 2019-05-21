@@ -1,4 +1,4 @@
-package com.mjr.mjrbot.bots;
+package com.mjr.mjrbot.bots.bases;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -12,7 +12,9 @@ import com.mixer.api.resource.constellation.events.LiveEvent;
 import com.mjr.mjrbot.CrossChatLink;
 import com.mjr.mjrbot.MJRBot;
 import com.mjr.mjrbot.MJRBot.ConnectionType;
+import com.mjr.mjrbot.bots.ChatBotManager;
 import com.mjr.mjrbot.bots.ChatBotManager.BotType;
+import com.mjr.mjrbot.bots.bases.dataStorage.MixerData;
 import com.mjr.mjrbot.chatModeration.ChatModeration;
 import com.mjr.mjrbot.commands.CommandManager;
 import com.mjr.mjrbot.games.MathsGame;
