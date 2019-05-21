@@ -1,4 +1,4 @@
-package com.mjr.mjrbot.bots;
+package com.mjr.mjrbot.bots.bases.dataStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
