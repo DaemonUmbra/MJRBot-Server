@@ -1,6 +1,10 @@
 package com.mjr.mjrbot.bots;
 
 import com.mjr.mjrbot.MJRBot;
+import com.mjr.mjrbot.bots.bases.TwitchBot;
+import com.mjr.mjrbot.storage.BotConfigManager;
+import com.mjr.mjrbot.util.ConsoleUtil;
+import com.mjr.mjrbot.util.ConsoleUtil.MessageType;
 import com.mjr.twitchframework.irc.TwitchIRCClient;
 import com.mjr.twitchframework.irc.TwitchIRCManager;
 import com.mjr.twitchframework.irc.events.IRCDisconnectEvent;
@@ -53,7 +57,11 @@ public class TwitchBotEventManager {
 		TwitchIRCManager.registerEventHandler(new IRCUnknownEvent() {
 			@Override
 			public void onEvent(final String rawLine, final String channel) {
-				ChatBotManager.getTwitchBotByChannelName(channel.substring(1)).onUnknown(rawLine);
+				TwitchBot bot = ChatBotManager.getTwitchBotByChannelName(channel.substring(1));
+				if (bot != null)
+					bot.onUnknown(rawLine);
+				else if (BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"))
+					ConsoleUtil.outputMessage(MessageType.Bot, rawLine);
 			}
 		});
 		TwitchIRCManager.registerEventHandler(new IRCDisconnectEvent() {
