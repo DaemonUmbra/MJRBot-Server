@@ -60,8 +60,8 @@ public class ChatBotManager {
 			channels.add(bot.getChannelName());
 
 		try {
-			TwitchIRCManager.setupClients(channels, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), TWITCH_MAX_CHANNELS_PER_CONNECTION, BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
 			TwitchBotEventManager.initEvents();
+			TwitchIRCManager.setupClients(channels, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), TWITCH_MAX_CHANNELS_PER_CONNECTION, BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
 		} catch (IOException e) {
 			MJRBotUtilities.logErrorMessage(e);
 		}
