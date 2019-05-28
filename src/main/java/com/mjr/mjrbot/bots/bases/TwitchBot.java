@@ -272,7 +272,7 @@ public class TwitchBot extends TwitchBotBase {
 	}
 
 	public void disconnectTwitch() {
-		TwitchIRCManager.removeChannel(getChannelName(), 50);
+		TwitchIRCManager.removeChannel(getChannelName());
 		String silentJoin = ChannelConfigManager.getSetting("SilentJoin", this.channelID);
 		if (silentJoin != null && silentJoin.equalsIgnoreCase("false")) {
 			this.sendMessage(this.getBotName() + " Disconnected!");

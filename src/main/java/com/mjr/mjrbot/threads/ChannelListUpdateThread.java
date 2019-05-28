@@ -39,7 +39,7 @@ public class ChannelListUpdateThread extends Thread {
 						}
 					}
 					if (found == false) {
-						ChatBotManager.createBot(null, channelID, channelListTwitch.get(channelID));
+						ChatBotManager.createBot(null, channelID, channelListTwitch.get(channelID), true);
 					}
 				}
 
@@ -51,7 +51,7 @@ public class ChannelListUpdateThread extends Thread {
 						}
 					}
 					if (found == false) {
-						ChatBotManager.createBot(channelName, 0, channelListMixer.get(channelName));
+						ChatBotManager.createBot(channelName, 0, channelListMixer.get(channelName), true);
 					}
 				}
 

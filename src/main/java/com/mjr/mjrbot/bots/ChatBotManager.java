@@ -43,14 +43,16 @@ public class ChatBotManager {
 
 	private static HashMap<Integer, TwitchBot> twitchBots = new HashMap<Integer, TwitchBot>();
 	private static HashMap<String, MixerBot> mixerBots = new HashMap<String, MixerBot>();
+	
+	public static final int TWITCH_MAX_CHANNELS_PER_CONNECTION = 50;
 
 	public static void setupBots(HashMap<Integer, String> twitchBots, HashMap<String, String> mixerBots) {
 		for (Integer channelID : twitchBots.keySet()) {
-			ChatBotManager.createBot(null, channelID, twitchBots.get(channelID));
+			ChatBotManager.createBot(null, channelID, twitchBots.get(channelID), false);
 		}
 
 		for (String channelName : mixerBots.keySet()) {
-			ChatBotManager.createBot(channelName, 0, mixerBots.get(channelName));
+			ChatBotManager.createBot(channelName, 0, mixerBots.get(channelName), false);
 		}
 
 		List<String> channels = new ArrayList<String>();
@@ -58,14 +60,14 @@ public class ChatBotManager {
 			channels.add(bot.getChannelName());
 
 		try {
-			TwitchIRCManager.setupClients(channels, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), 50, BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
+			TwitchIRCManager.setupClients(channels, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), TWITCH_MAX_CHANNELS_PER_CONNECTION, BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
 			TwitchBotEventManager.initEvents();
 		} catch (IOException e) {
 			MJRBotUtilities.logErrorMessage(e);
 		}
 	}
 
-	public static void createBot(String channel, int channelID, String botType) {
+	public static void createBot(String channel, int channelID, String botType, boolean addToIRCManager) {
 		if (channel != null)
 			channel = channel.toLowerCase(Locale.ENGLISH);
 		if (botType.equalsIgnoreCase("twitch") && channelID != 0) {
@@ -81,7 +83,13 @@ public class ChatBotManager {
 			TwitchBot bot = new TwitchBot();
 			ChatBotManager.addTwitchBot(channelID, bot);
 			bot.init(MJRBot.connectionType == ConnectionType.Database ? TwitchBot.getChannelNameFromChannelID(channelID) : MJRBot.manualChannelName, channelID);
-			TwitchIRCManager.addChannel(bot.getChannelName(), 50);
+			if (addToIRCManager) {
+				try {
+					TwitchIRCManager.addChannel(bot.getChannelName(), TWITCH_MAX_CHANNELS_PER_CONNECTION, BotConfigManager.getSetting("TwitchUsername"), BotConfigManager.getSetting("TwitchPassword"), BotConfigManager.getSetting("TwitchVerboseMessages").equalsIgnoreCase("true"));
+				} catch (IOException e) {
+					MJRBotUtilities.logErrorMessage(e);
+				}
+			}
 		} else if (botType.equalsIgnoreCase("mixer") && channel != "") {
 			try {
 				if (MJRBot.storageType == StorageType.File) {

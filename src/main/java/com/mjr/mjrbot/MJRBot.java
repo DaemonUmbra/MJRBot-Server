@@ -205,7 +205,7 @@ public class MJRBot {
 		manualChannelID = channelId;
 		userCooldownTickThread = new UserCooldownTickThread();
 		userCooldownTickThread.start();
-		ChatBotManager.createBot(manualChannelName, manualChannelID, type.getTypeName());
+		ChatBotManager.createBot(manualChannelName, manualChannelID, type.getTypeName(), true);
 	}
 
 	public static void runDatabaseMode() {
